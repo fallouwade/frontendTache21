@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-import { FaEnvelope, FaHeart, FaUserCircle, FaChevronDown } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaEnvelope, FaUserCircle} from 'react-icons/fa';
 import { FiAlignLeft } from "react-icons/fi";
+import { IoSettings } from "react-icons/io5";
 
 const Navbar = ({ toggleSidebar }) => {
+
+
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isExtraDropdownOpen, setExtraDropdownOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-md px-4 py-2 flex justify-between items-center w-full fixed top-0 z-50">
       {/* Logo */}
-      
+
 
       {/* Sidebar Toggle Button for Mobile */}
       <button
@@ -26,11 +29,6 @@ const Navbar = ({ toggleSidebar }) => {
           <FaEnvelope size={20} className="text-gray-600" />
         </button>
 
-        {/* Favorite Icon */}
-        <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-          <FaHeart size={20} className="text-gray-600" />
-        </button>
-
         {/* User and Dropdown Section */}
         <div className="relative flex items-center gap-2">
           {/* User Profile */}
@@ -41,44 +39,32 @@ const Navbar = ({ toggleSidebar }) => {
             <FaUserCircle size={30} className="text-gray-700" />
             <span className="text-gray-700 font-medium">John Doe</span>
           </button>
-          {isProfileDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-48 bg-white shadow-md rounded-md z-50">
-              <a
-                href="#forgot-password"
-                className="block px-4 py-2 text-sm hover:bg-gray-100"
-              >
-                Mot de passe oublié
-              </a>
-              <a
-                href="#logout"
-                className="block px-4 py-2 text-sm hover:bg-gray-100"
-              >
-                Déconnexion
-              </a>
-            </div>
-          )}
-
           {/* Dropdown Button */}
           <button
             className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center"
             onClick={() => setExtraDropdownOpen(!isExtraDropdownOpen)}
           >
-            <FaChevronDown size={16} />
+            <div className="flex justify-center">
+              <IoSettings className="text-black text-xl animate-spin-slow" />
+            </div>
           </button>
           {isExtraDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 w-48 bg-white shadow-md rounded-md z-50">
-              <a
-                href="#option1"
-                className="block px-4 py-2 text-sm hover:bg-gray-100"
+            <div className="absolute top-full right-0 mt-4 w-48 bg-white shadow-md rounded-md z-50">
+              <button
+                className=" w-full px-4 py-2 text-sm text-start hover:bg-gray-100"
               >
-                Option 1
-              </a>
-              <a
-                href="#option2"
-                className="block px-4 py-2 text-sm hover:bg-gray-100"
+                Confidentialité
+              </button>
+              <button
+                className=" w-full px-4 py-2 text-sm text-start hover:bg-gray-100"
               >
-                Option 2
-              </a>
+                Profil
+              </button>
+              <button
+                className=" w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-gray-100"
+              >
+                Deconnexion
+              </button>
             </div>
           )}
         </div>
