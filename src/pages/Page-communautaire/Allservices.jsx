@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { FaTools, FaVideo, FaTruck, FaBroom, FaTree, FaWrench, FaPaintRoller, FaFire } from "react-icons/fa";
 import ServiceCard from "./ServicesCard";
 
 const Professions = () => {
-  const [selectedService, setSelectedService] = useState(null); 
+  const [selectedService, setSelectedService] = useState(null);
 
   const services = [
     { icon: <FaTools />, label: "Mécanicien", associatedService: "Mécanicien" },
@@ -16,7 +15,6 @@ const Professions = () => {
     { icon: <FaFire />, label: "Développeur", associatedService: "Développeur Freelance" },
     { icon: <FaFire />, label: "Technicien Climatisateur", associatedService: "Technicien Climatisateur" },
     { icon: <FaFire />, label: "Nouvautés", associatedService: "Nouvautés" },
-
   ];
 
   const servicesDetails = {
@@ -24,13 +22,13 @@ const Professions = () => {
       {
         title: "Réparation et entretien de véhicules",
         description: "Réparation, entretien, et diagnostic de véhicules automobiles pour garantir leur performance et sécurité.",
-        imgSrc: "https://thumbs.dreamstime.com/b/femme-noire-m%C3%A9canicien-travaillant-sous-le-capot-dans-garage-de-r%C3%A9paration-automobile-portrait-d-une-m%C3%A9canicienne-confiante-et-221246082.jpg", 
+        imgSrc: "https://thumbs.dreamstime.com/b/femme-noire-m%C3%A9canicien-travaillant-sous-le-capot-dans-garage-de-r%C3%A9paration-automobile-portrait-d-une-m%C3%A9canicienne-confiante-et-221246082.jpg",
         altText: "Mécanicien"
       },
       {
         title: "Réparation et entretien de véhicules",
         description: "Réparation, entretien, et diagnostic de véhicules automobiles pour garantir leur performance et sécurité.",
-        imgSrc: "https://img.freepik.com/photos-gratuite/ouvrier-examine-moteur-voiture-panne_482257-91092.jpg?ga=GA1.1.1841303701.1736946038&semt=ais_hybrid", 
+        imgSrc: "https://img.freepik.com/photos-gratuite/ouvrier-examine-moteur-voiture-panne_482257-91092.jpg?ga=GA1.1.1841303701.1736946038&semt=ais_hybrid",
         altText: "Mécanicien"
       },
     ],
@@ -38,29 +36,16 @@ const Professions = () => {
       {
         title: "Électricien",
         description: "Des électriciens professionnels pour vos besoins domestiques.",
-        imgSrc: "src/images/elsctric1.jpg", 
+        imgSrc: "src/images/elsctric1.jpg",
         altText: "Électricien"
       },
       {
         title: "Électricien",
         description: "Des électriciens professionnels pour vos besoins domestiques.",
-        imgSrc: "src/images/elsctric1.jpg", 
+        imgSrc: "src/images/elsctric1.jpg",
         altText: "Électricien"
       },
-      {
-        title: "Électricien",
-        description: "Des électriciens professionnels pour vos besoins domestiques.",
-        imgSrc: "src/images/elsctric1.jpg", 
-        altText: "Électricien"
-      },
-      {
-        title: "Électricien",
-        description: "Des électriciens professionnels pour vos besoins domestiques.",
-        imgSrc: "src/images/elsctric1.jpg", 
-        altText: "Électricien"
-      }
     ],
-    // Ajoutez d'autres services et produits associés ici...
   };
 
   const handleClick = (serviceLabel) => {
@@ -85,15 +70,15 @@ const Professions = () => {
                 }`}
               >
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out ${
-                    selectedService === service.label ? "bg-blue-100" : ""
-                  }`}
+                  className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out ${
+                    selectedService === service.label ? "bg-blue-100" : "bg-gray-200"
+                  } shadow-lg`}
                 >
-                  <span className="text-2xl">{service.icon}</span>
+                  <span className="text-3xl">{service.icon}</span>
                 </div>
                 <span className="text-sm font-medium mt-2">{service.label}</span>
                 {selectedService === service.label && (
-                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transition-all duration-300"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-500 transition-all duration-300"></div>
                 )}
               </div>
             ))}
@@ -103,7 +88,7 @@ const Professions = () => {
 
       {selectedService && (
         <div className="mt-10">
-          <h2 className="text-xl font-semibold text-center">Services associés à {selectedService}</h2>
+          <h2 className="text-xl font-semibold text-center mb-6">Services associés à {selectedService}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
             {servicesDetails[selectedService]?.map((service, index) => (
               <ServiceCard

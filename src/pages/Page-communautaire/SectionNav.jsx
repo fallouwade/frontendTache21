@@ -3,10 +3,16 @@ import Services from './Cards';
 import InputSearch from './InputSearch';
 import Professions from './Allservices';
 import SatisfactionGuarantee from './Satisfaction';
+import Navbar from '../../Composants/Navbar/Navbar';
+import Footer from '../../Composants/Footer/Footer';
 
 const PageCommunautaire = () => {
   return (
     <div>
+      {/* navbar  */}
+      <div className=''>
+        <Navbar />
+      </div>
       <div className="relative w-full h-screen mb-10">
         <video
           className="absolute top-0 left-0 w-full h-full object-cover bg-opacity-40"
@@ -192,6 +198,10 @@ const PageCommunautaire = () => {
         <div>
           <SatisfactionGuarantee />
         </div>
+      </div>
+      {/* Footer  */}
+      <div>
+        <Footer />
       </div>
     </div>
   );
