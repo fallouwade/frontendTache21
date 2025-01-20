@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navbar from './Composants/PageClient/NavbarAside/NavBar';
 import Sidebar from './Composants/PageClient/NavbarAside/SIdebar';
@@ -28,4 +29,4 @@ function App() {
   );
 }
 
-export default App;
+
