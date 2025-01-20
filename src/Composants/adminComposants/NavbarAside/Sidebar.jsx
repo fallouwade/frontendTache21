@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { CgComment } from "react-icons/cg";
+// import { CgComment } from "react-icons/cg";
 import { FaUsersGear } from "react-icons/fa6";
 import { FaUserTie } from "react-icons/fa6";
 import { RxDashboard } from "react-icons/rx";
 import { MdHomeRepairService } from "react-icons/md";
-import { BiSolidCategoryAlt } from "react-icons/bi";
+// import { BiSolidCategoryAlt } from "react-icons/bi";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
@@ -24,7 +24,7 @@ const Sidebar = ({ isOpen }) => {
   const linkStyle = (linkName) => `
     flex gap-3 text-left px-4 py-2 items-center text-blue-100 
     hover:bg-gray-400 hover:text-gray-100 cursor-pointer
-    ${activeLink === linkName ? 'bg-gray-400 text-white border-r-8 border-white' : ''}
+    ${activeLink === linkName ? 'bg-gray-400 text-white border-r-8 border-blue-600' : ''}
   `;
 
   const menuItems = [
@@ -32,8 +32,8 @@ const Sidebar = ({ isOpen }) => {
     { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/prestataire' },
     { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/clients' },
     { id: 'services', icon: <MdHomeRepairService />, label: 'Services', route: '/services' },
-    { id: 'avis', icon: <CgComment />, label: 'Avis', route: '/avis' },
-    { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/categories' }
+    // { id: 'avis', icon: <CgComment />, label: 'Avis', route: '/avis' },
+    // { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/categories' }
   ];
 
   return (
