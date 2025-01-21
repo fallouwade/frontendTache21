@@ -17,7 +17,7 @@ const Sidebar = ({ isOpen }) => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-
+    console.log(activeLink);
     // Fonction pour vérifier si le chemin actuel correspond à une route de base
     const matchingItem = menuItems.find(item => {
       if (item.basePath === '/') {

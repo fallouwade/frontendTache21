@@ -1,71 +1,76 @@
-import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { FaUserCircle,FaCircle} from 'react-icons/fa';
+import { FiAlignLeft } from "react-icons/fi";
+import { IoSettings } from "react-icons/io5";
+import { MdNotifications } from "react-icons/md";
+
+const Navbar = ({ toggleSidebar }) => {
 
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [isExtraDropdownOpen, setExtraDropdownOpen] = useState(false);
+
   return (
-    <>
-      <div className="h-[72px]"></div>
-     
-      <nav className="bg-white border-b border-gray-200 w-full fixed top-0 left-0 z-50">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center h-[72px]">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <a href="/" className="text-[#1a3c34] font-bold text-xl sm:text-2xl md:text-[26px]">
-                Services Locaux
-              </a>
-            </div>
-            {/* Desktop/Tablet Navigation */}
-            <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
-              <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
-                Services
-              </a>
-              <Link to="/connexion" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
-                Inscrivez-vous / Connectez-vous
-              </Link>
-              <a href="/devenir-tasker" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
-                Devenir un Tasker
-              </a>
-            </div>
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-[#1a3c34] p-2"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? (
-                  <FaTimes className="h-5 w-5 sm:h-6 sm:w-6" />
-                ) : (
-                  <FaBars className="h-5 w-5 sm:h-6 sm:w-6" />
-                )}
-              </button>
-            </div>
+    <nav className="bg-white shadow-md px-4 py-2 flex justify-between items-center w-full fixed top-0 z-50">
+      {/* Logo */}
+
+
+      {/* Sidebar Toggle Button for Mobile */}
+      <button
+        className="lg:hidden p-2 rounded-md bg-blue-600 text-white"
+        onClick={toggleSidebar}
+      >
+        <FiAlignLeft />
+      </button>
+      <div className="text-2xl font-bold text-blue-600">Logo</div>
+      {/* Right Section */}
+      <div className="flex items-center gap-4">
+        {/* Message Icon */}
+        <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+          <MdNotifications size={20} className="text-gray-600" />
+          <FaCircle size={9}  className='absolute bottom-4 text-green-400'/>
+        </button>
+
+        {/* User and Dropdown Section */}
+        <div className="relative flex items-center gap-2">
+          {/* User Profile */}
+          <div
+            className="flex items-center gap-2"
+            onClick={() => setProfileDropdownOpen(!isProfileDropdownOpen)}
+          >
+            <FaUserCircle size={30} className="text-gray-700" />
+            <span className="text-gray-700 font-medium">John Doe</span>
           </div>
-          {/* Mobile menu */}
-          {isMenuOpen && (
-            <div className="md:hidden bg-white absolute top-[72px] left-0 w-full shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
-              <div className="flex flex-col py-4 text-left">
-                <a href="/services" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
-                  Services
-                </a>
-                <a href="/login" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
-                  Inscrivez-vous / Connectez-vous
-                </a>
-                <div className="px-4 sm:px-6 py-3">
-                  <a href="/devenir-tasker" className="block text-[#176d5d] text-base sm:text-lg hover:text-[#438178]">
-                    Devenir un Tasker
-                  </a>
-                </div>
-              </div>
+          <button
+            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center"
+            onClick={() => setExtraDropdownOpen(!isExtraDropdownOpen)}
+          >
+            <div className="flex justify-center">
+              <IoSettings className="text-black text-xl animate-spin-slow" />
+            </div>
+          </button>
+          {isExtraDropdownOpen && (
+            <div className="absolute top-full right-0 mt-4 w-48 bg-white shadow-md rounded-md z-50">
+              <button
+                className=" w-full px-4 py-2 text-sm text-start hover:bg-gray-100"
+              >
+                Confidentialité
+              </button>
+              {/* <Link
+                className=" w-12/12 block px-4 py-2 text-sm text-start hover:bg-gray-100"
+              >
+                Profil
+              </Link> */}
+              <button
+                className=" w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-gray-100"
+              >
+                Deconnexion
+              </button>
             </div>
           )}
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 };
 
