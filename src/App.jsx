@@ -5,8 +5,8 @@ import { Route, Routes } from "react-router-dom";
 // import Categorie from "./Pages/admin/categorie/Categorie";
 // import Avis from "./Pages/admin/Avis/Avis";
 // import ProfilProstataire from "./Pages/admin/prestataires/profilProstataire/ProfilProstataire";
-import Client from './Pages/Client';
-import Public from './Pages/Public';
+import Public from './Page/Public';
+import Client from './Page/Client';
 import Connection from './Authentification/PagesConnexion/Connection'
 import Inscription from "./Authentification/InscriptionPrestataire/Inscription";
 import MotDePasseOublie from "./Authentification/PagesPassword/MotDePasseOublie";

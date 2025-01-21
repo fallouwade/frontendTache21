@@ -2,7 +2,7 @@ import Cards from './PagePublic/Cards';
 import SearchBar from '../Composants/SearchBar/SearchBar';
 import Allservices from './PagePublic/Allservices';
 import Satisfaction from './PagePublic/Satisfaction';
-import Navbar from './PagePublic//Nav/Navbar';
+import Navbar from './PagePublic/Nav/Navbar';
 import Footer from '../Composants/Footer/Footer';
 import Temoignages from './PagePublic/Temoignages';
 
