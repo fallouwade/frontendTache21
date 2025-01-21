@@ -6,7 +6,6 @@ import Prestataire from "./Composants/admin/prestataires/prestataire";
 import Categorie from "./Composants/admin/categorie/Categorie";
 import Avis from "./Composants/admin/Avis/Avis";
 import ProfilProstataire from "./Composants/admin/prestataires/profilProstataire/ProfilProstataire";
-import Utilisateur from './Page/Utilisateur';
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
         <Route path="/clients" element={<Clients />} />
         <Route path="/avis" element={<Avis />} />
         <Route path="/categories" element={<Categorie />} />
-        <Route path="/" element={<Utilisateur />} />
       </Routes>
   )
 }
