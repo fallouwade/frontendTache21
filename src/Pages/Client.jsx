@@ -7,7 +7,7 @@ import SearchBar from '../Composants/SearchBar/SearchBar';
 import { Button } from 'flowbite-react';
 import { FaFilter } from 'react-icons/fa';
 
-function Utilisateur() {
+function client() {
   // États pour gérer les différents filtres et paramètres
   const [showFilters, setShowFilters] = useState(false); // Afficher/masquer les filtres sur mobile
   const [selectedCategory, setSelectedCategory] = useState(''); // Catégorie sélectionnée
@@ -113,5 +113,5 @@ function Utilisateur() {
   );
 }
 
-export default Utilisateur;
+export default client;
 

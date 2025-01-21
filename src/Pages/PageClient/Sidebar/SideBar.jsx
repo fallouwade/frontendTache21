@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaInbox, FaHeart, FaTimes } from 'react-icons/fa';
 import { categories, localities } from '../utils/constant';
-import './Sidebar.module.css'
+// import styles from "./Sidebar.module.css"
 
 // Composant pour une section déroulante dans la sidebar
 function DropdownSection({ title, children, isOpen, onToggle }) {

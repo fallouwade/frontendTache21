@@ -6,7 +6,7 @@ import SatisfactionGuarantee from './pagePublic/Satisfaction';
 import Navbar from '../Composants/Nav/Navbar';
 import Footer from '../Composants/Footer/Footer';
 
-const PageCommunautaire = () => {
+const Public = () => {
   return (
     <div>
       {/* navbar  */}
@@ -207,4 +207,4 @@ const PageCommunautaire = () => {
   );
 };
 
-export default PageCommunautaire;
+export default Public;
