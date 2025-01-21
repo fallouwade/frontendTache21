@@ -148,3 +148,6 @@ const Temoignages = () => {
     </div>
   );
 };
+
+
+export default Temoignages;

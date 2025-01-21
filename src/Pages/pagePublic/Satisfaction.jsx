@@ -1,6 +1,6 @@
 import React from "react";
 
-const SatisfactionGuarantee = () => {
+const Satisfaction = () => {
   const guarantees = [
     {
       title: "Des services adaptés à vos besoins",

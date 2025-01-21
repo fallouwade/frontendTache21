@@ -14,8 +14,10 @@ import Signup from "./Authentification/InscriptionClient/Signup";
 
 
 
+
 function App() {
   return (
+
     <Routes>
 
       <Route path="/" element={<Public />} />
@@ -46,6 +48,7 @@ function App() {
     </Routes>
 
   )
+
 }
 
 export default App

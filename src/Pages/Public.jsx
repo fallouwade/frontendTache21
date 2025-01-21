@@ -45,11 +45,11 @@ const Public = () => {
         </div>
 
         <div>
-          <Professions />
+          <Allservices />
         </div>
 
         <div>
-          <Services />
+          <Cards />
         </div>
         {/* section temoignages */}
         <div>
@@ -57,7 +57,7 @@ const Public = () => {
         </div>
         {/* Satisfaction garantie  */}
         <div>
-          <SatisfactionGuarantee />
+          <Satisfaction />
         </div>
       </div>
       {/* Footer  */}
