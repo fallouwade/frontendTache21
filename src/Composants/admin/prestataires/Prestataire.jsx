@@ -139,29 +139,29 @@ export default function Prestataire() {
           </Link>
           <Link className="w-full">
             <CardProst
-              color="text-white bg-green-400"
-              nombre="0"
-              titre="Total prestataires Actifs"
-              icone={<FaUserCheck />}
-              description="Prestataires actifs"
-            />
-          </Link>
-          <Link className="w-full">
-            <CardProst
               color="text-white bg-red-400"
               nombre="0"
-              titre="Total prestataires inactifs"
+              titre="Total bloqué"
               icone={<FaUserMinus />}
               description="inactifs & suspendus"
             />
           </Link>
           <Link className="w-full">
             <CardProst
+              color="text-white bg-green-400"
+              nombre="0"
+              titre="Prestataires - mois passé"
+              icone={<FaUserCheck />}
+              description="Prestataires"
+            />
+          </Link>
+          <Link className="w-full">
+            <CardProst
               color="text-white bg-green-600"
               nombre="0"
-              titre="nouveaux prestataires"
+              titre="Prestataires - Mois en cours"
               icone={<FaCalendar />}
-              description="Nouveaux ce mois"
+              description=""
             />
           </Link>
         </div>
