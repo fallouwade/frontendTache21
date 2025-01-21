@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StepIndicator, FormContent } from '../FormComponents';
-import { serviceCategories, initialFormData, commonStyles as styles } from '../constants';
-import professionel from '../images/professionel.png'
+import { StepIndicator, FormContent } from './Component/FormComponents';
+import { serviceCategories, initialFormData, commonStyles as styles } from './Component/constants';
+// import professionel from '../images/professionel.png'
 
 const Inscription = () => {
   const [step, setStep] = useState(1);
@@ -62,7 +62,7 @@ const Inscription = () => {
     <div className="h-screen overflow-hidden flex bg-gray-50">
     <div className="hidden lg:block lg:w-1/2 relative">
       <img
-        src={professionel}
+        // src={professionel}
         alt="Service Provider"
         className="absolute inset-0 w-full h-full object-cover"
       />

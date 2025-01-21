@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 
-const Inscription = () => {
+const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -130,4 +130,4 @@ const Inscription = () => {
   );
 };
 
-export default Inscription;
+export default Signup;

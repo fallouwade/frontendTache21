@@ -1,13 +1,13 @@
 "use client"
 
 import React, { useState, useCallback } from 'react';
-import Sidebar from './client/Sidebar/SideBar';
-import ServiceGrid from './client/ServiceGrid/ServiceGrid';
+import Sidebar from './PageClient/Sidebar/SideBar';
+import ServiceGrid from './PageClient/ServiceGrid/ServiceGrid';
 import SearchBar from '../Composants/SearchBar/SearchBar';
 import { Button } from 'flowbite-react';
 import { FaFilter } from 'react-icons/fa';
 
-function client() {
+function Client() {
   // États pour gérer les différents filtres et paramètres
   const [showFilters, setShowFilters] = useState(false); // Afficher/masquer les filtres sur mobile
   const [selectedCategory, setSelectedCategory] = useState(''); // Catégorie sélectionnée
@@ -113,5 +113,5 @@ function client() {
   );
 }
 
-export default client;
+export default Client;
 

@@ -81,7 +81,7 @@ const Connection = () => {
             </div>
             <button type="submit" className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">Se connecter</button>
             <div className="mt-4 text-center">
-              <p className="text-sm text-gray-600">Vous n'avez pas encore de compte ? <Link className='text-blue-500 hover:text-blue-700' to="/inscription">INSCRIVEZ-VOUS</Link></p>
+              <p className="text-sm text-gray-600">Vous n'avez pas encore de compte ? <Link className='text-blue-500 hover:text-blue-700' to="/signup">INSCRIVEZ-VOUS</Link></p>
             </div>
           </form>
         </div>

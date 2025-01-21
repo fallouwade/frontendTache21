@@ -1,6 +1,6 @@
 import ServiceCard from "./ServicesCard";
 
-export default function Services() {
+export default function Cards() {
     const services = [
       {
         title: "Plomberie",
@@ -13,7 +13,7 @@ export default function Services() {
         title: "Électricité",
         description:
           "Des électriciens professionnels pour tous vos besoins en électricité domestique ou industrielle.",
-        imgSrc: "src/images/elsctric1.jpg", 
+        imgSrc: "public/images/elsctric1.jpg", 
         altText: "Electricity service image"
       },
       {

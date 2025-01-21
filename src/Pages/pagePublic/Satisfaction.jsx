@@ -102,16 +102,9 @@ const SatisfactionGuarantee = () => {
       </div>
     </div>
     </div>
-    {/* Obtenir de l'aide  */}
-    <div>
-    <h2 className="text-2xl font-medium text-green-900 mb-8 md:mb-12">
-            Obtenez de l'aide aujourd'hui
-    </h2>
-    
-    </div>
 
     </div>
   );
 };
 
-export default SatisfactionGuarantee;
+export default Satisfaction;
