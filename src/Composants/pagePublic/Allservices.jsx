@@ -36,13 +36,13 @@ const Professions = () => {
       {
         title: "Électricien",
         description: "Des électriciens professionnels pour vos besoins domestiques.",
-        imgSrc: "src/images/elsctric1.jpg",
+        imgSrc: "public/images/elsctric1.jpg",
         altText: "Électricien"
       },
       {
         title: "Électricien",
         description: "Des électriciens professionnels pour vos besoins domestiques.",
-        imgSrc: "src/images/elsctric1.jpg",
+        imgSrc: "public/images/elsctric1.jpg",
         altText: "Électricien"
       },
     ],
@@ -50,9 +50,9 @@ const Professions = () => {
 
   const handleClick = (serviceLabel) => {
     if (selectedService === serviceLabel) {
-      setSelectedService(null); // Désélectionner si le même service est cliqué
+      setSelectedService(null); 
     } else {
-      setSelectedService(serviceLabel); // Afficher les détails du service sélectionné
+      setSelectedService(serviceLabel); 
     }
   };
 
