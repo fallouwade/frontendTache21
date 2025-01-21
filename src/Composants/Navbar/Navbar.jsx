@@ -16,6 +16,7 @@ const Navbar = () => {
                 Services Locaux
               </a>
             </div>
+
             {/* Desktop/Tablet Navigation */}
             <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
               <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
