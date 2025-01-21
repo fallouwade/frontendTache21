@@ -1,5 +1,5 @@
 import { HiOutlineArrowLeft } from 'react-icons/hi';
-import LayoutAdmine from '../../Layout/LayoutAdmine';
+import LayoutAdmine from '../../layout/LayoutAdmine';
 import Image from '../../../../assets/electricien.jpg'
 import CardStatic from './static/CardStatic';
 import { Link } from 'react-router-dom';

@@ -1,10 +1,10 @@
-import LayoutAdmine from "../Layout/LayoutAdmine";
+import LayoutAdmine from "../layout/LayoutAdmine";
 import Card from "./cardInfos/Card"
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineHomeRepairService } from "react-icons/md";
 import { BiMessageDots } from "react-icons/bi";
-import UserChart from "./Charts/UserChart";
-import ReservationChart from "./Charts/ReservationChart";
+import UserChart from "./charts/UserChart";
+import ReservationChart from "./charts/ReservationChart";
 // import ReservationChart from "./Charts/ReservationChart";
 
 export function Dashboard() {

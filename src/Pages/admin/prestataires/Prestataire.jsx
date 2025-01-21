@@ -1,4 +1,4 @@
-import LayoutAdmine from "../Layout/LayoutAdmine";
+import LayoutAdmine from "../layout/LayoutAdmine";
 import Table from "../TableRéutilisable/Table";
 import CardProst from "./cardPrestataire/CardProst";
 import { FaUserGroup } from "react-icons/fa6";

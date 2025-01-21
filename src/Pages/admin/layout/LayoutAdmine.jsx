@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Navbar from "../NavbarAside/NavBar";
-import Sidebar from "../NavbarAside/Sidebar";
+import Navbar from "../navbarAside/NavBar";
+import Sidebar from "../navbarAside/Sidebar";
 
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);

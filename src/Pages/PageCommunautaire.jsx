@@ -1,8 +1,8 @@
 import React from 'react';
-import Services from '../Composants/pagePublic/Cards';
+import Services from './pagePublic/Cards';
 import SearchBar from '../Composants/SearchBar/SearchBar';
-import Professions from '../Composants/pagePublic/Allservices';
-import SatisfactionGuarantee from '../Composants/pagePublic/Satisfaction';
+import Professions from './pagePublic/Allservices';
+import SatisfactionGuarantee from './pagePublic/Satisfaction';
 import Navbar from '../Composants/Nav/Navbar';
 import Footer from '../Composants/Footer/Footer';
 

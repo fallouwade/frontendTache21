@@ -1,13 +1,13 @@
 
 import { Route, Routes } from "react-router-dom";
-import { Dashboard } from "./Composants/adminComposants/dashboard/Dashboard";
-import Clients from "./Composants/adminComposants/clients/Clients";
-import Prestataire from "./Composants/adminComposants/prestataires/prestataire";
-import Services from "./Composants/adminComposants/Services/Services";
-import Categorie from "./Composants/adminComposants/categorie/Categorie";
-import Avis from "./Composants/adminComposants/Avis/Avis";
-import ProfilProstataire from "./Composants/adminComposants/prestataires/profilProstataire/ProfilProstataire";
-import Utilisateur from './Page/Utilisateur';
+import { Dashboard } from "./Pages/admin/dashboard";
+import Clients from "./Pages/admin/clients/Clients";
+import Prestataire from "./Pages/admin/prestataires/prestataire";
+import Services from "./Pages/admin/Services/Services";
+import Categorie from "./Pages/admin/categorie/Categorie";
+import Avis from "./Pages/admin/Avis/Avis";
+import ProfilProstataire from "./Pages/admin/prestataires/profilProstataire/ProfilProstataire";
+import Utilisateur from './Pages/Utilisateur';
 
 function App() {
   return (

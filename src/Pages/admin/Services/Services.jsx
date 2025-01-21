@@ -1,10 +1,6 @@
-import LayoutAdmine from "../Layout/LayoutAdmine";
-import Table from "../TableRéutilisable/Table";
-import CardsClient from "./CardsClients/CardsClient";
-import ChartClient from "./graphique/ChartClient";
+import LayoutAdmine from "../layout/LayoutAdmine";
 
-
-export default function Clients() {
+export default function Services() {
   const columns = [
     {
       header: 'Nom complet',
@@ -36,22 +32,12 @@ export default function Clients() {
       birthDate: '15/04/1990',
       address: '123 Rue Example, Ville',
     },
-
+    // Ajoutez plus de données ici
   ];
-
+  
   return (
     <LayoutAdmine>
-      <div className="sm:px-10 mb-10">
-        <div className="grid grid-cols-2 gap-6 p-6">
-          <div className="bg-white rounded-lg">
-            <CardsClient />
-          </div>
-          <ChartClient />
-        </div>
-        <div className="grid grid-cols-1">
-          <Table columns={columns} data={data} title="Liste de clients" />
-        </div>
-      </div>
+        <h1>Partie de Mohamed</h1>
     </LayoutAdmine>
   )
 }

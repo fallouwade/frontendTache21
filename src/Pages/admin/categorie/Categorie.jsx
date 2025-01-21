@@ -1,4 +1,4 @@
-import LayoutAdmine from "../Layout/LayoutAdmine";
+import LayoutAdmine from "../layout/LayoutAdmine";
 
 export default function Categorie() {
   return (
