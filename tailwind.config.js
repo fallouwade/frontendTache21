@@ -6,7 +6,11 @@ export default {
     "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',  // réutilise l'animation spin de base
+      }
+     },
   },
   plugins: [
     require('flowbite/plugin') // Ajout du plugin Flowbite
