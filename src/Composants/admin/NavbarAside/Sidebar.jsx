@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaUsersGear, FaUserTie } from "react-icons/fa6";
 import { RxDashboard } from "react-icons/rx";
+<<<<<<< HEAD:src/Composants/admin/NavbarAside/Sidebar.jsx
 import { BiSolidCategoryAlt } from "react-icons/bi";
 // import { MdHomeRepairService } from "react-icons/md";
 // import { CgComment } from "react-icons/cg";
+=======
+// import { MdHomeRepairService } from "react-icons/md";
+import { BiSolidCategoryAlt } from "react-icons/bi";
+>>>>>>> e79dab537980d1dcbe814eab8d86bbcb6299c1e3:src/Composants/adminComposants/NavbarAside/Sidebar.jsx
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
