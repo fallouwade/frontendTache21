@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export default function Table({ columns, data, title, routeProfil }) {
+export default function Table({ columns, data, title, routeProfil, action}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -27,6 +27,23 @@ export default function Table({ columns, data, title, routeProfil }) {
 
   const handleNextPage = () => {
     setCurrentPage(prev => Math.min(prev + 1, totalPages));
+  };
+
+  // Rendu du bouton détail
+  const renderDetailButton = () => {
+    if (!action) return null;
+    
+    return (
+      <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
+        <Link
+          to={routeProfil}
+          className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md hover:bg-blue-50"
+        >
+          <Eye className="h-4 w-4" />
+          <span>Détails</span>
+        </Link>
+      </td>
+    );
   };
 
   return (
@@ -69,9 +86,7 @@ export default function Table({ columns, data, title, routeProfil }) {
                     {column.header}
                   </th>
                 ))}
-                <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                {action && <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">action</th>}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -85,15 +100,7 @@ export default function Table({ columns, data, title, routeProfil }) {
                       {row[column.accessorKey]}
                     </td>
                   ))}
-                  <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Link
-                      to={routeProfil}
-                      className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md hover:bg-blue-50"
-                    >
-                      <Eye className="h-4 w-4" />
-                      <span>Détails</span>
-                    </Link>
-                  </td>
+                  {renderDetailButton()}
                 </tr>
               ))}
             </tbody>
@@ -115,19 +122,6 @@ export default function Table({ columns, data, title, routeProfil }) {
       {filteredData.length > 0 && (
         <div className="px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
           <div className="flex items-center justify-between">
-            {/* <div className="flex items-center">
-              <p className="text-sm text-gray-700">
-                Affichage de{' '}
-                <span className="font-medium">{indexOfFirstItem + 1}</span>
-                {' '}-{' '}
-                <span className="font-medium">
-                  {Math.min(indexOfLastItem, filteredData.length)}
-                </span>
-                {' '}sur{' '}
-                <span className="font-medium">{filteredData.length}</span>
-                {' '}résultats
-              </p>
-            </div> */}
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrevPage}

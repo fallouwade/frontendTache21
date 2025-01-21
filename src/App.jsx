@@ -1,12 +1,12 @@
 
 import { Route, Routes } from "react-router-dom";
-import { Dashboard } from "./Composants/adminComposants/dashboard/Dashboard";
-import Clients from "./Composants/adminComposants/clients/Clients";
-import Prestataire from "./Composants/adminComposants/prestataires/prestataire";
-import Services from "./Composants/adminComposants/Services/Services";
-import Categorie from "./Composants/adminComposants/categorie/Categorie";
-import Avis from "./Composants/adminComposants/Avis/Avis";
-import ProfilProstataire from "./Composants/adminComposants/prestataires/profilProstataire/ProfilProstataire";
+import { Dashboard } from "./Composants/admin/dashboard/Dashboard";
+import Clients from "./Composants/admin/clients/Clients";
+import Prestataire from "./Composants/admin/prestataires/prestataire";
+import Services from "./Composants/admin/Services/Services";
+import Categorie from "./Composants/admin/categorie/Categorie";
+import Avis from "./Composants/admin/Avis/Avis";
+import ProfilProstataire from "./Composants/admin/prestataires/profilProstataire/ProfilProstataire";
 import Utilisateur from './Page/Utilisateur';
 
 function App() {

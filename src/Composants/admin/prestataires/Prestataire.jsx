@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FaUserCheck, FaUserMinus, FaCalendar } from "react-icons/fa6";
 import ChartNouveauInscription from './chartStatic/ChartNouveauInscription';
 import ChartInfosStatus from './chartStatic/ChartInfosStatus';
-import ProfilProstataire from "./profilProstataire/ProfilProstataire";
+// import ProfilProstataire from "./profilProstataire/ProfilProstataire";
 
 export default function Prestataire() {
   const columns = [
@@ -173,8 +173,16 @@ export default function Prestataire() {
           <ChartInfosStatus />
           </div>
         </div>
-        <div className="flex w-full mb-10 p-4">
-            <Table columns={columns} data={data} title="Listes de prestataires" routeProfil="/prestataire/profil" />
+        <div className="flex w-full mb-10">
+            <Table 
+              columns={columns} 
+              data={data} 
+              title="Listes de prestataires" 
+              routeProfil="/prestataire/profil"  
+              action={  <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+              </th>}
+            />
         </div>
       </div>
     </LayoutAdmine>
