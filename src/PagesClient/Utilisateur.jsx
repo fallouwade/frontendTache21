@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useState, useCallback } from 'react';
-import Sidebar from '../Sidebar/SideBar';
-import ServiceGrid from '../ServiceGrid/ServiceGrid';
-import SearchBar from '../SearchBar/SearchBar';
+import Sidebar from '../Composants/PageClient/Sidebar/SideBar';
+import ServiceGrid from '../Composants/PageClient/ServiceGrid/ServiceGrid';
+import SearchBar from '../Composants/PageClient/SearchBar/SearchBar';
 import { Button } from 'flowbite-react';
 import { FaFilter } from 'react-icons/fa';
 

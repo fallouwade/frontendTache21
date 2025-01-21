@@ -1,33 +1,28 @@
 
 
 import React from 'react';
-import  { useState } from 'react';
-import Utilisateur from './Composants/PageClient/Pages/Utilisateur';
-import PageCommunaitaire from './pages/Page-communautaire/SectionNav'
-// import Inscription from './registre-client/Inscription';
-// import Connection from './registre-client/Connection';
-// import MotDePasseOublie from './registre-client/MotDePasseOublie';
-// import { BrowserRouter, Routes, Route } from "react-router";
+import Inscription from './AuthentificationClient/inscription/Page';
+import Connection from './AuthentificationClient/connexion/Page';
+import MotDePasseOublie from './AuthentificationClient/forgetPassword/Page';
+import PageCommunaitaire from './pagesCommunautaire/Page.jsx'
+// import Utilisateur from './PagesClient/Utilisateur';
+
+import { BrowserRouter, Routes, Route } from "react-router";
 
 
 function App() {
- 
+
   return (
     <div >
-   
-   
-    <div >
-      {/* <Utilisateur/> */}
-      <PageCommunaitaire />
-    </div>
-    <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Connection />} />
+          <Route path="/" element={<PageCommunaitaire />} />
+          <Route path="/connexion" element={<Connection />} />
           <Route path="/inscription" element={<Inscription />} />
           <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
         </Routes>
       </BrowserRouter>
-  </div>
+    </div>
   );
 }
 

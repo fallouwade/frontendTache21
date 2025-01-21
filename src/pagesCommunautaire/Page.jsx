@@ -1,10 +1,10 @@
 import React from 'react';
-import Services from './Cards';
-import InputSearch from './InputSearch';
-import Professions from './Allservices';
-import SatisfactionGuarantee from './Satisfaction';
-import Navbar from '../../Composants/Navbar/Navbar';
-import Footer from '../../Composants/Footer/Footer';
+import Services from '../Composants/pagePublic/Cards';
+import SearchBar from '../Composants/PageClient/SearchBar/SearchBar';
+import Professions from '../Composants/pagePublic/Allservices';
+import SatisfactionGuarantee from '../Composants/pagePublic/Satisfaction';
+import Navbar from '../Composants/Nav/Navbar';
+import Footer from '../Composants/Footer/Footer';
 
 const PageCommunautaire = () => {
   return (
@@ -20,7 +20,7 @@ const PageCommunautaire = () => {
           muted
           playsInline
           loop
-          src="/src/images/gettyimages-2180909650-640_adpp.mp4"
+          src="../public/images/gettyimages-2180909650-640_adpp.mp4"
           style={{ objectFit: 'cover', zIndex: -1 }}
         ></video>
 
@@ -42,7 +42,7 @@ const PageCommunautaire = () => {
 
       <div>
         <div>
-          <InputSearch />
+          <SearchBar />
         </div>
 
         <div>

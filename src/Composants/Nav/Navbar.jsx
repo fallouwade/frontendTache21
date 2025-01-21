@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { Link } from "react-router-dom";
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,9 +23,9 @@ const Navbar = () => {
               <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
                 Services
               </a>
-              <a href="/login" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
+              <Link to="/connexion" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
                 Inscrivez-vous / Connectez-vous
-              </a>
+              </Link>
               <a href="/devenir-tasker" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
                 Devenir un Tasker
               </a>
