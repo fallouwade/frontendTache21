@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { FaUsersGear } from "react-icons/fa6";
 import { FaUserTie } from "react-icons/fa6";
 import { RxDashboard } from "react-icons/rx";
-import { MdHomeRepairService } from "react-icons/md";
-// import { BiSolidCategoryAlt } from "react-icons/bi";
+// import { MdHomeRepairService } from "react-icons/md";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
@@ -31,9 +31,9 @@ const Sidebar = ({ isOpen }) => {
     { id: 'dashboard', icon: <RxDashboard />, label: 'Dashboard', route: '/' },
     { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/prestataire' },
     { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/clients' },
-    { id: 'services', icon: <MdHomeRepairService />, label: 'Services', route: '/services' },
+    // { id: 'services', icon: <MdHomeRepairService />, label: 'Services', route: '/services' },
     // { id: 'avis', icon: <CgComment />, label: 'Avis', route: '/avis' },
-    // { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/categories' }
+    { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/categories' }
   ];
 
   return (
