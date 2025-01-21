@@ -47,9 +47,9 @@ export default function Table({ columns, data, title, routeProfil, action}) {
   };
 
   return (
-    <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg overflow-hidden relative -z-10">
       {/* En-tête avec titre et recherche */}
-      <div className="p-4 sm:p-6 bg-white border-b border-gray-200">
+      <div className="p-4 sm:p-6 bg-white border-b border-gray-200 sticky top-0">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           {title && (
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{title}</h2>
@@ -67,7 +67,7 @@ export default function Table({ columns, data, title, routeProfil, action}) {
               }}
               className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
-            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 pointer-events-none" />
           </div>
         </div>
       </div>
