@@ -1,7 +1,7 @@
 import LayoutAdmine from "../layout/LayoutAdmine";
-import Table from "../TableRéutilisable/Table";
-import CardsClient from "./CardsClients/CardsClient";
-import ChartClient from "./graphique/ChartClient";
+import Table from "../tableReutilisable/Table";
+import CardsClient from "./Components/CardsClient";
+import ChartClient from "./Components/ChartClient";
 
 
 export default function InfoClients() {

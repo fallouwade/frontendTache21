@@ -1,4 +1,4 @@
-import Table from "../../TableRéutilisable/Table";
+import Table from "../../tableReutilisable/Table";
 
 const CategorieListe = () => {
   const columns = [

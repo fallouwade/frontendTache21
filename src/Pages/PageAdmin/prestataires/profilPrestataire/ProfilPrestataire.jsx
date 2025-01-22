@@ -2,45 +2,17 @@ import { HiOutlineArrowLeft } from 'react-icons/hi';
 import LayoutAdmine from '../../layout/LayoutAdmine';
 
 import Image from '../../../../../public/images/electricien.jpg'
-import CardStatic from './static/CardStatic';
+import CardStatic from '../static/CardStatic';
 import { Link } from 'react-router-dom';
 
 const ProfilPrestataire = () => {
-    // const skills = [
-    //     'User Interface Designing', 'UX', 'UI',
-    //     'Adobe XD', 'Mobile Apps', 'User Research',
-    //     'Wireframing', 'Information Architecture'
-    // ];
 
-    // const experiences = [
-    //     {
-    //         service: 'électricité en bâtiment',
-    //         approche: 'électricien indépendant',
-    //         period: 'Apr 2018',
-    //         location: 'Dakar',
-    //         color: 'bg-blue-500'
-    //     },
-    //     {
-    //         service: 'Pixel Studio',
-    //         approche: 'UI/UX Designer',
-    //         period: 'May 2018',
-    //         location: 'Dakar',
-    //         color: 'bg-pink-500'
-    //     },
-    //     {
-    //         service: 'Retention Studio',
-    //         approche: 'Web Designer',
-    //         period: 'July 2015',
-    //         location: 'Dakar',
-    //         color: 'bg-orange-500'
-    //     }
-    // ];
 
     return (
         <LayoutAdmine>
             <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-10">
                 <div className="flex justify-between items-center mb-8">
-                    <Link to={"/prestataire"} className="flex items-center text-gray-600">
+                    <Link to={"/prestataireAdmin"} className="flex items-center text-gray-600">
                         <HiOutlineArrowLeft className="w-5 h-5 mr-2" />
                         Back
                     </Link>

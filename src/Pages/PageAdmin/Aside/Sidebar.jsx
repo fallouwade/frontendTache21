@@ -10,7 +10,7 @@ const Sidebar = ({ isOpen }) => {
 
   const menuItems = [
     { id: 'dashboard', icon: <RxDashboard />, label: 'Dashboard', route: '/dashboardAdmin', basePath: '/dashboardAdmin' },
-    { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/prestataire', basePath: '/prestataire' },
+    { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/prestataireAdmin', basePath: '/prestataireAdmin' },
     { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/clients', basePath: '/clients' },
     { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/categories', basePath: '/categories' }
   ];

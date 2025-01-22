@@ -12,7 +12,7 @@ import Categorie from "./Pages/PageAdmin/categorie/Categorie.jsx";
 import InfoClients from "./Pages/PageAdmin/clients/InfoClients.jsx";
 import { IndexAdmin } from "./Pages/PageAdmin/dashboard/IndexAdmin.jsx";
 import Prestataire from "./Pages/PageAdmin/prestataires/Prestataire";
-import ProfilPrestataire from "./Pages/PageAdmin/prestataires/profilProstataire/ProfilPrestataire.jsx";
+import ProfilPrestataire from "./Pages/PageAdmin/prestataires/profilPrestataire/ProfilPrestataire";
 
 
 
