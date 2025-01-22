@@ -49,6 +49,13 @@ const Connection = () => {
           />
         </div>
         
+        <div className="md:w-1/2 relative hidden md:block">
+          <img 
+            src="https://cando.hr/wp-content/uploads/2020/10/bitmap12-e1603359469292.png"
+            alt="Connexion"
+            className="w-9/12 h-full object-contain"
+          />
+        </div>
         <div className="w-full md:w-1/2 flex items-center justify-center p-4">
           <form onSubmit={handleSubmit} className="w-full max-w-lg p-4 rounded-lg shadow-lg overflow-auto max-h-screen">
             <h2 className="text-3xl font-semibold text-black mb-6 text-center">CONNEXION</h2>
@@ -77,22 +84,15 @@ const Connection = () => {
               />
             </div>
             <div className="mb-4 text-right">
-              <p className="text-sm text-gray-600">Mot de passe oublié ? <Link className='text-blue-500 hover:text-blue-700' to="/motdepasseoublie">REINITIALISER</Link></p>
+              <p className="text-xs text-sm text-gray-600">Mot de passe oublié ? <Link className='text-blue-500 hover:text-blue-700' to="/motdepasseoublie">REINITIALISER</Link></p>
             </div>
             <button type="submit" className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">Se connecter</button>
             <div className="mt-4 text-center">
-              <p className="text-sm text-gray-600">Vous n'avez pas encore de compte ? <Link className='text-blue-500 hover:text-blue-700' to="/inscription">INSCRIVEZ-VOUS</Link></p>
+              <p className="text-xs text-sm text-gray-600">Vous n'avez pas encore de compte ? <Link className='text-blue-500 hover:text-blue-700' to="/inscription">INSCRIVEZ-VOUS</Link></p>
             </div>
           </form>
         </div>
 
-        <div className="md:w-1/2 relative hidden md:block">
-          <img 
-            src="https://cando.hr/wp-content/uploads/2020/10/bitmap12-e1603359469292.png"
-            alt="Connexion"
-            className="w-9/12 h-full object-contain"
-          />
-        </div>
       </div>
     </div>
   );

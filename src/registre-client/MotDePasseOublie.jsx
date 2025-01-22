@@ -15,7 +15,7 @@ const MotDePasseOublie = () => {
     setIsLoading(true);
     setMessage('');
 
-    // Remplacer par votre logique d'appel API pour envoyer le lien de réinitialisation
+    
     try {
       const response = await fetch('https://votre-api.com/reinitialiser-mot-de-passe', {
         method: 'POST',
@@ -75,7 +75,7 @@ const MotDePasseOublie = () => {
         )}
 
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-xs text-sm text-gray-600">
             Retour à la <Link className="text-blue-500 hover:text-blue-700" to="/">CONNEXION</Link>
           </p>
         </div>
