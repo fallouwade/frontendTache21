@@ -50,7 +50,7 @@ const Navbar = ({ toggleSidebar }) => {
             </div>
           </button>
           {isExtraDropdownOpen && (
-            <div className="absolute top-full right-0 mt-4 w-48 bg-white shadow-md rounded-md z-50">
+            <div className="absolute top-full right-0 mt-4 w-48 bg-white shadow-md rounded-md z-[1000]">
               <button
                 className=" w-full px-4 py-2 text-sm text-start hover:bg-gray-100"
               >

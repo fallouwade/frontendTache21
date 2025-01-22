@@ -47,9 +47,9 @@ export default function Table({ columns, data, title, routeProfil, action}) {
   };
 
   return (
-    <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg overflow-hidden relative -z-10">
+    <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg">
       {/* En-tête avec titre et recherche */}
-      <div className="p-4 sm:p-6 bg-white border-b border-gray-200 sticky top-0">
+      <div className="p-4 sm:p-6 bg-white border-b border-gray-200">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           {title && (
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{title}</h2>
@@ -73,49 +73,47 @@ export default function Table({ columns, data, title, routeProfil, action}) {
       </div>
 
       {/* Conteneur principal avec scroll horizontal */}
-      <div className="w-full overflow-x-auto">
-        <div className="min-w-full">
-          <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                {columns.map((column, index) => (
-                  <th
-                    key={index}
-                    className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {column.header}
-                  </th>
-                ))}
-                {action && <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">action</th>}
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {currentItems.map((row, rowIndex) => (
-                <tr key={rowIndex} className="hover:bg-gray-50">
-                  {columns.map((column, colIndex) => (
-                    <td 
-                      key={colIndex} 
-                      className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900"
-                    >
-                      {row[column.accessorKey]}
-                    </td>
-                  ))}
-                  {renderDetailButton()}
-                </tr>
+      <div className="overflow-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              {columns.map((column, index) => (
+                <th
+                  key={index}
+                  className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {column.header}
+                </th>
               ))}
-            </tbody>
-          </table>
+              {action && <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">action</th>}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {currentItems.map((row, rowIndex) => (
+              <tr key={rowIndex} className="hover:bg-gray-50">
+                {columns.map((column, colIndex) => (
+                  <td 
+                    key={colIndex} 
+                    className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900"
+                  >
+                    {row[column.accessorKey]}
+                  </td>
+                ))}
+                {renderDetailButton()}
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-          {/* Message si aucune donnée ou aucun résultat de recherche */}
-          {filteredData.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              {searchTerm 
-                ? "Aucun résultat trouvé pour votre recherche"
-                : "Aucune donnée disponible"
-              }
-            </div>
-          )}
-        </div>
+        {/* Message si aucune donnée ou aucun résultat de recherche */}
+        {filteredData.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            {searchTerm 
+              ? "Aucun résultat trouvé pour votre recherche"
+              : "Aucune donnée disponible"
+            }
+          </div>
+        )}
       </div>
 
       {/* Pagination */}
