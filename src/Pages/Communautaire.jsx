@@ -6,7 +6,7 @@ import Navbar from './PagePublic/Nav/Navbar';
 import Footer from '../Composants/Footer/Footer';
 import Temoignages from './PagePublic/Temoignages';
 
-const Public = () => {
+const Communautaire = () => {
   return (
     <div>
       {/* navbar  */}
@@ -68,4 +68,4 @@ const Public = () => {
   );
 };
 
-export default Public;
+export default Communautaire;

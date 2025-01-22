@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ChevronDown } from 'lucide-react';
 
-const MonthlyUsersChart = () => {
+const ChartClient = () => {
   const [selectedYear, setSelectedYear] = useState('2024');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -155,4 +155,4 @@ const MonthlyUsersChart = () => {
   );
 };
 
-export default MonthlyUsersChart;
+export default ChartClient;

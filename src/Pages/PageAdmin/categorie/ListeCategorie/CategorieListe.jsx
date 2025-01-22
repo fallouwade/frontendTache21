@@ -1,6 +1,6 @@
 import Table from "../../TableRéutilisable/Table";
 
-const Categorie = () => {
+const CategorieListe = () => {
   const columns = [
     {
       header: 'Nom de categorie',
@@ -49,4 +49,4 @@ const Categorie = () => {
   );
 }
 
-export default Categorie;
+export default CategorieListe;

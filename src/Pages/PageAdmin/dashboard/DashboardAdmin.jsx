@@ -1,5 +1,5 @@
 import LayoutAdmine from "../layout/LayoutAdmine";
-import Card from "./cardInfos/Card"
+import Card from "./cardInfos/CardAdmin"
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineHomeRepairService } from "react-icons/md";
 import { BiMessageDots } from "react-icons/bi";
@@ -7,7 +7,7 @@ import UserChart from "./charts/UserChart";
 import ReservationChart from "./charts/ReservationChart";
 // import ReservationChart from "./Charts/ReservationChart";
 
-export function Dashboard() {
+export function DashboardAdmin() {
     return (
         <LayoutAdmine>
             <div className="w-full p-4 sm:p-0">

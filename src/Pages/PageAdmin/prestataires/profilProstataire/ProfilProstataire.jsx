@@ -1,39 +1,40 @@
 import { HiOutlineArrowLeft } from 'react-icons/hi';
 import LayoutAdmine from '../../layout/LayoutAdmine';
-import Image from '../../../../assets/electricien.jpg'
+
+import Image from '../../../../../public/images/electricien'
 import CardStatic from './static/CardStatic';
 import { Link } from 'react-router-dom';
 
-const UserProfile = () => {
-    const skills = [
-        'User Interface Designing', 'UX', 'UI',
-        'Adobe XD', 'Mobile Apps', 'User Research',
-        'Wireframing', 'Information Architecture'
-    ];
+const ProfilProstataire = () => {
+    // const skills = [
+    //     'User Interface Designing', 'UX', 'UI',
+    //     'Adobe XD', 'Mobile Apps', 'User Research',
+    //     'Wireframing', 'Information Architecture'
+    // ];
 
-    const experiences = [
-        {
-            service: 'électricité en bâtiment',
-            approche: 'électricien indépendant',
-            period: 'Apr 2018',
-            location: 'Dakar',
-            color: 'bg-blue-500'
-        },
-        {
-            service: 'Pixel Studio',
-            approche: 'UI/UX Designer',
-            period: 'May 2018',
-            location: 'Dakar',
-            color: 'bg-pink-500'
-        },
-        {
-            service: 'Retention Studio',
-            approche: 'Web Designer',
-            period: 'July 2015',
-            location: 'Dakar',
-            color: 'bg-orange-500'
-        }
-    ];
+    // const experiences = [
+    //     {
+    //         service: 'électricité en bâtiment',
+    //         approche: 'électricien indépendant',
+    //         period: 'Apr 2018',
+    //         location: 'Dakar',
+    //         color: 'bg-blue-500'
+    //     },
+    //     {
+    //         service: 'Pixel Studio',
+    //         approche: 'UI/UX Designer',
+    //         period: 'May 2018',
+    //         location: 'Dakar',
+    //         color: 'bg-pink-500'
+    //     },
+    //     {
+    //         service: 'Retention Studio',
+    //         approche: 'Web Designer',
+    //         period: 'July 2015',
+    //         location: 'Dakar',
+    //         color: 'bg-orange-500'
+    //     }
+    // ];
 
     return (
         <LayoutAdmine>
@@ -111,4 +112,5 @@ const UserProfile = () => {
     );
 };
 
-export default UserProfile;
+export default ProfilProstataire
+;

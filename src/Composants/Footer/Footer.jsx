@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   FaFacebookF,
   FaTwitter,
@@ -19,10 +18,7 @@ const Footer = () => {
             <p className="text-gray-400 mb-6">
               Trouvez les meilleurs professionnels près de chez vous. Plombiers, électriciens, Mecaniens, coiffeurs, enseignats Privée et bien plus encore.
             </p>
-            {/* <div className="flex justify-center lg:justify-start space-x-4">
-              <img src="/api/placeholder/120/40" alt="Google Play" className="h-10" />
-              <img src="/api/placeholder/120/40" alt="App Store" className="h-10" />
-            </div> */}
+            
           </div>
 
           <div className="text-center lg:text-left">

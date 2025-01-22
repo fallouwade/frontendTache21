@@ -1,5 +1,4 @@
-import React from 'react';
-import { regions, departements, commonStyles as styles } from './constants';
+import { regions, departements, commonStyles as styles } from './Constants';
 
 const FormField = ({ label, required, children }) => (
   <div className="mb-4">
@@ -228,7 +227,7 @@ const DocumentsForm = ({ formData, setFormData, handleFileUpload }) => (
   </div>
 );
 
-export const FormContent = ({ step, formData, setFormData, serviceCategories, handleFileUpload }) => {
+export const FormComponents = ({ step, formData, setFormData, serviceCategories, handleFileUpload }) => {
   switch(step) {
     case 1:
       return <PersonalInfoForm formData={formData} setFormData={setFormData} />;

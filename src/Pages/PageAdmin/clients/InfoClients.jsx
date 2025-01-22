@@ -4,7 +4,7 @@ import CardsClient from "./CardsClients/CardsClient";
 import ChartClient from "./graphique/ChartClient";
 
 
-export default function Clients() {
+export default function InfoClients() {
   const columns = [
     {
       header: 'Nom complet',

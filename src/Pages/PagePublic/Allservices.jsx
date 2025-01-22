@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FaTools, FaVideo, FaTruck, FaBroom, FaTree, FaWrench, FaPaintRoller, FaFire } from "react-icons/fa";
+import { useState } from "react";
+import { FaTools, FaVideo, FaTruck, FaBroom, FaTree, FaWrench,  FaFire } from "react-icons/fa";
 import ServiceCard from "./ServicesCard";
 
 const Allservices = () => {

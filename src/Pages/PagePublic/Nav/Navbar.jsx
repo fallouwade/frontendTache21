@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 
@@ -26,9 +26,9 @@ const Navbar = () => {
               <Link to="/connexion" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
                 Inscrivez-vous / Connectez-vous
               </Link>
-              <a href="/devenir-tasker" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
+              <Link to="/inscription" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
                 Devenir un Tasker
-              </a>
+              </Link>
             </div>
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -52,13 +52,13 @@ const Navbar = () => {
                 <a href="/services" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
                   Services
                 </a>
-                <a href="/login" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
+                <Link to="/connecxion" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
                   Inscrivez-vous / Connectez-vous
-                </a>
+                </Link>
                 <div className="px-4 sm:px-6 py-3">
-                  <a href="/devenir-tasker" className="block text-[#176d5d] text-base sm:text-lg hover:text-[#438178]">
+                  <Link to="/inscription" className="block text-[#176d5d] text-base sm:text-lg hover:text-[#438178]">
                     Devenir un Tasker
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

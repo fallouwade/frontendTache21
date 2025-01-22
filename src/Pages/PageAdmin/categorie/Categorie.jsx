@@ -1,6 +1,6 @@
 import LayoutAdmine from "../layout/LayoutAdmine";
-import CategorieListe from "./CategorieListe/CategorieListe";
-import CategorieAjout from "./CategorieAjout/CategorieAjout";
+import CategorieListe from "./ListeCategorie/CategorieListe";
+import CategorieAjout from "./AjoutCategorie/CategorieAjout";
 
 const Categorie = () => {
   const cards = [

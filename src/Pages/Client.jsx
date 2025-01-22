@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useCallback } from 'react';
+import  { useState, useCallback } from 'react';
 import Sidebar from './PageClient/Sidebar/SideBar';
 import ServiceGrid from './PageClient/ServiceGrid/ServiceGrid';
 import SearchBar from '../Composants/SearchBar/SearchBar';

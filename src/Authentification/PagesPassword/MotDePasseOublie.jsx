@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -30,7 +31,7 @@ const MotDePasseOublie = () => {
       } else {
         setMessage('Erreur lors de l\'envoi de l\'e-mail. Veuillez réessayer.');
       }
-    } catch (error) {
+    } catch  {
       setMessage('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setIsLoading(false);

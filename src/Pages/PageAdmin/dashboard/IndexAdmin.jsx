@@ -7,7 +7,7 @@ import UserChart from "./charts/UserChart";
 import ReservationChart from "./charts/ReservationChart";
 // import ReservationChart from "./Charts/ReservationChart";
 
-export function Dashboard() {
+export function IndexAdmin() {
     return (
         <LayoutAdmine>
             <div className="w-full p-4 sm:p-0">

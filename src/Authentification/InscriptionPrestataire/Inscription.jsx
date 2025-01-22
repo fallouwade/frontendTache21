@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { StepIndicator, FormContent } from './Component/FormComponents';
-import { serviceCategories, initialFormData, commonStyles as styles } from './Component/constants';
+import  { useState } from 'react';
+import { StepIndicator, FormComponents } from './Component/FormComponents';
+import { serviceCategories, initialFormData, commonStyles as styles } from './Component/Constants';
 // import professionel from '../images/professionel.png'
 
 const Inscription = () => {
@@ -48,7 +48,7 @@ const Inscription = () => {
         console.log('Formulaire soumis:', formData);
         alert('Inscription réussie! Nous examinerons votre dossier et vous contacterons rapidement.');
         // Redirection ou autre logique post-soumission
-      } catch (error) {
+      } catch  {
         alert('Une erreur est survenue lors de la soumission. Veuillez réessayer.');
       } finally {
         setIsSubmitting(false);
@@ -84,7 +84,7 @@ const Inscription = () => {
           <StepIndicator currentStep={step} />
 
           <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl p-8">
-            <FormContent
+            <FormComponents
               step={step}
               formData={formData}
               setFormData={setFormData}
