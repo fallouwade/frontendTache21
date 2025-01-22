@@ -3,7 +3,7 @@ import { FaEnvelope, FaUserCircle} from 'react-icons/fa';
 import { FiAlignLeft } from "react-icons/fi";
 import { IoSettings } from "react-icons/io5";
 
-const Navbar = ({ toggleSidebar }) => {
+const NavReutilisable = ({ toggleSidebar }) => {
 
 
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -73,4 +73,4 @@ const Navbar = ({ toggleSidebar }) => {
   );
 };
 
-export default Navbar;
+export default NavReutilisable;

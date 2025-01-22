@@ -1,12 +1,12 @@
 import LayoutAdmine from "../layout/LayoutAdmine";
-import Table from "../TableRéutilisable/Table";
-import CardProst from "./cardPrestataire/CardProst";
+import Table from "../tableReutilisable/Table";
+import CardProst from "./Components/CardProst";
 import { FaUserGroup } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { FaUserCheck, FaUserMinus, FaCalendar } from "react-icons/fa6";
-import ChartNouveauInscription from './chartStatic/ChartNouveauInscription';
-import ChartInfosStatus from './chartStatic/ChartInfosStatus';
-// import ProfilProstataire from "./profilProstataire/ProfilProstataire";
+import ChartNouveauInscription from './Components/ChartNouveauInscription';
+import ChartInfosStatus from './Components/ChartInfosStatus';
+
 
 export default function Prestataire() {
   const columns = [
@@ -178,7 +178,7 @@ export default function Prestataire() {
               columns={columns} 
               data={data} 
               title="Listes de prestataires" 
-              routeProfil="/prestataire/profil"  
+              routeProfil="/profil"  
               action={  <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Actions
               </th>}

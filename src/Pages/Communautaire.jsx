@@ -1,10 +1,10 @@
-import Cards from './PagePublic/Cards';
+import Cards from './PagePublic/Components/Cards';
 import SearchBar from '../Composants/SearchBar/SearchBar';
-import Allservices from './PagePublic/Allservices';
-import Satisfaction from './PagePublic/Satisfaction';
+import Allservices from './PagePublic/Components/Allservices';
+import Satisfaction from './PagePublic/Components/Satisfaction';
+import Footer from '../Composants/Footer';
+import Temoignages from './PagePublic/Components/Temoignages';
 import Navbar from './PagePublic/Nav/Navbar';
-import Footer from '../Composants/Footer/Footer';
-import Temoignages from './PagePublic/Temoignages';
 
 const Communautaire = () => {
   return (
@@ -28,7 +28,7 @@ const Communautaire = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-screen-xl mx-auto">
             <div className="text-center sm:text-left">
               <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
-                Besoin d'un <span className="text-yellow-400">professionnel</span> près de chez vous ?
+                Besoin d un <span className="text-yellow-400">professionnel</span> près de chez vous ?
               </h1>
               <p className="text-base sm:text-lg lg:text-xl text-white">
                 Trouvez rapidement des plombiers, électriciens, coiffeurs, enseignants et bien plus,

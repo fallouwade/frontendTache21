@@ -1,7 +1,7 @@
 import LayoutAdmine from "../layout/LayoutAdmine";
-import Table from "../TableRéutilisable/Table";
-import CardsClient from "./CardsClients/CardsClient";
-import ChartClient from "./graphique/ChartClient";
+import Table from "../tableReutilisable/Table";
+import CardsClient from "./Components/CardsClient";
+import ChartClient from "./Components/ChartClient";
 
 
 export default function InfoClients() {
@@ -69,9 +69,9 @@ export default function InfoClients() {
 
   return (
     <LayoutAdmine>
-      <div className="sm:px-5 mb-10">
+      <div className="sm:px-5 mb-10 relative">
         <div className="grid md:grid-cols-2 gap-6 p-4">
-          <div className="bg-white bg-opacity-10 rounded-lg relative -z-10">
+          <div className="bg-white bg-opacity-10 rounded-lg relative">
             <CardsClient />
           </div>
           <ChartClient />

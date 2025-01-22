@@ -10,7 +10,7 @@ import Signup from "./Authentification/InscriptionClient/Signup.jsx";
 
 import Categorie from "./Pages/PageAdmin/categorie/Categorie.jsx";
 import InfoClients from "./Pages/PageAdmin/clients/InfoClients.jsx";
-import { DashboardAdmin } from "./Pages/PageAdmin/dashboard/DashboardAdmin.jsx";
+import { IndexAdmin } from "./Pages/PageAdmin/dashboard/IndexAdmin.jsx";
 
 
 
@@ -39,7 +39,7 @@ function App() {
 
       <Route path="/infoClient" element={<InfoClients />} />
 
-      <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+      <Route path="/indexAdmin" element={<IndexAdmin />} />
 
      
 

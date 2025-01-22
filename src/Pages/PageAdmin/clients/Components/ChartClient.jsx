@@ -102,7 +102,7 @@ const ChartClient = () => {
   );
 
   return (
-    <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 relative -z-10 my-8">
+    <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 relative my-8">
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

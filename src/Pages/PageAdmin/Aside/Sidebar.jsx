@@ -9,8 +9,8 @@ const Sidebar = ({ isOpen }) => {
   const [activeLink, setActiveLink] = useState('');
 
   const menuItems = [
-    { id: 'dashboard', icon: <RxDashboard />, label: 'Dashboard', route: '/', basePath: '/' },
-    { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/prestataire', basePath: '/prestataire' },
+    { id: 'dashboard', icon: <RxDashboard />, label: 'Dashboard', route: '/dashboardAdmin', basePath: '/dashboardAdmin' },
+    { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/prestataireAdmin', basePath: '/prestataireAdmin' },
     { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/clients', basePath: '/clients' },
     { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/categories', basePath: '/categories' }
   ];
@@ -20,9 +20,9 @@ const Sidebar = ({ isOpen }) => {
     console.log(activeLink);
     // Fonction pour vérifier si le chemin actuel correspond à une route de base
     const matchingItem = menuItems.find(item => {
-      if (item.basePath === '/') {
-        // Pour le dashboard, vérifier exactement la route '/'
-        return currentPath === '/';
+      if (item.basePath === '/dashboardAdmin') {
+        // Pour le dashboard, vérifier exactement la route '/dashboardAdmin'
+        return currentPath === '/dashboardAdmin';
       }
       // Pour les autres routes, vérifier si le chemin commence par la route de base
       return currentPath.startsWith(item.basePath);
@@ -34,9 +34,9 @@ const Sidebar = ({ isOpen }) => {
   }, [location.pathname]);
 
   const isLinkActive = (item) => {
-    if (item.basePath === '/') {
-      // Pour le dashboard, vérifier exactement la route '/'
-      return location.pathname === '/';
+    if (item.basePath === '/dashboardAdmin') {
+      // Pour le dashboard, vérifier exactement la route '/dashboardAdmin'
+      return location.pathname === '/dashboardAdmin';
     }
     // Pour les autres routes, vérifier si le chemin commence par la route de base
     return location.pathname.startsWith(item.basePath);
