@@ -2,9 +2,9 @@
 import  { useState } from "react"
 import { Button } from "flowbite-react"
 import { FaFilter } from "react-icons/fa"
-import Sidebar from "./PageClient/Sidebar/SideBar"
-import ServiceGrid from "./PageClient/ServiceGrid/ServiceGrid"
-import SearchBar from "../Composants/SearchBar/SearchBar"
+import Sidebar from "./PageClient/Components/SideBar"
+import ServiceGrid from "./PageClient/Components/ServiceGrid"
+import SearchBar from "../Composants/SearchBar"
 
 function Client() {
   const [filters, setFilters] = useState({

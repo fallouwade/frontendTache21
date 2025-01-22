@@ -3,7 +3,7 @@ import { StepIndicator, FormComponents } from './Component/FormComponents';
 import { serviceCategories, initialFormData, commonStyles as styles } from './Component/Constants';
 // import professionel from '../images/professionel.png'
 
-const Inscription = () => {
+const InscriptionPrestataire = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -135,4 +135,4 @@ const Inscription = () => {
 );
 };
 
-export default Inscription;
+export default InscriptionPrestataire;

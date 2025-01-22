@@ -1,11 +1,11 @@
-import LayoutAdmine from "../layout/LayoutAdmine";
-import Table from "../tableReutilisable/Table";
-import CardProst from "./Components/CardProst";
+import LayoutAdmine from "./PageAdmin/layout/LayoutAdmine";
+import Table from "./PageAdmin/tableReutilisable/Table";
+import CardProst from "./PageAdmin/Components/CardProst";
 import { FaUserGroup } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { FaUserCheck, FaUserMinus, FaCalendar } from "react-icons/fa6";
-import ChartNouveauInscription from './Components/ChartNouveauInscription';
-import ChartInfosStatus from './Components/ChartInfosStatus';
+import ChartNouveauInscription from './PageAdmin/Components/ChartNouveauInscription';
+import ChartInfosStatus from './PageAdmin/Components/ChartInfosStatus';
 
 
 export default function Prestataire() {

@@ -1,5 +1,5 @@
 import { FaUsers } from "react-icons/fa6";
-import CardProst from "../../prestataires/Components/CardProst";
+import CardProst from "./CardProst";
 
 export default function CardsClient() {
   return (

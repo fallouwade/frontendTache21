@@ -1,10 +1,10 @@
-import LayoutAdmine from "../layout/LayoutAdmine";
-import Card from "./Components/CardAdmin"
+import LayoutAdmine from "./PageAdmin/layout/LayoutAdmine";
+import Card from "./PageAdmin/Components/CardAdmin"
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineHomeRepairService } from "react-icons/md";
 import { BiMessageDots } from "react-icons/bi";
-import UserChart from "./Components/UserChart";
-import ReservationChart from "./Components/ReservationChart";
+import UserChart from "./PageAdmin/Components/UserChart";
+import ReservationChart from "./PageAdmin/Components/ReservationChart";
 // import ReservationChart from "./Charts/ReservationChart";
 
 export function IndexAdmin() {
