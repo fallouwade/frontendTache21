@@ -1,17 +1,14 @@
+import { Outlet, useLocation } from "react-router-dom";
 import LayoutAdmine from "../layout/LayoutAdmine";
-import Card from "./Components/CardAdmin"
-import { LuUsers } from "react-icons/lu";
-import { MdOutlineHomeRepairService } from "react-icons/md";
-import { BiMessageDots } from "react-icons/bi";
-import UserChart from "./Components/UserChart";
-import ReservationChart from "./Components/ReservationChart";
-// import ReservationChart from "./Charts/ReservationChart";
+import DashboardContent from "./Components/DashboardContent";
 
 export function IndexAdmin() {
+    const location = useLocation();
+
     return (
         <LayoutAdmine>
-            <div className="w-full p-4 sm:p-0">
-                {/* Blocs d'information totale */}
+            {/* <div className="w-full p-4 sm:p-0">
+                {/* Blocs d'information totale 
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <Card 
@@ -57,8 +54,13 @@ export function IndexAdmin() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
+            {location.pathname === "/dashboardAdmin" ? (
+                <DashboardContent />
+            ) : (
+                <Outlet />
+            )}
         </LayoutAdmine>
     )
 }

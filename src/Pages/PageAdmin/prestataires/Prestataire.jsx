@@ -125,7 +125,7 @@ export default function Prestataire() {
   ];
 
   return (
-    <LayoutAdmine>
+    // <LayoutAdmine>
       <div className="flex flex-col gap-4 items-center p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 w-full p-4">
           <Link className="w-full">
@@ -178,13 +178,13 @@ export default function Prestataire() {
               columns={columns} 
               data={data} 
               title="Listes de prestataires" 
-              routeProfil="/profil"  
+              routeProfil="/dashboardAdmin/prestataire/profil"  
               action={  <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Actions
               </th>}
             />
         </div>
       </div>
-    </LayoutAdmine>
+    // </LayoutAdmine>
   )
 }

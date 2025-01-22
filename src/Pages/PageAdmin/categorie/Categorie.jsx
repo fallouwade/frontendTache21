@@ -19,7 +19,7 @@ const Categorie = () => {
   ];
 
   return (
-    <LayoutAdmine>
+    <>
       <div className="flex flex-wrap justify-center gap-6 p-6 bg-blue-50">
         {cards.map((card, index) => (
           <div
@@ -41,7 +41,7 @@ const Categorie = () => {
           <CategorieAjout />
         </div>
       </div>
-    </LayoutAdmine>
+    </>
   );
 };
 
