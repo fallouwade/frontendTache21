@@ -38,14 +38,7 @@ function App() {
       <Route path="/categorie" element={<Categorie />} />
 
       <Route path="/infoClient" element={<InfoClients />} />
-
       <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
-
-     
-
-
-
-
     </Routes>
 
    
