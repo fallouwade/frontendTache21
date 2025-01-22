@@ -1,11 +1,11 @@
 import { HiOutlineArrowLeft } from 'react-icons/hi';
 import LayoutAdmine from '../../layout/LayoutAdmine';
 
-import Image from '../../../../../public/images/electricien'
+import Image from '../../../../../public/images/electricien.jpg'
 import CardStatic from './static/CardStatic';
 import { Link } from 'react-router-dom';
 
-const ProfilProstataire = () => {
+const ProfilPrestataire = () => {
     // const skills = [
     //     'User Interface Designing', 'UX', 'UI',
     //     'Adobe XD', 'Mobile Apps', 'User Research',
@@ -112,5 +112,5 @@ const ProfilProstataire = () => {
     );
 };
 
-export default ProfilProstataire
-;
+export default ProfilPrestataire
+    ;

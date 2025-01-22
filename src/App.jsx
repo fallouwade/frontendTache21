@@ -10,7 +10,9 @@ import Signup from "./Authentification/InscriptionClient/Signup.jsx";
 
 import Categorie from "./Pages/PageAdmin/categorie/Categorie.jsx";
 import InfoClients from "./Pages/PageAdmin/clients/InfoClients.jsx";
-import { DashboardAdmin } from "./Pages/PageAdmin/dashboard/DashboardAdmin.jsx";
+import { IndexAdmin } from "./Pages/PageAdmin/dashboard/IndexAdmin.jsx";
+import Prestataire from "./Pages/PageAdmin/prestataires/Prestataire";
+import ProfilPrestataire from "./Pages/PageAdmin/prestataires/profilProstataire/ProfilPrestataire.jsx";
 
 
 
@@ -38,10 +40,13 @@ function App() {
       <Route path="/categorie" element={<Categorie />} />
 
       <Route path="/infoClient" element={<InfoClients />} />
-      <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+      <Route path="/dashboardAdmin" element={<IndexAdmin />} />
+      <Route path="/prestataireAdmin" element={<Prestataire />} />
+      <Route path="/prestataireAdmin/profil" element={<ProfilPrestataire />} />
+      <Route path="/clientAdmin" element={<InfoClients />} />
     </Routes>
 
-   
+
   )
 
 }

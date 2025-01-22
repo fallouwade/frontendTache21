@@ -69,9 +69,9 @@ export default function InfoClients() {
 
   return (
     <LayoutAdmine>
-      <div className="sm:px-5 mb-10">
+      <div className="sm:px-5 mb-10 relative">
         <div className="grid md:grid-cols-2 gap-6 p-4">
-          <div className="bg-white bg-opacity-10 rounded-lg relative -z-10">
+          <div className="bg-white bg-opacity-10 rounded-lg relative">
             <CardsClient />
           </div>
           <ChartClient />

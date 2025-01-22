@@ -1,5 +1,5 @@
 import LayoutAdmine from "../layout/LayoutAdmine";
-import Card from "./cardInfos/Card"
+import Card from "./cardInfos/CardAdmin"
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineHomeRepairService } from "react-icons/md";
 import { BiMessageDots } from "react-icons/bi";
