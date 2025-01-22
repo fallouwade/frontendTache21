@@ -5,8 +5,8 @@ import { Route, Routes } from "react-router-dom";
 // import Categorie from "./Pages/admin/categorie/Categorie";
 // import Avis from "./Pages/admin/Avis/Avis";
 // import ProfilProstataire from "./Pages/admin/prestataires/profilProstataire/ProfilProstataire";
-import Public from './Page/Public';
-import Client from './Page/Client';
+import Public from './Pages/Public';
+import Client from './Pages/Client';
 import Connection from './Authentification/PagesConnexion/Connection'
 import Inscription from "./Authentification/InscriptionPrestataire/Inscription";
 import MotDePasseOublie from "./Authentification/PagesPassword/MotDePasseOublie";
@@ -40,6 +40,7 @@ function App() {
         <Route path="/prestataire" element={<Prestataire/>} />
         <Route path="/prestataire/profil" element={<ProfilProstataire />} />
         <Route path="/clients" element={<Clients />} />
+
         <Route path="/services" element={<Services/>} />
         <Route path="/avis" element={<Avis />} />
         <Route path="/categories" element={<Categorie />} /> */}
@@ -47,6 +48,7 @@ function App() {
 
     </Routes>
 
+   
   )
 
 }

@@ -18,7 +18,6 @@ const Navbar = () => {
                 Services Locaux
               </a>
             </div>
-
             {/* Desktop/Tablet Navigation */}
             <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
               <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
@@ -27,9 +26,9 @@ const Navbar = () => {
               <Link to="/connexion" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
                 Inscrivez-vous / Connectez-vous
               </Link>
-              <Link to="/inscription" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
+              <a href="/devenir-tasker" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
                 Devenir un Tasker
-              </Link>
+              </a>
             </div>
             {/* Mobile menu button */}
             <div className="md:hidden">

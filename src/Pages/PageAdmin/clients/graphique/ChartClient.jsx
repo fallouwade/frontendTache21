@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { ChevronDown } from 'lucide-react';
 
 const MonthlyUsersChart = () => {
   const [selectedYear, setSelectedYear] = useState('2024');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const yearlyData = {
     '2023': [
@@ -49,6 +51,8 @@ const MonthlyUsersChart = () => {
     ]
   };
 
+  const years = useMemo(() => Object.keys(yearlyData), []);
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -63,8 +67,42 @@ const MonthlyUsersChart = () => {
     return null;
   };
 
+  const YearSelector = () => (
+    <div className="relative">
+      <button
+        className="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
+        <span className="text-sm font-medium">{selectedYear}</span>
+        <ChevronDown 
+          className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
+      
+      {isDropdownOpen && (
+        <div className="absolute right-0 mt-2 w-full bg-white border rounded-lg shadow-lg z-50">
+          {years.map((year) => (
+            <button
+              key={year}
+              className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 
+                ${year === selectedYear ? 'bg-blue-50 text-blue-600' : ''}
+                ${year === years[0] ? 'rounded-t-lg' : ''}
+                ${year === years[years.length - 1] ? 'rounded-b-lg' : ''}`}
+              onClick={() => {
+                setSelectedYear(year);
+                setIsDropdownOpen(false);
+              }}
+            >
+              {year}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
   return (
-    <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
+    <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 relative -z-10 my-8">
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -75,19 +113,11 @@ const MonthlyUsersChart = () => {
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
               <span>Utilisateurs actifs</span>
             </div>
-            <select 
-              value={selectedYear} 
-              onChange={(e) => setSelectedYear(e.target.value)}
-              className="px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-            </select>
+            <YearSelector />
           </div>
         </div>
       </div>
-      <div className="h-64 w-full relative -z-10">
+      <div className="h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
             data={yearlyData[selectedYear]} 

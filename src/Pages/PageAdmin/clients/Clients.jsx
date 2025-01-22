@@ -36,19 +36,47 @@ export default function Clients() {
       birthDate: '15/04/1990',
       address: '123 Rue Example, Ville',
     },
+    {
+      fullName: 'John Doe',
+      email: 'john@example.com',
+      phone: '+1 234 567 890',
+      birthDate: '15/04/1990',
+      address: '123 Rue Example, Ville',
+    },
+    {
+      fullName: 'John Doe',
+      email: 'john@example.com',
+      phone: '+1 234 567 890',
+      birthDate: '15/04/1990',
+      address: '123 Rue Example, Ville',
+    },
+    {
+      fullName: 'John Doe',
+      email: 'john@example.com',
+      phone: '+1 234 567 890',
+      birthDate: '15/04/1990',
+      address: '123 Rue Example, Ville',
+    },
+    {
+      fullName: 'John Doe',
+      email: 'john@example.com',
+      phone: '+1 234 567 890',
+      birthDate: '15/04/1990',
+      address: '123 Rue Example, Ville',
+    },
 
   ];
 
   return (
     <LayoutAdmine>
-      <div className="sm:px-10 mb-10">
-        <div className="grid grid-cols-2 gap-6 p-6">
-          <div className="bg-white rounded-lg">
+      <div className="sm:px-5 mb-10">
+        <div className="grid md:grid-cols-2 gap-6 p-4">
+          <div className="bg-white bg-opacity-10 rounded-lg relative -z-10">
             <CardsClient />
           </div>
           <ChartClient />
-        </div>
-        <div className="grid grid-cols-1">
+        </div> 
+        <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
           <Table columns={columns} data={data} title="Liste de clients" />
         </div>
       </div>
