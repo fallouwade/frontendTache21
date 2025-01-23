@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify'; // Importation de react-toastify
-import 'react-toastify/dist/ReactToastify.css'; // Importation des styles
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const Inscription = () => {
   const [formData, setFormData] = useState({
@@ -25,8 +25,7 @@ const Inscription = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Vérification que les mots de passe correspondent
+    
     if (formData.motDePasse !== formData.confirmMotDePasse) {
       toast.error("Les mots de passe ne correspondent pas !");
       return;
@@ -94,7 +93,7 @@ const Inscription = () => {
         </div>
 
         <div className="w-full md:w-1/2 flex items-center justify-center p-2">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg p-2 rounded-lg shadow-lg overflow-auto max-h-screen">
+          <form onSubmit={handleSubmit} className="w-full max-w-lg p-2 rounded-lg shadow-lg overflow-auto ">
             <h2 className="text-3xl font-semibold text-black mb-6 text-center">INSCRIPTION</h2>
             <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="mb-4 flex-1">
@@ -134,6 +133,7 @@ const Inscription = () => {
                 required
               />
             </div>
+
             <div className="mb-4">
               <label htmlFor="motDePasse" className="block text-sm font-medium text-gray-600">Mot de passe</label>
               <input
