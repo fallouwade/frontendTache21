@@ -72,7 +72,7 @@ const Satisfaction = () => {
           <div className="space-y-8">
             {/* Step 1 */}
             <div className="flex items-center gap-6">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#e8e6ff] flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#dcf3ff] flex items-center justify-center">
                 <span className="text-xl font-medium">1</span>
               </div>
               <p className="text-gray-800 text-lg">

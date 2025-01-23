@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Temoignages = () => {
-  // Paramètres de configuration du carousel
   const settings = {
     // dots: true,           
     infinite: true,       
@@ -148,6 +147,5 @@ const Temoignages = () => {
     </div>
   );
 };
-
 
 export default Temoignages;

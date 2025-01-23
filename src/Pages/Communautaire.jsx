@@ -1,10 +1,10 @@
-import Cards from './PagePublic/Cards';
+import Cards from './PagePublic/Components/Cards';
 import SearchBar from '../Composants/SearchBar/SearchBar';
-import Allservices from './PagePublic/Allservices';
-import Satisfaction from './PagePublic/Satisfaction';
+import Allservices from './PagePublic/Components/Allservices';
+import Satisfaction from './PagePublic/Components/Satisfaction';
 import Navbar from './PagePublic/Nav/Navbar';
 import Footer from '../Composants/Footer/Footer';
-import Temoignages from './PagePublic/Temoignages';
+import Temoignages from './PagePublic/Components/Temoignages';
 
 const Communautaire = () => {
   return (

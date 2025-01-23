@@ -20,14 +20,14 @@ const Navbar = () => {
             </div>
             {/* Desktop/Tablet Navigation */}
             <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
-              <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
+              {/* <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
                 Services
-              </a>
+              </a> */}
               <Link to="/connexion" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
                 Inscrivez-vous / Connectez-vous
               </Link>
-              <Link to="/inscription" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
-                Devenir un Tasker
+              <Link to="/inscription" className="border border-[#176d5d] text-yellow-400 px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
+                Devenir un Prestataire
               </Link>
             </div>
             {/* Mobile menu button */}
@@ -49,15 +49,13 @@ const Navbar = () => {
           {isMenuOpen && (
             <div className="md:hidden bg-white absolute top-[72px] left-0 w-full shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
               <div className="flex flex-col py-4 text-left">
-                <a href="/services" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
-                  Services
-                </a>
                 <Link to="/connecxion" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
                   Inscrivez-vous / Connectez-vous
                 </Link>
                 <div className="px-4 sm:px-6 py-3">
-                  <Link to="/inscription" className="block text-[#176d5d] text-base sm:text-lg hover:text-[#438178]">
-                    Devenir un Tasker
+                  <Link to="/ins
+                  cription" className="block text-[#176d5d] text-base sm:text-lg hover:text-[#438178]">
+                    Devenir un Prestataire
                   </Link>
                 </div>
               </div>
