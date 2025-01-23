@@ -57,7 +57,7 @@ function Client() {
                   </Button>
 
                   <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <span className="text-sm text-gray-600 whitespace-nowrap">Trier par:</span>
+                    <span className="text-sm text-gray-600 whitespace-nowrap">Trier par :</span>
                     <select
                       value={filters.sortBy}
                       onChange={(e) => handleFilterChange("sortBy", e.target.value)}
