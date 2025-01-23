@@ -1,3 +1,4 @@
+
 export default function TableStatique({ headers, data, onBlockService }) {
   return (
     <div className="overflow-x-auto">

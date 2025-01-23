@@ -1,11 +1,10 @@
-import LayoutAdmine from "./PageAdmin/layout/LayoutAdmine";
 import Table from "./PageAdmin/tableReutilisable/Table";
 import CardProst from "./PageAdmin/Components/CardProst";
-import { FaUserGroup } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import {FaUserGroup} from "react-icons/fa6";
+import {Link} from "react-router-dom";
 import { FaUserCheck, FaUserMinus, FaCalendar } from "react-icons/fa6";
-import ChartNouveauInscription from './PageAdmin/Components/ChartNouveauInscription';
 import ChartInfosStatus from './PageAdmin/Components/ChartInfosStatus';
+import ChartNouveauInscription from './PageAdmin/Components/ChartNouveauInscription';
 
 
 export default function Prestataire() {
@@ -125,7 +124,7 @@ export default function Prestataire() {
   ];
 
   return (
-    <LayoutAdmine>
+    // <LayoutAdmine>
       <div className="flex flex-col gap-4 items-center p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 w-full p-4">
           <Link className="w-full">
@@ -178,13 +177,13 @@ export default function Prestataire() {
               columns={columns} 
               data={data} 
               title="Listes de prestataires" 
-              routeProfil="/profil"  
+              routeProfil="/dashboardAdmin/prestataire/profil"  
               action={  <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Actions
               </th>}
             />
         </div>
       </div>
-    </LayoutAdmine>
+    // </LayoutAdmine>
   )
 }

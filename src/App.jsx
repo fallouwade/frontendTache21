@@ -8,12 +8,11 @@ import Inscription from "./Authentification/inscription/InscriptionPrestataire.j
 import MotDePasseOublie from "./Authentification/PagesConnexion/MotDePasseOublie.jsx";
 import Signup from "./Authentification/inscription/InscriptionClient.jsx";
 
-import Categorie from "./Pages/Categorie.jsx";
-import InfoClients from "./Pages/InfoClients.jsx";
-import { IndexAdmin } from "./Pages/IndexAdmin.jsx";
-
-import Prestataire from "./Pages/Prestataire.jsx";
-import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
+import Categorie from "./Pages/Categorie";
+import InfoClients from "./Pages/InfoClients";
+import { IndexAdmin } from "./Pages/IndexAdmin";
+import Prestataire from "./Pages/Prestataire";
+import ProfilPrestataire from "./Pages/ProfilPrestataire";
 
 
 
@@ -39,12 +38,14 @@ function App() {
 
       <Route path="/Client" element={<Client />} />
 
-      <Route path="/categorie" element={<Categorie />} />
 
-      <Route path="/dashboardAdmin" element={<IndexAdmin />} />
-      <Route path="/prestataireAdmin" element={<Prestataire />} />
-      <Route path="/prestataireAdmin/profil" element={<ProfilPrestataire />} />
-      <Route path="/clientAdmin" element={<InfoClients />} />
+       {/* Admin Dashboard and nested routes) */}
+       <Route path="/dashboardAdmin" element={<IndexAdmin />}>
+        <Route path="prestataire" element={<Prestataire />} />
+        <Route path="prestataire/profil" element={<ProfilPrestataire />} />
+        <Route path="clients" element={<InfoClients />} />
+        <Route path="categories" element={<Categorie />} />
+      </Route>
 
     </Routes>
 

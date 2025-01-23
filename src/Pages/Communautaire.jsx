@@ -1,8 +1,8 @@
 import Cards from './PagePublic/Components/Cards';
-import SearchBar from '../Composants/SearchBar';
+import SearchBar from './Composants/SearchBar';
 import Allservices from './PagePublic/Components/Allservices';
 import Satisfaction from './PagePublic/Components/Satisfaction';
-import Footer from '../Composants/Footer';
+import Footer from './Composants/Footer';
 import Temoignages from './PagePublic/Components/Temoignages';
 import Navbar from './PagePublic/Components/Navbar';
 

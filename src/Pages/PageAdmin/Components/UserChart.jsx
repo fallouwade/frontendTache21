@@ -44,7 +44,7 @@ const UserChart = () => {
   }, [timeFrame]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 relative -z-10">
+    <div className="w-full max-w-4xl mx-auto p-4 relative">
       <div className="bg-white rounded-lg shadow-lg p-3">
         <div className="p-1 rounded">
           <div className="flex justify-between items-center mb-4">
@@ -55,7 +55,7 @@ const UserChart = () => {
               className="p-2 border rounded"
             >
               <option value="day">Par jour</option>
-              <option value="week">Par semaine</option>
+              <option value="week">Par semaine</option>                   
               <option value="month">Par mois</option>
             </select>
           </div>

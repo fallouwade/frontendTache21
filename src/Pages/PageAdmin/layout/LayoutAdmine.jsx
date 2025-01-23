@@ -1,6 +1,6 @@
 import { useState } from "react";
+import NavReutilisable from "../../Composants/NavReutilisable";
 import Sidebar from "../Components/Sidebar";
-import NavReutilisable from "../../../Composants/NavReutilisable";
 
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -12,7 +12,8 @@ const LayoutAdmine = ({ children }) => {
     return (
         <div className="flex w-full fixed max-h-screen bg-[#E8F0FE]">
             <div className="fixed z-40">
-                <NavReutilisable toggleSidebar={toggleSidebar} />
+                {/* <Navbar toggleSidebar={toggleSidebar} /> */}
+                <NavReutilisable /> 
             </div>
             <div className="flex w-screen z-0">
                 <div className=" flex flex-col min-h-screen bg-[#0A2342] ">
