@@ -231,7 +231,7 @@ const InscriptionPrestataire = () => {
                   Confirmez votre mot de passe
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   id="confirmMotDePasse"
                   name="confirmMotDePasse"
                   value={formData.confirmMotDePasse}
@@ -252,7 +252,7 @@ const InscriptionPrestataire = () => {
                 type="text"
                 id="nomDeLentreprise"
                 name="nomDeLentreprise"
-                value={formData.description}
+                value={formData.nomDeLentreprise}
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded-md"
                 required
@@ -318,7 +318,7 @@ const InscriptionPrestataire = () => {
                 name="description" 
                 id="description" 
                 placeholder="Description">
-                  Description
+                  
               </textarea>
             </div>
             <button
