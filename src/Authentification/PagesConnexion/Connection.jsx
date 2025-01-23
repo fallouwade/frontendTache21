@@ -57,7 +57,7 @@ const Connection = () => {
           />
         </div>
         <div className="w-full md:w-1/2 flex items-center justify-center p-4">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg p-4 rounded-lg shadow-lg overflow-auto max-h-screen">
+          <form onSubmit={handleSubmit} className="w-full max-w-lg p-4 rounded-lg overflow-auto max-h-screen">
             <h2 className="text-3xl font-semibold text-black mb-6 text-center">CONNEXION</h2>
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-600">E-mail</label>
