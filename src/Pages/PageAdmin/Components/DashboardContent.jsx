@@ -1,7 +1,7 @@
-import { MdOutlineHomeRepairService } from "react-icons/md";
-import { BiMessageDots } from "react-icons/bi";
+import {MdOutlineHomeRepairService} from "react-icons/md";
+import {BiMessageDots} from "react-icons/bi";
 import UserChart from "./UserChart";
-import { LuUsers } from "react-icons/lu";
+import {LuUsers} from "react-icons/lu";
 import CardAdmin from "./CardAdmin";
 import ReservationChart from "./ReservationChart";
 

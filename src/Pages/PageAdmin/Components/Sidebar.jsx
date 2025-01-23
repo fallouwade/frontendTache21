@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaUsersGear, FaUserTie } from "react-icons/fa6";
-import { RxDashboard } from "react-icons/rx";
-import { BiSolidCategoryAlt } from "react-icons/bi";
+import {RxDashboard} from "react-icons/rx";
+import {BiSolidCategoryAlt} from "react-icons/bi";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();

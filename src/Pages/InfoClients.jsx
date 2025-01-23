@@ -1,6 +1,6 @@
-import Table from "../tableReutilisable/Table";
-import CardsClient from "./Components/CardsClient";
-import ChartClient from "./Components/ChartClient";
+import Table from "./PageAdmin/tableReutilisable/Table";
+import CardsClient from "./PageAdmin/Components/CardsClient";
+import ChartClient from "./PageAdmin/Components/ChartClient";
 
 
 export default function InfoClients() {
@@ -67,16 +67,16 @@ export default function InfoClients() {
   ];
 
   return (
-      <div className="sm:px-5 mb-10 relative">
-        <div className="grid md:grid-cols-2 gap-6 p-4">
-          <div className="bg-white bg-opacity-10 rounded-lg relative">
-            <CardsClient />
-          </div>
-          <ChartClient />
-        </div> 
-        <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
-          <Table columns={columns} data={data} title="Liste de clients" />
+    <div className="sm:px-5 mb-10 relative">
+      <div className="grid md:grid-cols-2 gap-6 p-4">
+        <div className="bg-white bg-opacity-10 rounded-lg relative">
+          <CardsClient />
         </div>
+        <ChartClient />
       </div>
+      <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
+        <Table columns={columns} data={data} title="Liste de clients" />
+      </div>
+    </div>
   )
 }

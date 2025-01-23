@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { ChevronDown } from 'lucide-react';
+import {ChevronDown} from 'lucide-react';
 
 const ChartClient = () => {
   const [selectedYear, setSelectedYear] = useState('2024');

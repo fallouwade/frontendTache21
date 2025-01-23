@@ -1,7 +1,7 @@
-import { HiOutlineArrowLeft } from 'react-icons/hi';
+import {HiOutlineArrowLeft} from 'react-icons/hi';
 import Image from '/images/electricien.jpg'
-import CardStatic from '../static/CardStatic';
-import { Link } from 'react-router-dom';
+import CardStatic from './PageAdmin/static/CardStatic';
+import {Link} from 'react-router-dom';
 
 const ProfilPrestataire = () => {
 
