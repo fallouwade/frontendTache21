@@ -29,7 +29,7 @@ function Client() {
       <div>
     <NavReutilisable/>
     </div>
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pt-16">
       <div className="flex-grow">
         <div className="container mx-auto px-4 py-4 md:py-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-center mb-4 md:mb-8">
