@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { FaEnvelope, FaUserCircle} from 'react-icons/fa';
-import { FiAlignLeft } from "react-icons/fi";
 import { IoSettings } from "react-icons/io5";
 
-const NavReutilisable = ({ toggleSidebar }) => {
+const NavReutilisable = ({  icon }) => {
 
 
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -15,12 +14,9 @@ const NavReutilisable = ({ toggleSidebar }) => {
 
 
       {/* Sidebar Toggle Button for Mobile */}
-      <button
-        className="lg:hidden p-2 rounded-md bg-blue-600 text-white"
-        onClick={toggleSidebar}
-      >
-        <FiAlignLeft />
-      </button>
+      
+      {icon}
+
       <div className="text-2xl font-bold text-blue-600">Logo</div>
       {/* Right Section */}
       <div className="flex items-center gap-4">

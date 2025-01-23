@@ -1,6 +1,8 @@
 import { useState } from "react";
 import NavReutilisable from "../../Composants/NavReutilisable";
 import Sidebar from "../Components/Sidebar";
+import { FiAlignLeft } from "react-icons/fi";
+
 
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -13,7 +15,13 @@ const LayoutAdmine = ({ children }) => {
         <div className="flex w-full fixed max-h-screen bg-[#E8F0FE]">
             <div className="fixed z-40">
                 {/* <Navbar toggleSidebar={toggleSidebar} /> */}
-                <NavReutilisable /> 
+                <NavReutilisable  icon={
+                    <button
+                        className="lg:hidden p-2 rounded-md bg-blue-600 text-white"
+                        onClick={toggleSidebar}
+                    >
+                        <FiAlignLeft />
+                    </button>} />
             </div>
             <div className="flex w-screen z-0">
                 <div className=" flex flex-col min-h-screen bg-[#0A2342] ">
