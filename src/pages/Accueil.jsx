@@ -18,7 +18,7 @@ function Accueil () {
                         <div className="navbar-wrapper">
                             <a className="navbar-brand" href="javascript:;">Dashboard</a>
                         </div>
-                        <div className="collapse navbar-collapse justify-end">
+                        {/* <div className="collapse navbar-collapse justify-end">
                             <form className="navbar-form">
                             <div className="input-group no-border">
                                 <input type="text" value="" className="form-control" placeholder="Search..."/>
@@ -53,7 +53,8 @@ function Accueil () {
                                 </div>
                             </li>
                             </ul>
-                        </div>
+                        </div> */}
+
                         </div>
                     </nav>
                 <div className="content">
@@ -65,7 +66,7 @@ function Accueil () {
                         <div className="card-icon">
                             <i className="material-icons">content_copy</i>
                         </div>
-                        <p className="card-category">Nombre de demande</p>
+                        <p className="card-category font-extralight">Nombre de demande</p>
                         <h3 className="card-title">50
                             <small></small>
                         </h3>
@@ -110,6 +111,7 @@ function Accueil () {
                             <th>Nom</th>
                             <th>Prix</th>
                             <th>Localisation</th>
+                            <th>Action</th>
                             </thead>
                             <tbody>
                             <tr>
@@ -117,24 +119,36 @@ function Accueil () {
                                 <td>Dakota Rice</td>
                                 <td>$36,738</td>
                                 <td>Dakar</td>
+                                <td>
+                                 <button className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-red-600 hover:bg-red-600 text-white">Supprimer</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>2</td>
                                 <td>Minerva Hooper</td>
                                 <td>$23,789</td>
                                 <td>Thiès</td>
+                                <td>
+                                  <button className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-red-600 hover:bg-red-600 text-white">Supprimer</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>3</td>
                                 <td>Sage Rodriguez</td>
                                 <td>$56,142</td>
                                 <td>Saint Louis</td>
+                                <td>
+                                  <button className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-red-600 hover:bg-red-600 text-white">Supprimer</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>4</td>
                                 <td>Philip Chaney</td>
                                 <td>$38,735</td>
                                 <td>Ziguinchor</td>
+                                <td>
+                                    <button className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-red-600 hover:bg-red-600 text-white">Supprimer</button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

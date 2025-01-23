@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 function Demande () {
+    const { id } = useParams()
     return ( 
         <>
           <div className="wrapper ">
@@ -224,7 +225,7 @@ function Demande () {
                                     DAKAR
                                 </td>
                                 <td>
-                                  <Link to="pages/detaildemande" className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-purple-900 hover:bg-purple-900 text-white">Voir</Link>
+                                  <Link to={`/pages/detaildemande/${id}`} className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm bg-purple-900 hover:bg-purple-900 text-white">Voir</Link>
                                 </td>
                                 </tr>
                             </tbody>

@@ -6,6 +6,7 @@ import Demande from "./pages/Demande";
 import Profil from "./pages/Profil";
 import EditerProfil from "./pages/EditerProfil";
 import DetailDemande from "./pages/DetailDemande";
+import Navbar from "./components/Navbar";
 function App() {
     return (
         <>
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/pages/editer" element={<EditerProfil />} />
                     <Route  path="/pages/demande" element={<Demande />}/>
                     <Route  path="/pages/detaildemande/:id" element={<DetailDemande />}/>
+                    <Route  path="/nav" element={<Navbar />}/>
                     </Routes>
                 </div>
             </BrowserRouter>
