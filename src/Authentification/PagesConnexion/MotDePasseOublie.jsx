@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +15,7 @@ const MotDePasseOublie = () => {
     setIsLoading(true);
     setMessage('');
 
-    // Remplacer par votre logique d'appel API pour envoyer le lien de réinitialisation
+    
     try {
       const response = await fetch('https://votre-api.com/reinitialiser-mot-de-passe', {
         method: 'POST',
@@ -31,7 +30,7 @@ const MotDePasseOublie = () => {
       } else {
         setMessage('Erreur lors de l\'envoi de l\'e-mail. Veuillez réessayer.');
       }
-    } catch  {
+    } catch (error) {
       setMessage('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setIsLoading(false);
@@ -76,7 +75,7 @@ const MotDePasseOublie = () => {
         )}
 
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-xs text-sm text-gray-600">
             Retour à la <Link className="text-blue-500 hover:text-blue-700" to="/">CONNEXION</Link>
           </p>
         </div>
