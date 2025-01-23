@@ -61,7 +61,7 @@ const NavReutilisable = ({ toggleSidebar }) => {
                 Profil
               </button>
               <button
-                className=" w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-gray-100"
+                className=" w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-red-'00"
               >
                 Deconnexion
               </button>

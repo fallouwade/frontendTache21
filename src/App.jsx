@@ -8,11 +8,11 @@ import Inscription from "./Authentification/inscription/InscriptionPrestataire.j
 import MotDePasseOublie from "./Authentification/PagesConnexion/MotDePasseOublie.jsx";
 import Signup from "./Authentification/inscription/InscriptionClient.jsx";
 
-import Categorie from "./Pages/Categorie";
-import InfoClients from "./Pages/InfoClients";
-import { IndexAdmin } from "./Pages/IndexAdmin";
-import Prestataire from "./Pages/Prestataire";
-import ProfilPrestataire from "./Pages/ProfilPrestataire";
+import Categorie from "./Pages/Categorie.jsx";
+import InfoClients from "./Pages/InfoClients.jsx";
+import { IndexAdmin } from "./Pages/IndexAdmin.jsx";
+import Prestataire from "./Pages/Prestataire.jsx";
+import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
 
 
 

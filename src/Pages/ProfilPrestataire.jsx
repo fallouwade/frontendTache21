@@ -39,27 +39,23 @@ const ProfilPrestataire = () => {
                 {/* Right Column */}
                 <div className="md:col-span-2">
                     <div className="mb-6">
-                        <h3 className="font-semibold mb-4">Informations</h3>
+                        <h3 className="font-semibold mb-4 text-center border">Informations</h3>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <p className="text-gray-600 text-sm">AGE</p>
-                                <p className="font-medium">28 ans</p>
+                                <p className="text-gray-600 text-sm">REGION</p>
+                                <p className="font-medium">Dakar</p>
                             </div>
                             <div>
-                                <p className="text-gray-600 text-sm">ANNEE D EXPERIENCE</p>
-                                <p className="font-medium">6 ans</p>
+                                <p className="text-gray-600 text-sm">ADRESSE E-MAIL</p>
+                                <p className="font-medium">salioubâ@gmail.com</p>
+                            </div>
+                            <div>
+                                <p className="text-gray-600 text-sm">DEPARTEMENT</p>
+                                <p className="font-medium">Pikine</p>
                             </div>
                             <div>
                                 <p className="text-gray-600 text-sm">TELEPHONE</p>
-                                <p className="font-medium">+221 77 199 65 89</p>
-                            </div>
-                            <div>
-                                <p className="text-gray-600 text-sm">EMAIL</p>
-                                <p className="font-medium">saliou@gmail.com</p>
-                            </div>
-                            <div>
-                                <p className="text-gray-600 text-sm">ADRESSE</p>
-                                <p className="font-medium">Grand yoff, Arafat</p>
+                                <p className="font-medium">77 712 39 46</p>
                             </div>
                         </div>
                     </div>
@@ -80,5 +76,4 @@ const ProfilPrestataire = () => {
     );
 };
 
-export default ProfilPrestataire
-    ;
+export default ProfilPrestataire;

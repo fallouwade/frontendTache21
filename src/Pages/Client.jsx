@@ -5,6 +5,7 @@ import { FaFilter } from "react-icons/fa"
 import Sidebar from "./PageClient/Components/SideBar"
 import ServiceGrid from "./PageClient/Components/ServiceGrid"
 import SearchBar from "./Composants/SearchBar"
+import NavReutilisable from "./Composants/NavReutilisable"
 
 function Client() {
   const [filters, setFilters] = useState({
@@ -24,6 +25,10 @@ function Client() {
   const toggleFilters = () => handleFilterChange("showFilters", !filters.showFilters)
 
   return (
+    <div>
+      <div>
+    <NavReutilisable/>
+    </div>
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow">
         <div className="container mx-auto px-4 py-4 md:py-8">
@@ -77,6 +82,7 @@ function Client() {
           </main>
         </div>
       </div>
+    </div>
     </div>
   )
 }

@@ -21,14 +21,6 @@ export default function Prestataire() {
       header: 'Téléphone',
       accessorKey: 'phone',
     },
-    {
-      header: 'Date de naissance',
-      accessorKey: 'birthDate',
-    },
-    {
-      header: 'Adresse',
-      accessorKey: 'address',
-    }
   ];
 
   const data = [
@@ -36,89 +28,56 @@ export default function Prestataire() {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     {
       fullName: 'John Doe',
       email: 'john@example.com',
       phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-      action: '<button>Consulter</button>'
     },
     // Ajoutez plus de données ici
   ];
