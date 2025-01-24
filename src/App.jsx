@@ -1,5 +1,6 @@
 
 
+
 import { Route, Routes } from "react-router-dom";
 
 import Communautaire from './Pages/Communautaire.jsx';
@@ -15,6 +16,12 @@ import { IndexAdmin } from "./Pages/IndexAdmin.jsx";
 import Prestataire from "./Pages/Prestataire.jsx";
 import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
 
+
+import Accueil from "./Pages/Accueil.jsx";
+import Profil from "./Pages/Profil.jsx";
+import Demande from "./Pages/Demande.jsx";
+import DetailDemande from "./Pages/DetailDemande.jsx";
+import EditerProfil from "./Pages/EditerProfil.jsx";
 
 
 
@@ -42,6 +49,13 @@ function App() {
 
       <Route path="/Client" element={<Client />} />
 
+      <Route path="/Accueil" element={<Accueil />} />
+      <Route path="/profil" element={<Profil />} />
+      <Route path="/demande" element={<Demande/>} />
+      <Route path="/detail" element={<DetailDemande />} />
+      <Route path="/editerprofil" element={<EditerProfil />} />
+
+
 
        {/* Admin Dashboard and nested routes) */}
        <Route path="/dashboardAdmin" element={<IndexAdmin />}>
@@ -54,12 +68,12 @@ function App() {
     </Routes>
 
 
-  )
-
+  )}
+export default App
 
    
   
 
-}
 
-export default App
+
+

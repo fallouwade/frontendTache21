@@ -52,7 +52,7 @@ function Sidebar({
     <div
       className={`fixed md:sticky top-0 left-0 h-screen z-50 w-72 transition-transform duration-300 ease-in-out transform ${
         showFilters ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      } bg-white border-r border-gray-200 shadow-lg`}
+      } bg-white border-r shadow-lg`}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200">

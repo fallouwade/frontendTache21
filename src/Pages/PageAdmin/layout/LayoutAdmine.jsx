@@ -1,6 +1,6 @@
 import { useState } from "react";
 import NavReutilisable from "../../Composants/NavReutilisable";
-import Sidebar from "../Components/Sidebar";
+import SidebarAdmin from "..//Components/SidebarAdmin";
 import { FiAlignLeft } from "react-icons/fi";
 
 
@@ -25,7 +25,7 @@ const LayoutAdmine = ({ children }) => {
             </div>
             <div className="flex w-screen z-0">
                 <div className=" flex flex-col min-h-screen bg-[#0A2342] ">
-                    <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+                    <SidebarAdmin isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
                 </div>
                 <div className="w-screen overflow-x-auto lg:w-11/12 pt-20 ">
                     {children}
