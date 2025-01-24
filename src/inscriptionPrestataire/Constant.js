@@ -16,10 +16,10 @@ export const regions = [
 ];
 
 export const departements = {
-    "Dakar": ["Dakar", "Guédiawaye", "Pikine", "Rufisque"],
+    "Dakar": ["Dakar", "Guédiawaye", "Pikine", "Rufisque","Keur Massar"],
     "Diourbel": ["Bambey", "Diourbel", "Mbacké"],
     "Fatick": ["Fatick", "Foundiougne", "Gossas"],
-    "Kaffrine": ["Birkilane", "Kaffrine", "Koungheul", "Malem Hodar"],
+    "Kaffrine": ["Birkelane", "Kaffrine", "Koungheul", "Malem Hodar"],
     "Kaolack": ["Guinguinéo", "Kaolack", "Nioro du Rip"],
     "Kédougou": ["Kédougou", "Salémata", "Saraya"],
     "Kolda": ["Kolda", "Médina Yoro Foulah", "Vélingara"],

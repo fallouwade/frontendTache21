@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify'; // Importer Toastify
+import 'react-toastify/dist/ReactToastify.css'; // Importer le CSS pour les toasts
 
 const Connection = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +19,18 @@ const Connection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); 
+    const validEmail = 'user@example.com';
+    const validPassword = '12345';
+
+    if (formData.email !== validEmail || formData.password !== validPassword) {
+      toast.error("Mot de passe ou email incorrect", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      toast.success("Connexion réussie !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
 
     setFormData({
       email: '',
@@ -39,8 +52,6 @@ const Connection = () => {
       </nav>
 
       <div className="flex flex-grow flex-col md:flex-row">
-
-        
         <div className="w-full md:w-1/2 relative block md:hidden">
           <img 
             src="https://cando.hr/wp-content/uploads/2020/10/bitmap12-e1603359469292.png"
@@ -57,7 +68,7 @@ const Connection = () => {
           />
         </div>
         <div className="w-full md:w-1/2 flex items-center justify-center p-4">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg p-4 rounded-lg shadow-lg overflow-auto max-h-screen">
+          <form onSubmit={handleSubmit} className="w-full max-w-lg p-4 rounded-lg overflow-auto max-h-screen">
             <h2 className="text-3xl font-semibold text-black mb-6 text-center">CONNEXION</h2>
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-600">E-mail</label>
@@ -94,6 +105,8 @@ const Connection = () => {
         </div>
 
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

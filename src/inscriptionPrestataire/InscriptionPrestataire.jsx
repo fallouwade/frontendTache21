@@ -91,7 +91,7 @@ const InscriptionPrestataire = () => {
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      <nav className="w-full bg-white text-gray flex items-center justify-between">
+      <nav className="w-full bg-white text-gray flex items-center justify-between p-2">
         <div className="flex items-center space-x-2">
           <img
             src="https://img.freepik.com/vecteurs-libre/modele-logo-cobra-couleur-degrade_23-2149192539.jpg?ga=GA1.1.1841303701.1736946038&semt=ais_hybrid"

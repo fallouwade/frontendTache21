@@ -93,7 +93,7 @@ const Inscription = () => {
         </div>
 
         <div className="w-full md:w-1/2 flex items-center justify-center p-2">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg p-2 rounded-lg shadow-lg overflow-auto ">
+          <form onSubmit={handleSubmit} className="w-full max-w-lg p-2 rounded-lg overflow-auto ">
             <h2 className="text-3xl font-semibold text-black mb-6 text-center">INSCRIPTION</h2>
             <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="mb-4 flex-1">
