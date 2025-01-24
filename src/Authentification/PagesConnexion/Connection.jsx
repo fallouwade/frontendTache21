@@ -1,7 +1,11 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const Connection = () => {
+  const LOGIN_API_URL = 'https://backendtache21.onrender.com/api/utilisateurs/connexion';
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,14 +19,39 @@ const Connection = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); 
+    
+    try {
+      const reponse = await axios.post(LOGIN_API_URL, {
+        email: formData.email,
+        motDePasse: formData.password  // Correction du nom
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      localStorage.setItem('token', reponse.data.token);
 
-    setFormData({
-      email: '',
-      password: '',
-    });
+      navigate('/Client');  
+      // console.log("Connecter")
+      // Réinitialiser le formulaire ici
+      setFormData({
+        email: '',
+        password: '',
+      });
+  
+      return reponse.data;
+    } catch(erreur) {
+      if(erreur.response) {
+        throw new Error(erreur.response.data.message || 'Erreur de connexion');
+      } else if(erreur.request) {
+        throw new Error('Pas de réponse du serveur');
+      } else {
+        throw new Error('Erreur lors de la connexion');
+      }
+    }
   };
 
   return (
@@ -84,11 +113,11 @@ const Connection = () => {
               />
             </div>
             <div className="mb-4 text-right">
-              <p className="text-xs text-sm text-gray-600">Mot de passe oublié ? <Link className='text-blue-500 hover:text-blue-700' to="/motdepasseoublie">REINITIALISER</Link></p>
+              <p className="text-sm text-gray-600">Mot de passe oublié ? <Link className='text-blue-500 hover:text-blue-700' to="/motdepasseoublie">REINITIALISER</Link></p>
             </div>
             <button type="submit" className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">Se connecter</button>
             <div className="mt-4 text-center">
-              <p className="text-xs text-sm text-gray-600">Vous n'avez pas encore de compte ? <Link className='text-blue-500 hover:text-blue-700' to="/inscriptionClient">INSCRIVEZ-VOUS</Link></p>
+              <p className="text-sm text-gray-600">Vous n'avez pas encore de compte ? <Link className='text-blue-500 hover:text-blue-700' to="/inscriptionClient">INSCRIVEZ-VOUS</Link></p>
             </div>
           </form>
         </div>
