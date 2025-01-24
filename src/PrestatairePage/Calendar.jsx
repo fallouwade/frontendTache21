@@ -1,37 +1,38 @@
+
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-const Calendar = () => {
+const Calendar = ({ onDateSelect }) => { 
   const [selectedDate, setSelectedDate] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 0)); // Janvier 2025
+  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 0));
+  
+  const today = new Date();
 
-  const getDaysInMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  };
-
+  const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   const getFirstDayOfMonth = (date) => {
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    return firstDay === 0 ? 6 : firstDay - 1; // Ajuster pour commencer par Lundi
+    return firstDay === 0 ? 6 : firstDay - 1;
   };
 
-  const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-  };
+  const handlePrevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  const handleNextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
 
   const handleDateSelect = (day) => {
-    setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
+    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    setSelectedDate(date);
+    onDateSelect(date); 
   };
 
   const monthFormatter = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
 
+  const isPastDay = (day) => {
+    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    return date < today; // Si la date est dans le passé
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-medium">Disponibilités du plombier</h2>
-      <div className="text-gray-600">Sélectionnez une date d'intervention</div>
       
       <div className="flex justify-between items-center my-4">
         <button 
@@ -68,15 +69,17 @@ const Calendar = () => {
               selectedDate.getDate() === day && 
               selectedDate.getMonth() === currentMonth.getMonth() && 
               selectedDate.getFullYear() === currentMonth.getFullYear();
+            const isPast = isValidDay && isPastDay(day); 
 
             return (
               <div 
                 key={index}
-                onClick={() => isValidDay ? handleDateSelect(day) : null}
+                onClick={() => isValidDay && !isPast ? handleDateSelect(day) : null} // Désactiver la sélection des jours passés
                 className={`
                   text-center p-2 text-sm
                   ${isValidDay ? 'cursor-pointer hover:border hover:border-blue-600 hover:rounded-full' : 'invisible'}
                   ${isSelected ? 'bg-blue-600 text-white rounded-full hover:bg-blue-700' : ''}
+                  ${isPast ? 'text-gray-400 line-through' : ''}
                 `}
               >
                 {isValidDay ? day : ''}

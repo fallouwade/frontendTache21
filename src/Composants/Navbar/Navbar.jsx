@@ -19,14 +19,12 @@ const Navbar = () => {
 
             {/* Desktop/Tablet Navigation */}
             <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
-              <a href="/services" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178]">
-                Services
-              </a>
+             
               <a href="/login" className="text-[#1a3c34] text-base lg:text-lg hover:text-[#438178] whitespace-nowrap">
                 Inscrivez-vous / Connectez-vous
               </a>
               <a href="/devenir-tasker" className="border border-[#176d5d] text-[#176d5d] px-4 lg:px-6 py-2 lg:py-2.5 rounded hover:bg-[#f4f9f8] transition-colors text-base lg:text-lg whitespace-nowrap">
-                Devenir un Tasker
+                Devenir un Prestataire
               </a>
             </div>
             {/* Mobile menu button */}
@@ -48,15 +46,13 @@ const Navbar = () => {
           {isMenuOpen && (
             <div className="md:hidden bg-white absolute top-[72px] left-0 w-full shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
               <div className="flex flex-col py-4 text-left">
-                <a href="/services" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
-                  Services
-                </a>
+                
                 <a href="/login" className="px-4 sm:px-6 py-3 text-[#1a3c34] hover:bg-[#f4f9f8] text-base sm:text-lg">
                   Inscrivez-vous / Connectez-vous
                 </a>
                 <div className="px-4 sm:px-6 py-3">
                   <a href="/devenir-tasker" className="block text-[#176d5d] text-base sm:text-lg hover:text-[#438178]">
-                    Devenir un Tasker
+                    Devenir un Prestataire
                   </a>
                 </div>
               </div>

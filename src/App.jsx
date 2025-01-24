@@ -1,6 +1,7 @@
 import Footer from './Composants/Footer/Footer';
 import Navbar from './Composants/Navbar/Navbar';
 import './App.css'
+import PrestatairePage from './PrestatairePage/PrestatairePage';
 
 function App() {
   return (
@@ -10,9 +11,9 @@ function App() {
 
       </div>
       <Navbar />
+      <PrestatairePage />
       <Footer/>
     </div>
   )
 }
-
-export default App
+export default App;
