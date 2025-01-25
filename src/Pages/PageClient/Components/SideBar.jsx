@@ -3,22 +3,22 @@ import { FaChevronDown, FaInbox, FaHeart, FaTimes } from "react-icons/fa"
 import { Button } from "flowbite-react"
 import { categories, region } from "../utils/Localities"
 
-    function DropdownSection({ title, children, isOpen, onToggle }) {
-      return (
-        <div className="">
-          <button
-            onClick={onToggle}
-            className="flex items-center justify-between w-full py-2 sm:py-3 px-3 sm:px-4 hover:bg-gray-50 transition-colors"
-          >
-            <span className="font-medium text-gray-900 text-sm">{title}</span>
-            <FaChevronDown
-              className={`transform transition-transform ${isOpen ? "rotate-180" : ""} text-gray-500 w-3 h-3 sm:w-4 sm:h-4`}
-            />
-          </button>
-          {isOpen && <div className="px-3 sm:px-4 py-2 bg-white">{children}</div>}
-        </div>
-      )
-    }
+function DropdownSection({ title, children, isOpen, onToggle }) {
+  return (
+    <div className="border-b border-gray-200">
+      <button
+        onClick={onToggle}
+        className="flex items-center justify-between w-full py-2 sm:py-3 px-3 sm:px-4 hover:bg-gray-50 transition-colors"
+      >
+        <span className="font-medium text-gray-900 text-sm">{title}</span>
+        <FaChevronDown
+          className={`transform transition-transform ${isOpen ? "rotate-180" : ""} text-gray-500 w-3 h-3 sm:w-4 sm:h-4`}
+        />
+      </button>
+      {isOpen && <div className="px-3 sm:px-4 py-2 bg-white">{children}</div>}
+    </div>
+  )
+}
 
 function Sidebar({
   category,
@@ -46,7 +46,7 @@ function Sidebar({
 
   return (
     <div
-      className={`fixed md:sticky top-0 left-0 h-screen z-50 w-72 transition-transform duration-300 ease-in-out transform ${
+      className={`fixed md:sticky top-0 left-0 h-screen z-0 w-72 transition-transform duration-300 ease-in-out transform ${
         showFilters ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       } bg-white border-r border-gray-200 shadow-lg`}
     >
