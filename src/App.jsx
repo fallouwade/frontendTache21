@@ -22,6 +22,7 @@ import Profil from "./Pages/Profil.jsx";
 import Demande from "./Pages/Demande.jsx";
 import DetailDemande from "./Pages/DetailDemande.jsx";
 import EditerProfil from "./Pages/EditerProfil.jsx";
+import AjouterService from "./Pages/AjouterService.jsx";
 
 
 
@@ -49,11 +50,13 @@ function App() {
 
       <Route path="/Client" element={<Client />} />
 
+    {/* Route pour la partie Prestataire */}
       <Route path="/Accueil" element={<Accueil />} />
       <Route path="/profil" element={<Profil />} />
       <Route path="/demande" element={<Demande/>} />
       <Route path="/detail" element={<DetailDemande />} />
       <Route path="/editerprofil" element={<EditerProfil />} />
+      <Route path="/ajouter" element={<AjouterService />} />
 
 
 

@@ -3,12 +3,14 @@ import  { useEffect, useState } from "react";
 // import "../components/demo1.css";
 // import "../components/demo3.css";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
 function Accueil () {
 
     return ( 
         <>
             <div className="wrapper">
+                <Navbar/>
                 <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
                   <Sidebar />    
                 </div>
@@ -96,7 +98,7 @@ function Accueil () {
                     </div>
                     </div>
                 </div>
-               
+                       
                 {/*liste des clients*/}
                 <div className="lg:w-full px-2 md:w-full px-2">
                     <div className="card">

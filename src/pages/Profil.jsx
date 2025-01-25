@@ -1,8 +1,11 @@
-
+import Sidebar from "../components/Sidebar";
 function Profil(){
     return(
         <>
-            <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+              <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+                  <Sidebar />    
+                </div>
+            {/* <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
                 
                 <div className="logo"><a href="#" className="simple-text logo-normal">
                     Logo
@@ -30,7 +33,8 @@ function Profil(){
                     </li>     
                     </ul>
                 </div>
-            </div>
+            </div> */}
+           
             {/* affichage du profil du prestataire */}
             <div className="main-panel">
             <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">

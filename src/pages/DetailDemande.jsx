@@ -1,10 +1,16 @@
 import { useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 function DetailDemande(){
     const { id } = useParams();
     return(
         <>
+            <Navbar />
             <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+                  <Sidebar />    
+                </div>
+            {/* <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
                 
                 <div className="logo"><a href="#" className="simple-text logo-normal">
                     Logo
@@ -32,7 +38,7 @@ function DetailDemande(){
                     </li>     
                     </ul>
                 </div>
-            </div>
+            </div> */}
             < div className="main-panel">
             <div className="content">  
                 <div className="container mx-auto mx-auto px-4">

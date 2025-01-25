@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 function EditerProfil() {
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
@@ -12,8 +14,12 @@ function EditerProfil() {
     const [description, setDescription] = useState('');
     return(
     <div>
+        <Navbar />
         <div className="wrapper">
-          <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+        <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+                  <Sidebar />    
+                </div>
+          {/* <div className="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
             
             <div className="logo"><a href="#" className="simple-text logo-normal">
                 Logo
@@ -42,7 +48,7 @@ function EditerProfil() {
                 </li>     
                 </ul>
             </div>
-        </div>
+        </div> */}
         {/* affichage du profil du prestataire */}
         <div className="main-panel">
         <div className="content">

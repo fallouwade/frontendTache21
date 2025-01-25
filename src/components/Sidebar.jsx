@@ -2,6 +2,7 @@
 import "./demo.css";
 import "./demo1.css";
 import "./demo3.css";
+import { Link } from "react-router-dom";
 function Sidebar ()  {
     return ( 
         <div>
@@ -13,24 +14,31 @@ function Sidebar ()  {
                 <div className="sidebar-wrapper">
                     <ul className="nav">
                     <li className="nav-item active">
-                        <a className="nav-link" href="/">
+                        <Link className="nav-link" to="/Accueil">
                         <i className="material-icons">dashboard</i>
                         <p>Dashboard</p>
-                        </a>
+                        </Link>
                     </li>
                 
                     <li className="nav-item ">
-                        <a className="nav-link" href="/pages/profil">
+                        <Link clLinkssName="nav-link" to="/profil">
                         <i className="material-icons">person</i>
                         <p>Profil</p>
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item ">
-                        <a className="nav-link" href="/pages/demande">
+                        <Link className="nav-link" to="/demande">
                         <i className="material-icons">message</i>
                         <p>Demande</p>
-                        </a>
-                    </li>     
+                        </Link>
+                    </li> 
+
+                    <li className="nav-item ">
+                        <Link className="nav-link" to="/ajouter">
+                        <i className="material-icons">message</i>
+                        <p>Ajouter Service</p>
+                        </Link>
+                    </li>    
                     </ul>
                 </div>
             </div>
