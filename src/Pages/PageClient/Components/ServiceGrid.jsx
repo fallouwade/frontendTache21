@@ -139,7 +139,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
           <span className="font-semibold">{Math.min(currentPage * itemsPerPage, filteredServices.length)}</span> sur{" "}
           <span className="font-semibold">{filteredServices.length}</span> résultats
         </p>
-
+    
         <div className="flex items-center gap-1 mb-3">
           <Button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}

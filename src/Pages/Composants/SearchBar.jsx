@@ -21,7 +21,7 @@ function SearchBar({ onSearch }) {
         />
         <button
           type="submit"
-          className="absolute right-1 sm:right-1.5 md:right-2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-black hover:bg-blue-700 text-white rounded flex items-center justify-center transition-all duration-200"
+          className="absolute right-1 sm:right-1.5 md:right-2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center justify-center transition-all duration-200"
           aria-label="Rechercher"
         >
           <FaSearch className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />

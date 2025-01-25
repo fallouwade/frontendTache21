@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavReutilisable from "../../Composants/NavReutilisable";
 import SidebarAdmin from "..//Components/SidebarAdmin";
 import { FiAlignLeft } from "react-icons/fi";
-
+import { FaTachometerAlt } from "react-icons/fa";
 
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);

@@ -1,6 +1,6 @@
 import { IoStarOutline } from "react-icons/io5";
 
-export default function CardService({src, service}) {
+export default function CardService({ src, service }) {
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden shadow-xl">
@@ -17,10 +17,10 @@ export default function CardService({src, service}) {
                         <span>$1,900.00</span>
                         <span className="text-gray-600 text-sm">/ wk</span>
                     </div>
-                    <div className="mt-2 flex items-center">
+                    <div className="mt-2 flex justify-between items-center">
                         <span className="text-teal-600 font-semibold">
                             <span>
-                                <span className="flex">
+                                <span className="flex text-warning">
                                     <IoStarOutline />
                                     <IoStarOutline />
                                     <IoStarOutline />
@@ -30,6 +30,9 @@ export default function CardService({src, service}) {
                                 <span className="ml-2 text-gray-600 text-sm">34 reviews</span>
                             </span>
                         </span>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded">
+                            Reserver
+                        </button>
                     </div>
                 </div>
             </div>
