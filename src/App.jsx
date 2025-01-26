@@ -46,7 +46,6 @@ function App() {
       {/* Inscription Client */}
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
 
-
       <Route path="/Client" element={<Client />} />
 
       <Route path="/Accueil" element={<Accueil />} />

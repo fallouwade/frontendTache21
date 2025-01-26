@@ -1,7 +1,9 @@
+
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
+import axios from 'axios'; 
 import { regions, departements } from '../Constant';
 
 const InscriptionPrestataire = () => {
@@ -9,14 +11,14 @@ const InscriptionPrestataire = () => {
     nom: '',
     prenom: '',
     email: '',
-    telephone:'',
+    telephone: '',
     motDePasse: '',
-    confirmMotDePasse: '',
+    confirmMotDePasse: '', 
     prestataire: '',
     region: '',
     departement: '',
-    description:'',
-    nomDeLentreprise:'',
+    description: '',
+    nomDeLentreprise: '',
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,63 +34,44 @@ const InscriptionPrestataire = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Vérification que les mots de passe correspondent
     if (formData.motDePasse !== formData.confirmMotDePasse) {
       toast.error("Les mots de passe ne correspondent pas !");
       return;
     }
-
+  
     setIsLoading(true);
     setError(null);
-
+  
     try {
-      const response = await fetch('', {
-        method: 'POST',
+      const response = await axios.post('https://backendtache21.onrender.com/api/prestataires/inscription-prestataire', {
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        telephone: formData.telephone,
+        motDePasse: formData.motDePasse,
+        region: formData.region,
+        departement: formData.departement,
+        description: formData.description,
+        nomDeLentreprise: formData.nomDeLentreprise,
+      }, {
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nom: formData.nom,
-          prenom: formData.prenom,
-          email: formData.email,
-          telephone: formData.telephone,
-          motDePasse: formData.motDePasse,
-          region: formData.region,
-          departement: formData.departement,
-          description: formData.description,
-          nomDeLentreprise: formData.nomDeLentreprise,
-        }),
+        }
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Erreur lors de l\'inscription de l\'utilisateur');
-      }
-
-      setFormData({
-        nom: '',
-        prenom: '',
-        email: '',
-        telephone:'',
-        motDePasse: '',
-        confirmMotDePasse: '',
-        prestataire: '',
-        region: '',
-        departement: '',
-        description:'',
-        nomDeLentreprise:'',
-      });
-
+      // Logique pour une réponse réussie
       toast.success('Inscription réussie !');
     } catch (err) {
+      console.error('Erreur de la requête : ', err);
       setError(err.message);
       toast.error(err.message || "Une erreur est survenue");
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="relative min-h-screen flex flex-col">
       <nav className="w-full bg-white text-gray flex items-center justify-between">
@@ -312,13 +295,11 @@ const InscriptionPrestataire = () => {
             )}
 
             <div className="mb-4">
-        
               <textarea 
                 className="w-full mt-2 border border-gray-300 rounded-md" 
                 name="description" 
                 id="description" 
                 placeholder="Description">
-                  
               </textarea>
             </div>
             <button
