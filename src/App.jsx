@@ -1,6 +1,3 @@
-
-
-
 import { Route, Routes } from "react-router-dom";
 
 import Communautaire from './Pages/Communautaire.jsx';
@@ -23,6 +20,7 @@ import Demande from "./Pages/Demande.jsx";
 import DetailDemande from "./Pages/DetailDemande.jsx";
 import EditerProfil from "./Pages/EditerProfil.jsx";
 import MessageClient from "./Pages/MessageClient.jsx";
+import AjouterService from "./Pages/AjouterService.jsx";
 
 
 
@@ -53,11 +51,13 @@ function App() {
         <Route path="Message" element={<MessageClient />} />
       </Route>
 
+    {/* Route pour la partie Prestataire */}
       <Route path="/Accueil" element={<Accueil />} />
       <Route path="/profil" element={<Profil />} />
       <Route path="/demande" element={<Demande />} />
       <Route path="/detail" element={<DetailDemande />} />
       <Route path="/editerprofil" element={<EditerProfil />} />
+      <Route path="/ajouter" element={<AjouterService />} />
 
 
 
