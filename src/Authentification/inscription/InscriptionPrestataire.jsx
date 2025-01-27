@@ -44,7 +44,7 @@ const InscriptionPrestataire = () => {
     setError(null);
   
     try {
-      const response = await axios.post('http://localhost:5000/api/prestataires/inscription-prestataire', {
+      const response = await axios.post('https://backendtache21.onrender.com/api/prestataires/inscription-prestataire', {
         nom: formData.nom,
         prenom: formData.prenom,
         email: formData.email,
