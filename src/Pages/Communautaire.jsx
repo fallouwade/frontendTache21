@@ -1,17 +1,17 @@
-import Cards from './PagePublic/Cards';
-import SearchBar from '../Composants/SearchBar/SearchBar';
-import Allservices from './PagePublic/Allservices';
-import Satisfaction from './PagePublic/Satisfaction';
-import Navbar from './PagePublic/Nav/Navbar';
-import Footer from '../Composants/Footer/Footer';
-import Temoignages from './PagePublic/Temoignages';
+import CardCommunautaire from './PagePublic/Components/CardCommunautaire';
 
+import Allservices from './PagePublic/Components/Allservices';
+import Satisfaction from './PagePublic/Components/Satisfaction';
+import NavCommunautaire from './PagePublic/Components/NavCommunautaire';
+import Temoignages from './PagePublic/Components/Temoignages';
+import SearchBar from './Composants/SearchBar';
+import Footer from './Composants/Footer';
 const Communautaire = () => {
   return (
     <div>
       {/* navbar  */}
       <div className=''>
-        <Navbar />
+        < NavCommunautaire />
       </div>
       <div className="relative w-full h-screen mb-10">
         <video
@@ -41,7 +41,7 @@ const Communautaire = () => {
 
       <div>
         <div>
-          <SearchBar />
+         <SearchBar/>
         </div>
 
         <div>
@@ -49,7 +49,7 @@ const Communautaire = () => {
         </div>
 
         <div>
-          <Cards />
+          <CardCommunautaire/>
         </div>
         {/* section temoignages */}
         <div>
@@ -62,7 +62,7 @@ const Communautaire = () => {
       </div>
       {/* Footer  */}
       <div>
-        <Footer />
+        <Footer/>
       </div>
     </div>
   );
