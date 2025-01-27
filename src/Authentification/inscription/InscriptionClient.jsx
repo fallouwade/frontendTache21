@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 
@@ -14,6 +14,8 @@ const InscriptionClient = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,8 +37,7 @@ const InscriptionClient = () => {
     setError(null);
 
     try {
-    
-      const response = await fetch('https://backendtache21.onrender.com/api/utilisateurs/inscription', {
+      const response = await fetch('https://backendtache21.onrender.com/api/clients/inscription-client', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ const InscriptionClient = () => {
           motDePasse: formData.motDePasse
         }),
       });
-      console.log("Bonjour");
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Erreur lors de l\'inscription de l\'utilisateur');
@@ -63,6 +64,8 @@ const InscriptionClient = () => {
       });
 
       toast.success('Inscription réussie !');
+
+      navigate('/connexion');
     } catch (err) {
       setError(err.message);
       toast.error(err.message || "Une erreur est survenue");
@@ -163,10 +166,7 @@ const InscriptionClient = () => {
               {isLoading ? 'Enregistrement...' : "S'inscrire"}
             </button>
             <div className="mt-4 text-center">
-
               <p className="text-xs text-sm text-gray-600">Vous avez déjà un compte ? <Link className='text-blue-500 hover:text-blue-700' to="/connexion">CONNECTEZ-VOUS</Link></p>
-
-
             </div>
           </form>
         </div>

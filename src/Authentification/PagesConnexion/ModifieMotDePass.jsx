@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';  
 import 'react-toastify/dist/ReactToastify.css'; 
 
-const ModifieMotDePass = () => {
-  const [motDePasseTemporaire, setMotDePasseTemporaire] = useState('');
+const ResetPassword = () => {
+  const [email, setEmail] = useState('');
+  const [codeReset, setCodeReset] = useState('');  // Code de réinitialisation
   const [nouveauMotDePasse, setNouveauMotDePasse] = useState('');
   const [confirmerMotDePasse, setConfirmerMotDePasse] = useState('');
   const navigate = useNavigate();
@@ -12,16 +13,7 @@ const ModifieMotDePass = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
 
-    const motDePasseTemporaireCorrect = 'motdepasseTemporaire';  
-    if (motDePasseTemporaire !== motDePasseTemporaireCorrect) {
-      toast.error('Le mot de passe temporaire est incorrect.', {
-        position: "top-center", 
-        autoClose: 5000,
-        hideProgressBar: true, 
-      });
-      return;
-    }
-
+    // Vérification que les mots de passe correspondent
     if (nouveauMotDePasse !== confirmerMotDePasse) {
       toast.error('Les mots de passe ne correspondent pas.', {
         position: "top-center", 
@@ -32,34 +24,39 @@ const ModifieMotDePass = () => {
     }
 
     try {
+      // Envoi de la requête pour réinitialiser le mot de passe
       const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/modifier', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ancienMotDePasse: motDePasseTemporaire,
-          nouveauMotDePasse: nouveauMotDePasse,
+          email: email,  // L'email de l'utilisateur
+          codeReset: codeReset, // Le code temporaire
+          nouveauMotDePasse: nouveauMotDePasse, // Le nouveau mot de passe
         }),
       });
 
       const data = await response.json();
 
+      // Gestion de la réponse de l'API
       if (response.ok) {
         toast.success('Votre mot de passe a été réinitialisé avec succès.', {
           position: "top-center", 
           autoClose: 5000, 
           hideProgressBar: true, 
         });
-        navigate('/login');
+        navigate('/connexion');
       } else {
         toast.error(data.message || 'Une erreur est survenue. Veuillez réessayer.', {
           position: "top-center", 
           autoClose: 5000,
           hideProgressBar: true, 
         });
+        // console.error('Erreur de l\'API:', data);  // Log des erreurs dans la console pour le débogage
       }
     } catch (error) {
+      console.error('Erreur lors de la requête:', error);
       toast.error('Erreur de connexion. Veuillez vérifier votre connexion internet.', {
         position: "top-center", 
         autoClose: 5000, 
@@ -75,17 +72,33 @@ const ModifieMotDePass = () => {
 
         <form onSubmit={handlePasswordSubmit}>
           <div className="mb-4">
-            <label htmlFor="motDePasseTemporaire" className="block text-sm font-medium text-gray-700">
-              Mot de passe temporaire
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
             </label>
             <input
-              type="password"
-              id="motDePasseTemporaire"
-              name="motDePasseTemporaire"
+              type="email"
+              id="email"
+              name="email"
               className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Entrez le mot de passe temporaire reçu par mail"
-              value={motDePasseTemporaire}
-              onChange={(e) => setMotDePasseTemporaire(e.target.value)}
+              placeholder="Entrez votre email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="codeReset" className="block text-sm font-medium text-gray-700">
+              Code de réinitialisation
+            </label>
+            <input
+              type="text"
+              id="codeReset"
+              name="codeReset"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Entrez le code de réinitialisation"
+              value={codeReset}
+              onChange={(e) => setCodeReset(e.target.value)}
               required
             />
           </div>
@@ -136,4 +149,4 @@ const ModifieMotDePass = () => {
   );
 };
 
-export default ModifieMotDePass;
+export default ResetPassword;

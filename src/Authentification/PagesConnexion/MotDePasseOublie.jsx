@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MotDePasseOublie = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();  
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -15,8 +16,14 @@ const MotDePasseOublie = () => {
     setIsLoading(true);
     setMessage('');
 
+    if (!email || !email.includes('@')) {
+      setMessage('Veuillez entrer une adresse e-mail valide.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/oublié', {
+      const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/oublie', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,9 +32,11 @@ const MotDePasseOublie = () => {
       });
 
       if (response.ok) {
-        setMessage('Un lien de réinitialisation a été envoyé à votre adresse e-mail.');
+        setMessage('Un lien de code a été envoyé à votre adresse e-mail.');
+        navigate('/modifier');  
       } else {
-        setMessage('Erreur lors de l\'envoi de l\'e-mail. Veuillez réessayer.');
+        const errorData = await response.json();
+        setMessage(errorData.message || 'Erreur lors de l\'envoi de l\'e-mail. Veuillez réessayer.');
       }
     } catch (error) {
       setMessage('Une erreur est survenue. Veuillez réessayer.');
@@ -68,14 +77,14 @@ const MotDePasseOublie = () => {
         </form>
 
         {message && (
-          <div className="mt-4 text-center text-sm text-gray-700">
+          <div className="mt-4 text-center text-sm text-gray-700" aria-live="polite">
             {message}
           </div>
         )}
 
         <div className="mt-4 text-center">
           <p className="text-xs text-sm text-gray-600">
-            Retour à la <Link className="text-blue-500 hover:text-blue-700" to="/">CONNEXION</Link>
+            Retour à la <Link className="text-blue-500 hover:text-blue-700" to="/connexion">CONNEXION</Link>
           </p>
         </div>
       </div>

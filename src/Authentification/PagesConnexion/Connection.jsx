@@ -36,7 +36,7 @@ const Connection = () => {
       
       localStorage.setItem('token', reponse.data.token);      
 
-      navigate('/Client');  
+      navigate('/Client');
     
       setFormData({
         email: '',
