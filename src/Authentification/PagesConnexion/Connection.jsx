@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';  
 
 const Connection = () => {
   const LOGIN_API_URL = 'https://backendtache21.onrender.com/api/utilisateurs/connexion';
@@ -25,31 +27,32 @@ const Connection = () => {
     try {
       const reponse = await axios.post(LOGIN_API_URL, {
         email: formData.email,
-        motDePasse: formData.password  // Correction du nom
+        motDePasse: formData.password 
       }, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       
-      localStorage.setItem('token', reponse.data.token);
+      localStorage.setItem('token', reponse.data.token);      
 
       navigate('/Client');  
-      // console.log("Connecter")
-      // Réinitialiser le formulaire ici
+    
       setFormData({
         email: '',
         password: '',
       });
   
       return reponse.data;
+      
     } catch(erreur) {
       if(erreur.response) {
-        throw new Error(erreur.response.data.message || 'Erreur de connexion');
+        // Afficher un toast pour l'erreur
+        toast.error(erreur.response.data.message || 'Erreur de connexion');
       } else if(erreur.request) {
-        throw new Error('Pas de réponse du serveur');
+        toast.error('Vous ');
       } else {
-        throw new Error('Erreur lors de la connexion');
+        toast.error('Erreur lors de la connexion');
       }
     }
   };
@@ -68,8 +71,6 @@ const Connection = () => {
       </nav>
 
       <div className="flex flex-grow flex-col md:flex-row">
-
-        
         <div className="w-full md:w-1/2 relative block md:hidden">
           <img 
             src="https://cando.hr/wp-content/uploads/2020/10/bitmap12-e1603359469292.png"
@@ -121,8 +122,9 @@ const Connection = () => {
             </div>
           </form>
         </div>
-
       </div>
+
+      <ToastContainer />
     </div>
   );
 };
