@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios'; 
 import { regions, departements } from '../Constant';
+import { Link, useNavigate } from "react-router-dom"; 
 
 const InscriptionPrestataire = () => {
+   const navigate = useNavigate(); 
+
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -60,8 +62,9 @@ const InscriptionPrestataire = () => {
         }
       });
 
+       toast.success('Inscription réussie !');
+       navigate('/connexion');
       // Logique pour une réponse réussie
-      toast.success('Inscription réussie !');
     } catch (err) {
       console.error('Erreur de la requête : ', err);
       setError(err.message);

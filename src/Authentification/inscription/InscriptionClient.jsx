@@ -36,14 +36,14 @@ const InscriptionClient = () => {
 
     try {
     
-      const response = await fetch('https://backendtache21.onrender.com/api/utilisateurs/inscription', {
+      const response = await fetch('https://backendtache21.onrender.com/api/clients/inscription-client', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           nom: formData.nom,
-          prenom: formData.prenom,
+          prenom: formData.prenom, 
           email: formData.email,
           motDePasse: formData.motDePasse
         }),
