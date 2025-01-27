@@ -50,9 +50,9 @@ function Sidebar({
 
   return (
     <div
-      className={`fixed md:sticky top-0 left-0 h-screen z-50 w-72 transition-transform duration-300 ease-in-out transform ${
+      className={`fixed md:sticky top-0 z-50 sm:z-0 left-0 w-72 h-full transition-transform duration-300 ease-in-out transform ${
         showFilters ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      } bg-white border-r shadow-lg`}
+      } bg-white border-r shadow-lg z-0`}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200">
@@ -73,27 +73,6 @@ function Sidebar({
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
         {/* Messages & Favorites Buttons */}
-        <div className="flex border-b border-gray-200">
-          <button className="flex-1 flex items-center justify-center py-2 sm:py-3 px-2 hover:bg-gray-50 transition-colors text-gray-600 gap-1 sm:gap-2 text-xs sm:text-sm">
-            <FaInbox className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>Messages</span>
-            <span className="bg-blue-500 text-white text-xs px-1 sm:px-1.5 py-0.5 rounded-full">
-              3
-            </span>
-          </button>
-          <button
-            className={`flex-1 flex items-center justify-center py-2 sm:py-3 px-2 hover:bg-gray-50 transition-colors ${
-              showFavorites ? "bg-blue-50 text-blue-600" : "text-gray-600"
-            } gap-1 sm:gap-2 text-xs sm:text-sm`}
-            onClick={() => setShowFavorites(!showFavorites)}
-          >
-            <FaHeart className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>Favoris</span>
-            <span className="bg-blue-500 text-white text-xs px-1 sm:px-1.5 py-0.5 rounded-full">
-              5
-            </span>
-          </button>
-        </div>
 
         {/* Dropdown Sections */}
         <div className="divide-y divide-gray-200">

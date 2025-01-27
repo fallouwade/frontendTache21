@@ -1,5 +1,6 @@
 
 
+
 import Layout from "../components/Layout";
 import Image from '/images/electricien.jpg'
 import { Link } from "react-router-dom";
@@ -49,5 +50,4 @@ const Profil = () => {
 }
 
 export default Profil
-
 

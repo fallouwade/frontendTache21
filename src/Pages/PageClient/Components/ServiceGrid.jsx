@@ -139,13 +139,13 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
           <span className="font-semibold">{Math.min(currentPage * itemsPerPage, filteredServices.length)}</span> sur{" "}
           <span className="font-semibold">{filteredServices.length}</span> résultats
         </p>
-
-        <div className="flex items-center gap-1">
+    
+        <div className="flex items-center gap-1 mb-3">
           <Button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
             color="light"
-            className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm"
+            className=""
           >
             Précédent
           </Button>
@@ -164,8 +164,8 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
           </div>
 
           <div className="flex sm:hidden">
-            <span className="px-2 py-1 text-xs border-t border-b bg-gray-50">
-              Page {currentPage} sur {totalPages}
+            <span className="flex px-2 py-1 text-xs border-t border-b bg-gray-50">
+               {currentPage} / {totalPages}
             </span>
           </div>
 
@@ -173,7 +173,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
             color="light"
-            className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm"
+            className="px-0 sm:px-3 py-0 sm:py-2 text-xs sm:text-sm"
           >
             Suivant
           </Button>

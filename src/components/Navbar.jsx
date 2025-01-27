@@ -1,5 +1,5 @@
 
-import React, { useState } from "react"
+import  { useState } from "react"
 import { FaUserCircle, FaBars, FaBell } from "react-icons/fa"
 
 const Navbar = ({ toggleSidebar, toggleRightSidebar }) => {
@@ -39,5 +39,7 @@ const Navbar = ({ toggleSidebar, toggleRightSidebar }) => {
 }
 
 export default Navbar
+
+
 
 

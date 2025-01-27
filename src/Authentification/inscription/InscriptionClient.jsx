@@ -9,7 +9,7 @@ const InscriptionClient = () => {
     prenom: '',
     email: '',
     motDePasse: '',
-    confirmMotDePasse: '',
+    confirmMotDePasse: ''
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,8 @@ const InscriptionClient = () => {
     setError(null);
 
     try {
-      const response = await fetch('https://backendtache21.onrender.com/api/utilisateurs/Client', {
+    
+      const response = await fetch('https://backendtache21.onrender.com/api/utilisateurs/inscription', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,10 +45,10 @@ const InscriptionClient = () => {
           nom: formData.nom,
           prenom: formData.prenom,
           email: formData.email,
-          motDePasse: formData.motDePasse,
+          motDePasse: formData.motDePasse
         }),
       });
-
+      console.log("Bonjour");
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Erreur lors de l\'inscription de l\'utilisateur');
@@ -58,7 +59,7 @@ const InscriptionClient = () => {
         prenom: '',
         email: '',
         motDePasse: '',
-        confirmMotDePasse: '',
+        confirmMotDePasse: ''
       });
 
       toast.success('Inscription réussie !');
@@ -93,7 +94,7 @@ const InscriptionClient = () => {
         </div>
 
         <div className="w-full md:w-1/2 flex items-center justify-center p-2">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg p-2 rounded-lg shadow-lg overflow-auto ">
+          <form onSubmit={handleSubmit} className="w-full max-w-lg p-2 rounded-lg overflow-auto ">
             <h2 className="text-3xl font-semibold text-black mb-6 text-center">INSCRIPTION</h2>
             <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="mb-4 flex-1">
@@ -162,13 +163,15 @@ const InscriptionClient = () => {
               {isLoading ? 'Enregistrement...' : "S'inscrire"}
             </button>
             <div className="mt-4 text-center">
+
               <p className="text-xs text-sm text-gray-600">Vous avez déjà un compte ? <Link className='text-blue-500 hover:text-blue-700' to="/connexion">CONNECTEZ-VOUS</Link></p>
+
+
             </div>
           </form>
         </div>
       </div>
 
-      {/* Container pour les toasts */}
       <ToastContainer />
     </div>
   );
