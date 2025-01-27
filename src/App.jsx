@@ -46,13 +46,14 @@ function App() {
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
 
       {/* Client */}
-      <Route path="/Client">
+      <Route path="/client">
         <Route index element={<Client />} />
-        <Route path="Message" element={<MessageClient />} />
+        <Route path="message" element={<MessageClient />} />
+        {/* <Route path="reservation" element={} /> */}
       </Route>
 
     {/* Route pour la partie Prestataire */}
-      <Route path="/Accueil" element={<Accueil />} />
+      <Route path="/accueil" element={<Accueil />} />
       <Route path="/profil" element={<Profil />} />
       <Route path="/demande" element={<Demande />} />
       <Route path="/detail" element={<DetailDemande />} />

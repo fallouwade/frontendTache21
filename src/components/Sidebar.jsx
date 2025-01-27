@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </svg>
       </button>
       <Link to="/Accueil" className="text-white flex items-center space-x-2 px-4">
-        <span className="text-2xl font-extrabold">Sen Plomberie</span>
+        <span className="text-2xl font-extrabold mt-10">Sen Plomberie</span>
       </Link>
       <nav>
         <Link to="/Accueil" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">

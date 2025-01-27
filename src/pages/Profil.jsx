@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const Profil = () => {
   return (
     <Layout>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Profil</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 mt-10">Profil</h1>
       <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="md:col-span-2 bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-8">Informations personnelles</h2>

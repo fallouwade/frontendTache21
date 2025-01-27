@@ -36,7 +36,7 @@ const InscriptionClient = () => {
 
     try {
     
-      const response = await fetch('https://backendtache21.onrender.com/api/utilisateurs/inscription', {
+      const response = await fetch('https://backendtache21.onrender.com/api/clients/inscription-client', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const InscriptionClient = () => {
       toast.success('Inscription réussie !');
     } catch (err) {
       setError(err.message);
-      toast.error(err.message || "Une erreur est survenue");
+      toast.error(err.message || "échec d'inscription !");
     } finally {
       setIsLoading(false);
     }

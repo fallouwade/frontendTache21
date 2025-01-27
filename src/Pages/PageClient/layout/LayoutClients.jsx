@@ -53,7 +53,7 @@ const handleLinkClick = () => {
                                 className={`flex items-center text-gray-600 hover:text-gray-700 ${isActive ? 'font-medium' : ''}`}
                                 onClick={handleLinkClick}
                             >
-                                <CardMessage title={isActive ? "Message" : "Accueil"}>
+                                <CardMessage title={isActive ? "Réservations" : "Accueil"}>
                                     <span>{isActive ? 3 : <FaTachometerAlt />}</span>
                                 </CardMessage>
                             </Link>
