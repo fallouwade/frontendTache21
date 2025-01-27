@@ -43,7 +43,7 @@ const InscriptionClient = () => {
         },
         body: JSON.stringify({
           nom: formData.nom,
-          prenom: formData.prenom,
+          prenom: formData.prenom, 
           email: formData.email,
           motDePasse: formData.motDePasse
         }),
