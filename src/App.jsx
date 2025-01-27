@@ -21,6 +21,7 @@ import DetailDemande from "./Pages/DetailDemande.jsx";
 import EditerProfil from "./Pages/EditerProfil.jsx";
 import MessageClient from "./Pages/MessageClient.jsx";
 import AjouterService from "./Pages/AjouterService.jsx";
+import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
 
 
 
@@ -41,6 +42,8 @@ function App() {
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
 
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
+      <Route path="/modifier" element={<ModifieMotDePass />} />
+
 
       {/* Inscription Client */}
       <Route path="/inscriptionClient" element={<InscriptionClient />} />

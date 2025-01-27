@@ -25,15 +25,19 @@ export const categories = [
 ]
 
 export const region = [
-  "Paris",
-  "Lyon",
-  "Marseille",
-  "Bordeaux",
-  "Lille",
-  "Toulouse",
-  "Nantes",
-  "Strasbourg",
-  "Montpellier",
-  "Nice",
+  "Dakar",
+  "Diourbel",
+  "Fatick",
+  "Kaffrine",
+  "Kaolack",
+  "Kédougou",
+  "Kolda",
+  "Louga",
+  "Matam",
+  "Saint-louis",
+  "Sédhiou",
+  "Tambacounda",
+  "Thiés",
+  "Ziguinchor",
 ]
 
