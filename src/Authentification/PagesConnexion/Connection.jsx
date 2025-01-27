@@ -32,10 +32,12 @@ const Connection = () => {
         }
       });
       
+
       localStorage.setItem('token', reponse.data.token);
 
-      navigate('/Client');  
-      // console.log("Connecter")
+      
+      // navigate('/Client');  
+      console.log("Connecter")
       // Réinitialiser le formulaire ici
       setFormData({
         email: '',
