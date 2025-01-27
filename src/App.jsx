@@ -40,12 +40,6 @@ function App() {
       <Route path="/infoClient" element={<InfoClients />} />
 
       <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
-
-     
-
-
-
-
     </Routes>
 
    
