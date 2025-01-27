@@ -1,17 +1,17 @@
 import CardCommunautaire from './PagePublic/Components/CardCommunautaire';
-import SearchBar from './Composants/SearchBar';
+
 import Allservices from './PagePublic/Components/Allservices';
 import Satisfaction from './PagePublic/Components/Satisfaction';
-import Footer from './Composants/Footer';
-import Temoignages from './PagePublic/Components/Temoignages';
 import NavCommunautaire from './PagePublic/Components/NavCommunautaire';
-
+import Temoignages from './PagePublic/Components/Temoignages';
+import SearchBar from './Composants/SearchBar';
+import Footer from './Composants/Footer';
 const Communautaire = () => {
   return (
     <div>
-      {/* NavCommunautaire  */}
+      {/* navbar  */}
       <div className=''>
-       <NavCommunautaire/>
+        < NavCommunautaire />
       </div>
       <div className="relative w-full h-screen mb-10">
         <video
@@ -28,7 +28,7 @@ const Communautaire = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-screen-xl mx-auto">
             <div className="text-center sm:text-left">
               <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
-                Besoin d un <span className="text-yellow-400">professionnel</span> près de chez vous ?
+                Besoin d'un <span className="text-yellow-400">professionnel</span> près de chez vous ?
               </h1>
               <p className="text-base sm:text-lg lg:text-xl text-white">
                 Trouvez rapidement des plombiers, électriciens, coiffeurs, enseignants et bien plus,
@@ -41,7 +41,7 @@ const Communautaire = () => {
 
       <div>
         <div>
-          <SearchBar />
+         <SearchBar/>
         </div>
 
         <div>
@@ -49,7 +49,7 @@ const Communautaire = () => {
         </div>
 
         <div>
-          <CardCommunautaire />
+          <CardCommunautaire/>
         </div>
         {/* section temoignages */}
         <div>
@@ -62,7 +62,7 @@ const Communautaire = () => {
       </div>
       {/* Footer  */}
       <div>
-        <Footer />
+        <Footer/>
       </div>
     </div>
   );
