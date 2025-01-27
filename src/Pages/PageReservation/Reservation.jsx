@@ -1,6 +1,10 @@
 
-import DetailsPrestataire from './DetailsPrestataire';
-import GalleryPrestatiare from './GalleryPrestataire';
+// import DetailsPrestataire from './DetailsPrestataire';
+// import GalleryPrestatiare from './GalleryPrestataire';
+
+import DetailsPrestataire from "./DetailsPrestataire";
+import GalleryPrestatiare from "./GallerryPrestataire";
+
 
 const Reservation = () => {
   return (

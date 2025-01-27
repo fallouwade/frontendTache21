@@ -1,7 +1,7 @@
 
 import  { useState } from 'react';
 import { FaShare, FaHeart } from 'react-icons/fa';
-import plombier from '../assets/⁪images/image1.jpg';
+import plombier from '../../assets/plombier1.jpg';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

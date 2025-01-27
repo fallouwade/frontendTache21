@@ -9,18 +9,18 @@ const InscriptionPrestataire = () => {
    const navigate = useNavigate(); 
 
   const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: '',
-    motDePasse: '',
-    confirmMotDePasse: '', 
-    prestataire: '',
-    region: '',
-    departement: '',
-    description: '',
-    nomDeLentreprise: '',
-  });
+  nom: '',
+  prenom: '',
+  email: '',
+  telephone: '',
+  motDePasse: '',
+  confirmMotDePasse: '',
+  nomDeLentreprise: '',
+  region: '',
+  departement: '',
+  description: '',
+});
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -302,6 +302,7 @@ const InscriptionPrestataire = () => {
                 name="description" 
                 id="description" 
                 placeholder="Description">
+                
               </textarea>
             </div>
             <button
