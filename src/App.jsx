@@ -21,6 +21,7 @@ import DetailDemande from "./Pages/DetailDemande.jsx";
 import EditerProfil from "./Pages/EditerProfil.jsx";
 import MessageClient from "./Pages/MessageClient.jsx";
 import AjouterService from "./Pages/AjouterService.jsx";
+import Reservation from "./Pages/PageReservation/Reservation.jsx";
 
 
 
@@ -44,6 +45,7 @@ function App() {
 
       {/* Inscription Client */}
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
+      <Route path="/reservation" element={<Reservation/>} />
 
       {/* Client */}
       <Route path="/Client">

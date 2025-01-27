@@ -7,18 +7,18 @@ import { regions, departements } from '../Constant';
 
 const InscriptionPrestataire = () => {
   const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: '',
-    motDePasse: '',
-    confirmMotDePasse: '', 
-    prestataire: '',
-    region: '',
-    departement: '',
-    description: '',
-    nomDeLentreprise: '',
-  });
+  nom: '',
+  prenom: '',
+  email: '',
+  telephone: '',
+  motDePasse: '',
+  confirmMotDePasse: '',
+  nomDeLentreprise: '',
+  region: '',
+  departement: '',
+  description: '',
+});
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,7 +44,7 @@ const InscriptionPrestataire = () => {
     setError(null);
   
     try {
-      const response = await axios.post('https://backendtache21.onrender.com/api/prestataires/inscription-prestataire', {
+      const response = await axios.post('http://localhost:5000/api/prestataires/inscription-prestataire', {
         nom: formData.nom,
         prenom: formData.prenom,
         email: formData.email,
@@ -299,6 +299,7 @@ const InscriptionPrestataire = () => {
                 name="description" 
                 id="description" 
                 placeholder="Description">
+                
               </textarea>
             </div>
             <button
@@ -309,7 +310,7 @@ const InscriptionPrestataire = () => {
               {isLoading ? "Enregistrement..." : "S'inscrire"}
             </button>
             <div className="mt-4 text-center">
-              <p className="text-xs text-sm text-gray-600">
+              <p className=" text-sm text-gray-600">
                 Vous avez déjà un compte ?{" "}
                 <Link className="text-blue-500 hover:text-blue-700" to="/connexion">
                   CONNECTEZ-VOUS

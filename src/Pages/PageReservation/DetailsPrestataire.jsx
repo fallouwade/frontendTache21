@@ -3,8 +3,9 @@
 import  { useState } from 'react';
 import RatingBadge from './RatingBadge';
 import Stats from './Stats';
-import ReservationCard from './ReservationCard';
+// import ReservationCard from './ReservationCard';
 import Calendar from './Calendar';
+import ReservationCard from './ReservationCard';
 
 const DetailsPrestataire = () => {
   // Ajouter un état pour la date sélectionnée
