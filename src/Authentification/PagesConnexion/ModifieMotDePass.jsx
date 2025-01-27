@@ -9,7 +9,7 @@ const ModifieMotDePass = () => {
   const [confirmerMotDePasse, setConfirmerMotDePasse] = useState('');
   const navigate = useNavigate();
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
 
     const motDePasseTemporaireCorrect = 'motdepasseTemporaire';  
@@ -31,13 +31,41 @@ const ModifieMotDePass = () => {
       return;
     }
 
-    toast.success('Votre mot de passe a été réinitialisé avec succès.', {
-      position: "top-center", 
-      autoClose: 5000, 
-      hideProgressBar: true, 
-    });
+    try {
+      const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/modifier', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ancienMotDePasse: motDePasseTemporaire,
+          nouveauMotDePasse: nouveauMotDePasse,
+        }),
+      });
 
-    navigate('/login');
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success('Votre mot de passe a été réinitialisé avec succès.', {
+          position: "top-center", 
+          autoClose: 5000, 
+          hideProgressBar: true, 
+        });
+        navigate('/login');
+      } else {
+        toast.error(data.message || 'Une erreur est survenue. Veuillez réessayer.', {
+          position: "top-center", 
+          autoClose: 5000,
+          hideProgressBar: true, 
+        });
+      }
+    } catch (error) {
+      toast.error('Erreur de connexion. Veuillez vérifier votre connexion internet.', {
+        position: "top-center", 
+        autoClose: 5000, 
+        hideProgressBar: true, 
+      });
+    }
   };
 
   return (
@@ -46,8 +74,6 @@ const ModifieMotDePass = () => {
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">Réinitialiser votre mot de passe</h2>
 
         <form onSubmit={handlePasswordSubmit}>
-
-          
           <div className="mb-4">
             <label htmlFor="motDePasseTemporaire" className="block text-sm font-medium text-gray-700">
               Mot de passe temporaire
@@ -80,7 +106,6 @@ const ModifieMotDePass = () => {
             />
           </div>
 
-          
           <div className="mb-4">
             <label htmlFor="confirmerMotDePasse" className="block text-sm font-medium text-gray-700">
               Confirmer le mot de passe
@@ -105,7 +130,6 @@ const ModifieMotDePass = () => {
           </button>
         </form>
 
-        {/* ToastContainer pour afficher les toasts */}
         <ToastContainer />
       </div>
     </div>

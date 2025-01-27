@@ -15,9 +15,8 @@ const MotDePasseOublie = () => {
     setIsLoading(true);
     setMessage('');
 
-    
     try {
-      const response = await fetch('https://votre-api.com/reinitialiser-mot-de-passe', {
+      const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/oublié', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
