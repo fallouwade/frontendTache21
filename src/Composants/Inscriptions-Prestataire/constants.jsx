@@ -1,4 +1,3 @@
-// Données des régions et départements
 export const serviceCategories = [
     'Plomberie',
     'Électricité',

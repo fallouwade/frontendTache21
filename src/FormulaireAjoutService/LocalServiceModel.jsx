@@ -190,5 +190,4 @@ const LocalServiceModel = () => {
   );
 };
 
-// Exportation du composant
 export default LocalServiceModel;
