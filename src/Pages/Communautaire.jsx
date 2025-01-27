@@ -26,7 +26,7 @@ const Communautaire = () => {
 
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40 px-8 z-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-screen-xl mx-auto">
-            <div className="text-center sm:text-left">
+            <div className=" sm:text-left">
               <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
                 Besoin d un <span className="text-yellow-400">professionnel</span> près de chez vous ?
               </h1>
