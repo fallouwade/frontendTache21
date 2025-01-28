@@ -64,7 +64,7 @@ const EditerProfil = () => {
         e.preventDefault()
         setIsSaving(true)
         try {
-            const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire", {
+            const response = await fetch("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
