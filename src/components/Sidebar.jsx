@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom"
 import { FaHome, FaUser, FaClipboardList, FaPlus } from "react-icons/fa"
 
