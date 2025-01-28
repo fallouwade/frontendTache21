@@ -5,13 +5,13 @@ import { Link } from "react-router-dom"
 const Demande = () => {
   return (
     <Layout>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Liste des demandes</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 mt-10">Liste des demandes</h1>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                
+    
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Prénom
                 </th>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { FaRegCalendarAlt, FaRegClock, FaWrench, FaPhone } from 'react-icons/fa';
-import Calendar from './Calendar'; // Import du composant Calendar
 
 const ReservationCard = ({ selectedDate }) => {
   const [step, setStep] = useState(1);

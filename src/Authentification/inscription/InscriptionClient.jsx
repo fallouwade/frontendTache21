@@ -44,7 +44,7 @@ const InscriptionClient = () => {
         },
         body: JSON.stringify({
           nom: formData.nom,
-          prenom: formData.prenom,
+          prenom: formData.prenom, 
           email: formData.email,
           motDePasse: formData.motDePasse
         }),
@@ -68,7 +68,7 @@ const InscriptionClient = () => {
       navigate('/connexion');
     } catch (err) {
       setError(err.message);
-      toast.error(err.message || "Une erreur est survenue");
+      toast.error(err.message || "échec d'inscription !");
     } finally {
       setIsLoading(false);
     }

@@ -1,24 +1,26 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios'; 
 import { regions, departements } from '../Constant';
+import { Link, useNavigate } from "react-router-dom"; 
 
 const InscriptionPrestataire = () => {
+   const navigate = useNavigate(); 
+
   const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: '',
-    motDePasse: '',
-    confirmMotDePasse: '', 
-    prestataire: '',
-    region: '',
-    departement: '',
-    description: '',
-    nomDeLentreprise: '',
-  });
+  nom: '',
+  prenom: '',
+  email: '',
+  telephone: '',
+  motDePasse: '',
+  confirmMotDePasse: '',
+  nomDeLentreprise: '',
+  region: '',
+  departement: '',
+  description: '',
+});
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -60,8 +62,9 @@ const InscriptionPrestataire = () => {
         }
       });
 
+       toast.success('Inscription réussie !');
+       navigate('/connexion');
       // Logique pour une réponse réussie
-      toast.success('Inscription réussie !');
     } catch (err) {
       console.error('Erreur de la requête : ', err);
       setError(err.message);
@@ -299,6 +302,7 @@ const InscriptionPrestataire = () => {
                 name="description" 
                 id="description" 
                 placeholder="Description">
+                
               </textarea>
             </div>
             <button
@@ -309,7 +313,7 @@ const InscriptionPrestataire = () => {
               {isLoading ? "Enregistrement..." : "S'inscrire"}
             </button>
             <div className="mt-4 text-center">
-              <p className="text-xs text-sm text-gray-600">
+              <p className="text-sm text-gray-600">
                 Vous avez déjà un compte ?{" "}
                 <Link className="text-blue-500 hover:text-blue-700" to="/connexion">
                   CONNECTEZ-VOUS

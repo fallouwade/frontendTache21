@@ -5,7 +5,8 @@ import { FaUsers, FaClock } from "react-icons/fa"
 const Accueil = () => {
   return (
     <Layout>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Dashboard</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 mt-10">Dashboard</h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center">
@@ -51,7 +52,7 @@ const Accueil = () => {
 
                 <td className="px-6 py-4 whitespace-nowrap">Dakar</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <button className="bg-gray-400  text-white font-bold py-2 px-4 rounded">EN attente </button>
+                  <button className="bg-gray-400  text-white font-bold py-2 px-4 rounded">En attente </button>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">

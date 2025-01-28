@@ -1,33 +1,37 @@
-import  { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'flowbite-react';
 import { FaFilter } from 'react-icons/fa';
 import Sidebar from '../Components/SidebarClient';
 import SearchBar from '../../Composants/SearchBar';
 import NavReutilisable from '../../Composants/NavReutilisable';
 import CardMessage from '../Components/CardMessage';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaTachometerAlt } from "react-icons/fa";
 
 
 const LayoutClients = ({ children, handleFilterChange }) => {
-    const [isActive, setIsActive] = useState(true);
+    const location = useLocation();
+    const [isActive, setIsActive] = useState(location.pathname === '/Client/Message');
 
     const [filters, setFilters] = useState({
         showFilters: false,
         sortBy: 'pertinent'
     });
 
-   
-const handleLinkClick = () => {
-    setIsActive(prevState => !prevState);
-  };
+
+    const handleLinkClick = () => {
+        setIsActive(!isActive);
+    };
 
     const toggleFilters = () => setFilters(f => ({ ...f, showFilters: !f.showFilters }));
 
+    useEffect(() => {
+        setIsActive(location.pathname === '/Client/Message');
+    }, [location]);
 
     return (
         <>
-            <NavReutilisable buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} />
+            <NavReutilisable buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} profil="profilClient" />
             <div className="flex flex-col min-h-screen pt-16 relative bg-gray-300 z-5">
                 <div className="flex-grow">
                     <div className="container mx-auto px-4 py-4 md:py-8">
@@ -48,15 +52,15 @@ const handleLinkClick = () => {
                             </select>
                         </form>
                         <div className="flex ms-10">
-                            <Link 
-                                to={isActive ? "/Client/Message" : "/Client"} 
+                            <Link
+                                to={isActive ? "/Client" : "/Client/Message"}
                                 className={`flex items-center text-gray-600 hover:text-gray-700 ${isActive ? 'font-medium' : ''}`}
-                                onClick={handleLinkClick}
                             >
-                                <CardMessage title={isActive ? "Message" : "Accueil"}>
-                                    <span>{isActive ? 3 : <FaTachometerAlt />}</span>
+                                <CardMessage title={isActive ? "Acceuil" : "Réservation"}>
+                                    <span>{isActive ? <FaTachometerAlt /> : 3}</span>
                                 </CardMessage>
                             </Link>
+
                             <CardMessage title="Favoris"><span>3</span></CardMessage>
                         </div>
                     </div>
