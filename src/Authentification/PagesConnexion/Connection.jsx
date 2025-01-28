@@ -33,10 +33,28 @@ const Connection = () => {
           'Content-Type': 'application/json'
         }
       });
-      
-      localStorage.setItem('token', reponse.data.token);      
 
-      navigate('/Client');
+      const user = reponse.data.utilisateur;
+      console.log(user.role)
+
+      // if(!reponse.ok){
+      //   throw new Error(user.message);
+      // }
+      
+      localStorage.setItem('token', reponse.data.token);  
+
+      
+      // Redirection basée sur le rôle
+      switch(user.role){
+        case 'client':
+          navigate('/Client');
+          break;
+        case 'prestataire':
+          navigate('/accueil');
+          break;
+        default:
+          navigate('/');
+      }
     
       setFormData({
         email: '',

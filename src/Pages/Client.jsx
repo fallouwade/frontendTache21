@@ -30,7 +30,7 @@ function Client() {
         <CardService service="Menuisier Metalique" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_PgxQqLnwgJOGjXwoizxhL0MprLRm757o-A&s" />
         <CardService service="carreleur" src="https://media.bazarafrique.com/upload/post/6231252ee3b33390643763.jpg" />
       </div>
-      <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
+        <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
     </LayoutClients>
    
   );
