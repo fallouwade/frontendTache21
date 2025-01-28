@@ -35,11 +35,6 @@ const Connection = () => {
       });
 
       const user = reponse.data.utilisateur;
-      console.log(user.role)
-
-      // if(!reponse.ok){
-      //   throw new Error(user.message);
-      // }
       
       localStorage.setItem('token', reponse.data.token);  
 
