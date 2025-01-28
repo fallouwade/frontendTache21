@@ -111,7 +111,7 @@ const ProfileClient = () => {
 
   return (
     <LayoutClients>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4">
+      <div className="min-h-screen bg-gradient-to-br to-indigo-50 py-12 px-4">
         <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
             <h2 className="text-2xl font-bold text-white text-center">Mon Profil</h2>
