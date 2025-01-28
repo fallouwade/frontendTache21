@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const Demande = () => {
   return (
     <Layout>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Liste des demandes</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Liste des demandes</h1>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">

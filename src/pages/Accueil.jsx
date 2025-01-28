@@ -5,8 +5,8 @@ import { FaUsers, FaClock } from "react-icons/fa"
 const Accueil = () => {
   return (
     <Layout>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-4">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center">
             <FaUsers className="text-4xl text-blue-500 mr-4" />

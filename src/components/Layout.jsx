@@ -31,7 +31,9 @@ const Layout = ({ children }) => {
               Faire une demande
             </button>
           }
+         
         />
+        
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
           <div className="container mx-auto md:px-6 px-2 py-8">{children}</div>
         </main>

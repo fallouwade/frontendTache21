@@ -7,7 +7,7 @@ const DetailDemande = () => {
 
   return (
     <Layout>
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Détail d'une demande</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Détail d'une demande</h1>
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
