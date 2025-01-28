@@ -11,9 +11,9 @@ export const SERVICE_CATEGORIES = [
   ];
   
   export const INITIAL_SERVICE_STATE = {
-    nom: '',
+    nomDeservice: '',
     categorie: '',
-    description: '',
-    photos: [],
-    certifications: []
+    descriptionDeService: '',
+    imageService: [],
+    imageDiplomes: []
   };
