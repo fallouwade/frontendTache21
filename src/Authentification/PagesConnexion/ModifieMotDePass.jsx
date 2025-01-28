@@ -1,152 +1,150 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  
-import { toast, ToastContainer } from 'react-toastify';  
-import 'react-toastify/dist/ReactToastify.css'; 
+import { useNavigate } from 'react-router-dom';
 
-const ResetPassword = () => {
+const ModifierMotDePasse = () => {
   const [email, setEmail] = useState('');
-  const [codeReset, setCodeReset] = useState('');  // Code de réinitialisation
+  const [code, setCode] = useState('');
   const [nouveauMotDePasse, setNouveauMotDePasse] = useState('');
   const [confirmerMotDePasse, setConfirmerMotDePasse] = useState('');
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handlePasswordSubmit = async (e) => {
-    e.preventDefault();
+  const handleChangeEmail = (e) => setEmail(e.target.value);
+  const handleChangeCode = (e) => setCode(e.target.value);
+  const handleChangeNouveauMotDePasse = (e) => setNouveauMotDePasse(e.target.value);
+  const handleChangeConfirmerMotDePasse = (e) => setConfirmerMotDePasse(e.target.value);
 
-    // Vérification que les mots de passe correspondent
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
+    // Validation des champs
+    if (!email || !email.includes('@')) {
+      setMessage('Veuillez entrer une adresse e-mail valide.');
+      setIsLoading(false);
+      return;
+    }
+    if (!code) {
+      setMessage('Veuillez entrer le code de réinitialisation.');
+      setIsLoading(false);
+      return;
+    }
+    if (!nouveauMotDePasse || nouveauMotDePasse.length < 6) {
+      setMessage('Le mot de passe doit contenir au moins 6 caractères.');
+      setIsLoading(false);
+      return;
+    }
     if (nouveauMotDePasse !== confirmerMotDePasse) {
-      toast.error('Les mots de passe ne correspondent pas.', {
-        position: "top-center", 
-        autoClose: 5000,
-        hideProgressBar: true, 
-      });
+      setMessage('Les mots de passe ne correspondent pas.');
+      setIsLoading(false);
       return;
     }
 
     try {
-      // Envoi de la requête pour réinitialiser le mot de passe
+      // Envoi des données au backend
       const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/modifier', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email,  // L'email de l'utilisateur
-          codeReset: codeReset, // Le code temporaire
-          nouveauMotDePasse: nouveauMotDePasse, // Le nouveau mot de passe
+          email,
+          codeReset: code,  // code envoyé par email
+          nouveauMotDePasse,
         }),
       });
 
-      const data = await response.json();
-
-      // Gestion de la réponse de l'API
       if (response.ok) {
-        toast.success('Votre mot de passe a été réinitialisé avec succès.', {
-          position: "top-center", 
-          autoClose: 5000, 
-          hideProgressBar: true, 
-        });
-        navigate('/connexion');
+        setMessage('Mot de passe réinitialisé avec succès.');
+        navigate('/connexion'); // Redirection vers la page de connexion
       } else {
-        toast.error(data.message || 'Une erreur est survenue. Veuillez réessayer.', {
-          position: "top-center", 
-          autoClose: 5000,
-          hideProgressBar: true, 
-        });
-        // console.error('Erreur de l\'API:', data);  // Log des erreurs dans la console pour le débogage
+        const errorData = await response.json();
+        setMessage(errorData.message || 'Erreur lors de la réinitialisation du mot de passe.');
       }
     } catch (error) {
-      console.error('Erreur lors de la requête:', error);
-      toast.error('Erreur de connexion. Veuillez vérifier votre connexion internet.', {
-        position: "top-center", 
-        autoClose: 5000, 
-        hideProgressBar: true, 
-      });
+      setMessage('Une erreur est survenue. Veuillez réessayer.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-      <div className="max-w-sm w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">Réinitialiser votre mot de passe</h2>
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="relative z-10 w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="text-3xl font-semibold text-gray-700 mb-6 text-center">Réinitialiser le mot de passe</h2>
 
-        <form onSubmit={handlePasswordSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-600">Adresse e-mail</label>
             <input
               type="email"
               id="email"
               name="email"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Entrez votre email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChangeEmail}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="codeReset" className="block text-sm font-medium text-gray-700">
-              Code de réinitialisation
-            </label>
+            <label htmlFor="code" className="block text-sm font-medium text-gray-600">Code de réinitialisation</label>
             <input
               type="text"
-              id="codeReset"
-              name="codeReset"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Entrez le code de réinitialisation"
-              value={codeReset}
-              onChange={(e) => setCodeReset(e.target.value)}
+              id="code"
+              name="code"
+              value={code}
+              onChange={handleChangeCode}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="nouveauMotDePasse" className="block text-sm font-medium text-gray-700">
-              Nouveau mot de passe
-            </label>
+            <label htmlFor="nouveauMotDePasse" className="block text-sm font-medium text-gray-600">Nouveau mot de passe</label>
             <input
               type="password"
               id="nouveauMotDePasse"
               name="nouveauMotDePasse"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Entrez votre nouveau mot de passe"
               value={nouveauMotDePasse}
-              onChange={(e) => setNouveauMotDePasse(e.target.value)}
+              onChange={handleChangeNouveauMotDePasse}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="confirmerMotDePasse" className="block text-sm font-medium text-gray-700">
-              Confirmer le mot de passe
-            </label>
+            <label htmlFor="confirmerMotDePasse" className="block text-sm font-medium text-gray-600">Confirmer le mot de passe</label>
             <input
               type="password"
               id="confirmerMotDePasse"
               name="confirmerMotDePasse"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Confirmez votre nouveau mot de passe"
               value={confirmerMotDePasse}
-              onChange={(e) => setConfirmerMotDePasse(e.target.value)}
+              onChange={handleChangeConfirmerMotDePasse}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full py-3 text-white rounded-md ${isLoading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
+            disabled={isLoading}
           >
-            Réinitialiser le mot de passe
+            {isLoading ? 'Réinitialisation en cours...' : 'Réinitialiser le mot de passe'}
           </button>
         </form>
 
-        <ToastContainer />
+        {message && (
+          <div className="mt-4 text-center text-sm text-gray-700" aria-live="polite">
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default ResetPassword;
+export default ModifierMotDePasse;
