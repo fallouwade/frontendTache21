@@ -23,6 +23,7 @@ import MessageClient from "./Pages/MessageClient.jsx";
 import AjouterService from "./Pages/AjouterService.jsx";
 import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
+import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 
 
 
@@ -54,7 +55,7 @@ function App() {
       <Route path="/client">
         <Route index element={<Client />} />
         <Route path="message" element={<MessageClient />} />
-        {/* <Route path="reservation" element={} /> */}
+        <Route path="profilClient" element={<ProfileClient />} />
       </Route>
 
     {/* Route pour la partie Prestataire */}

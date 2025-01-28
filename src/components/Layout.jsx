@@ -25,6 +25,8 @@ const Layout = ({ children }) => {
                     Demande services
                 </button>
               }
+
+              profil="/profil"
             />
           </div>
       <div className="flex flex-row min-h-screen bg-gray-100">

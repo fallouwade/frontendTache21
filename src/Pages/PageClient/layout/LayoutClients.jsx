@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Button } from 'flowbite-react';
 import { FaFilter } from 'react-icons/fa';
 import Sidebar from '../Components/SidebarClient';
@@ -17,17 +17,21 @@ const LayoutClients = ({ children, handleFilterChange }) => {
         sortBy: 'pertinent'
     });
 
-   
-const handleLinkClick = () => {
-    setIsActive(prevState => !prevState);
-  };
+
+    const handleLinkClick = () => {
+        if(isActive === true){
+            setIsActive(false);
+        } else {
+            setIsActive(true)
+        }
+    };
 
     const toggleFilters = () => setFilters(f => ({ ...f, showFilters: !f.showFilters }));
 
 
     return (
         <>
-            <NavReutilisable buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} />
+            <NavReutilisable buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} profil="profilClient" />
             <div className="flex flex-col min-h-screen pt-16 relative bg-gray-300 z-5">
                 <div className="flex-grow">
                     <div className="container mx-auto px-4 py-4 md:py-8">
@@ -48,8 +52,8 @@ const handleLinkClick = () => {
                             </select>
                         </form>
                         <div className="flex ms-10">
-                            <Link 
-                                to={isActive ? "/Client/Message" : "/Client"} 
+                            <Link
+                                to={isActive ? "/Client/Message" : "/Client"}
                                 className={`flex items-center text-gray-600 hover:text-gray-700 ${isActive ? 'font-medium' : ''}`}
                                 onClick={handleLinkClick}
                             >

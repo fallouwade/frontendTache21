@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const NavReutilisable = ({
   icon,
@@ -9,7 +10,8 @@ const NavReutilisable = ({
   compact = false,
   centerContent,
   onProfileClick,
-  onLogoutClick
+  onLogoutClick,
+  profil
 }) => {
   const [isExtraDropdownOpen, setExtraDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -71,12 +73,13 @@ const NavReutilisable = ({
                 {/* Dropdown profil */}
                 {isExtraDropdownOpen && (
                   <div className="absolute top-full right-0 mt-4 w-48 bg-white shadow-md rounded-md z-50">
-                    <button
-                      className="w-full px-4 py-2 text-sm text-start hover:bg-gray-100"
+                    <Link
+                      to={profil}
+                      className="block px-4 py-2 text-sm text-start hover:bg-gray-100"
                       onClick={onProfileClick}
                     >
                       Profil
-                    </button>
+                    </Link>
                     <button
                       className="w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-red-400"
                       onClick={onLogoutClick}
