@@ -36,7 +36,8 @@ const Connection = () => {
 
       const user = reponse.data.utilisateur;
       
-      localStorage.setItem('token', reponse.data.token);  
+      localStorage.setItem('token', reponse.data.token);
+      localStorage.setItem('user', JSON.stringify(user));
 
       
       // Redirection basée sur le rôle
