@@ -20,16 +20,9 @@ const ProfileClient = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/utilisateurs/profil-client');
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data);
-        setTempProfile(data);
-        if (data.photo) setImagePreview(data.photo);
-      } else {
-        // Si aucun profil n'existe, on crée un profil par défaut
-        createDefaultProfile();
-      }
+      const token = localStorage.getItem('token');
+      console.log(token)
+   
     } catch (error) {
       console.error('Erreur lors de la récupération du profil:', error);
       setError('Erreur lors de la récupération du profil');
