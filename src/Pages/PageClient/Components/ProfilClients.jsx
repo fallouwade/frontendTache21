@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaEdit, FaSave, FaCamera } from 'react-icons/fa';
 import LayoutClients from '../layout/LayoutClients';
 

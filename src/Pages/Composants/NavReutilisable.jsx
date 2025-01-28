@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const NavReutilisable = ({
