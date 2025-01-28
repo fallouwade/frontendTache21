@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import axios from "axios"
 import Image from '/images/electricien.jpg'
 import { Link } from "react-router-dom";
 
@@ -12,15 +13,15 @@ const Profil = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire")
-        if (!response.ok) {
-          throw new Error("Pas de données")
-        }
-        const data = await response.json()
-        setUserData(data)
+        const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        setUserData(response.data)
         setIsLoading(false)
       } catch (err) {
-        setError(err.message)
+        setError(err.response ? err.response.data : "Une erreur est survenue")
         setIsLoading(false)
       }
     }
@@ -59,7 +60,7 @@ const Profil = () => {
               <p className="font-semibold text-gray-600">Prénom</p>
               <p className="text-gray-800">{userData.prenom}</p>
             </div>
-         <div>
+            <div>
               <p className="font-semibold text-gray-600">Téléphone</p>
               <p className="text-gray-800">{userData.telephone}</p>
             </div>
