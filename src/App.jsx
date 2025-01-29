@@ -47,7 +47,7 @@ function App() {
 
       {/* Routes Client */}
       <Route path="/client" element={
-        <ProtectionRoute allowedRoles={['client,prestataire']}>
+        <ProtectionRoute allowedRoles={['client','prestataire']}>
           <Client />
         </ProtectionRoute>
       }>
@@ -56,7 +56,7 @@ function App() {
       </Route>
 
       <Route path="/reservation" element={
-        <ProtectionRoute allowedRoles={['client,prestataire']}>
+        <ProtectionRoute allowedRoles={['client','prestataire']}>
           <Reservation />
         </ProtectionRoute>
       } />

@@ -34,9 +34,9 @@ const LayoutClients = ({ children, handleFilterChange }) => {
     useEffect(() => {
         try {
           // Récupérer le rôle depuis le localStorage
-          const role = localStorage.getItem('role');
-          
-          if (role === 'prestataire') {
+          const user = JSON.parse(localStorage.getItem('user'));
+          console.log(user.role);
+          if (user.role === 'prestataire') {
             setIsPrestataire(true);
           } else {
             setIsPrestataire(false);
@@ -64,7 +64,7 @@ const LayoutClients = ({ children, handleFilterChange }) => {
             <NavReutilisable
                 buttonPrest={
                     isPrestataire ? (
-                        <Link to="/profilPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
+                        <Link to="/accueil" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
                             retour a mon compte
                         </Link>
                     ) : (
