@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import des icônes
 import { useNavigate } from "react-router-dom";
 
 const ModifieMotDePass = () => {
   const [formData, setFormData] = useState({ email: "", codeReset: "", nouveauMotDePasse: "" });
+  const [showPassword, setShowPassword] = useState(false); // État pour voir/masquer le mot de passe
   const navigate = useNavigate(); // Initialisation de la navigation
 
   const handleChange = (e) => {
@@ -21,7 +23,7 @@ const ModifieMotDePass = () => {
     if (!formData.email || !formData.codeReset || !formData.nouveauMotDePasse) {
       return toast.error("Tous les champs sont requis.");
     }
-    
+
     if (formData.nouveauMotDePasse.length < 6) {
       return toast.error("Le mot de passe doit comporter au moins 6 caractères.");
     }
@@ -75,10 +77,10 @@ const ModifieMotDePass = () => {
             required
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <label htmlFor="nouveauMotDePasse" className="block text-gray-700 text-sm font-bold mb-2">Nouveau mot de passe</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="nouveauMotDePasse"
             name="nouveauMotDePasse"
             value={formData.nouveauMotDePasse}
@@ -87,14 +89,21 @@ const ModifieMotDePass = () => {
             placeholder="Nouveau mot de passe"
             required
           />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 pt-3 transform  cursor-pointer"
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
         </div>
         <button
           type="submit"
-          className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none w-full"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-full"
         >
           Réinitialiser
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
