@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';  
+import { login } from '../util/Auth';
 
 const Connection = () => {
   const LOGIN_API_URL = 'https://backendtache21.onrender.com/api/utilisateurs/connexion';
@@ -36,9 +37,7 @@ const Connection = () => {
 
       const user = reponse.data.utilisateur;
       
-      localStorage.setItem('token', reponse.data.token);
-      localStorage.setItem('user', JSON.stringify(user));
-
+      login(user,reponse.data.token,);
       
       // Redirection basée sur le rôle
       switch(user.role){
@@ -47,6 +46,9 @@ const Connection = () => {
           break;
         case 'prestataire':
           navigate('/accueil');
+          break;
+        case 'admin':
+          navigate('/');
           break;
         default:
           navigate('/');

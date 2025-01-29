@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify'; // Import de toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import du style pour les toasts
 
 const MotDePasseOublie = () => {
   const [email, setEmail] = useState('');
@@ -16,8 +18,10 @@ const MotDePasseOublie = () => {
     setIsLoading(true);
     setMessage('');
 
+    // Vérification de l'email
     if (!email || !email.includes('@')) {
       setMessage('Veuillez entrer une adresse e-mail valide.');
+      toast.error('Adresse e-mail invalide !'); // Affiche un toast d'erreur
       setIsLoading(false);
       return;
     }
@@ -33,13 +37,20 @@ const MotDePasseOublie = () => {
 
       if (response.ok) {
         setMessage('Un lien de code a été envoyé à votre adresse e-mail.');
-        navigate('/modifier');  
+        toast.success("L'email de réinitialisation a été envoyé avec succès !"); // Affiche un toast de succès
+        
+        // Attendre 3 secondes avant de rediriger
+        setTimeout(() => {
+          navigate('/modifier');
+        }, 3000); // 3000 ms = 3 secondes
       } else {
         const errorData = await response.json();
         setMessage(errorData.message || 'Erreur lors de l\'envoi de l\'e-mail. Veuillez réessayer.');
+        toast.error(errorData.message || 'Erreur lors de l\'envoi de l\'e-mail.'); // Toast d'erreur
       }
     } catch (error) {
       setMessage('Une erreur est survenue. Veuillez réessayer.');
+      toast.error('Une erreur est survenue. Veuillez réessayer.'); // Toast d'erreur en cas de problème réseau
     } finally {
       setIsLoading(false);
     }
@@ -88,6 +99,9 @@ const MotDePasseOublie = () => {
           </p>
         </div>
       </div>
+
+      {/* ToastContainer pour afficher les toasts */}
+      <ToastContainer />
     </div>
   );
 };

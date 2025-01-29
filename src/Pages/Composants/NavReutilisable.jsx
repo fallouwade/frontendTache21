@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import DeconnexionButton from "../../Authentification/déconnexion/DeconnexionButton";
 
 const NavReutilisable = ({
   icon,
@@ -43,18 +44,6 @@ const NavReutilisable = ({
                 </div>
               )}
 
-              {/* Menu hamburger pour mobile
-              <button
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? (
-                  <FaTimes className="text-gray-700" />
-                ) : (
-                  <FaBars className="text-gray-700" />
-                )}
-              </button> */}
-
               {/* Profil utilisateur */}
               <div className="relative">
                 <button
@@ -80,12 +69,7 @@ const NavReutilisable = ({
                     >
                       Profil
                     </Link>
-                    <button
-                      className="w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-red-400"
-                      onClick={onLogoutClick}
-                    >
-                      Déconnexion
-                    </button>
+                    <DeconnexionButton />
                   </div>
                 )}
               </div>
