@@ -1,105 +1,49 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from '/images/electricien.jpg'
 
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
 
 const EditerProfil = () => {
-
-
-
-    //   const [nom, setNom] = useState("")
-    //   const [prenom, setPrenom] = useState("")
-    //   const [email, setEmail] = useState("")
-    //   const [telephone, setTelephone] = useState("")
-
-    //   const handleSubmit = (e) => {
-
-    //     e.preventDefault()
-    //     // Handle form submission
-    //     console.log({ nom, prenom, email, telephone })
-    //   }
-    const [userData, setUserData] = useState({
-        nom: "",
-        prenom: "",
-        email: "",
-        telephone: "",
-        entreprise: "",
-        description: "",
-    })
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [isSaving, setIsSaving] = useState(false)
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire")
-                if (!response.ok) {
-                    throw new Error("Erreur: impossible de récupérer vos données")
-                }
-                const data = await response.json()
-                setUserData(data)
-                setIsLoading(false)
-            } catch (err) {
-                setError(err.message)
-                setIsLoading(false)
-            }
-        }
-
-        fetchUserData()
-    }, [])
-
-    const handleChange = (e) => {
-        const { name, value } = e.target
+      const [userData, setUserData] = useState({
+        nom: '',
+        prenom: '',
+        email: '',
+        telephone: ''
+        
+      });
+      const handleChange = (e) => {
+        const { name, value } = e.target;
         setUserData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }))
-    }
-    // mis à jour du profil utiisateur
-    const handleSubmit = async (e) => {
+          ...prevData,
+          [name]: value,
+        }));
+      };
+
+      const handleSubmit = (e) => {
+
         e.preventDefault()
-        setIsSaving(true)
-        try {
-            const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
-            })
-
-            if (!response.ok) {
-                throw new Error("Votre profil a été mis à jour")
+        useEffect(() => {
+            const fetchProfilData = async () =>{
+                try {
+                    const response = await axios.post("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(post)
+                    })
+                    const data = await response.json()
+                    setUserData(data)
+                    .then(()  => {
+                        console.log('Mis à jour effectué')
+                        Navigate('/profil')
+                    })
+                } catch (error) {
+                    
+                }
             }
-
-            navigate("/profil")
-        } catch (err) {
-            setError(err.message)
-        } finally {
-            setIsSaving(false)
-        }
-    }
-    // affichage des données si la requete renvoie true
-    if (isLoading) {
-        return (
-            <Layout>
-                <div className="text-center mt-8">Chargement...</div>
-            </Layout>
-        )
-    }
-    // affichage d'une erreur si la requete est fausse
-    if (error) {
-        return (
-            <Layout>
-                <div className="text-center mt-8 text-red-500">Erreur: {error}</div>
-            </Layout>
-        )
-    }
-
+            fetchProfilData()
+        }, [])
+      }
+    
     return (
         <Layout>
             <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Editer Profil</h1>
@@ -165,8 +109,8 @@ const EditerProfil = () => {
                 </div>
                 <div className="bg-white rounded-lg shadow-md p-6">
                     <img src={Image} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4" />
-                    <h2 className="text-xl font-semibold text-center mb-2">{`${userData.prenom} ${userData.nom}`}</h2>
-                    <p className="text-gray-600 text-center mb-4">{userData.entreprise}</p>
+                    <h2 className="text-xl font-semibold text-center mb-2">{userData.prenom}</h2>
+                    <p className="text-gray-600 text-center mb-4">{userData.NomEntreprise}</p>
                     <p className="text-center mb-4">{userData.description}</p>
                     <a
                         href="/profil"
