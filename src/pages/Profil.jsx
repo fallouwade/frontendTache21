@@ -4,13 +4,14 @@ import axios from "axios"
 import Image from '/images/electricien.jpg'
 import { Link } from "react-router-dom";
 
-
 const Profil = () => {
   const [userData, setUserData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
+
   useEffect(() => {
+    
     const fetchUserData = async () => {
       try {
         const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
@@ -24,7 +25,8 @@ const Profil = () => {
         setError(err.response ? err.response.data : "Une erreur est survenue")
         setIsLoading(false)
       }
-    }
+    
+    };
 
     fetchUserData()
   }, [])
