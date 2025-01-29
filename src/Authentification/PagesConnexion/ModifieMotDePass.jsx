@@ -1,115 +1,102 @@
-import { useState } from 'react';
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const ModifieMotdePass = () => {
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+const ModifieMotDePass = () => {
+  const [formData, setFormData] = useState({ email: "", codeReset: "", nouveauMotDePasse: "" });
+  const navigate = useNavigate(); // Initialisation de la navigation
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handleCodeChange = (e) => setCode(e.target.value);
-  const handleNewPasswordChange = (e) => setNewPassword(e.target.value);
-  const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas.');
-      return;
+    console.log("Données envoyées au backend", formData);
+
+    // Validation basique des champs côté front
+    if (!formData.email || !formData.codeReset || !formData.nouveauMotDePasse) {
+      return toast.error("Tous les champs sont requis.");
+    }
+    
+    if (formData.nouveauMotDePasse.length < 6) {
+      return toast.error("Le mot de passe doit comporter au moins 6 caractères.");
     }
 
     try {
-      const response = await fetch('https://backendtache21.onrender.com/api/mot-de-passe/modifier', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          codeReset: code,
-          nouveauMotDePasse: newPassword,
-        }),
-      });
+      // URL dynamique pour l'API (utilisation d'une variable d'environnement)
+      const response = await axios.post(`https://backendtache21.onrender.com/api/mot-de-passe/modifier`, formData);
 
-      const data = await response.json();
-
-      if (data.message === 'Mot de passe réinitialisé avec succès.') {
-        setSuccess('Mot de passe réinitialisé avec succès.');
-        setError('');
-      } else {
-        setError(data.message || 'Une erreur est survenue.');
-        setSuccess('');
-      }
+      toast.success(response.data.message || "Mot de passe réinitialisé avec succès !");
+      
+      // Rediriger vers la page de connexion après succès
+      navigate("/connexion");
     } catch (err) {
-      setError('Erreur de connexion.');
-      setSuccess('');
+      // Gestion plus précise des erreurs
+      console.log(err.response);
+      if (err.response && err.response.data) {
+        toast.error(err.response.data.message || "Une erreur est survenue.");
+      } else {
+        toast.error("Problème de connexion au serveur. Veuillez réessayer plus tard.");
+      }
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Réinitialiser votre mot de passe</h2>
-
-      {success && <div className="text-green-500 text-center mb-4">{success}</div>}
-      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-
-      <form onSubmit={handleSubmit}>
+    <div className="container mx-auto my-8 max-w-md">
+      <h1 className="text-2xl font-bold mb-6 text-center">Réinitialisation de mot de passe</h1>
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8">
         <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
+          <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
           <input
             type="email"
-            className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-            value={email}
-            onChange={handleEmailChange}
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded shadow focus:outline-none"
+            placeholder="Email"
             required
           />
         </div>
-
         <div className="mb-4">
-          <label className="block text-gray-700">Code reçu</label>
+          <label htmlFor="codeReset" className="block text-gray-700 text-sm font-bold mb-2">Code de réinitialisation</label>
           <input
             type="text"
-            className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-            value={code}
-            onChange={handleCodeChange}
+            id="codeReset"
+            name="codeReset"
+            value={formData.codeReset}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded shadow focus:outline-none"
+            placeholder="Code de réinitialisation"
             required
           />
         </div>
-
         <div className="mb-4">
-          <label className="block text-gray-700">Nouveau mot de passe</label>
+          <label htmlFor="nouveauMotDePasse" className="block text-gray-700 text-sm font-bold mb-2">Nouveau mot de passe</label>
           <input
             type="password"
-            className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-            value={newPassword}
-            onChange={handleNewPasswordChange}
+            id="nouveauMotDePasse"
+            name="nouveauMotDePasse"
+            value={formData.nouveauMotDePasse}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded shadow focus:outline-none"
+            placeholder="Nouveau mot de passe"
             required
           />
         </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700">Confirmer le mot de passe</label>
-          <input
-            type="password"
-            className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            required
-          />
-        </div>
-
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md mt-4 hover:bg-blue-600"
+          className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none w-full"
         >
-          Réinitialiser le mot de passe
+          Réinitialiser
         </button>
       </form>
     </div>
   );
 };
 
-export default ModifieMotdePass;
+export default ModifieMotDePass;
