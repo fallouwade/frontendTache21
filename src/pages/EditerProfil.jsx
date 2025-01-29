@@ -1,15 +1,10 @@
 
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
-=======
-import { useState, useEffect } from "react";
->>>>>>> cc33be1a4a6792568ea703f1cfa0318f773984ae
 import Image from '/images/electricien.jpg'
 
 import Layout from "../components/Layout";
 
 const EditerProfil = () => {
-<<<<<<< HEAD
       const [userData, setUserData] = useState({
         nom: '',
         prenom: '',
@@ -19,56 +14,6 @@ const EditerProfil = () => {
       });
       const handleChange = (e) => {
         const { name, value } = e.target;
-=======
-
-
-
-    //   const [nom, setNom] = useState("")
-    //   const [prenom, setPrenom] = useState("")
-    //   const [email, setEmail] = useState("")
-    //   const [telephone, setTelephone] = useState("")
-
-    //   const handleSubmit = (e) => {
-
-    //     e.preventDefault()
-    //     // Handle form submission
-    //     console.log({ nom, prenom, email, telephone })
-    //   }
-    const [userData, setUserData] = useState({
-        nom: "",
-        prenom: "",
-        email: "",
-        telephone: "",
-        entreprise: "",
-        description: "",
-    })
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [isSaving, setIsSaving] = useState(false)
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire")
-                if (!response.ok) {
-                    throw new Error("Impossible de récupérer vos données")
-                }
-                const data = await response.json()
-                setUserData(data)
-                setIsLoading(false)
-            } catch (err) {
-                setError(err.message)
-                setIsLoading(false)
-            }
-        }
-
-        fetchUserData()
-    }, [])
-
-    const handleChange = (e) => {
-        const { name, value } = e.target
->>>>>>> cc33be1a4a6792568ea703f1cfa0318f773984ae
         setUserData((prevData) => ({
           ...prevData,
           [name]: value,
@@ -78,7 +23,6 @@ const EditerProfil = () => {
       const handleSubmit = (e) => {
 
         e.preventDefault()
-<<<<<<< HEAD
         useEffect(() => {
             const fetchProfilData = async () =>{
                 try {
@@ -95,20 +39,6 @@ const EditerProfil = () => {
                 } catch (error) {
                     
                 }
-=======
-        setIsSaving(true)
-        try {
-            const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
-            })
-
-            if (!response.ok) {
-                throw new Error("Votre profil n'a pas été mis à jour")
->>>>>>> cc33be1a4a6792568ea703f1cfa0318f773984ae
             }
             fetchProfilData()
         }, [])
