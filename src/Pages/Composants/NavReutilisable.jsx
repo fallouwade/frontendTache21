@@ -43,18 +43,6 @@ const NavReutilisable = ({
                 </div>
               )}
 
-              {/* Menu hamburger pour mobile
-              <button
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? (
-                  <FaTimes className="text-gray-700" />
-                ) : (
-                  <FaBars className="text-gray-700" />
-                )}
-              </button> */}
-
               {/* Profil utilisateur */}
               <div className="relative">
                 <button
