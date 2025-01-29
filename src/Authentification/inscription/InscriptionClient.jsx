@@ -65,10 +65,14 @@ const InscriptionClient = () => {
 
       toast.success('Inscription réussie !');
 
-      navigate('/connexion');
+      // Attendre 3 secondes avant de rediriger
+      setTimeout(() => {
+        navigate('/connexion');
+      }, 3000); // Délai de 3 secondes
+
     } catch (err) {
       setError(err.message);
-      toast.error(err.message || "échec d'inscription !");
+      toast.error(err.message || "Échec d'inscription !");
     } finally {
       setIsLoading(false);
     }
