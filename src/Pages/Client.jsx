@@ -20,7 +20,7 @@ function Client() {
 
   return (
     <LayoutClients handleFilterChange={handleFilterChange}>
-      <div className="bg-white grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:p-4">
+      {/* <div className="bg-white grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:p-4">
         <CardService service="Plombier" src="https://www.diallobtp.com/assets/images/slider/diallogistique-220120022343-blog-0.jpeg" />
         <CardService service="Electricien" src="https://www.equonet.net/photo/art/default/56226825-41898769.jpg?v=1620767585" />
         <CardService service="Développeur" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFRCIy6GPNXHsOaDZHGzde14J-zg1GLywIng&s" />
@@ -29,7 +29,7 @@ function Client() {
         <CardService service="Menuisier " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX-8OhCaYs0maYjuWreRtMEntJFjzxSnCgeA&s" />
         <CardService service="Menuisier Metalique" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_PgxQqLnwgJOGjXwoizxhL0MprLRm757o-A&s" />
         <CardService service="carreleur" src="https://media.bazarafrique.com/upload/post/6231252ee3b33390643763.jpg" />
-      </div>
+      </div> */}
         <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
     </LayoutClients>
    
