@@ -1,5 +1,4 @@
-import LayoutClients from '../layout/LayoutClients';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaEdit, FaSave, FaCamera, FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
 
@@ -110,7 +109,6 @@ const ProfileClient = () => {
   };
 
   return (
-    <LayoutClients>
       <div className="min-h-screen bg-gradient-to-br to-indigo-50 py-12 px-4">
         <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
@@ -237,7 +235,6 @@ const ProfileClient = () => {
           </div>
         </div>
       </div>
-    </LayoutClients>
   );
 };
 

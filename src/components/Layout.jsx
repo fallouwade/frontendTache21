@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'))
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  console.log(user)
   
   const navigate = useNavigate();
   const handleServiceRequest = () => {
@@ -34,6 +36,8 @@ const Layout = ({ children }) => {
               }
 
               profil="/profil"
+
+              userName={user.nom}
             />
           </div>
       <div className="flex flex-row min-h-screen bg-gray-100">

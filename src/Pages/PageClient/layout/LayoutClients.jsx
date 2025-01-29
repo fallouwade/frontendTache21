@@ -11,7 +11,7 @@ import { FaTachometerAlt } from "react-icons/fa";
 
 const LayoutClients = ({ children, handleFilterChange }) => {
     const location = useLocation();
-    const [isActive, setIsActive] = useState(location.pathname === '/Client/Message');
+    const [isActive, setIsActive] = useState(location.pathname === '/client/message');
     const [isPrestataire, setIsPrestataire] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -30,36 +30,36 @@ const LayoutClients = ({ children, handleFilterChange }) => {
     const toggleFilters = () => setFilters(f => ({ ...f, showFilters: !f.showFilters }));
 
     useEffect(() => {
-        setIsActive(location.pathname === '/Client/Message');
+        setIsActive(location.pathname === '/client/message');
     }, [location]);
     // la logique 
     useEffect(() => {
         try {
-          // Récupérer le rôle depuis le localStorage
-          const user = JSON.parse(localStorage.getItem('user'));
-          if (user.role === 'prestataire') {
-            setIsPrestataire(true);
-          } else {
-            setIsPrestataire(false);
-          }
-    
-          setLoading(false);  // Fin du chargement
-    
+            // Récupérer le rôle depuis le localStorage
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user.role === 'prestataire') {
+                setIsPrestataire(true);
+            } else {
+                setIsPrestataire(false);
+            }
+
+            setLoading(false);  // Fin du chargement
+
         } catch (err) {
-          setLoading(false);
-          setError('Erreur lors de la récupération du rôle depuis le localStorage');
-          console.error(err);  // Afficher l'erreur dans la console pour le débogage
+            setLoading(false);
+            setError('Erreur lors de la récupération du rôle depuis le localStorage');
+            console.error(err);  // Afficher l'erreur dans la console pour le débogage
         }
-      }, []);
-    
-      if (loading) {
+    }, []);
+
+    if (loading) {
         return <div>Chargement...</div>;  // Message de chargement pendant l'exécution du useEffect
-      }
-    
-      if (error) {
+    }
+
+    if (error) {
         return <div>{error}</div>;  // Affichage d'une erreur s'il y en a
-      }
-    
+    }
+
     return (
         <>
             <NavReutilisable
@@ -99,10 +99,10 @@ const LayoutClients = ({ children, handleFilterChange }) => {
                         </form>
                         <div className="flex ms-10">
                             <Link
-                                to={isActive ? "/Client" : "/Client/Message"}
+                                to={isActive ? "/client" : "/client/message"}
                                 className={`flex items-center text-gray-600 hover:text-gray-700 ${isActive ? 'font-medium' : ''}`}
                             >
-                                <CardMessage title={isActive ? "Acceuil" : "Réservation"}>
+                                <CardMessage title={isActive ? "Accueil" : "Réservation"}>
                                     <span>{isActive ? <FaTachometerAlt /> : 3}</span>
                                 </CardMessage>
                             </Link>

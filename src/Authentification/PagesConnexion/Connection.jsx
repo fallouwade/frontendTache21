@@ -26,6 +26,7 @@ const Connection = () => {
     e.preventDefault();
     
     try {
+      console.log("donné envoyer")
       const reponse = await axios.post(LOGIN_API_URL, {
         email: formData.email,
         motDePasse: formData.password 
@@ -34,6 +35,7 @@ const Connection = () => {
           'Content-Type': 'application/json'
         }
       });
+
 
       const user = reponse.data.utilisateur;
       
@@ -48,7 +50,7 @@ const Connection = () => {
           navigate('/accueil');
           break;
         case 'admin':
-          navigate('/');
+          navigate('/dashboardAdmin');
           break;
         default:
           navigate('/');
