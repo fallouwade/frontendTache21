@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaEdit, FaSave, FaCamera, FaUserCircle, FaTimes } from 'react-icons/fa';
 import axios from 'axios';
-import LayoutClients from '../layout/LayoutClients';
 
 const ProfileClient = () => {
   const [isEditing, setIsEditing] = useState(false);
