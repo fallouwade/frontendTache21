@@ -23,7 +23,7 @@ export default function CardCommunautaire() {
         setLoading(false);
       }
     };
-
+    
     fetchServices();
   }, []);
 
@@ -37,10 +37,9 @@ export default function CardCommunautaire() {
           key={index}
           title={service.nomDeservice} 
           description={service.descriptionDeService} 
-          imgSrc={service.imageService ? service.imageService[0]?.preview : '/path/to/default-image.jpg'} 
+          imgSrc={`https://backendtache21.onrender.com${service.imageService}`} 
         />
       ))}
     </div>
   );
 }
-
