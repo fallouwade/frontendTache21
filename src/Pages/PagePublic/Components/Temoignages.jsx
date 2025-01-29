@@ -42,7 +42,7 @@ const Temoignages = () => {
                 <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
               </div>
               <p className="text-gray-700 my-4 line-clamp-4">
-                Vitalii a assemblé pour moi la commode à tiroirs IKEA Norli en moins de 30 minutes, et il a également assemblé une étagère en fil métallique en environ 10 minutes. Il a également fixé un tiroir sur un...
+                Ali a assemblé pour moi la commode à tiroirs  en moins de 30 minutes, et il a également assemblé une étagère en fil métallique en environ 10 minutes. Il a également fixé un tiroir sur un...
               </p>
               <span className="text-green-600 font-medium">Assemblage de meubles</span>
             </div>

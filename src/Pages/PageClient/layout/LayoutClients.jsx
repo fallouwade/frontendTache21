@@ -12,7 +12,9 @@ import { FaTachometerAlt } from "react-icons/fa";
 const LayoutClients = ({ children, handleFilterChange }) => {
     const location = useLocation();
     const [isActive, setIsActive] = useState(location.pathname === '/Client/Message');
-
+    const [isPrestataire, setIsPrestataire] = useState(false);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
         showFilters: false,
         sortBy: 'pertinent'
@@ -28,10 +30,52 @@ const LayoutClients = ({ children, handleFilterChange }) => {
     useEffect(() => {
         setIsActive(location.pathname === '/Client/Message');
     }, [location]);
-
+    // la logique 
+    useEffect(() => {
+        try {
+          // Récupérer le rôle depuis le localStorage
+          const role = localStorage.getItem('role');
+          
+          if (role === 'prestataire') {
+            setIsPrestataire(true);
+          } else {
+            setIsPrestataire(false);
+          }
+    
+          setLoading(false);  // Fin du chargement
+    
+        } catch (err) {
+          setLoading(false);
+          setError('Erreur lors de la récupération du rôle depuis le localStorage');
+          console.error(err);  // Afficher l'erreur dans la console pour le débogage
+        }
+      }, []);
+    
+      if (loading) {
+        return <div>Chargement...</div>;  // Message de chargement pendant l'exécution du useEffect
+      }
+    
+      if (error) {
+        return <div>{error}</div>;  // Affichage d'une erreur s'il y en a
+      }
+    
     return (
         <>
-            <NavReutilisable buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} profil="profilClient" />
+            <NavReutilisable
+                buttonPrest={
+                    isPrestataire ? (
+                        <Link to="/profilPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
+                            retour a mon compte
+                        </Link>
+                    ) : (
+                        <Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
+                            Devenir Prestataire
+                        </Link>
+                    )
+                }
+                profil="profilClient"
+            // buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} profil="profilClient" 
+            />
             <div className="flex flex-col min-h-screen pt-16 relative bg-gray-300 z-5">
                 <div className="flex-grow">
                     <div className="container mx-auto px-4 py-4 md:py-8">

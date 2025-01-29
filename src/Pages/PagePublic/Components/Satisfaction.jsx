@@ -25,7 +25,7 @@ const Satisfaction = () => {
       <h2 className="text-4xl font-bold mb-16 text-start">
         <span className="text-[#2B4C29]">Votre satisfaction</span>
         {" "}
-        <span className="text-blue-500">garantie</span>
+        <span className="text-yellow-500">garantie</span>
       </h2>
 
       <div className="grid md:grid-cols-3 gap-8">
