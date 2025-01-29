@@ -35,29 +35,23 @@ function App() {
 
 
     <Routes>
-
+      {/* Route public */}
       <Route path="/" element={<Communautaire />} />
-
       <Route path="/connexion" element={<Connection />} />
-
-      {/* //Inscription Prestataire */}
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
-
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
       <Route path="/modifier" element={<ModifieMotDePass />} />
-
-
-      {/* Inscription Client */}
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
-      <Route path="/reservation" element={<Reservation/>} />
-
+      
+    
       {/* Client */}
       <Route path="/client">
         <Route index element={<Client />} />
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
-
+      <Route path="/reservation" element={<Reservation/>} />
+      
     {/* Route pour la partie Prestataire */}
       <Route path="/accueil" element={<Accueil />} />
       <Route path="/profil" element={<Profil />} />

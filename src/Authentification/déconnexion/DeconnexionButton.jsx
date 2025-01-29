@@ -1,19 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { logout } from '../util/Auth';
 
-const LogoutButton = () => {
+const DeconnexionButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     try {
       // Supprimer les données de l'utilisateur du localStorage
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      logout();
       
       // Afficher une notification de succès
       toast.success('Déconnexion réussie');
       
-      // Rediriger vers la page de connexion
+      // Redirection
       navigate('/');
     } catch (error) {
       console.log(error);
@@ -24,11 +24,11 @@ const LogoutButton = () => {
   return (
     <button 
       onClick={handleLogout}
-      className="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-md"
+      className="w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-red-400"
     >
       Déconnexion
     </button>
   );
 };
 
-export default LogoutButton;
+export default DeconnexionButton;
