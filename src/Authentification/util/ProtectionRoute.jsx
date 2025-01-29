@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { isAuthenticated,getUserRole } from './Auth';
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
+const ProtectionRoute = ({ children, allowedRoles }) => {
   const location = useLocation();
   const isLoggedIn = isAuthenticated();
   const userRole = getUserRole();
@@ -13,11 +13,11 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   if (allowedRoles && !allowedRoles.includes(userRole)) {
     // Redirection basée sur le rôle
     switch (userRole) {
-      case 'CLIENT':
+      case 'client':
         return <Navigate to="/client" replace />;
-      case 'PRESTATAIRE':
+      case 'prestataire':
         return <Navigate to="/accueil" replace />;
-      case 'ADMIN':
+      case 'admin':
         return <Navigate to="/dashboardAdmin" replace />;
       default:
         return <Navigate to="/" replace />;
@@ -27,4 +27,4 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
-export default ProtectedRoute;
+export default ProtectionRoute;
