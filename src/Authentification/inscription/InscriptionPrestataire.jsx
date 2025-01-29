@@ -6,21 +6,20 @@ import { regions, departements } from '../Constant';
 import { Link, useNavigate } from "react-router-dom"; 
 
 const InscriptionPrestataire = () => {
-   const navigate = useNavigate(); 
+  const navigate = useNavigate(); 
 
   const [formData, setFormData] = useState({
-  nom: '',
-  prenom: '',
-  email: '',
-  telephone: '',
-  motDePasse: '',
-  confirmMotDePasse: '',
-  nomDeLentreprise: '',
-  region: '',
-  departement: '',
-  description: '',
-});
-
+    nom: '',
+    prenom: '',
+    email: '',
+    telephone: '',
+    motDePasse: '',
+    confirmMotDePasse: '',
+    nomDeLentreprise: '',
+    region: '',
+    departement: '',
+    description: '',
+  });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -62,9 +61,13 @@ const InscriptionPrestataire = () => {
         }
       });
 
-       toast.success('Inscription réussie !');
-       navigate('/connexion');
-      // Logique pour une réponse réussie
+      toast.success('Inscription réussie !');
+
+      // Délai de 3 secondes avant de rediriger
+      setTimeout(() => {
+        navigate('/connexion');
+      }, 3000); // 3000 ms = 3 secondes
+      
     } catch (err) {
       console.error('Erreur de la requête : ', err);
       setError(err.message);
@@ -302,7 +305,6 @@ const InscriptionPrestataire = () => {
                 name="description" 
                 id="description" 
                 placeholder="Description">
-                
               </textarea>
             </div>
             <button
