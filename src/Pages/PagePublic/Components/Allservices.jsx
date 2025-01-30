@@ -97,10 +97,9 @@ const Allservices = () => {
             {servicesDetails[selectedService]?.map((service, index) => (
               <ServiceCard
                 key={index}
-                title={service.title}
-                description={service.description}
-                imgSrc={service.imgSrc}
-                altText={service.altText}
+                title={service.nomDeservice} 
+                description={service.descriptionDeService} 
+                imgSrc={`https://backendtache21.onrender.com${service.imageService}`} 
               />
             ))}
           </div>
