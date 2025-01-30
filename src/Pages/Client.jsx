@@ -31,7 +31,6 @@ function Client() {
         <Outlet />
       )}
 
-=
     </LayoutClients>
   );
 }
