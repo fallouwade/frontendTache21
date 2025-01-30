@@ -79,7 +79,7 @@ const ProfileClient = () => {
       console.log('Réponse mise à jour:', response.data);
 
       if (response.data) {
-        // Immédiatement récupérer le profil mis à jour
+        // Immédiatement récupérer le profil mis à jou
         await fetchProfile();
         
         setIsEditing(false);

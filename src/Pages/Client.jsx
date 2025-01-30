@@ -1,6 +1,6 @@
 import LayoutClients from "./PageClient/layout/LayoutClients";
-import ClientContent from "./PageClient/Components/ClientContent";
 import { Outlet, useLocation } from "react-router-dom";
+import ServiceGrid from "./PageClient/Components/ServiceGrid";
 import { useState } from "react";
 
 function Client() {
@@ -20,11 +20,18 @@ function Client() {
 
   return (
     <LayoutClients handleFilterChange={handleFilterChange}>
-      {location.pathname === "/client" ? (
-                <ClientContent />
-            ) : (
-                <Outlet />
-            )}
+
+
+{location.pathname === "/Client" ? (
+        <ServiceGrid 
+          {...filters} 
+          setCurrentPage={(page) => handleFilterChange("currentPage", page)} 
+        />
+      ) : (
+        <Outlet />
+      )}
+
+=
     </LayoutClients>
   );
 }

@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { FaTools, FaVideo, FaTruck, FaBroom, FaTree, FaWrench,  FaFire } from "react-icons/fa";
+import { FaTools, FaVideo, FaBookOpen, FaFaucet ,  FaFire, FaLaptopCode  } from "react-icons/fa";
 import ServiceCard from "./ServicesCard";
+import { RiLightbulbFlashFill } from "react-icons/ri";
+import { GiHandSaw } from "react-icons/gi";
+import { LuThermometerSnowflake } from "react-icons/lu";
+
 
 const Allservices = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -8,12 +12,12 @@ const Allservices = () => {
   const services = [
     { icon: <FaTools />, label: "Mécanicien", associatedService: "Mécanicien" },
     { icon: <FaVideo />, label: "Design", associatedService: "Design" },
-    { icon: <FaTruck />, label: "Électricité", associatedService: "Électricité" },
-    { icon: <FaBroom />, label: "Enseignants", associatedService: "Enseignants" },
-    { icon: <FaTree />, label: "Plombier", associatedService: "Plombier" },
-    { icon: <FaWrench />, label: "Menuisieur", associatedService: "Menuisieur" },
-    { icon: <FaFire />, label: "Développeur", associatedService: "Développeur Freelance" },
-    { icon: <FaFire />, label: "Technicien Climatisateur", associatedService: "Technicien Climatisateur" },
+    { icon: <RiLightbulbFlashFill />, label: "Électricité", associatedService: "Électricité" },
+    { icon: <FaBookOpen />, label: "Enseignants", associatedService: "Enseignants" },
+    { icon: <FaFaucet  />, label: "Plombier", associatedService: "Plombier" },
+    { icon: <GiHandSaw />, label: "Menuisieur", associatedService: "Menuisieur" },
+    { icon: <FaLaptopCode  />, label: "Développeur", associatedService: "Développeur Freelance" },
+    { icon: <LuThermometerSnowflake />, label: "Technicien Climatisateur", associatedService: "Technicien Climatisateur" },
     { icon: <FaFire />, label: "Nouvautés", associatedService: "Nouvautés" },
   ];
 

@@ -1,5 +1,6 @@
 import Table from "./PageAdmin/tableReutilisable/Table";
 import ServiceGrid from "./PageClient/Components/ServiceGrid";
+import LayoutClients from "./PageClient/layout/LayoutClients";
 import { useState } from "react";
 
 export default function MessageClient() {
@@ -57,16 +58,20 @@ export default function MessageClient() {
     setFilters((prev) => ({ ...prev, [key]: value }));
 
   return (
-    <div className="bg-white grid gap-4 sm:p-4">
-      <Table
-        columns={columns}
-        data={data}
+   
+
+
+<div className="bg-white grid gap-4 sm:p-4">
+   <Table 
+        columns={columns} 
+        data={data} 
         title="Liste des réservations"
-        action={<th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+        action={  <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
           Actions
         </th>}
-      />
-      <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
-    </div>
+    />
+   {/* <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} /> */}
+</div>
+
   )
 }

@@ -25,7 +25,7 @@ import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
-import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
+import ServiceGrid from "./Pages/PageClient/Components/ServiceGrid.jsx";
 
 
 
@@ -48,7 +48,7 @@ function App() {
 
       {/* Routes Client */}
       <Route path="/client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><Client /></ProtectionRoute>}>
-        <Route index element={<ClientContent />} /> {/* Route par défaut */}
+        {/* <Route index element={<ServiceGrid />} />  */}
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
