@@ -54,7 +54,7 @@ const EditerProfil = () => {
         }));
       };
 
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
 
         e.preventDefault()
         setIsSaving(true)
@@ -71,10 +71,12 @@ const EditerProfil = () => {
             if (!response.ok) {
                 throw new Error("Votre profil n'a pas été mis à jour")
             }
-            fetchProfilData()
-        }, [])
-      }
-    
+          
+        }catch(erreur){
+            console.log(erreur);
+          }
+        
+      } 
     return (
         <Layout>
             <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Editer Profil</h1>
