@@ -146,7 +146,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
               </div>
               <div className="mb-0 flex justify-end mt-5">
                <Link to="/reservation">
-                
+                <button className="px-3 py-1 bg-blue-600 rounded-md">Réserver</button>
                </Link>
               </div>
             </div>

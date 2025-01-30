@@ -136,7 +136,7 @@ const LayoutClients = () => {
               setShowFavorites={(showFavorites) => handleFilterChange("showFavorites", showFavorites)}
             />
             <main className="flex-1 min-w-0 sm:px-4 md:px-6">
-              {location.pathname === "/client" ? (
+              {location.pathname === "/Client" ? (
                 <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
               ) : (
                 <Outlet />

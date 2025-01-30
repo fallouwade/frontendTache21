@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios'; 
@@ -27,6 +27,18 @@ const InscriptionPrestataire = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setFormData({
+        ...formData,
+        nom: user.nom,
+        prenom: user.prenom,
+        email: user.email,
+      });
+    }
+  }, []);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -35,6 +47,7 @@ const InscriptionPrestataire = () => {
     });
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { FaChevronDown, FaInbox, FaHeart, FaTimes } from "react-icons/fa"
-import { Link } from "react-router-dom"
+
 
 
 import { categories, region } from "../utils/Localities"

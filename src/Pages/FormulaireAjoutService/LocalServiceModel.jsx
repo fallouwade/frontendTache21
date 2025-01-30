@@ -212,7 +212,7 @@ const LocalServiceModel = () => {
               Télécharger des photos
               <input
                 type="file"
-                multiple
+               
                 accept="image/*"
                 onChange={handlePhotoUpload}
                 className="hidden"
