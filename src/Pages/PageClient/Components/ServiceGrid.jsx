@@ -11,7 +11,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
     // Pour cet exemple, nous utiliserons des données statiques
     const fetchServices = async () => {
       // Simuler un appel API
-      const response = await fetch("/api/services")
+      const response = await fetch("http://localhost:5000/api/prestataires/complets")
       const data = await response.json()
       setServices(data)
     }
@@ -19,8 +19,16 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
     fetchServices()
   }, [category, locality, sortBy, searchQuery, showFavorites])
 
+ 
+
   // Logique de filtrage
-  let filteredServices = services
+  let filtrages = services.filter((service) => {
+    return service.services.length > 0;
+  });
+  
+  console.log(filtrages)
+
+  let filteredServices = filtrages
 
   if (showFavorites) {
     filteredServices = filteredServices.filter((service) => service.isFavorite)
@@ -29,13 +37,13 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
   if (searchQuery) {
     const searchTerms = searchQuery.toLowerCase().split(" ")
     filteredServices = filteredServices.filter((service) => {
-      const searchableText = `${service.name} ${service.job} ${service.locality}`.toLowerCase()
+      const searchableText = `${service.services[0].categorie} ${service.services[0]} ${service.departement}`.toLowerCase()
       return searchTerms.every((term) => searchableText.includes(term))
     })
   }
 
   if (category) {
-    filteredServices = filteredServices.filter((service) => service.category === category)
+    filteredServices = filteredServices.filter((service) => service.services[0].categorie === category)
   }
   if (locality) {
     filteredServices = filteredServices.filter((service) => service.locality === locality)
@@ -69,10 +77,20 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
   const totalPages = Math.ceil(filteredServices.length / itemsPerPage)
   const currentServices = filteredServices.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
+
+  if (filteredServices.length === 0) {
+    return (
+      <div className="text-center text-gray-500 mt-6">
+        <p>Aucun service trouvé pour les filtres actuels. Essayez de modifier vos critères de recherche.</p>
+      </div>
+    )
+
+  }
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentServices.map((service) => (
+            service.services && service.services.length > 0 && (
           <Card
             key={service.id}
             className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -103,7 +121,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
             <div className="p-3 sm:p-4 md:p-6">
               <div className="flex justify-between items-start mb-2 sm:mb-3">
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 leading-tight">
-                  {service.name}
+                  {service.services[0].nomService}
                 </h3>
                 <div className="flex items-center gap-0.5 sm:gap-1 text-amber-500">
                   <FaStar className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
@@ -111,25 +129,25 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
                   <span className="text-xs sm:text-sm text-gray-500">({service.reviews})</span>
                 </div>
               </div>
-              <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-3 md:mb-4">{service.job}</p>
+              <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-3 md:mb-4">{service.job} || job</p>
               <div className="flex items-center gap-1 sm:gap-2 text-gray-500 mb-2 sm:mb-3 md:mb-4">
                 <FaMapMarkerAlt className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-blue-500" />
                 <span className="text-xs sm:text-sm">
-                  {service.locality} ({service.department})
+                  {service.région} ({service.département})
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2 sm:pt-3 md:pt-4 border-t border-gray-100">
-                <div className="flex items-baseline gap-0.5 sm:gap-1">
+                {/* <div className="flex items-baseline gap-0.5 sm:gap-1">
                   <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">{service.price}€</span>
                   <span className="text-xs sm:text-sm text-gray-500">/heure</span>
-                </div>
-                <Badge color="info" icon={FaClock} className="text-xs sm:text-sm">
+                </div> */}
+                {/* <Badge color="info" icon={FaClock} className="text-xs sm:text-sm">
                   {service.availability}
-                </Badge>
+                </Badge> */}
               </div>
             </div>
           </Card>
-        ))}
+        )))}
       </div>
 
       {/* Pagination */}

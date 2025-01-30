@@ -14,7 +14,7 @@ const DeconnexionButton = () => {
       toast.success('Déconnexion réussie');
       
       // Redirection
-      navigate('/');
+      navigate('/connexion');
     } catch (error) {
       console.log(error);
       toast.error('Erreur lors de la déconnexion');
