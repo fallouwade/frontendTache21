@@ -6,20 +6,6 @@ import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 
 const EditerProfil = () => {
-
-
-
-    //   const [nom, setNom] = useState("")
-    //   const [prenom, setPrenom] = useState("")
-    //   const [email, setEmail] = useState("")
-    //   const [telephone, setTelephone] = useState("")
-
-    //   const handleSubmit = (e) => {
-
-    //     e.preventDefault()
-    //     // Handle form submission
-    //     console.log({ nom, prenom, email, telephone })
-    //   }
     const [userData, setUserData] = useState({
         nom: "",
         prenom: "",
@@ -32,11 +18,20 @@ const EditerProfil = () => {
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false)
     const navigate = useNavigate()
+    const user = localStorage.getItem('user')
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire")
+                const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire", {
+
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                         Authorization: `Bearer ${user}`,
+                    },
+                    body: JSON.stringify(),
+                })
                 if (!response.ok) {
                     throw new Error("Impossible de récupérer vos données")
                 }
@@ -68,6 +63,7 @@ const EditerProfil = () => {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                     Authorization: `Bearer ${user}`,
                 },
                 body: JSON.stringify(userData),
             })
