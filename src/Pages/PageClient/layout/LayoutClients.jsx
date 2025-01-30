@@ -75,7 +75,7 @@ const LayoutClients = ({ children, handleFilterChange }) => {
                     )
                 }
                 profil="profilClient"
-                userName={user.nom}
+                userName={`${user.nom} ${user.prenom}`}
             // buttonPrest={<Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">Devenir Prestataire</Link>} profil="profilClient" 
             />
             <div className="flex flex-col min-h-screen pt-16 relative bg-gray-300 z-5">

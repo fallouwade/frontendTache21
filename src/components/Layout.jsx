@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user'))
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  console.log(user)
+  // console.log(user)
   
   const navigate = useNavigate();
   const handleServiceRequest = () => {
@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
 
               profil="/profil"
 
-              userName={user.nom}
+              userName={`${user.nom} ${user.prenom}`}
             />
           </div>
       <div className="flex flex-row min-h-screen bg-gray-100">

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios"
 import Image from '/images/electricien.jpg'
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const Profil = () => {
   const [formData, setFormData] = useState({})
-  const token = JSON.parse(localStorage.getItems())
+  const token = localStorage.getItem('token')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -29,10 +29,10 @@ const Profil = () => {
           
         },{
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(get)
+          body: JSON.stringify()
         })
         const data = await response.json()
-        setUserData(data)
+        setFormData(data)
         setIsLoading(false)
         .then(() => {
           Navigate('/profil')
