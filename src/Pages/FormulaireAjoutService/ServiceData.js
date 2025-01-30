@@ -10,10 +10,11 @@ export const SERVICE_CATEGORIES = [
     'Autres'
   ];
   
-  export const INITIAL_SERVICE_STATE = {
-    nom: '',
-    categorie: '',
-    description: '',
-    photos: [],
-    certifications: []
-  };
+ 
+ export const INITIAL_SERVICE_STATE = {
+  service: '',
+  categorie: '',
+  description: '',
+  photos: [],
+  certifications: []
+ };

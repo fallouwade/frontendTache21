@@ -24,6 +24,8 @@ import AjouterService from "./Pages/AjouterService.jsx";
 import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
+import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
+import ServiceGrid from "./Pages/PageClient/Components/ServiceGrid.jsx";
 
 
 
@@ -35,41 +37,67 @@ function App() {
 
 
     <Routes>
-
+      {/* Route public */}
       <Route path="/" element={<Communautaire />} />
-
       <Route path="/connexion" element={<Connection />} />
-
-      {/* //Inscription Prestataire */}
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
-
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
       <Route path="/modifier" element={<ModifieMotDePass />} />
-
-
-      {/* Inscription Client */}
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
-      <Route path="/reservation" element={<Reservation/>} />
 
-      {/* Client */}
-      <Route path="/client">
-        <Route index element={<Client />} />
+
+      {/* Routes Client */}
+      <Route path="/client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><Client /></ProtectionRoute>}>
+        {/* <Route index element={<ServiceGrid />} />  */}
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
 
-    {/* Route pour la partie Prestataire */}
-      <Route path="/accueil" element={<Accueil />} />
-      <Route path="/profil" element={<Profil />} />
-      <Route path="/demande" element={<Demande />} />
-      <Route path="/detail" element={<DetailDemande />} />
-      <Route path="/editerprofil" element={<EditerProfil />} />
-      <Route path="/ajouter" element={<AjouterService />} />
+      <Route path="/reservation" element={
+        <ProtectionRoute allowedRoles={['client', 'prestataire']}>
+          <Reservation />
+        </ProtectionRoute>
+      } />
 
+      {/* Routes Prestataire */}
+      <Route path="/accueil" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <Accueil />
+        </ProtectionRoute>
+      } />
+      <Route path="/profil" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <Profil />
+        </ProtectionRoute>
+      } />
+      <Route path="/demande" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <Demande />
+        </ProtectionRoute>
+      } />
+      <Route path="/detail" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <DetailDemande />
+        </ProtectionRoute>
+      } />
+      <Route path="/editerprofil" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <EditerProfil />
+        </ProtectionRoute>
+      } />
+      <Route path="/ajouter" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <AjouterService />
+        </ProtectionRoute>
+      } />
 
 
       {/* Admin Dashboard and nested routes) */}
-      <Route path="/dashboardAdmin" element={<IndexAdmin />}>
+      <Route path="/dashboardAdmin" element={
+        <ProtectionRoute allowedRoles={['admin']}>
+          <IndexAdmin />
+        </ProtectionRoute>
+      }>
         <Route path="prestataire" element={<Prestataire />} />
         <Route path="prestataire/profil" element={<ProfilPrestataire />} />
         <Route path="clients" element={<InfoClients />} />

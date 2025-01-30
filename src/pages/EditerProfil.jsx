@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from '/images/electricien.jpg'
 
 import Layout from "../components/Layout";
@@ -38,7 +38,7 @@ const EditerProfil = () => {
             try {
                 const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire")
                 if (!response.ok) {
-                    throw new Error("Erreur: impossible de récupérer vos données")
+                    throw new Error("Impossible de récupérer vos données")
                 }
                 const data = await response.json()
                 setUserData(data)
@@ -73,7 +73,7 @@ const EditerProfil = () => {
             })
 
             if (!response.ok) {
-                throw new Error("Votre profil a été mis à jour")
+                throw new Error("Votre profil n'a pas été mis à jour")
             }
 
             navigate("/profil")

@@ -2,12 +2,19 @@ import { useState } from "react";
 import Sidebar from "./Sidebar";
 import NavReutilisable from "../Pages/Composants/NavReutilisable";
 import { FaBars } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; 
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'))
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
+  console.log(user)
+  
+  const navigate = useNavigate();
+  const handleServiceRequest = () => {
+    navigate('/client', { state: { role: 'client' } });
+  };
   return (
     <div className="container-fluid">
               <div className="overflow-hidden relative">
@@ -21,12 +28,16 @@ const Layout = ({ children }) => {
                 </button>
               }
               buttonPrest={
-                <button className="bg-blue-100 text-[12px] md:text-base hover:bg-blue-300 text-gray-700 font-normal py-2 px-1 sm:px-3 rounded">
+                <button className="bg-blue-100 text-[12px] md:text-base hover:bg-blue-300 text-gray-700 font-normal py-2 px-1 sm:px-3 rounded" 
+                onClick={handleServiceRequest} 
+>
                     Demande services
                 </button>
               }
 
               profil="/profil"
+
+              userName={user.nom}
             />
           </div>
       <div className="flex flex-row min-h-screen bg-gray-100">
