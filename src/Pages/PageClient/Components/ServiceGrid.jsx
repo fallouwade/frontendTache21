@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react"
 import { FaStar, FaMapMarkerAlt, FaClock, FaCheck, FaHeart } from "react-icons/fa"
 import { Card, Badge, Button } from "flowbite-react"
-import MessageClient from "../../MessageClient"
-import Reservation from "../../PageReservation/Reservation"
 import { Link } from "react-router-dom"
 
 function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, searchQuery, showFavorites }) {
@@ -27,7 +25,6 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
 
   if (searchQuery) {
     const searchTerms = searchQuery.toLowerCase().split(" ")
-    console.log(searchTerms)
     filteredServices = filteredServices.filter((service) => {
       const searchableText =
         `${service.services[0].categorie} ${service.services[0].nomService} ${service.departement}`.toLowerCase()
@@ -42,7 +39,6 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
     filteredServices = filteredServices.filter((service) => service.region === locality)
   }
 
-  // Logique de tri
   filteredServices.sort((a, b) => {
     switch (sortBy) {
       case "rating":
@@ -56,23 +52,14 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
       case "pertinent":
       default:
         if (searchQuery) {
-          const aRelevance = `${a.services[0].nomService} ${a.services[0].categorie}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-            ? 1
-            : 0
-          const bRelevance = `${b.services[0].nomService} ${b.services[0].categorie}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-            ? 1
-            : 0
+          const aRelevance = `${a.services[0].nomService} ${a.services[0].categorie}`.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
+          const bRelevance = `${b.services[0].nomService} ${b.services[0].categorie}`.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
           if (aRelevance !== bRelevance) return bRelevance - aRelevance
         }
         return b.rating - a.rating
     }
   })
 
-  // Pagination
   const totalPages = Math.ceil(filteredServices.length / itemsPerPage)
   const currentServices = filteredServices.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
@@ -145,9 +132,9 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
                 </Badge>
               </div>
               <div className="mb-0 flex justify-end mt-5">
-               <Link to="/reservation">
-                <button className="px-3 py-1 bg-blue-600 rounded-md">Réserver</button>
-               </Link>
+                <Link to={`/reservation`}>
+                  <Button className="bg-blue-600">Réserver</Button>
+                </Link>
               </div>
             </div>
           </Card>
@@ -167,7 +154,6 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
             color="light"
-            className=""
           >
             Précédent
           </Button>
@@ -206,4 +192,3 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
 }
 
 export default ServiceGrid
-
