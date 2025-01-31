@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { FaRegCalendarAlt, FaRegClock, FaWrench, FaPhone } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify'; // Importation de toast et ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Importation des styles
 
 const ReservationCard = ({ selectedDate }) => {
   const [step, setStep] = useState(1);
@@ -47,13 +49,15 @@ const ReservationCard = ({ selectedDate }) => {
 
   const handleSubmit = async () => {
     if (!/^(70|76|77|78|75)\d{7}$/.test(reservation.phone)) {
-      alert('Veuillez entrer un numéro de téléphone valide au Sénégal');
+      // alert('Veuillez entrer un numéro de téléphone valide au Sénégal');
+      toast.error('Veuillez entrer un numéro de téléphone valide au Sénégal'); // Afficher un toast d'erreur
       return;
     }
 
     try {
       console.log('Réservation:', reservation);
-      alert('Votre demande a été envoyée au prestataire');
+      // alert('Votre demande a été envoyée au prestataire');
+      toast.success('Votre demande a été envoyée au prestataire'); // Afficher un toast de succès
     } catch (error) {
       alert('Une erreur est survenue');
     }
@@ -186,6 +190,7 @@ const ReservationCard = ({ selectedDate }) => {
            </p>
          </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

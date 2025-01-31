@@ -1,34 +1,23 @@
-import  { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { FaStar, FaMapMarkerAlt, FaClock, FaCheck, FaHeart } from "react-icons/fa"
 import { Card, Badge, Button } from "flowbite-react"
+import { Link } from "react-router-dom"
 
 function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, searchQuery, showFavorites }) {
   const [services, setServices] = useState([])
   const itemsPerPage = 9
 
   useEffect(() => {
-    // Ici, vous feriez normalement un appel API pour récupérer les services
-    // Pour cet exemple, nous utiliserons des données statiques
     const fetchServices = async () => {
-      // Simuler un appel API
       const response = await fetch("http://localhost:5000/api/prestataires/complets")
       const data = await response.json()
       setServices(data)
     }
 
     fetchServices()
-  }, [category, locality, sortBy, searchQuery, showFavorites])
+  }, [])
 
- 
-
-  // Logique de filtrage
-  let filtrages = services.filter((service) => {
-    return service.services.length > 0;
-  });
-  
-  console.log(filtrages)
-
-  let filteredServices = filtrages
+  let filteredServices = services.filter((service) => service.services.length > 0)
 
   if (showFavorites) {
     filteredServices = filteredServices.filter((service) => service.isFavorite)
@@ -37,7 +26,8 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
   if (searchQuery) {
     const searchTerms = searchQuery.toLowerCase().split(" ")
     filteredServices = filteredServices.filter((service) => {
-      const searchableText = `${service.services[0].categorie} ${service.services[0]} ${service.departement}`.toLowerCase()
+      const searchableText =
+        `${service.services[0].categorie} ${service.services[0].nomService} ${service.departement}`.toLowerCase()
       return searchTerms.every((term) => searchableText.includes(term))
     })
   }
@@ -46,37 +36,32 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
     filteredServices = filteredServices.filter((service) => service.services[0].categorie === category)
   }
   if (locality) {
-    filteredServices = filteredServices.filter((service) => service.locality === locality)
+    filteredServices = filteredServices.filter((service) => service.region === locality)
   }
 
-  // Logique de tri
   filteredServices.sort((a, b) => {
     switch (sortBy) {
       case "rating":
         return b.rating - a.rating
       case "recent":
-        return b.id - a.id
+        return new Date(b.services[0].dateCreation) - new Date(a.services[0].dateCreation)
       case "price-asc":
-        return a.price - b.price
+        return a.services[0].prix - b.services[0].prix
       case "price-desc":
-        return b.price - a.price
-      case "distance":
-        return a.distance - b.distance
-      case "popular":
+        return b.services[0].prix - a.services[0].prix
+      case "pertinent":
       default:
         if (searchQuery) {
-          const aRelevance = `${a.name} ${a.job}`.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
-          const bRelevance = `${b.name} ${b.job}`.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
+          const aRelevance = `${a.services[0].nomService} ${a.services[0].categorie}`.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
+          const bRelevance = `${b.services[0].nomService} ${b.services[0].categorie}`.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
           if (aRelevance !== bRelevance) return bRelevance - aRelevance
         }
-        return b.reviews - a.reviews
+        return b.rating - a.rating
     }
   })
 
-  // Pagination
   const totalPages = Math.ceil(filteredServices.length / itemsPerPage)
   const currentServices = filteredServices.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-
 
   if (filteredServices.length === 0) {
     return (
@@ -84,13 +69,12 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
         <p>Aucun service trouvé pour les filtres actuels. Essayez de modifier vos critères de recherche.</p>
       </div>
     )
-
   }
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentServices.map((service) => (
-            service.services && service.services.length > 0 && (
           <Card
             key={service.id}
             className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -98,7 +82,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
             <div className="relative">
               <img
                 src={service.image || "/placeholder.svg?height=200&width=300"}
-                alt={service.name}
+                alt={service.services[0].nomService}
                 className="w-full h-36 sm:h-40 md:h-48 object-cover transition-transform duration-300 hover:scale-105"
               />
               {service.verifiedPro && (
@@ -129,25 +113,32 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
                   <span className="text-xs sm:text-sm text-gray-500">({service.reviews})</span>
                 </div>
               </div>
-              <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-3 md:mb-4">{service.job} || job</p>
+              <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-3 md:mb-4">{service.services[0].categorie}</p>
               <div className="flex items-center gap-1 sm:gap-2 text-gray-500 mb-2 sm:mb-3 md:mb-4">
                 <FaMapMarkerAlt className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-blue-500" />
                 <span className="text-xs sm:text-sm">
-                  {service.région} ({service.département})
+                  {service.region} ({service.departement})
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2 sm:pt-3 md:pt-4 border-t border-gray-100">
-                {/* <div className="flex items-baseline gap-0.5 sm:gap-1">
-                  <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">{service.price}€</span>
+                <div className="flex items-baseline gap-0.5 sm:gap-1">
+                  <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+                    {service.services[0].prix}€
+                  </span>
                   <span className="text-xs sm:text-sm text-gray-500">/heure</span>
-                </div> */}
-                {/* <Badge color="info" icon={FaClock} className="text-xs sm:text-sm">
-                  {service.availability}
-                </Badge> */}
+                </div>
+                <Badge color="info" icon={FaClock} className="text-xs sm:text-sm">
+                  {service.services[0].disponibilite}
+                </Badge>
+              </div>
+              <div className="mb-0 flex justify-end mt-5">
+                <Link to={`/reservation`}>
+                  <Button className="bg-blue-600">Réserver</Button>
+                </Link>
               </div>
             </div>
           </Card>
-        )))}
+        ))}
       </div>
 
       {/* Pagination */}
@@ -157,13 +148,12 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
           <span className="font-semibold">{Math.min(currentPage * itemsPerPage, filteredServices.length)}</span> sur{" "}
           <span className="font-semibold">{filteredServices.length}</span> résultats
         </p>
-    
+
         <div className="flex items-center gap-1 mb-3">
           <Button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
             color="light"
-            className=""
           >
             Précédent
           </Button>
@@ -183,7 +173,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
 
           <div className="flex sm:hidden">
             <span className="flex px-2 py-1 text-xs border-t border-b bg-gray-50">
-               {currentPage} / {totalPages}
+              {currentPage} / {totalPages}
             </span>
           </div>
 

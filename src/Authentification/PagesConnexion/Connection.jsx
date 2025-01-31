@@ -44,7 +44,7 @@ const Connection = () => {
 
 
       const user = response.data.utilisateur;
-
+     
       login(user, response.data.token);
 
       // Redirection basée sur le rôle
