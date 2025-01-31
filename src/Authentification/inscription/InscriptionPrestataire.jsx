@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios'; 
 import { regions, departements } from '../Constant';
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 const InscriptionPrestataire = () => {
   const navigate = useNavigate(); 
@@ -23,7 +24,21 @@ const InscriptionPrestataire = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setFormData({
+        ...formData,
+        nom: user.nom,
+        prenom: user.prenom,
+        email: user.email,
+      });
+    }
+  }, []);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -32,6 +47,7 @@ const InscriptionPrestataire = () => {
     });
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -39,6 +55,11 @@ const InscriptionPrestataire = () => {
     if (formData.motDePasse !== formData.confirmMotDePasse) {
       toast.error("Les mots de passe ne correspondent pas !");
       return;
+    }
+  
+    // Vérification de la longueur du mot de passe
+    if (formData.motDePasse.length < 6) {
+      return toast.error("Le mot de passe doit comporter au moins 6 caractères.");
     }
   
     setIsLoading(true);
@@ -193,42 +214,60 @@ const InscriptionPrestataire = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col md:flex-row md:space-x-4">
-              <div className="mb-2 flex-1">
+
+            {/* Champ Mot de Passe et Confirmation Mot de Passe en ligne */}
+            <div className="mb-4 flex space-x-4">
+              <div className="relative flex-1">
                 <label
                   htmlFor="motDePasse"
                   className="block text-sm font-medium text-gray-600"
                 >
-                  Mot de Passe
+                  Mot de passe
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="motDePasse"
                   name="motDePasse"
                   value={formData.motDePasse}
                   onChange={handleChange}
+                  maxLength="6" // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-md"
                   required
                 />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 pt-5 transform cursor-pointer"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
               </div>
-              <div className="mb-2 flex-1">
+
+              <div className="relative flex-1">
                 <label
                   htmlFor="confirmMotDePasse"
                   className="block text-sm font-medium text-gray-600"
                 >
-                  Confirmez votre mot de passe
+                  Confirmer mot de passe
                 </label>
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   id="confirmMotDePasse"
                   name="confirmMotDePasse"
                   value={formData.confirmMotDePasse}
                   onChange={handleChange}
+                  maxLength="6" // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-md"
                   required
                 />
+                <span
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-2 pt-5 transform cursor-pointer"
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
               </div>
             </div>
+
             <div className="mb-2">
               <label
                 htmlFor="nomDeLentreprise"
@@ -272,7 +311,7 @@ const InscriptionPrestataire = () => {
               </select>
             </div>
 
-            {/* Sélecteur de département qui dépend de la région */}
+            {/* Sélecteur de département */}
             {formData.region && (
               <div className="mb-2">
                 <label
