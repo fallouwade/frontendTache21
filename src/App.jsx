@@ -47,7 +47,7 @@ function App() {
 
 
       {/* Routes Client */}
-      <Route path="/client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><Client /></ProtectionRoute>}>
+      <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><Client /></ProtectionRoute>}>
         {/* <Route index element={<ServiceGrid />} />  */}
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
