@@ -5,45 +5,78 @@ import Image from '/images/electricien.jpg'
 import Layout from "../components/Layout";
 
 const EditerProfil = () => {
-      const [userData, setUserData] = useState({
-        nom: '',
-        prenom: '',
-        email: '',
-        telephone: ''
-        
-      });
-      const handleChange = (e) => {
-        const { name, value } = e.target;
+    const [userData, setUserData] = useState({
+        nom: "",
+        prenom: "",
+        email: "",
+        telephone: "",
+        entreprise: "",
+        description: "",
+    })
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [isSaving, setIsSaving] = useState(false)
+    const navigate = useNavigate()
+    const user = localStorage.getItem('user')
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch("https://backendtache21.onrender.com/api/utilisateurs/devenir-prestataire", {
+
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                         Authorization: `Bearer ${user}`,
+                    },
+                    body: JSON.stringify(),
+                })
+                if (!response.ok) {
+                    throw new Error("Impossible de récupérer vos données")
+                }
+                const data = await response.json()
+                setUserData(data)
+                setIsLoading(false)
+            } catch (err) {
+                setError(err.message)
+                setIsLoading(false)
+            }
+        }
+
+        fetchUserData()
+    }, [])
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
         setUserData((prevData) => ({
           ...prevData,
           [name]: value,
         }));
       };
 
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
 
         e.preventDefault()
-        useEffect(() => {
-            const fetchProfilData = async () =>{
-                try {
-                    const response = await axios.post("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(post)
-                    })
-                    const data = await response.json()
-                    setUserData(data)
-                    .then(()  => {
-                        console.log('Mis à jour effectué')
-                        Navigate('/profil')
-                    })
-                } catch (error) {
-                    
-                }
+        setIsSaving(true)
+        try {
+            const response = await fetch("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                     Authorization: `Bearer ${user}`,
+                },
+                body: JSON.stringify(userData),
+            })
+
+            if (!response.ok) {
+                throw new Error("Votre profil n'a pas été mis à jour")
             }
-            fetchProfilData()
-        }, [])
-      }
-    
+          
+        }catch(erreur){
+            console.log(erreur);
+          }
+        
+      } 
     return (
         <Layout>
             <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Editer Profil</h1>
