@@ -12,30 +12,34 @@ const Profil = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   console.log(token)
+
+  const fetchPrestataireData = async () =>{
+    try {
+      const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
+      },{
+        headers: { 
+          "Content-Type": "application/json",
+           authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(),
+      })
+      const data = await response.json()
+      console.log(data)
+      setFormData(data)
+      setIsLoading(false)
+      .then(() => {
+        // console.log(formData)
+        Navigate('/profil')
+      });
+    } catch (error) {
+      setError(error.response ? error.response.data : "Une erreur est survenue")
+      setIsLoading(false)
+      console.log(error.response.data);
+      
+    }
+  };
+
   useEffect(() => {
-    const fetchPrestataireData = async () =>{
-      try {
-        const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
-        },{
-          headers: { 
-            "Content-Type": "application/json",
-             authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(),
-        })
-        const data = await response.json()
-        console.log(data)
-        setFormData(data)
-        setIsLoading(false)
-        .then(() => {
-          // console.log(formData)
-          Navigate('/profil')
-        });
-      } catch (error) {
-        setError(error.response ? error.response.data : "Une erreur est survenue")
-        setIsLoading(false)
-      }
-    };
     fetchPrestataireData();
   }, [])
   
