@@ -9,7 +9,7 @@ import { Link, useLocation, Outlet } from "react-router-dom"
 import { FaTachometerAlt } from "react-icons/fa"
 import ServiceGrid from "../Components/ServiceGrid"
 
-const LayoutClients = () => {
+const LayoutClients = (props) => {
   const location = useLocation()
   const [isActive, setIsActive] = useState(location.pathname === "/Client/message")
   const [isPrestataire, setIsPrestataire] = useState(false)
@@ -137,7 +137,7 @@ const LayoutClients = () => {
             />
             <main className="flex-1 min-w-0 sm:px-4 md:px-6">
               {location.pathname === "/Client" ? (
-                <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
+                <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} id={props.id} />
               ) : (
                 <Outlet />
               )}
@@ -150,4 +150,3 @@ const LayoutClients = () => {
 }
 
 export default LayoutClients
-

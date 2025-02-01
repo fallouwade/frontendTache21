@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
   
   const navigate = useNavigate();
   const handleServiceRequest = () => {
-    navigate('/client', { state: { role: 'client' } });
+    navigate('/Client', { state: { role: 'client' } });
   };
   return (
     <div className="container-fluid">

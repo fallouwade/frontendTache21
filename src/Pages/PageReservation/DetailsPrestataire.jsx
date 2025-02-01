@@ -7,7 +7,7 @@ import Stats from './Stats';
 import Calendar from './Calendar';
 import ReservationCard from './ReservationCard';
 
-const DetailsPrestataire = () => {
+const DetailsPrestataire = (props) => {
   // Ajouter un état pour la date sélectionnée
   const [selectedDate, setSelectedDate] = useState(null);
 
