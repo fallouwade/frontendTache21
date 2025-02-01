@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { FaCloudUploadAlt, FaFileAlt, FaTrash } from 'react-icons/fa';
 
@@ -18,12 +18,11 @@ const INITIAL_SERVICE_STATE = {
   nomDeservice: '',
   categorie: '',
   descriptionDeService: '',
-  imageService: '',
-  imageDiplomes: ''
+  imageService: [], // Doit être un tableau
+  imageDiplomes: [] // Doit être un tableau
 };
 
 const LocalServiceModel = () => {
-  // const [services, setServices] = useState([]);
   const [newService, setNewService] = useState(INITIAL_SERVICE_STATE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -34,60 +33,39 @@ const LocalServiceModel = () => {
     setNewService(prev => ({ ...prev, [name]: value }));
   };
 
-  // const handlePhotoUpload = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   setNewService(prev => ({
-  //     ...prev,
-  //     imageService: [...prev.imageService, ...files.map(file => ({
-  //       file: file,
-  //       preview: URL.createObjectURL(file)
-  //     }))],
-  //   }));
-  // };
   const handlePhotoUpload = (e) => {
-    const file = e.target.files[0]; // Récupère seulement le premier fichier
+    const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file); // Crée l'URL de prévisualisation pour le fichier
+      const imageUrl = URL.createObjectURL(file);
       setNewService(prev => ({
         ...prev,
-        imageService: [imageUrl], // Remplace le tableau avec un seul élément (l'URL de l'image)
+        imageService: [...prev.imageService, { file, preview: imageUrl }],
       }));
     }
   };
-  
-  // const handleCertificationUpload = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   setNewService(prev => ({
-  //     ...prev,
-  //     imageDiplomes: [...prev.imageDiplomes, ...files.map(file => ({
-  //       file: file,
-  //       name: file.name,
-  //       preview: URL.createObjectURL(file)
-  //     }))],
-  //   }));
-  // };
+
   const handleCertificationUpload = (e) => {
-    const file = e.target.files[0]; // Récupère seulement le premier fichier
+    const file = e.target.files[0];
     if (file) {
-      const certUrl = URL.createObjectURL(file); // Crée l'URL de prévisualisation pour le fichier
+      const certUrl = URL.createObjectURL(file);
       setNewService(prev => ({
         ...prev,
-        imageDiplomes: [certUrl], // Remplace le tableau avec un seul élément (l'URL de la certification)
+        imageDiplomes: [...prev.imageDiplomes, { file, preview: certUrl }],
       }));
     }
   };
-  
+
   const removePhoto = () => {
     setNewService(prev => ({
       ...prev,
-      imageService: ""
+      imageService: []
     }));
   };
 
   const removeCertification = () => {
     setNewService(prev => ({
       ...prev,
-      imageDiplomes: ""
+      imageDiplomes: []
     }));
   };
 
@@ -97,47 +75,39 @@ const LocalServiceModel = () => {
       return;
     }
 
-    console.log(newService);
-    // const formData = new FormData();
+    const formData = new FormData();
+    formData.append('nomDeservice', newService.nomDeservice);
+    formData.append('categorie', newService.categorie);
+    formData.append('descriptionDeService', newService.descriptionDeService || '');
 
-    // formData.append('nom', newService.nomDeservice);
-    // formData.append('categorie', newService.categorie);
-    // formData.append('description', newService.descriptionDeService || '');
+    newService.imageService.forEach(image => {
+      formData.append('imageService', image.file);
+    });
 
-    // newService.imageService.forEach((imageService) => {
-    //   formData.append('photos', imageService.file);
-    // });
-
-    // newService.imageDiplomes.forEach((cert) => {
-    //   formData.append('certifications', cert.file);
-    // });
+    newService.imageDiplomes.forEach(cert => {
+      formData.append('imageDiplomes', cert.file);
+    });
 
     const token = localStorage.getItem('token');
 
     setLoading(true);
     setError(null);
     setSuccess(null);
-    
-    // console.log(formData)
-    
+
     try {
-      const response = await axios.post('https://backendtache21.onrender.com/api/services/ajouter', {
-        nomDeservice: newService.nomDeservice,
-        categorie: newService.categorie,
-        descriptionDeService: newService.descriptionDeService,
-        imageService: newService.imageService,
-        imageDiplomes: newService.imageDiplomes,
-      }, {
+      const response = await axios.post('https://backendtache21.onrender.com/api/services/ajouter', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`,
-        }
+        },
       });
 
-      // setServices(prev => [...prev, response.data]);
+      console.log("Réponse du serveur:", response.data);
+
       setNewService(INITIAL_SERVICE_STATE);
       setSuccess('Service ajouté avec succès !');
 
+      // Révoquer les URL temporaires pour libérer la mémoire
       newService.imageService.forEach(photo => URL.revokeObjectURL(photo.preview));
       newService.imageDiplomes.forEach(cert => URL.revokeObjectURL(cert.preview));
 
@@ -220,22 +190,22 @@ const LocalServiceModel = () => {
             </label>
           </div>
           <div className="flex gap-2 mt-2">
-            {/* {newService.imageService.map((imageService, index) => ( */}
-              {newService.imageService && <div  className="relative">
+            {newService.imageService.map((image, index) => (
+              <div key={index} className="relative">
                 <img
-                  src={newService.imageService}
-                  alt={`Réalisation ${ 1}`}
+                  src={image.preview}
+                  alt={`Réalisation ${index + 1}`}
                   className="w-24 h-24 object-cover rounded"
                 />
                 <button
                   type="button"
-                  onClick={() => removePhoto()}
+                  onClick={removePhoto}
                   className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
                 >
                   <FaTrash size={12} />
                 </button>
-              </div>}
-            {/* ))} */}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -255,21 +225,21 @@ const LocalServiceModel = () => {
             </label>
           </div>
           <div className="mt-2 space-y-2">
-            {/* {newService.imageDiplomes.map((cert, index) => ( */}
-              {newService.imageDiplomes && <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
+            {newService.imageDiplomes.map((cert, index) => (
+              <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
                 <div className="flex items-center">
                   <FaFileAlt className="mr-2 text-blue-600" />
-                  <span>{newService.imageDiplomes}</span>
+                  <span>{cert.file.name}</span>
                 </div>
                 <button
                   type="button"
-                  onClick={() => removeCertification()}
+                  onClick={removeCertification}
                   className="text-red-500 hover:text-red-700"
                 >
                   <FaTrash />
                 </button>
-              </div>}
-            {/* ))} */}
+              </div>
+            ))}
           </div>
         </div>
 
