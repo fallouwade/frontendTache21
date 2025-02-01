@@ -6,42 +6,41 @@ import Image from "/images/electricien.jpg";
 import { Link } from "react-router-dom";
 
 const Profil = () => {
-  const [formData, setFormData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    
+  })
+  const token = localStorage.getItem('token')
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+  console.log(token)
 
-  // Récupération du token
-  const token = localStorage.getItem("token");
+  const fetchPrestataireData = async () =>{
+    try {
+      const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
+      },{
+        headers: { 
+          "Content-Type": "application/json",
+           authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(),
+      })
+      const data = await response.json()
+      console.log(data)
+      setFormData(data)
+      setIsLoading(false)
+      .then(() => {
+        // console.log(formData)
+        Navigate('/profil')
+      });
+    } catch (error) {
+      setError(error.response ? error.response.data : "Une erreur est survenue")
+      setIsLoading(false)
+      console.log(error.response.data);
+      
+    }
+  };
 
   useEffect(() => {
-    // Vérifier si le token est présent
-    if (!token) {
-      setError("Utilisateur non authentifié. Veuillez vous connecter.");
-      setIsLoading(false);
-      return;
-    }
-
-    const fetchPrestataireData = async () => {
-      try {
-        const response = await axios.get(
-          "https://backendtache21.onrender.com/api/prestataires/profil-prestataire",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setFormData(response.data); // Stocker les données reçues
-      } catch (error) {
-        setError(error.response?.data?.message || "Une erreur est survenue");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchPrestataireData();
   }, [token]);
 

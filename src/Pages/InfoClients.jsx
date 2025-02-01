@@ -72,7 +72,9 @@ export default function InfoClients() {
         <div className="bg-white bg-opacity-10 rounded-lg relative">
           <CardsClient />
         </div>
+        <div>
         <ChartClient />
+        </div>
       </div>
       <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
         <Table columns={columns} data={data} title="Liste de clients" />
