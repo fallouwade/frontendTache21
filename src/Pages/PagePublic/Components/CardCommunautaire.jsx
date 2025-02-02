@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ServiceCard from './ServicesCard';
 
@@ -14,7 +13,7 @@ export default function CardCommunautaire() {
       setError(null);
       try {
         const response = await axios.get('https://backendtache21.onrender.com/api/services/tous-les-services');
-        setServices(response.data); 
+        setServices(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des services', error);
         setError('Une erreur est survenue lors de la récupération des services');
@@ -30,16 +29,15 @@ export default function CardCommunautaire() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="text-red-500">{error}</div>}
       {services.map((service, index) => (
         <ServiceCard
           key={index}
-          title={service.nomDeservice} 
-          description={service.descriptionDeService} 
-          imgSrc={`https://backendtache21.onrender.com/uploads/images/${service.imageService}`} 
+          title={service.nomDeservice}
+          description={service.descriptionDeService}
+          imgSrc={service.imageService?.length > 0 ? service.imageService[0] : 'https://via.placeholder.com/150'}
         />
       ))}
     </div>
   );
-  
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { FaCloudUploadAlt, FaFileAlt, FaTrash } from 'react-icons/fa';
+// import { FaCloudUploadAlt, FaFileAlt, FaTrash } from 'react-icons/fa';
 
 // Définition des catégories de services
 const SERVICE_CATEGORIES = [
@@ -18,8 +18,8 @@ const INITIAL_SERVICE_STATE = {
   nomDeservice: '',
   categorie: '',
   descriptionDeService: '',
-  imageService: [], // Doit être un tableau
-  imageDiplomes: [] // Doit être un tableau
+  imageService: [],
+  imageDiplomes: []
 };
 
 const LocalServiceModel = () => {
@@ -28,12 +28,25 @@ const LocalServiceModel = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewService(prev => ({ ...prev, [name]: value }));
+  // Upload d'image vers Cloudinary
+  const uploadToCloudinary = async (file, folder) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ml_default'); // Remplacez par votre preset
+    formData.append('folder', folder);
+
+    try {
+      const response = await axios.post('https://api.cloudinary.com/v1_1/dnzva49jt/upload', formData);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Erreur lors de l\'upload sur Cloudinary:', error.response ? error.response.data : error);
+      setError('Échec de l\'upload sur Cloudinary');
+      return null;
+    }
+   
   };
 
-  const handlePhotoUpload = (e) => {
+  const handlePhotoUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -44,7 +57,7 @@ const LocalServiceModel = () => {
     }
   };
 
-  const handleCertificationUpload = (e) => {
+  const handleCertificationUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const certUrl = URL.createObjectURL(file);
@@ -55,17 +68,17 @@ const LocalServiceModel = () => {
     }
   };
 
-  const removePhoto = () => {
+  const removePhoto = (index) => {
     setNewService(prev => ({
       ...prev,
-      imageService: []
+      imageService: prev.imageService.filter((_, i) => i !== index)
     }));
   };
 
-  const removeCertification = () => {
+  const removeCertification = (index) => {
     setNewService(prev => ({
       ...prev,
-      imageDiplomes: []
+      imageDiplomes: prev.imageDiplomes.filter((_, i) => i !== index)
     }));
   };
 
@@ -75,41 +88,41 @@ const LocalServiceModel = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('nomDeservice', newService.nomDeservice);
-    formData.append('categorie', newService.categorie);
-    formData.append('descriptionDeService', newService.descriptionDeService || '');
-
-    newService.imageService.forEach(image => {
-      formData.append('imageService', image.file);
-    });
-
-    newService.imageDiplomes.forEach(cert => {
-      formData.append('imageDiplomes', cert.file);
-    });
-
-    const token = localStorage.getItem('token');
-
     setLoading(true);
     setError(null);
     setSuccess(null);
 
+    // Upload des images et documents sur Cloudinary
+    const uploadedImages = [];
+    for (const image of newService.imageService) {
+      const uploadedUrl = await uploadToCloudinary(image.file, 'services');
+      if (uploadedUrl) uploadedImages.push(uploadedUrl);
+    }
+
+    const uploadedDiplomes = [];
+    for (const cert of newService.imageDiplomes) {
+      const uploadedUrl = await uploadToCloudinary(cert.file, 'diplomes');
+      if (uploadedUrl) uploadedDiplomes.push(uploadedUrl);
+    }
+
+    const token = localStorage.getItem('token');
+
     try {
-      const response = await axios.post('https://backendtache21.onrender.com/api/services/ajouter', formData, {
+      const response = await axios.post('http://localhost:5000/api/services/ajouter', {
+        nomDeservice: newService.nomDeservice,
+        categorie: newService.categorie,
+        descriptionDeService: newService.descriptionDeService || '',
+        imageService: uploadedImages,
+        imageDiplomes: uploadedDiplomes
+      }, {
         headers: {
-          'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`,
         },
       });
 
       console.log("Réponse du serveur:", response.data);
-
       setNewService(INITIAL_SERVICE_STATE);
       setSuccess('Service ajouté avec succès !');
-
-      // Révoquer les URL temporaires pour libérer la mémoire
-      newService.imageService.forEach(photo => URL.revokeObjectURL(photo.preview));
-      newService.imageDiplomes.forEach(cert => URL.revokeObjectURL(cert.preview));
 
     } catch (error) {
       console.error('Erreur lors de l\'ajout du service', error);
@@ -123,134 +136,38 @@ const LocalServiceModel = () => {
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Ajouter un Service</h2>
 
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          {error}
-        </div>
-      )}
-      {success && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-          {success}
-        </div>
-      )}
+      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">{error}</div>}
+      {success && <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">{success}</div>}
 
       <form className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Nom du Service</label>
-          <input
-            type="text"
-            name="nomDeservice"
-            value={newService.nomDeservice}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Entrez le nom du service"
-          />
-        </div>
+        <input type="text" name="nomDeservice" value={newService.nomDeservice} onChange={e => setNewService({ ...newService, nomDeservice: e.target.value })} placeholder="Nom du service" className="w-full px-3 py-2 border rounded-md" />
+        
+        <select name="categorie" value={newService.categorie} onChange={e => setNewService({ ...newService, categorie: e.target.value })} className="w-full px-3 py-2 border rounded-md">
+          <option value="">Sélectionnez une catégorie</option>
+          {SERVICE_CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+        </select>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
-          <select
-            name="categorie"
-            value={newService.categorie}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Sélectionnez une catégorie</option>
-            {SERVICE_CATEGORIES.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
+        <textarea name="descriptionDeService" value={newService.descriptionDeService} onChange={e => setNewService({ ...newService, descriptionDeService: e.target.value })} placeholder="Décrivez votre service" className="w-full px-3 py-2 border rounded-md" rows="4" />
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-          <textarea
-            name="descriptionDeService"
-            value={newService.descriptionDeService}
-            onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="4"
-            placeholder="Décrivez votre service"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Photos de vos réalisations</label>
-          <div className="flex items-center">
-            <label className="flex items-center px-4 py-2 bg-blue-50 text-blue-600 rounded-md cursor-pointer hover:bg-blue-100">
-              <FaCloudUploadAlt className="mr-2" />
-              Télécharger des photos
-              <input
-                type="file"
-               
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                className="hidden"
-              />
-            </label>
+        <label className="block text-sm font-medium">Photos</label>
+        <input type="file" accept="image/*" onChange={handlePhotoUpload} />
+        {newService.imageService.map((image, index) => (
+          <div key={index}>
+            <img src={image.preview} alt="Preview" className="w-24 h-24" />
+            <button onClick={() => removePhoto(index)}>❌</button>
           </div>
-          <div className="flex gap-2 mt-2">
-            {newService.imageService.map((image, index) => (
-              <div key={index} className="relative">
-                <img
-                  src={image.preview}
-                  alt={`Réalisation ${index + 1}`}
-                  className="w-24 h-24 object-cover rounded"
-                />
-                <button
-                  type="button"
-                  onClick={removePhoto}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
-                >
-                  <FaTrash size={12} />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Certifications/Diplômes</label>
-          <div className="flex items-center">
-            <label className="flex items-center px-4 py-2 bg-blue-50 text-blue-600 rounded-md cursor-pointer hover:bg-blue-100">
-              <FaFileAlt className="mr-2" />
-              Télécharger des certifications
-              <input
-                type="file"
-                multiple
-                accept=".pdf,.doc,.docx,.jpg,.png"
-                onChange={handleCertificationUpload}
-                className="hidden"
-              />
-            </label>
+        <label className="block text-sm font-medium">Certifications/Diplômes</label>
+        <input type="file" accept=".pdf,.jpg,.png" onChange={handleCertificationUpload} />
+        {newService.imageDiplomes.map((cert, index) => (
+          <div key={index}>
+            <span>{cert.file.name}</span>
+            <button onClick={() => removeCertification(index)}>❌</button>
           </div>
-          <div className="mt-2 space-y-2">
-            {newService.imageDiplomes.map((cert, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                <div className="flex items-center">
-                  <FaFileAlt className="mr-2 text-blue-600" />
-                  <span>{cert.file.name}</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={removeCertification}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <FaTrash />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
 
-        <button
-          type="button"
-          onClick={addService}
-          disabled={loading}
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition disabled:opacity-50"
-        >
-          {loading ? 'Ajout en cours...' : 'Ajouter Service'}
-        </button>
+        <button type="button" onClick={addService} disabled={loading} className="w-full bg-blue-500 text-white py-2 rounded-md">{loading ? 'Ajout en cours...' : 'Ajouter Service'}</button>
       </form>
     </div>
   );
