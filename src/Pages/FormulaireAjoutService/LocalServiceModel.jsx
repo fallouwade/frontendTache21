@@ -94,6 +94,8 @@ const LocalServiceModel = () => {
     setError(null);
     setSuccess(null);
 
+    console.log(formData)
+
     try {
       const response = await axios.post('https://backendtache21.onrender.com/api/services/ajouter', formData, {
         headers: {

@@ -37,7 +37,7 @@ const DetailsPrestataire = (props) => {
           <Stats />
         </div>
 
-        <ReservationCard selectedDate={selectedDate} />
+        <ReservationCard selectedDate={selectedDate} id={props.prestataire.id} />
       </div>
     </div>
   );
