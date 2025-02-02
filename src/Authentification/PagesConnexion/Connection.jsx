@@ -32,6 +32,7 @@ const Connection = () => {
     }
 
     try {
+      console.log("donné envoyer")
       const response = await axios.post(LOGIN_API_URL, {
         email: formData.email,
         motDePasse: formData.password,
@@ -41,8 +42,9 @@ const Connection = () => {
         }
       });
 
-      const user = response.data.utilisateur;
 
+      const user = response.data.utilisateur;
+     
       login(user, response.data.token);
 
       // Redirection basée sur le rôle
@@ -54,7 +56,7 @@ const Connection = () => {
           navigate('/accueil');
           break;
         case 'admin':
-          navigate('/');
+          navigate('/dashboardAdmin');
           break;
         default:
           navigate('/');

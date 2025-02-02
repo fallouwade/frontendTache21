@@ -4,10 +4,19 @@ import { FaSearch } from "react-icons/fa";
 function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
 
+
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    onSearch(value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearch(searchTerm);
   };
+
 
   return (
     <div className="max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 px-4">
@@ -16,7 +25,8 @@ function SearchBar({ onSearch }) {
           type="text"
           placeholder="Rechercher un service..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
+         
           className="w-full h-10 sm:h-12 md:h-14 pl-4 sm:pl-5 md:pl-6 pr-12 sm:pr-14 md:pr-16 text-sm sm:text-base md:text-lg text-gray-600 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200"
         />
         <button

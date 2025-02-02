@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { FaChevronDown, FaInbox, FaHeart, FaTimes } from "react-icons/fa";
+import { useState } from "react"
+import { FaChevronDown, FaInbox, FaHeart, FaTimes } from "react-icons/fa"
 
-import { categories, region } from "../utils/Localities";
+
+
+import { categories, region } from "../utils/Localities"
 
 function DropdownSection({ title, children, isOpen, onToggle }) {
   return (
@@ -12,16 +14,12 @@ function DropdownSection({ title, children, isOpen, onToggle }) {
       >
         <span className="font-medium text-gray-900 text-sm">{title}</span>
         <FaChevronDown
-          className={`transform transition-transform ${
-            isOpen ? "rotate-180" : ""
-          } text-gray-500 w-3 h-3 sm:w-4 sm:h-4`}
+          className={`transform transition-transform ${isOpen ? "rotate-180" : ""} text-gray-500 w-3 h-3 sm:w-4 sm:h-4`}
         />
       </button>
-      {isOpen && (
-        <div className="px-3 sm:px-4 py-2 bg-white">{children}</div>
-      )}
+      {isOpen && <div className="px-3 sm:px-4 py-2 bg-white">{children}</div>}
     </div>
-  );
+  )
 }
 
 function Sidebar({
@@ -39,14 +37,14 @@ function Sidebar({
     locality: false,
     price: false,
     rating: false,
-  });
+  })
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({
       ...prev,
       [section]: !prev[section],
-    }));
-  };
+    }))
+  }
 
   return (
     <div
@@ -56,9 +54,7 @@ function Sidebar({
     >
       {/* Header */}
       <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200">
-        <h2 className="font-semibold text-base sm:text-lg text-gray-900">
-          Filtres
-        </h2>
+        <h2 className="font-semibold text-base sm:text-lg text-gray-900">Filtres</h2>
         {showFilters && (
           <button
             onClick={onClose}
@@ -73,6 +69,21 @@ function Sidebar({
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
         {/* Messages & Favorites Buttons */}
+        {/* <div className="p-3 sm:p-4 space-y-2">
+          <button className="flex items-center w-full p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <FaInbox className="mr-2 text-gray-500" />
+            <span className="text-sm text-gray-700">Messages</span>
+          </button>
+          <button
+            className={`flex items-center w-full p-2 rounded-lg hover:bg-gray-100 transition-colors ${
+              showFavorites ? "bg-blue-50 text-blue-600" : ""
+            }`}
+            onClick={() => setShowFavorites(!showFavorites)}
+          >
+            <FaHeart className="mr-2 text-gray-500" />
+            <span className="text-sm text-gray-700">Favoris</span>
+          </button>
+        </div> */}
 
         {/* Dropdown Sections */}
         <div className="divide-y divide-gray-200">
@@ -86,13 +97,9 @@ function Sidebar({
               {categories.map((cat) => (
                 <button
                   key={cat.id}
-                  onClick={() =>
-                    setSelectedCategory(cat.id === category ? "" : cat.id)
-                  }
+                  onClick={() => setSelectedCategory(cat.id === category ? "" : cat.id)}
                   className={`flex items-center w-full p-1.5 sm:p-2 rounded-lg transition-colors text-xs sm:text-sm ${
-                    cat.id === category
-                      ? "bg-blue-50 text-blue-600"
-                      : "hover:bg-gray-50 text-gray-700"
+                    cat.id === category ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50 text-gray-700"
                   }`}
                 >
                   <cat.icon className="mr-2 sm:mr-3 h-3 w-3 sm:h-4 sm:w-4" />
@@ -103,22 +110,14 @@ function Sidebar({
           </DropdownSection>
 
           {/* Localities Section */}
-          <DropdownSection
-            title="Localité"
-            isOpen={openSections.locality}
-            onToggle={() => toggleSection("locality")}
-          >
+          <DropdownSection title="Localité" isOpen={openSections.locality} onToggle={() => toggleSection("locality")}>
             <div className="space-y-1">
               {region.map((loc) => (
                 <button
                   key={loc}
-                  onClick={() =>
-                    setSelectedLocality(loc === locality ? "" : loc)
-                  }
+                  onClick={() => setSelectedLocality(loc === locality ? "" : loc)}
                   className={`w-full p-1.5 sm:p-2 text-left rounded-lg transition-colors text-xs sm:text-sm ${
-                    loc === locality
-                      ? "bg-blue-50 text-blue-600"
-                      : "hover:bg-gray-50 text-gray-700"
+                    loc === locality ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50 text-gray-700"
                   }`}
                 >
                   {loc}
@@ -128,46 +127,23 @@ function Sidebar({
           </DropdownSection>
 
           {/* Price Section */}
-          <DropdownSection
-            title="Prix"
-            isOpen={openSections.price}
-            onToggle={() => toggleSection("price")}
-          >
+          <DropdownSection title="Prix" isOpen={openSections.price} onToggle={() => toggleSection("price")}>
             <div className="space-y-2">
-              {["Moins de 20€", "20€ - 50€", "50€ - 100€", "Plus de 100€"].map(
-                (price) => (
-                  <label
-                    key={price}
-                    className="flex items-center space-x-2 text-xs sm:text-sm"
-                  >
-                    <input
-                      type="checkbox"
-                      className="rounded text-blue-600 h-3 w-3 sm:h-4 sm:w-4"
-                    />
-                    <span>{price}</span>
-                  </label>
-                )
-              )}
+              {["Moins de 20€", "20€ - 50€", "50€ - 100€", "Plus de 100€"].map((price) => (
+                <label key={price} className="flex items-center space-x-2 text-xs sm:text-sm">
+                  <input type="checkbox" className="rounded text-blue-600 h-3 w-3 sm:h-4 sm:w-4" />
+                  <span>{price}</span>
+                </label>
+              ))}
             </div>
           </DropdownSection>
 
           {/* Rating Section */}
-          <DropdownSection
-            title="Note minimum"
-            isOpen={openSections.rating}
-            onToggle={() => toggleSection("rating")}
-          >
+          <DropdownSection title="Note minimum" isOpen={openSections.rating} onToggle={() => toggleSection("rating")}>
             <div className="space-y-2">
               {[4, 3, 2, 1].map((rating) => (
-                <label
-                  key={rating}
-                  className="flex items-center space-x-2 text-xs sm:text-sm"
-                >
-                  <input
-                    type="radio"
-                    name="rating"
-                    className="text-blue-600 h-3 w-3 sm:h-4 sm:w-4"
-                  />
+                <label key={rating} className="flex items-center space-x-2 text-xs sm:text-sm">
+                  <input type="radio" name="rating" className="text-blue-600 h-3 w-3 sm:h-4 sm:w-4" />
                   <span>{rating}★ et plus</span>
                 </label>
               ))}
@@ -176,7 +152,7 @@ function Sidebar({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar

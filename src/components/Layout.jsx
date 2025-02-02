@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'))
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  // console.log(user)
   
   const navigate = useNavigate();
   const handleServiceRequest = () => {
-    navigate('/client', { state: { role: 'client' } });
+    navigate('/Client', { state: { role: 'client' } });
   };
   return (
     <div className="container-fluid">
@@ -34,6 +36,8 @@ const Layout = ({ children }) => {
               }
 
               profil="/profil"
+
+              userName={`${user.nom} ${user.prenom}`}
             />
           </div>
       <div className="flex flex-row min-h-screen bg-gray-100">

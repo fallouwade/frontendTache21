@@ -1,26 +1,30 @@
 import {
-  FaWrench,
-  FaCut,
   FaBolt,
-  FaBook,
-  FaCar,
-  FaPaintBrush,
-  FaCamera,
+  FaBus,
   FaUtensils,
-  FaLaptop,
   FaBriefcase,
+  FaPaintRoller,
 } from "react-icons/fa"
 
+
+import{ 
+   GiGardeningShears,
+} from "react-icons/gi" 
+
+import {
+  MdCarpenter,
+  MdOutlineCleaningServices,
+}  from   "react-icons/md"
+
+
 export const categories = [
-  { id: "plomberie", name: "Plomberie", icon: FaWrench },
-  { id: "coiffure", name: "Coiffure", icon: FaCut },
+  { id: "jardinage", name: "Jardinage", icon: GiGardeningShears },
+  { id: "menuiserie", name: "Menuiserie", icon:  MdCarpenter },
   { id: "electricite", name: "Électricité", icon: FaBolt },
-  { id: "enseignement", name: "Enseignement", icon: FaBook },
-  { id: "mecanique", name: "Mécanique", icon: FaCar },
-  { id: "design", name: "Design", icon: FaPaintBrush },
-  { id: "photographie", name: "Photographie", icon: FaCamera },
+  { id: "peinture", name: "Peinture", icon: FaPaintRoller },
+  { id: "netoyage", name: "Netoyage", icon: MdOutlineCleaningServices },
+  { id: "demenagement", name: "Déménagement", icon: FaBus },
   { id: "cuisine", name: "Cuisine", icon: FaUtensils },
-  { id: "informatique", name: "Informatique", icon: FaLaptop },
   { id: "autres", name: "Autres services", icon: FaBriefcase },
 ]
 
