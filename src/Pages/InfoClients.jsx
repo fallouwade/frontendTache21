@@ -1,82 +1,96 @@
-import Table from "./PageAdmin/tableReutilisable/Table";
-import CardsClient from "./PageAdmin/Components/CardsClient";
-import ChartClient from "./PageAdmin/Components/ChartClient";
 
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import CardsClient from './PageAdmin/Components/CardsClient';
+import ChartClient from './PageAdmin/Components/ChartClient';
+import Table from './PageAdmin/tableReutilisable/Table';
 
-export default function InfoClients() {
+export default function InfoClients({clientId}) {
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [blockedClients, setBlockedClients] = useState([]); // Liste des clients bloqués
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    axios.get('https://backendtache21.onrender.com/api/clients/liste-clients', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setClients(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message); 
+        setLoading(false);
+      });
+  }, []);
+
+  const handleBlockClient = (clientId) => {
+    setBlockedClients((prevState) => {
+      if (prevState.includes(clientId)) {
+        return prevState.filter(id => id !== clientId);
+      } else {
+        return [...prevState, clientId];
+      }
+    });
+  };
+
   const columns = [
     {
-      header: 'Nom complet',
-      accessorKey: 'fullName',
+      header: 'Prenom',
+      accessorKey: 'prenom',
+    },
+    {
+      header: 'Nom',
+      accessorKey: 'nom',
     },
     {
       header: 'Email',
       accessorKey: 'email',
     },
     {
-      header: 'Téléphone',
-      accessorKey: 'phone',
-    },
-    {
-      header: 'Date de naissance',
-      accessorKey: 'birthDate',
-    },
-    {
-      header: 'Adresse',
-      accessorKey: 'address',
+     
+     
+      cell: ({ row }) => {
+        const clientId = row.original.id; // On récupère l'ID du client
+        const isBlocked = blockedClients.includes(clientId);
+
+        return (
+          <button 
+            onClick={() => handleBlockClient(clientId)} 
+            className={`px-4 py-2 text-white ${isBlocked ? 'bg-red-600' : 'bg-blue-600'} rounded`}
+          >
+            {isBlocked ? 'Débloquer' : 'Bloquer'}
+          </button>
+        );
+      }
     },
   ];
 
-  const data = [
-    {
-      fullName: 'John Doe',
-      email: 'john@example.com',
-      phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-    },
-    {
-      fullName: 'John Doe',
-      email: 'john@example.com',
-      phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-    },
-    {
-      fullName: 'John Doe',
-      email: 'john@example.com',
-      phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-    },
-    {
-      fullName: 'John Doe',
-      email: 'john@example.com',
-      phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-    },
-    {
-      fullName: 'John Doe',
-      email: 'john@example.com',
-      phone: '+1 234 567 890',
-      birthDate: '15/04/1990',
-      address: '123 Rue Example, Ville',
-    },
-
-  ];
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="sm:px-5 mb-10 relative">
       <div className="grid md:grid-cols-2 gap-6 p-4">
         <div className="bg-white bg-opacity-10 rounded-lg relative">
-          <CardsClient />
+          <CardsClient totalClient={clients.length} />
         </div>
         <ChartClient />
       </div>
       <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
-        <Table columns={columns} data={data} title="Liste de clients" />
+        <Table
+          columns={columns}
+          data={clients.map(client => ({
+            ...client,
+            isBlocked: blockedClients.includes(client.id), // Ajout de l'état bloqué dans les données
+          }))}
+          title="Liste de clients"
+          action={handleBlockClient} // Passage de l'action ici
+        />
       </div>
     </div>
-  )
+  );
 }
