@@ -94,8 +94,6 @@ const LocalServiceModel = () => {
     setError(null);
     setSuccess(null);
 
-    console.log(formData)
-
     try {
       const response = await axios.post('https://backendtache21.onrender.com/api/services/ajouter', formData, {
         headers: {
@@ -184,7 +182,7 @@ const LocalServiceModel = () => {
               Télécharger des photos
               <input
                 type="file"
-               
+                multiple
                 accept="image/*"
                 onChange={handlePhotoUpload}
                 className="hidden"
