@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from "react";
-import Image from '/images/electricien.jpg'
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Layout from "../components/Layout";
+import Image from "/images/electricien.jpg";
 
 const EditerProfil = () => {
     const [userData, setUserData] = useState({
@@ -12,16 +12,76 @@ const EditerProfil = () => {
         telephone: "",
         entreprise: "",
         description: "",
-    })
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [isSaving, setIsSaving] = useState(false)
-    const navigate = useNavigate()
-    const user = localStorage.getItem('user')
+    });
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+
+    // Récupérer les données du profil existant
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(
+                    "https://backendtache21.onrender.com/api/prestataires/profil-prestataire",
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setUserData(response.data);
+                setIsLoading(false);
+            } catch (error) {
+                setError("Impossible de récupérer les informations du profil.");
+                setIsLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    // Gérer les changements dans le formulaire
+    const handleChange = (e) => {
+        setUserData({ ...userData, [e.target.id]: e.target.value });
+    };
+
+    // Soumettre les modifications
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSaving(true);
+        setError(null);
+
+        try {
+            await axios.put(
+                "https://backendtache21.onrender.com/api/prestataires/profil-prestataire",
+                userData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setIsSaving(false);
+            navigate("/profil"); // Redirige vers le profil après la mise à jour
+        } catch (error) {
+            setError("Erreur lors de la mise à jour du profil.");
+            setIsSaving(false);
+        }
+    };
+
+    if (isLoading) return <p className="text-center text-gray-700">Chargement...</p>;
+    if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
         <Layout>
-            <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">Editer Profil</h1>
+            <h1 className="text-3xl font-semibold text-gray-800 mb-6 pt-6 mt-6">
+                Éditer Profil
+            </h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-white rounded-lg shadow-md p-6">
                     <form onSubmit={handleSubmit}>
@@ -76,17 +136,31 @@ const EditerProfil = () => {
                             </div>
                         </div>
                         <div className="mt-6">
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                                Enregistrer
+                            <button
+                                type="submit"
+                                disabled={isSaving}
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                            >
+                                {isSaving ? "Enregistrement..." : "Enregistrer"}
                             </button>
                         </div>
                     </form>
                 </div>
                 <div className="bg-white rounded-lg shadow-md p-6">
-                    <img src={Image} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4" />
-                    <h2 className="text-xl font-semibold text-center mb-2">{userData.prenom}</h2>
-                    <p className="text-gray-600 text-center mb-4">{userData.NomEntreprise}</p>
-                    <p className="text-center mb-4">{userData.description}</p>
+                    <img
+                        src={Image}
+                        alt="Profile"
+                        className="w-32 h-32 rounded-full mx-auto mb-4"
+                    />
+                    <h2 className="text-xl font-semibold text-center mb-2">
+                        {userData.prenom || "Non renseigné"}
+                    </h2>
+                    <p className="text-gray-600 text-center mb-4">
+                        {userData.entreprise || "Non renseigné"}
+                    </p>
+                    <p className="text-center mb-4">
+                        {userData.description || "Non renseigné"}
+                    </p>
                     <a
                         href="/profil"
                         className="block w-full text-center bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700"
@@ -96,7 +170,7 @@ const EditerProfil = () => {
                 </div>
             </div>
         </Layout>
-    )
-}
+    );
+};
 
-export default EditerProfil
+export default EditerProfil;

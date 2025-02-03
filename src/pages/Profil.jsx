@@ -6,13 +6,14 @@ import Image from "/images/electricien.jpg";
 import { Link } from "react-router-dom";
 
 const Profil = () => {
-  const [formData, setFormData] = useState({});
+  const [userData, setUserData] = useState({});
+  const [update, setUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-  console.log("Token récupéré :", token);
+  // console.log("Token récupéré :", token);
 
   const fetchPrestataireData = async () => {
     if (!token) {
@@ -31,8 +32,9 @@ const Profil = () => {
 
       const data = response.data;
       console.log("Données reçues :", data);
-      setFormData(data);
+      setUserData(data);
       setIsLoading(false);
+      setUpdate(prev => !prev); // Force un re-render
     } catch (error) {
       setError(error.response ? error.response.data : "Une erreur est survenue");
       setIsLoading(false);
@@ -41,7 +43,7 @@ const Profil = () => {
 
   useEffect(() => {
     fetchPrestataireData();
-  }, []);
+  }, [update]);
 
   if (isLoading) {
     return <p className="text-center text-gray-700">Chargement...</p>;
@@ -63,19 +65,19 @@ const Profil = () => {
           <div className="grid grid-cols-2">
             <div className="mb-3">
               <p className="font-semibold text-gray-600">Nom</p>
-              <p className="text-gray-800">{formData.nom || "Non renseigné"}</p>
+              <p className="text-gray-800">{userData.prestataire?.nom || "Non renseigné"}</p>
             </div>
             <div>
               <p className="font-semibold text-gray-600">Prénom</p>
-              <p className="text-gray-800">{formData.prenom || "Non renseigné"}</p>
+              <p className="text-gray-800">{userData.prestataire?.prenom || "Non renseigné"}</p>
             </div>
             <div>
               <p className="font-semibold text-gray-600">Téléphone</p>
-              <p className="text-gray-800">{formData.telephone || "Non renseigné"}</p>
+              <p className="text-gray-800">{userData.prestataire?.telephone || "Non renseigné"}</p>
             </div>
             <div>
               <p className="font-semibold text-gray-600">Email</p>
-              <p className="text-gray-800">{formData.email || "Non renseigné"}</p>
+              <p className="text-gray-800">{userData.prestataire?.email || "Non renseigné"}</p>
             </div>
           </div>
         </div>
@@ -86,12 +88,12 @@ const Profil = () => {
             className="w-32 h-32 rounded-full mx-auto mb-4"
           />
           <h2 className="text-xl font-semibold text-center mb-2">
-            {formData.prenom || "Non renseigné"}
+            {userData.prestataire?.prenom || "Non renseigné"}
           </h2>
           <p className="text-gray-600 text-center mb-4">
-            {formData.nomDeLentreprise || "Non renseigné"}
+            {userData.prestataire?.nomDeLentreprise || "Non renseigné"}
           </p>
-          <p className="text-center mb-4">{formData.description || "Non renseigné"}</p>
+          <p className="text-center mb-4">{userData.prestataire?.description || "Non renseigné"}</p>
           <Link
             to="/editerprofil"
             className="block w-full text-center bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700"

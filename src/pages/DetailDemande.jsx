@@ -1,9 +1,15 @@
 
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import Layout from "../components/Layout"
+import { useEffect } from "react"
 
 const DetailDemande = () => {
   const { id } = useParams()
+  const [demande, setDemande] = useState()
+
+  useEffect(() => {
+
+  }, [id])
 
   return (
     <Layout>

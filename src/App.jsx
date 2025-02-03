@@ -81,7 +81,7 @@ function App() {
           <Demande />
         </ProtectionRoute>
       } />
-      <Route path="/detail" element={
+      <Route path="/detail/:id" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <DetailDemande />
         </ProtectionRoute>
