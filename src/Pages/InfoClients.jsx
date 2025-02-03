@@ -73,7 +73,7 @@ export default function InfoClients() {
           <CardsClient />
         </div>
         <div>
-        <ChartClient />
+        <ChartClient/>
         </div>
       </div>
       <div className="grid grid-cols-1 p-5 md:p-0 mx-8">

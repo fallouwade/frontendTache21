@@ -18,24 +18,12 @@ const CategorieListe = () => {
       description: 'Plombier', 
     },
     {
-      categorie : 'Plombier',
-      description: 'Plombier', 
+      categorie : 'éléctritien',
+      description: 'electrique', 
     },
     {
-      categorie : 'Plombier',
-      description: 'Plombier', 
-    },
-    {
-      categorie : 'Plombier',
-      description: 'Plombier', 
-    },
-    {
-      categorie : 'Plombier',
-      description: 'Plombier', 
-    },
-    {
-      categorie : 'Plombier',
-      description: 'Plombier', 
+      categorie : 'Mécanicien',
+      description: 'Mécanique', 
     },
   ];
 
