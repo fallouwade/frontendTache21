@@ -52,7 +52,7 @@ function App() {
 
 
       {/* Routes Client */}
-      <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
+      <Route path="/client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
