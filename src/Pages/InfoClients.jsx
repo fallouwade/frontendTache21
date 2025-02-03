@@ -78,7 +78,7 @@ export default function InfoClients({clientId}) {
         <div className="bg-white bg-opacity-10 rounded-lg relative">
           <CardsClient totalClient={clients.length} />
         </div>
-        <ChartClient />
+        <ChartClient  clients={clients}/>
       </div>
       <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
         <Table
