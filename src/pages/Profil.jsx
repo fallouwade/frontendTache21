@@ -6,43 +6,42 @@ import Image from "/images/electricien.jpg";
 import { Link } from "react-router-dom";
 
 const Profil = () => {
-  const [formData, setFormData] = useState({
-    
-  })
-  const token = localStorage.getItem('token')
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
-  console.log(token)
+  const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
-  const fetchPrestataireData = async () =>{
+  console.log("Token récupéré :", token);
+
+  const fetchPrestataireData = async () => {
+    if (!token) {
+      setError("Token manquant. Veuillez vous reconnecter.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
-      },{
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-           authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(),
-      })
-      const data = await response.json()
-      console.log(data)
-      setFormData(data)
-      setIsLoading(false)
-      .then(() => {
-        // console.log(formData)
-        Navigate('/profil')
+          Authorization: `Bearer ${token}`,
+        }
       });
+
+      const data = response.data;
+      console.log("Données reçues :", data);
+      setFormData(data);
+      setIsLoading(false);
     } catch (error) {
-      setError(error.response ? error.response.data : "Une erreur est survenue")
-      setIsLoading(false)
-      console.log(error.response.data);
-      
+      setError(error.response ? error.response.data : "Une erreur est survenue");
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchPrestataireData();
-  }, [token]);
+  }, []);
 
   if (isLoading) {
     return <p className="text-center text-gray-700">Chargement...</p>;
@@ -64,11 +63,11 @@ const Profil = () => {
           <div className="grid grid-cols-2">
             <div className="mb-3">
               <p className="font-semibold text-gray-600">Nom</p>
-              <p className="text-gray-800">{formData.nom}</p>
+              <p className="text-gray-800">{formData.nom || "Non renseigné"}</p>
             </div>
             <div>
               <p className="font-semibold text-gray-600">Prénom</p>
-              <p className="text-gray-800">{formData.nom || "Non renseigné"}</p>
+              <p className="text-gray-800">{formData.prenom || "Non renseigné"}</p>
             </div>
             <div>
               <p className="font-semibold text-gray-600">Téléphone</p>
