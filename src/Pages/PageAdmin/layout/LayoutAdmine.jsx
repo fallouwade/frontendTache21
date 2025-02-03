@@ -27,6 +27,8 @@ const LayoutAdmine = ({ children }) => {
                     </button>}
 
                     userName={user.nom}
+
+                    profil="profilAdmin"
                  />
 
             </div>

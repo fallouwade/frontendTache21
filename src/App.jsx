@@ -26,6 +26,7 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
+import ProfilAdmin from "./Pages/ProfilAdmin.jsx";
 
 
 
@@ -98,6 +99,7 @@ function App() {
           <IndexAdmin />
         </ProtectionRoute>
       }>
+        <Route path="profilAdmin" element={<ProfilAdmin />} />
         <Route path="prestataire" element={<Prestataire />} />
         <Route path="prestataire/profil" element={<ProfilPrestataire />} />
         <Route path="clients" element={<InfoClients />} />
