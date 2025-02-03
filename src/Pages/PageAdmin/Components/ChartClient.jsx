@@ -2,27 +2,47 @@ import { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ChevronDown } from 'lucide-react';
 
-const ChartClient = ({ data }) => {
-
-  console.log('Données reçues dans ChartClient:', data);
-  
-  // Récupération des années disponibles dans les données
-  const years = useMemo(() => Object.keys(data || {}).sort(), [data]);
-  
-  // État pour l'année sélectionnée
-  const [selectedYear, setSelectedYear] = useState(years[years.length - 1] || '');
+const ChartClient = ({ clients }) => {
+  const [selectedYear, setSelectedYear] = useState(null); // initialisé à null pour déterminer dynamiquement l'année à afficher
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Si aucune donnée n'est disponible
-  if (!data || Object.keys(data).length === 0) {
-    return (
-      <div className="w-full h-64 flex items-center justify-center bg-white rounded-lg shadow-lg">
-        <p className="text-gray-500">Aucune donnée disponible</p>
-      </div>
-    );
-  }
+  // Fonction pour organiser les données par mois et année
+  const getYearlyData = (clients) => {
+    const data = {};
+    
+    clients.forEach((client) => {
+      const date = new Date(client.createdAt);
+      const year = date.getFullYear();
+      const month = date.toLocaleString('default', { month: 'short' });
 
-  // Tooltip personnalisé pour afficher les données
+      if (!data[year]) {
+        data[year] = Array(12).fill({ month: '', users: 0 });
+      }
+
+      const monthIndex = date.getMonth();
+      data[year][monthIndex] = { month, users: data[year][monthIndex].users + 1 };
+    });
+
+    return data;
+  };
+
+  // Fonction pour obtenir l'année du premier client inscrit
+  const getFirstYear = (clients) => {
+    if (clients.length === 0) return null;
+    const sortedClients = [...clients].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    const firstClientYear = new Date(sortedClients[0].createdAt).getFullYear();
+    return firstClientYear;
+  };
+
+  const yearlyData = useMemo(() => getYearlyData(clients), [clients]);
+  const firstYear = useMemo(() => getFirstYear(clients), [clients]);
+
+  const years = useMemo(() => {
+    // Filtrer les années pour ne garder que celles après l'année de la première inscription
+    const filteredYears = Object.keys(yearlyData).filter(year => parseInt(year) >= firstYear);
+    return filteredYears;
+  }, [yearlyData, firstYear]);
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -44,20 +64,20 @@ const ChartClient = ({ data }) => {
         className="flex items-center justify-between w-full text-sm px-4 py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
-        <span className="font-medium mr-2">{selectedYear}</span>
-        <ChevronDown 
+        <span className="text-sm font-medium">{selectedYear || firstYear}</span>
+        <ChevronDown
           className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
         />
       </button>
-      
+
       {isDropdownOpen && (
         <div className="absolute right-0 mt-1 w-full bg-white border rounded-lg shadow-lg z-50">
           {years.map((year) => (
             <button
               key={year}
-              className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-50 
+              className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 
                 ${year === selectedYear ? 'bg-blue-50 text-blue-600' : ''} 
-                ${year === years[0] ? 'rounded-t-lg' : ''} 
+                ${year === years[0] ? 'rounded-t-lg' : ''}
                 ${year === years[years.length - 1] ? 'rounded-b-lg' : ''}`}
               onClick={() => {
                 setSelectedYear(year);
@@ -95,14 +115,14 @@ const ChartClient = ({ data }) => {
       {/* Conteneur du graphique avec hauteur ajustée */}
       <div className="w-full h-[500px] sm:h-[550px] md:h-[600px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={dataForSelectedYear} // Affichage des données filtrées par l'année sélectionnée
-            margin={{ top: 20, right: 20, left: 20, bottom: 60 }}
+          <BarChart
+            data={yearlyData[selectedYear || firstYear]} // Si aucun année sélectionnée, utilise la première année d'inscription
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
             layout="horizontal"
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-50" />
-            <XAxis 
-              dataKey="month" 
+            <XAxis
+              dataKey="month"
               fontSize={12}
               tickMargin={10}
               interval={0}
@@ -111,10 +131,14 @@ const ChartClient = ({ data }) => {
               height={60}
             />
             <YAxis fontSize={12} />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar 
-              dataKey="users" 
-              fill="#4a90e2" 
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: 'rgba(0, 0, 0, 0.1)' }}
+              position={{ y: 50 }}
+            />
+            <Bar
+              dataKey="users"
+              fill="#4a90e2"
               name="Utilisateurs"
               radius={[6, 6, 0, 0]}
               barSize={30}
