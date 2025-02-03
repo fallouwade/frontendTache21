@@ -141,6 +141,6 @@ export default function Prestataire() {
               </th>}
             />
         </div>
-      </div>
+      </div> 
   )
 }
