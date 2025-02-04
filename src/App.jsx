@@ -25,7 +25,8 @@ import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
-import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
+import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
+// import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
 
 
 
