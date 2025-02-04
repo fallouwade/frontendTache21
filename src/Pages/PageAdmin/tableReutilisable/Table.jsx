@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Search, ChevronLeft, ChevronRight, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, ChevronLeft, ChevronRight} from "lucide-react";
 
-export default function Table({ columns, data, title, routeProfil, action }) {
+export default function Table({ columns, data, title, action }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -10,7 +9,7 @@ export default function Table({ columns, data, title, routeProfil, action }) {
   // Fonction de filtrage
   const filteredData = data.filter((row) =>
     Object.values(row).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
@@ -29,8 +28,13 @@ export default function Table({ columns, data, title, routeProfil, action }) {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  // Rendu du bouton détail
-  // const renderDetailButton = () => ;
+  // Fonction pour rendre l'action avec la ligne
+  const renderAction = (row) => {
+    if (typeof action === 'function') {
+      return action(row);
+    }
+    return action;
+  };
 
   return (
     <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg overflow-hidden">
@@ -64,18 +68,18 @@ export default function Table({ columns, data, title, routeProfil, action }) {
       <div className="w-full overflow-x-auto">
         <div className="min-w-full">
           <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#0a2342] text-white">
               <tr>
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium uppercase tracking-wider"
                   >
                     {column.header}
                   </th>
                 ))}
                 {action && (
-                  <th className="px-3 py-2 text-center sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-center sm:px-6 sm:py-3 text-xs sm:text-sm font-medium uppercase tracking-wider">
                     action
                   </th>
                 )}
@@ -93,8 +97,8 @@ export default function Table({ columns, data, title, routeProfil, action }) {
                     </td>
                   ))}
                   {action && (
-                    <td className="flex justify-around px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
-                      {action} {/* Affichage du contenu de 'action' */}
+                    <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
+                      {renderAction(row)}
                     </td>
                   )}
                 </tr>
