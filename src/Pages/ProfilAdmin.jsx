@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+/**
+ * Composant ProfilAdmin
+ * Gère l'affichage et la modification du profil administrateur
+ * Permet de modifier les informations personnelles et d'ajouter une photo
+ */
 const ProfilAdmin = () => {
+  // États pour gérer les données du profil et l'interface utilisateur
   const [profil, setProfil] = useState({ nom: "", email: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -9,6 +15,10 @@ const ProfilAdmin = () => {
   const [editable, setEditable] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
 
+  /**
+   * Effet pour charger les données du profil au montage du composant
+   * Récupère les informations depuis l'API avec authentification
+   */
   useEffect(() => {
     const fetchProfil = async () => {
       setLoading(true);
@@ -48,12 +58,20 @@ const ProfilAdmin = () => {
     fetchProfil();
   }, []);
 
+  /**
+   * Gère les changements dans les champs du formulaire
+   * @param {Event} e - L'événement de changement
+   */
   const handleChange = (e) => {
-    // Clear message when editing
     if (message) setMessage("");
     setProfil({ ...profil, [e.target.name]: e.target.value });
   };
 
+  /**
+   * Gère la soumission du formulaire de modification
+   * Envoie les modifications à l'API
+   * @param {Event} e - L'événement de soumission
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -82,7 +100,7 @@ const ProfilAdmin = () => {
       setMessage("✅ Profil mis à jour avec succès !");
       setEditable(false);
 
-      // Remove message after 3 seconds
+      // Efface le message de succès après 3 secondes
       setTimeout(() => {
         setMessage("");
       }, 3000);
@@ -91,20 +109,54 @@ const ProfilAdmin = () => {
     }
   };
 
+  /**
+   * Gère le changement de fichier pour la photo de profil
+   * @param {Event} e - L'événement de changement de fichier
+   */
   const handleFileChange = (e) => {
-    // Clear message when changing file
     if (message) setMessage("");
-    
     const file = e.target.files[0];
     if (file) {
       setImagePreview(URL.createObjectURL(file));
     }
   };
 
+  /**
+   * Fonction utilitaire pour rendre un champ du formulaire
+   * Alterne entre mode lecture (div) et mode édition (input)
+   * @param {string} label - Le label du champ
+   * @param {string} name - Le nom du champ
+   * @param {string} value - La valeur du champ
+   * @param {string} type - Le type d'input (défaut: "text")
+   */
+  const renderField = (label, name, value, type = "text") => {
+    return (
+      <div className="mb-6">
+        <label className="block text-gray-700 font-medium mb-2">
+          {label}
+        </label>
+        {editable ? (
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            className="w-full p-2 rounded border border-gray-300 focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+          />
+        ) : (
+          // En mode lecture, on utilise un div simple sans bordure
+          <div className="w-full p-2 text-gray-700">
+            {value}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div className="flex flex-col bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto mt-10">
-      {/* Photo section on top for mobile */}
-      <div className="flex flex-col items-center mb-6 md:hidden">
+    <div className="flex flex-col bg-white shadow-lg rounded-lg p-8 max-w-2xl mx-auto mt-10">
+      {/* Section photo de profil mobile */}
+      <div className="flex flex-col items-center mb-8 md:hidden">
         <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden border-4 border-gray-400 shadow-lg mb-4">
           {imagePreview ? (
             <img
@@ -119,7 +171,7 @@ const ProfilAdmin = () => {
 
         <label
           htmlFor="photo"
-          className="mt-3 bg-gray-700 text-white px-2 py-1 text-sm rounded cursor-pointer hover:bg-gray-600 transition-colors"
+          className="bg-gray-700 text-white px-3 py-1.5 text-sm rounded cursor-pointer hover:bg-gray-600 transition-colors"
         >
           📷 Photo
         </label>
@@ -132,60 +184,36 @@ const ProfilAdmin = () => {
         />
       </div>
 
-      {/* Main content in row for desktop, column for mobile */}
       <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col md:w-2/3 md:pr-6 md:border-r border-gray-300">
+        {/* Section principale du formulaire */}
+        <div className="flex flex-col md:w-2/3 md:pr-8 md:border-r border-gray-300">
           {loading && <p className="text-blue-600">Chargement du profil...</p>}
 
           {error && (
-            <div className="mb-4 text-red-600 p-2 bg-red-100 rounded">
+            <div className="mb-6 text-red-600 p-3 bg-red-100 rounded">
               {error}
             </div>
           )}
 
           {!loading && (
             <>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Nom complet
-                </label>
-                <input
-                  type="text"
-                  name="nom"
-                  value={profil.nom}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded mt-1"
-                  disabled={!editable}
-                />
-              </div>
+              {renderField("Nom complet", "nom", profil.nom)}
+              {renderField("Adresse email", "email", profil.email, "email")}
 
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-1">
-                  Adresse email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={profil.email}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded mt-1"
-                  disabled={!editable}
-                />
-              </div>
+              {message && <p className="text-green-500 mb-6">{message}</p>}
 
-              {message && <p className="text-green-500 mb-4">{message}</p>}
-
+              {/* Bouton qui change selon le mode (édition ou lecture) */}
               {!editable ? (
                 <button
                   onClick={() => setEditable(true)}
-                  className="w-full px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors"
+                  className="w-full px-4 py-2.5 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors"
                 >
-                  Modifier
+                  Modifier Mes Informations
                 </button>
               ) : (
                 <button
                   onClick={handleSubmit}
-                  className="w-full px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 transition-colors"
+                  className="w-full px-4 py-2.5 bg-blue-900 text-white rounded hover:bg-blue-800 transition-colors"
                 >
                   Sauvegarder
                 </button>
@@ -194,8 +222,8 @@ const ProfilAdmin = () => {
           )}
         </div>
 
-        {/* Photo section hidden on mobile, visible on desktop */}
-        <div className="hidden md:flex flex-col items-center md:ml-6 md:w-1/3">
+        {/* Section photo de profil desktop */}
+        <div className="hidden md:flex flex-col items-center md:ml-8 md:w-1/3">
           <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden border-4 border-gray-400 shadow-lg mb-4">
             {imagePreview ? (
               <img
@@ -210,7 +238,7 @@ const ProfilAdmin = () => {
 
           <label
             htmlFor="photo"
-            className="mt-3 bg-gray-700 text-white px-4 py-2 rounded cursor-pointer hover:bg-gray-600 transition-colors"
+            className="bg-gray-700 text-white px-4 py-2 rounded cursor-pointer hover:bg-gray-600 transition-colors"
           >
             📷 Ajouter une photo
           </label>
