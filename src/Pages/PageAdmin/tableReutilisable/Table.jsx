@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import { Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Search, ChevronLeft, ChevronRight} from "lucide-react";
 
-export default function Table({ columns, data, title, routeProfil, action }) {
-  const [searchTerm, setSearchTerm] = useState('');
+export default function Table({ columns, data, title, action }) {
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   // Fonction de filtrage
-  const filteredData = data.filter(row =>
-    Object.values(row).some(value =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = data.filter((row) =>
+    Object.values(row).some((value) =>
+      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
@@ -22,15 +21,20 @@ export default function Table({ columns, data, title, routeProfil, action }) {
 
   // Gestionnaires de pagination
   const handlePrevPage = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  // Rendu du bouton détail
-  // const renderDetailButton = () => ;
+  // Fonction pour rendre l'action avec la ligne
+  const renderAction = (row) => {
+    if (typeof action === 'function') {
+      return action(row);
+    }
+    return action;
+  };
 
   return (
     <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg overflow-hidden">
@@ -38,7 +42,9 @@ export default function Table({ columns, data, title, routeProfil, action }) {
       <div className="p-4 sm:p-6 bg-white border-b border-gray-200 sticky top-0">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           {title && (
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{title}</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+              {title}
+            </h2>
           )}
 
           {/* Barre de recherche */}
@@ -62,17 +68,21 @@ export default function Table({ columns, data, title, routeProfil, action }) {
       <div className="w-full overflow-x-auto">
         <div className="min-w-full">
           <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#0a2342] text-white">
               <tr>
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium uppercase tracking-wider"
                   >
                     {column.header}
                   </th>
                 ))}
-                {action && <th className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">action</th>}
+                {action && (
+                  <th className="px-3 py-2 text-center sm:px-6 sm:py-3 text-xs sm:text-sm font-medium uppercase tracking-wider">
+                    action
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -86,18 +96,11 @@ export default function Table({ columns, data, title, routeProfil, action }) {
                       {row[column.accessorKey]}
                     </td>
                   ))}
-                  {(action) && (
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <Link
-                        to={routeProfil}
-                        className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md hover:bg-blue-50"
-                      >
-                        <Eye className="h-4 w-4" />
-                        <span>Détails</span>
-                      </Link>
+                  {action && (
+                    <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
+                      {renderAction(row)}
                     </td>
-                  )
-                  }
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -109,8 +112,7 @@ export default function Table({ columns, data, title, routeProfil, action }) {
             <div className="text-center py-8 text-gray-500">
               {searchTerm
                 ? "Aucun résultat trouvé pour votre recherche"
-                : "Aucune donnée disponible"
-              }
+                : "Aucune donnée disponible"}
             </div>
           )}
         </div>
@@ -124,10 +126,11 @@ export default function Table({ columns, data, title, routeProfil, action }) {
               <button
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
-                className={`p-2 rounded-md ${currentPage === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                className={`p-2 rounded-md ${
+                  currentPage === 1
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -137,10 +140,11 @@ export default function Table({ columns, data, title, routeProfil, action }) {
               <button
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
-                className={`p-2 rounded-md ${currentPage === totalPages
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                className={`p-2 rounded-md ${
+                  currentPage === totalPages
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
