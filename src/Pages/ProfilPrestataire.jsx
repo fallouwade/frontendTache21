@@ -45,7 +45,7 @@ const ProfilPrestataire = () => {
 
             const foundPrestataire = response.data.find(p => p._id && p._id.toString() === id);
 
-            if (!foundPrestataire) {
+            if (!foundPrestataire)  {
                 setError("Prestataire non trouvé !");
             } else {
                 setPrestataire(foundPrestataire);
