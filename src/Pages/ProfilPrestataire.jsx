@@ -7,7 +7,7 @@ import CardStatic from "./PageAdmin/static/CardStatic";
 
 const ProfilPrestataire = () => {
     const { id } = useParams();
-    const API_URL = "https://backendtache21.onrender.com/api/prestataires/liste-prestataires";
+    const API_URL_prestataire = "https://backendtache21.onrender.com/api/prestataires/liste-prestataires";
     const BLOCK_URL = `https://backendtache21.onrender.com/api/admin/prestataire/bloquer/${id}`;
     const UNBLOCK_URL = `https://backendtache21.onrender.com/api/admin/prestataire/debloquer/${id}`;
 
@@ -15,13 +15,11 @@ const ProfilPrestataire = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isBlocked, setIsBlocked] = useState(false);
-    // State pour gérer la notification
     const [notification, setNotification] = useState(null);
 
-    // Récupérer le token depuis le localStorage
     const token = localStorage.getItem("token");
 
-    // Requête API pour récupérer la liste des prestataires et filtrer celui correspondant à l'ID
+    // Requête pour récupérer les prestataires et vérifier l'attribut 'actif'
     useEffect(() => {
         if (!token) {
             setError("Authentification requise !");
@@ -29,14 +27,12 @@ const ProfilPrestataire = () => {
             return;
         }
 
-        axios.get(API_URL, {
+        axios.get(API_URL_prestataire, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(response => {
-            console.log("Réponse API :", response.data);
-
             if (!Array.isArray(response.data)) {
                 setError("Données invalides reçues de l'API !");
                 setLoading(false);
@@ -44,14 +40,16 @@ const ProfilPrestataire = () => {
             }
 
             const foundPrestataire = response.data.find(p => p._id && p._id.toString() === id);
-
             if (!foundPrestataire)  {
                 setError("Prestataire non trouvé !");
             } else {
                 setPrestataire(foundPrestataire);
-                // Initialiser le statut bloqué basé sur un attribut du prestataire (si disponible)
-                const savedStatus = localStorage.getItem(`prestataire-blocked-${id}`);
-                setIsBlocked(savedStatus === 'true' ? true : false);
+                // Initialiser le statut bloqué basé sur l'attribut 'actif'
+                const isPrestataireBlocked = foundPrestataire.actif === false;
+                setIsBlocked(isPrestataireBlocked);
+
+                // Sauvegarder l'état de blocage dans le localStorage
+                localStorage.setItem(`prestataire-blocked-${id}`, isPrestataireBlocked.toString());
             }
             setLoading(false);
         })
@@ -62,10 +60,10 @@ const ProfilPrestataire = () => {
         });
     }, [id, token]);
 
-    // Fonction pour bloquer/débloquer le prestataire
+    // Fonction pour bloquer ou débloquer le prestataire
     const toggleBlockStatus = () => {
         const url = isBlocked ? UNBLOCK_URL : BLOCK_URL;
-    
+
         axios.put(url, { id, actif: !isBlocked }, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -74,7 +72,7 @@ const ProfilPrestataire = () => {
         })
         .then(() => {
             // Recharger les données après mise à jour
-            axios.get(API_URL, { headers: { Authorization: `Bearer ${token}` } })
+            axios.get(API_URL_prestataire, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
                 const updatedPrestataire = response.data.find(p => p._id === id);
                 if (updatedPrestataire) {
@@ -97,7 +95,7 @@ const ProfilPrestataire = () => {
         .catch(error => {
             console.error("Erreur lors du changement de statut :", error);
             setError("Impossible de changer le statut du prestataire");
-            
+
             // Ajouter une notification d'erreur
             setNotification({
                 message: "Impossible de changer le statut du prestataire.",

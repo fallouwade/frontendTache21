@@ -1,40 +1,28 @@
 import Table from "../tableReutilisable/Table";
+import { FaArchive } from "react-icons/fa";
 
-const CategorieListe = () => {
+const CategorieListe = ({ categories}) => {
   const columns = [
     {
-      header: 'Nom de categorie',
-      accessorKey: 'categorie',
+      header: 'Nom de catégorie',
+      accessorKey: 'nom',
     },
-    {
-      header: 'Description',
-      accessorKey: 'description',
-    }
+    
   ];
-
-  const data = [
-    {
-      categorie : 'Plombier',
-      description: 'Plombier', 
-    },
-    {
-      categorie : 'éléctritien',
-      description: 'electrique', 
-    },
-    {
-      categorie : 'Mécanicien',
-      description: 'Mécanique', 
-    },
-  ];
+  const archiverCategorie = (categories) => {
+    console.log(`Archiver la catégorie: ${categories}`);
+  };
 
   return (
-    <div className="ml-6">
-      {/* Tableau des catégories */}
-      <div className="overflow-x-auto">
-        <Table columns={columns} data={data} title="Mes Categorie" />
-      </div>
+    <div className="overflow-x-auto">
+      <Table 
+        columns={columns} 
+        data={categories} 
+        title="Liste des Categories"
+        action={<button onClick={() => archiverCategorie(categories)}><FaArchive size={20} style={{ color: 'orange' }} /></button>} 
+      />
     </div>
   );
-}
+};
 
 export default CategorieListe;

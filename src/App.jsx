@@ -12,6 +12,7 @@ import InfoClients from "./Pages/InfoClients.jsx";
 import { IndexAdmin } from "./Pages/IndexAdmin.jsx";
 import Prestataire from "./Pages/Prestataire.jsx";
 import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
+import ProfilAdmin from "./Pages/ProfilAdmin.jsx"
 
 
 import Accueil from "./Pages/Accueil.jsx";
@@ -26,12 +27,7 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
-import ProfilAdmin from "./Pages/ProfilAdmin.jsx";
 // import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
-
-
-
-
 
 
 function App() {
