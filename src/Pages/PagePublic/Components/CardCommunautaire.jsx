@@ -37,9 +37,10 @@ export default function CardCommunautaire() {
           key={index}
           title={service.nomDeservice} 
           description={service.descriptionDeService} 
-          imgSrc={`https://backendtache21.onrender.com${service.imageService}`} 
+          imgSrc={`https://backendtache21.onrender.com/uploads/images/${service.imageService}`} 
         />
       ))}
     </div>
   );
+  
 }

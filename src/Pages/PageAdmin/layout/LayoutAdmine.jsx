@@ -7,7 +7,7 @@ import { FaTachometerAlt } from "react-icons/fa";
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
+    const userName = user.prenom ? `${user.prenom} ${user.nom}` : user.nom;
 
     const toggleSidebar = () => {
         setSidebarOpen((prev) => !prev);
@@ -17,19 +17,19 @@ const LayoutAdmine = ({ children }) => {
         <div className="flex w-full fixed max-h-screen bg-[#E8F0FE]">
             <div className="fixed z-40">
                 {/* <Navbar toggleSidebar={toggleSidebar} /> */}
-                <NavReutilisable 
-                 icon={
-                    <button
-                        className="lg:hidden p-2 rounded-md bg-blue-600 text-white"
-                        onClick={toggleSidebar}
-                    >
-                        <FiAlignLeft />
-                    </button>}
+                <NavReutilisable
+                    icon={
+                        <button
+                            className="lg:hidden p-2 rounded-md bg-blue-600 text-white"
+                            onClick={toggleSidebar}
+                        >
+                            <FiAlignLeft />
+                        </button>}
 
-                    userName={user.nom}
+                    userName={`${userName}`}
 
                     profil="profilAdmin"
-                 />
+                />
 
             </div>
             <div className="flex w-screen z-0">

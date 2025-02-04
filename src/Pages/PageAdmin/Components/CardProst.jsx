@@ -8,7 +8,7 @@ function CardProst({color, nombre, titre, icone, description}) {
                         dark:text-white rounded-t-lg `}>
                 {titre} <span>{icone}</span>
             </h5>
-            <div className="flex gap-3 mb-3 font-normal text-gray-500 dark:text-gray-400 p-2 px-4">
+            <div className="flex gap-3 mb-3 font-normal text-gray-500 dark:text-gray-400 py-2 px-2">
                 <span className="bg-blue-200 px-1 text-gray-600 font-bold rounded-md">
                     {nombre}
                 </span>

@@ -31,7 +31,7 @@ const Communautaire = () => {
                 Besoin d'un <span className="text-yellow-400">professionnel</span> près de chez vous ?
               </h1>
               <p className="text-base sm:text-lg lg:text-xl text-white">
-                Trouvez rapidement des plombiers, électriciens, coiffeurs, enseignants et bien plus,
+                Trouvez rapidement des plombiers, électriciens, Developpeur freelance, enseignants et bien plus,
                 disponibles dans votre région, en quelques clics !
               </p>
             </div>

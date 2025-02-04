@@ -44,7 +44,7 @@ const Connection = () => {
 
 
       const user = response.data.utilisateur;
-
+     
       login(user, response.data.token);
 
       // Redirection basée sur le rôle
@@ -94,6 +94,7 @@ const Connection = () => {
       </nav>
 
       <div className="flex flex-grow flex-col md:flex-row">
+        
         <div className="w-full md:w-1/2 relative block md:hidden">
           <img
             src="https://cando.hr/wp-content/uploads/2020/10/bitmap12-e1603359469292.png"
@@ -102,7 +103,7 @@ const Connection = () => {
           />
         </div>
 
-        <div className="md:w-1/2 relative hidden md:block">
+        <div className="w-full md:w-1/2 relative hidden md:block">
           <img
             src="https://cando.hr/wp-content/uploads/2020/10/bitmap12-e1603359469292.png"
             alt="Connexion"
@@ -146,18 +147,17 @@ const Connection = () => {
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 pt-5 transform  cursor-pointer"
+                className="absolute right-2 pt-5 transform cursor-pointer"
                 aria-label={showPassword ? "Masquer le mot de passe" : "Voir le mot de passe"}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Affiche l'icône appropriée */}
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
 
             <div className="mb-4 text-right">
               <p className="text-sm text-gray-600">
-                Mot de passe oublié ?{" "}
                 <Link className="text-blue-500 hover:text-blue-700" to="/motdepasseoublie">
-                  REINITIALISER
+                  Mot de passe oublié ?
                 </Link>
               </p>
             </div>
@@ -168,9 +168,9 @@ const Connection = () => {
 
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
-                Vous n'avez pas encore de compte ?{" "}
+                
                 <Link className="text-blue-500 hover:text-blue-700" to="/inscriptionClient">
-                  INSCRIVEZ-VOUS
+                  Vous n'avez pas encore de compte ?
                 </Link>
               </p>
             </div>

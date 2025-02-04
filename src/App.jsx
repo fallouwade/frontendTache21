@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import  { useState } from 'react';
 
 import Communautaire from './Pages/Communautaire.jsx';
-import Client from './Pages/Client.jsx';
 import Connection from './Authentification/PagesConnexion/Connection.jsx'
 import InscriptionPrestataire from "./Authentification/inscription/InscriptionPrestataire.jsx";
 import MotDePasseOublie from "./Authentification/PagesConnexion/MotDePasseOublie.jsx";
@@ -26,7 +26,6 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
-import ProfilAdmin from "./Pages/ProfilAdmin.jsx";
 
 
 
@@ -34,9 +33,15 @@ import ProfilAdmin from "./Pages/ProfilAdmin.jsx";
 
 
 function App() {
+
+  const [id, setid]= useState()
+
+  const identifiant=  (id) => {
+    setid(id)
+  }
+
   return (
-
-
+    
     <Routes>
       {/* Route public */}
       <Route path="/" element={<Communautaire />} />
@@ -48,17 +53,18 @@ function App() {
 
 
       {/* Routes Client */}
-      <Route path="/client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><Client /></ProtectionRoute>}>
-        <Route index element={<ClientContent />} /> {/* Route par défaut */}
+      <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
 
-      <Route path="/reservation" element={
-        <ProtectionRoute allowedRoles={['client', 'prestataire']}>
-          <Reservation />
-        </ProtectionRoute>
-      } />
+
+       {/* Route Réservation avec ID du prestataire */}
+       <Route path="/reservation" element={
+          <ProtectionRoute allowedRoles={['client', 'prestataire']}>
+            <Reservation id={id} />
+          </ProtectionRoute>
+        } />
 
       {/* Routes Prestataire */}
       <Route path="/accueil" element={
@@ -101,7 +107,7 @@ function App() {
       }>
         <Route path="profilAdmin" element={<ProfilAdmin />} />
         <Route path="prestataire" element={<Prestataire />} />
-        <Route path="prestataire/profil" element={<ProfilPrestataire />} />
+        <Route path="prestataire/profil/:id" element={<ProfilPrestataire />} />
         <Route path="clients" element={<InfoClients />} />
         <Route path="categories" element={<Categorie />} />
       </Route>
@@ -112,10 +118,3 @@ function App() {
   )
 }
 export default App
-
-
-
-
-
-
-
