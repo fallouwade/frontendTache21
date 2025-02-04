@@ -40,10 +40,7 @@ export default function InfoClients({clientId}) {
       header: 'Email',
       accessorKey: 'email',
     },
-    {
-      header: 'Action',
-      accessorKey: 'action',
-    },
+   
   ];
 
   if (error) return <p>Error: {error}</p>;

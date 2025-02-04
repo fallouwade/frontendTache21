@@ -255,5 +255,4 @@ const LocalServiceModel = () => {
     </div>
   );
 };
-
 export default LocalServiceModel;

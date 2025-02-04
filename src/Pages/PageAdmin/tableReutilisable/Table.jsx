@@ -49,7 +49,7 @@ export default function Table({ columns, data, title, routeProfil, action }) {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1);
+                setCurrentPage(1); // Réinitialisation de la page à 1 lors de la recherche
               }}
               className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -103,6 +103,7 @@ export default function Table({ columns, data, title, routeProfil, action }) {
             </tbody>
           </table>
 
+          {/* Message si aucune donnée ou aucun résultat de recherche */}
           {/* Message si aucune donnée ou aucun résultat de recherche */}
           {filteredData.length === 0 && (
             <div className="text-center py-8 text-gray-500">
