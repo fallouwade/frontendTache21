@@ -12,6 +12,7 @@ export default function InfoClients({clientId}) {
   const [blockedClients, setBlockedClients] = useState([]); // Liste des clients bloqués
   const token = localStorage.getItem('token');
 
+  // commentaire
   useEffect(() => {
     axios.get('https://backendtache21.onrender.com/api/clients/liste-clients', {
       headers: {
