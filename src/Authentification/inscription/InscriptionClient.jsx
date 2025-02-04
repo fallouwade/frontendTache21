@@ -227,14 +227,14 @@ const InscriptionClient = () => {
             >
               {isLoading ? "Enregistrement..." : "S'inscrire"}
             </button>
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-right">
               <p className="text-xs text-sm text-gray-600">
-                Vous avez déjà un compte ?{" "}
+                {" "}
                 <Link
                   className="text-blue-500 hover:text-blue-700"
                   to="/connexion"
                 >
-                  CONNECTEZ-VOUS
+                  Vous avez déjà un compte ?
                 </Link>
               </p>
             </div>

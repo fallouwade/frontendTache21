@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const GalleryPrestatiare = () => {
+const GalleryPrestatiare = (props) => {
   const [showMobileCarousel, setShowMobileCarousel] = useState(false);
 
   const images = [
@@ -30,11 +30,12 @@ const GalleryPrestatiare = () => {
   const handleImageClick = () => {
     setShowMobileCarousel(true);
   };
+  const prestataire = props.prestataire
 
   return (
     <div className="max-w-7xl mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-700">Bonjour, je suis Pro</h1>
+        <h1 className="text-3xl font-bold text-blue-700">Bonjour, je suis {prestataire.prenom}{" "} {prestataire.nom}</h1>
         <div className="flex gap-4">
           <button className="flex items-center gap-2 hover:bg-gray-100 px-4 py-2 rounded-lg">
             <FaShare className="w-5 h-5" />
@@ -144,11 +145,8 @@ const GalleryPrestatiare = () => {
       <div className="mt-8">
         <h2 className="text-2xl font-bold text-blue-700 mb-4">Mes Services</h2>
         <ul className="space-y-4 text-gray-700">
-          <li>✔️ **Installation de systèmes de plomberie** : cuisines, salles de bain, etc.</li>
-          <li>✔️ **Réparation et entretien** : détection et réparation de fuites d'eau.</li>
-          <li>✔️ **Rénovation complète** : mise à jour des installations anciennes.</li>
-          <li>✔️ **Installation de chauffe-eaux** : électriques, à gaz ou solaires.</li>
-          <li>✔️ **Débouchage de canalisations** : rapide et efficace.</li>
+          <li>✔️ {prestataire.services[0].categorie}</li>
+         
         </ul>
       </div>
     </div>

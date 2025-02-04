@@ -12,6 +12,7 @@ export default function CardCommunautaire() {
     const fetchServices = async () => {
       setLoading(true);
       setError(null);
+
       try {
         const response = await axios.get('https://backendtache21.onrender.com/api/services/tous-les-services');
         setServices(response.data); 
@@ -22,7 +23,7 @@ export default function CardCommunautaire() {
         setLoading(false);
       }
     };
-
+    
     fetchServices();
   }, []);
 
@@ -36,9 +37,10 @@ export default function CardCommunautaire() {
           key={index}
           title={service.nomDeservice} 
           description={service.descriptionDeService} 
-          imgSrc={`https://backendtache21.onrender.com${service.imageService}`} 
+          imgSrc={`https://backendtache21.onrender.com/uploads/images/${service.imageService}`} 
         />
       ))}
     </div>
   );
+  
 }

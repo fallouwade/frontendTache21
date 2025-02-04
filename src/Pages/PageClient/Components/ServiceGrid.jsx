@@ -3,7 +3,7 @@ import { FaStar, FaMapMarkerAlt, FaClock, FaCheck, FaHeart } from "react-icons/f
 import { Card, Badge, Button } from "flowbite-react"
 import { Link } from "react-router-dom"
 
-function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, searchQuery, showFavorites }) {
+function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, searchQuery, showFavorites, id }) {
   const [services, setServices] = useState([])
   const itemsPerPage = 9
 
@@ -81,7 +81,7 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
           >
             <div className="relative">
               <img
-                src={service.image || "/placeholder.svg?height=200&width=300"}
+                src={service.services[0].imageUrl}
                 alt={service.services[0].nomService}
                 className="w-full h-36 sm:h-40 md:h-48 object-cover transition-transform duration-300 hover:scale-105"
               />
@@ -132,8 +132,8 @@ function ServiceGrid({ currentPage, setCurrentPage, category, locality, sortBy, 
                 </Badge>
               </div>
               <div className="mb-0 flex justify-end mt-5">
-                <Link to={`/reservation`}>
-                  <Button className="bg-blue-600">Réserver</Button>
+              <Link to={`/reservation`} onClick={()=> id(service.id)} >
+                  <Button>Réserver</Button>
                 </Link>
               </div>
             </div>
