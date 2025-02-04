@@ -69,7 +69,7 @@ export default function Prestataire() {
       <div className="flex gap-2">
         <Link
           to={`profil/${row._id}`}
-          className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md hover:bg-blue-50"
+          className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md"
         >
           <Eye className="h-4 w-4" />
           <span>Détails</span>

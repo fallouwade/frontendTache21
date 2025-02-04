@@ -31,7 +31,6 @@ const ProfilPrestataire = () => {
             }
         })
         .then(response => {
-            console.log("Réponse API :", response.data);
 
             if (!Array.isArray(response.data)) {
                 setError("Données invalides reçues de l'API !");
