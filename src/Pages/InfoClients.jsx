@@ -1,30 +1,43 @@
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CardsClient from './PageAdmin/Components/CardsClient';
 import ChartClient from './PageAdmin/Components/ChartClient';
 import Table from './PageAdmin/tableReutilisable/Table';
 
-export default function InfoClients({clientId}) {
+export default function InfoClients() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
 
+  // commentaire
   useEffect(() => {
-    axios.get('https://backendtache21.onrender.com/api/clients/liste-clients', {
-      headers: {
-        'Authorization': `Bearer ${token}`
+    const fetchClients = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setError('Aucun token trouvé. Veuillez vous reconnecter.');
+        setLoading(false);
+        return;
       }
-    })
-      .then((response) => {
+
+      try {
+        const response = await axios.get('https://backendtache21.onrender.com/api/clients/liste-clients', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
         setClients(response.data);
         setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message); 
+      } catch (error) {
+        console.error('Erreur lors de la récupération des clients:', error);
+        setError(error.response?.data?.message || error.message || 'Une erreur est survenue');
         setLoading(false);
-      });
+      }
+    };
+
+    fetchClients();
   }, []);
 
   const columns = [
@@ -43,7 +56,8 @@ export default function InfoClients({clientId}) {
    
   ];
 
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p>Chargement...</p>;
+  if (error) return <p>Erreur : {error}</p>;
 
   return (
     <div className="sm:px-5 mb-10 relative">
@@ -51,7 +65,7 @@ export default function InfoClients({clientId}) {
         <div className="bg-white bg-opacity-10 rounded-lg relative">
           <CardsClient clients={clients} />
         </div>
-        <ChartClient  clients={clients}/>
+        <ChartClient clients={clients}/>
       </div>
       <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
         <Table

@@ -50,6 +50,7 @@ const DetailDemande = () => {
     </Layout>
   )
 }
-export default DetailDemande;
+
+export default DetailDemande
 
 

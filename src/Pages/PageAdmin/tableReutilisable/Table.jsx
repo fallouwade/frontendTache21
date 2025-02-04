@@ -6,10 +6,10 @@ export default function Table({ columns, data, title, action }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Fonction de filtrage
-  const filteredData = data.filter((row) =>
-    Object.values(row).some((value) =>
-      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  // Fonction de filtrage avec vérifications
+  const filteredData = (data || []).filter((row) =>
+    Object.values(row || {}).some((value) =>
+      value ? value.toString().toLowerCase().includes(searchTerm.toLowerCase()) : false
     )
   );
 
