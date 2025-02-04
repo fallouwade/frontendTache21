@@ -14,6 +14,7 @@ export default function Prestataire() {
   const [prestataires, setPrestataires] = useState([])
   const [prestatairesDeMois, setPrestatairesDeMois] = useState([]);
   const [prestatairesDeMoisPasse, setPrestatairesDeMoisPasse] = useState([]);
+  const [prestatairesBloque, setPrestatairesBloque] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const API_URL = "https://backendtache21.onrender.com/api/prestataires/liste-prestataires"
@@ -83,12 +84,17 @@ export default function Prestataire() {
       try {
         const response = await axios.get(API_URL);
         setPrestataires(response.data);
+
         // Combiner le nom et le prénom
         const transformedData = response.data.map((item) => ({
           ...item,
           nomComplet: `${item.prenom} ${item.nom}`, // Combinaison prénom + nom
         }));
         setData(transformedData);
+        
+        // Filtrer les prestataires bloqués
+        const bloques = response.data.filter(prestataire => prestataire.actif === false);
+        setPrestatairesBloque(bloques)
 
         const pres = reccupPrestataireDeCeMois(response.data)
         setPrestatairesDeMois(pres);
@@ -104,6 +110,7 @@ export default function Prestataire() {
 
     reccupDonnéePrestataire()
   }, [])
+
 
   if (loading) {
     return (
@@ -136,7 +143,7 @@ export default function Prestataire() {
         <Link className="w-full">
           <CardProst
             color="text-white bg-red-400"
-            nombre="0"
+            nombre={prestatairesBloque.length}
             titre="Total bloqué"
             icone={<FaUserMinus />}
             description="Suspendus"
@@ -166,7 +173,7 @@ export default function Prestataire() {
           <ChartNouveauInscription prestataires={data} />
         </div>
         <div>
-          <ChartInfosStatus prestataires={prestataires} />
+          <ChartInfosStatus prestataires={data} />
         </div>
       </div>
       <div className="flex w-full mb-10 px-4">
