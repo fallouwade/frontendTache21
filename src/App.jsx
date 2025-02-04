@@ -105,7 +105,7 @@ function App() {
         </ProtectionRoute>
       }>
         <Route path="prestataire" element={<Prestataire />} />
-        <Route path="prestataire/profil" element={<ProfilPrestataire />} />
+        <Route path="prestataire/profil/:id" element={<ProfilPrestataire />} />
         <Route path="clients" element={<InfoClients />} />
         <Route path="categories" element={<Categorie />} />
       </Route>

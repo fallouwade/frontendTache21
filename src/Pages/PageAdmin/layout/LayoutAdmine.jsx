@@ -7,7 +7,7 @@ import { FaTachometerAlt } from "react-icons/fa";
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
-    // console.log(user);
+    const userName = user.prenom ? `${user.prenom} ${user.nom}` : user.nom;
 
     const toggleSidebar = () => {
         setSidebarOpen((prev) => !prev);
@@ -26,7 +26,7 @@ const LayoutAdmine = ({ children }) => {
                             <FiAlignLeft />
                         </button>}
 
-                    userName={`${user.nom} ${user.prenom}`}
+                    userName={`${userName}`}
                 />
 
             </div>
