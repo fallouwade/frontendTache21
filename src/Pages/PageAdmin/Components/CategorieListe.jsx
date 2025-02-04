@@ -19,7 +19,7 @@ const CategorieListe = ({ categories}) => {
         columns={columns} 
         data={categories} 
         title="Liste des Categories"
-        action={<button onClick={() => archiverCategorie(categories)}><FaArchive size={20} style={{ color: 'green' }} /></button>} 
+        action={<button onClick={() => archiverCategorie(categories)}><FaArchive size={20} style={{ color: 'orange' }} /></button>} 
       />
     </div>
   );
