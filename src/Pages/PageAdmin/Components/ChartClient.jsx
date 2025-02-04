@@ -46,9 +46,9 @@ const ChartClient = ({ clients }) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white border rounded-lg shadow-lg p-3 text-sm">
-          <p className="font-medium">{label}</p>
-          <p className="text-blue-600">
+        <div className="bg-white border rounded-lg shadow-lg p-3">
+          <p className="text-sm font-medium">{label}</p>
+          <p className="text-sm text-blue-600">
             {payload[0].value !== null ? `${payload[0].value} utilisateurs` : 'Pas de données'}
           </p>
         </div>
@@ -57,11 +57,10 @@ const ChartClient = ({ clients }) => {
     return null;
   };
 
-  // Sélecteur d'année pour choisir une année spécifique
   const YearSelector = () => (
-    <div className="relative min-w-[100px]">
+    <div className="relative">
       <button
-        className="flex items-center justify-between w-full text-sm px-4 py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
         <span className="text-sm font-medium">{selectedYear || firstYear}</span>
@@ -71,7 +70,7 @@ const ChartClient = ({ clients }) => {
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-1 w-full bg-white border rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-full bg-white border rounded-lg shadow-lg z-50">
           {years.map((year) => (
             <button
               key={year}
@@ -92,28 +91,23 @@ const ChartClient = ({ clients }) => {
     </div>
   );
 
-  // Filtrer les données en fonction de l'année sélectionnée
-  const dataForSelectedYear = data[selectedYear] || [];
-
   return (
-    <div className="w-full max-w-full p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 relative my-8">
       <div className="mb-6">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0">
-          <div className="flex items-center gap-3">
-            <h2 className="text-lg md:text-xl font-bold text-gray-800">Utilisateurs Inscrits</h2>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold">Utilisateurs Inscrits</h2>
           </div>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 w-full md:w-auto">
-            <div className="flex items-center gap-3 text-sm text-gray-500">
-              <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <div className="w-3 h-3 rounded-full bg-blue-500"></div>
               <span>Utilisateurs actifs</span>
             </div>
             <YearSelector />
           </div>
         </div>
       </div>
-
-      {/* Conteneur du graphique avec hauteur ajustée */}
-      <div className="w-full h-[500px] sm:h-[550px] md:h-[600px]">
+      <div className="h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={yearlyData[selectedYear || firstYear]} // Si aucun année sélectionnée, utilise la première année d'inscription
@@ -124,7 +118,7 @@ const ChartClient = ({ clients }) => {
             <XAxis
               dataKey="month"
               fontSize={12}
-              tickMargin={10}
+              tickMargin={5}
               interval={0}
               angle={-45}
               textAnchor="end"
@@ -140,9 +134,9 @@ const ChartClient = ({ clients }) => {
               dataKey="users"
               fill="#4a90e2"
               name="Utilisateurs"
-              radius={[6, 6, 0, 0]}
+              radius={[4, 4, 0, 0]}
               barSize={30}
-              maxBarSize={40}
+              maxBarSize={30}
             />
           </BarChart>
         </ResponsiveContainer>

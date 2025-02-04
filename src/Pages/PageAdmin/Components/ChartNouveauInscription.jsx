@@ -1,108 +1,119 @@
-import React, { useState } from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  Legend,
-  Tooltip,
-  Cell
-} from 'recharts';
+import React, { useState, useMemo, useEffect } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const ChartNouveauInscription = ({ prestataires }) => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
 
-  // Fonction pour formater la date et obtenir le mois
-  const getMois = (date) => {
-    const mois = new Date(date).toLocaleString('fr-FR', { month: 'long' });
-    return mois.charAt(0).toUpperCase() + mois.slice(1);
+  // Mapping des mois en français
+  const MONTHS_FR = {
+    'Jan': 'Janv',
+    'Feb': 'Févr',
+    'Mar': 'Mars',
+    'Apr': 'Avr',
+    'May': 'Mai',
+    'Jun': 'Juin',
+    'Jul': 'Juil',
+    'Aug': 'Août',
+    'Sep': 'Sept',
+    'Oct': 'Oct',
+    'Nov': 'Nov',
+    'Dec': 'Déc'
   };
 
-  // Traitement des données pour regrouper par mois
-  const processData = () => {
-    const inscriptionParMois = {};
+  const availableYears = useMemo(() => {
+    if (!prestataires?.length) return [new Date().getFullYear()];
     
-    prestataires.forEach(prestataire => {
-      const mois = getMois(prestataire.createdAt);
-      inscriptionParMois[mois] = (inscriptionParMois[mois] || 0) + 1;
+    const years = prestataires.map(p => {
+      const date = new Date(p.createdAt);
+      return date.getFullYear();
+    });
+    
+    return [...new Set(years)].sort((a, b) => a - b);
+  }, [prestataires]);
+
+  useEffect(() => {
+    if (!selectedYear && availableYears.length) {
+      setSelectedYear(availableYears[availableYears.length - 1]);
+    }
+  }, [availableYears, selectedYear]);
+
+  const monthlyData = useMemo(() => {
+    if (!prestataires?.length) return [];
+
+    const monthCounts = {
+      'Janv': 0, 'Févr': 0, 'Mars': 0, 'Avr': 0,
+      'Mai': 0, 'Juin': 0, 'Juil': 0, 'Août': 0,
+      'Sept': 0, 'Oct': 0, 'Nov': 0, 'Déc': 0
+    };
+    
+    prestataires.forEach(p => {
+      const date = new Date(p.createdAt);
+      if (date.getFullYear() === selectedYear) {
+        const monthEn = date.toLocaleString('en', { month: 'short' });
+        const monthFr = MONTHS_FR[monthEn];
+        if (monthFr) {
+          monthCounts[monthFr] += 1;
+        }
+      }
     });
 
-    // Conversion en tableau pour Recharts
-    return Object.entries(inscriptionParMois).map(([mois, count]) => ({
-      mois,
-      inscriptions: count
+    return Object.entries(monthCounts).map(([month, value]) => ({
+      month,
+      value
     }));
-  };
+  }, [prestataires, selectedYear]);
 
-  const data = processData();
-  const defaultColor = '#3b82f6';
-  const hoverColor = '#2563eb';
-
-  const handleMouseEnter = (_, index) => {
-    setActiveIndex(index);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveIndex(null);
-  };
+  const totalInscriptions = useMemo(() => {
+    return monthlyData.reduce((sum, item) => sum + item.value, 0);
+  }, [monthlyData]);
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 w-full">
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Nouvelles inscriptions par mois
-        </h2>
-      </div>
-      <div className=" h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={data} 
-            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-            barSize={40}
-            onMouseMove={(state) => {
-              if (state?.activeTooltipIndex !== undefined) {
-                setActiveIndex(state.activeTooltipIndex);
-              }
-            }}
-            onMouseLeave={handleMouseLeave}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="mois" 
-              tick={{ fill: '#666' }}
-            />
-            <YAxis 
-              tick={{ fill: '#666' }}
-            />
-            <Tooltip 
-              cursor={{ fill: 'rgba(0, 0, 0, 0.1)' }}
-              contentStyle={{ 
-                backgroundColor: '#fff',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                padding: '8px'
-              }}
-            />
-            <Legend />
-            <Bar 
-              dataKey="inscriptions" 
-              name="Inscriptions"
-              radius={[4, 4, 0, 0]}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+    <div className="w-full bg-white p-4 rounded-lg shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="sm:flex justify-between items-center w-full">
+          <h1 className="font-semibold text-xl">Prestataires par année</h1>
+          <div>
+            <label htmlFor="year-select" className="mr-2">Filtrer par année :</label>
+            <select
+              id="year-select"
+              value={selectedYear || ''}
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+              className="p-2 border rounded"
             >
-              {data.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={index === activeIndex ? hoverColor : defaultColor}
-                  style={{ transition: 'fill 0.3s ease' }}
-                />
+              {availableYears.map((year) => (
+                <option key={year} value={year}>{year}</option>
               ))}
-            </Bar>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="h-[200px] sm:h-[250px] md:h-[225px] lg:h-[225px] xl:h-[250px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={monthlyData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="month"
+              tick={{ fontSize: 12 }}
+              interval={0}
+            />
+            <YAxis
+              domain={[0, 'auto']}
+              allowDecimals={false}
+            />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="value"
+              name="Inscriptions"
+              fill="#2563eb"
+            />
           </BarChart>
         </ResponsiveContainer>
+      </div>
+
+      <div className="mt-4 text-right text-sm text-gray-600">
+        Total des inscriptions pour {selectedYear}: {totalInscriptions}
       </div>
     </div>
   );

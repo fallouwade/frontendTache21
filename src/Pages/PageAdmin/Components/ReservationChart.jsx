@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
-const ReservationChart = ({ className = "" }) => {
+const ReservationChart = ({ 
+    className = "", 
+    reservationData = null 
+}) => {
     const [timeFrame, setTimeFrame] = useState('month');
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+    const [chartData, setChartData] = useState([
+        { name: 'Réservations reçues', value: 120, color: '#2563eb' },
+        { name: 'Réservations acceptées', value: 80, color: '#16a34a' },
+        { name: 'Réservations annulées', value: 30, color: '#dc2626' },
+        { name: 'En attente', value: 10, color: '#f59e0b' }
+    ]);
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -11,14 +20,37 @@ const ReservationChart = ({ className = "" }) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const data = [
-        { name: 'Réservations reçues', value: 120, color: '#2563eb' },
-        { name: 'Réservations acceptées', value: 80, color: '#16a34a' },
-        { name: 'Réservations annulées', value: 30, color: '#dc2626' },
-        { name: 'En attente', value: 10, color: '#f59e0b' }
-    ];
+    useEffect(() => {
+        // Si des données sont passées en props, mettre à jour le graphique
+        if (reservationData && Array.isArray(reservationData)) {
+            const formattedData = [
+                { 
+                    name: 'Réservations reçues', 
+                    value: reservationData.filter(r => r.statut === 'reçue').length, 
+                    color: '#2563eb' 
+                },
+                { 
+                    name: 'Réservations acceptées', 
+                    value: reservationData.filter(r => r.statut === 'acceptée').length, 
+                    color: '#16a34a' 
+                },
+                { 
+                    name: 'Réservations annulées', 
+                    value: reservationData.filter(r => r.statut === 'annulée').length, 
+                    color: '#dc2626' 
+                },
+                { 
+                    name: 'En attente', 
+                    value: reservationData.filter(r => r.statut === 'en attente').length, 
+                    color: '#f59e0b' 
+                }
+            ];
 
-    const total = data.reduce((sum, item) => sum + item.value, 0);
+            setChartData(formattedData);
+        }
+    }, [reservationData]);
+
+    const total = chartData.reduce((sum, item) => sum + item.value, 0);
 
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
@@ -75,7 +107,7 @@ const ReservationChart = ({ className = "" }) => {
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Pie
-                                data={data}
+                                data={chartData}
                                 cx="50%"
                                 cy="50%"
                                 innerRadius={windowWidth < 480 ? "35%" : "40%"}
@@ -85,7 +117,7 @@ const ReservationChart = ({ className = "" }) => {
                                 label={renderCustomizedLabel}
                                 labelLine={false}
                             >
-                                {data.map((entry, index) => (
+                                {chartData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
                             </Pie>

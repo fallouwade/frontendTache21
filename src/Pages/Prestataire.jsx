@@ -8,11 +8,10 @@ import ChartInfosStatus from './PageAdmin/Components/ChartInfosStatus';
 import ChartNouveauInscription from './PageAdmin/Components/ChartNouveauInscription';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ChartClient from "./PageAdmin/Components/ChartClient";
-
 
 export default function Prestataire() {
   const [data, setData] = useState([]);
+  const [prestataires, setPrestataires] = useState([])
   const [prestatairesDeMois, setPrestatairesDeMois] = useState([]);
   const [prestatairesDeMoisPasse, setPrestatairesDeMoisPasse] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -64,12 +63,26 @@ export default function Prestataire() {
     });
   };
 
+  // Fonction pour rendre les boutons d'action
+  const renderActions = (row) => {
+    return (
+      <div className="flex gap-2">
+        <Link
+          to={`profil/${row._id}`}
+          className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md hover:bg-blue-50"
+        >
+          <Eye className="h-4 w-4" />
+          <span>Détails</span>
+        </Link>
+      </div>
+    );
+  };
 
   useEffect(() => {
     const reccupDonnéePrestataire = async () => {
       try {
         const response = await axios.get(API_URL);
-
+        setPrestataires(response.data);
         // Combiner le nom et le prénom
         const transformedData = response.data.map((item) => ({
           ...item,
@@ -92,7 +105,6 @@ export default function Prestataire() {
     reccupDonnéePrestataire()
   }, [])
 
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -100,7 +112,6 @@ export default function Prestataire() {
       </div>
     );
   }
-
 
   if (error) {
     return (
@@ -155,7 +166,7 @@ export default function Prestataire() {
           <ChartNouveauInscription prestataires={data} />
         </div>
         <div>
-          <ChartInfosStatus />
+          <ChartInfosStatus prestataires={prestataires} />
         </div>
       </div>
       <div className="flex w-full mb-10 px-4">
@@ -163,15 +174,7 @@ export default function Prestataire() {
           columns={columns}
           data={data}
           title="Listes de prestataires"
-          action={
-            <Link
-              to="profil"
-              className="text-blue-600 hover:text-blue-900 flex items-center gap-2 px-3 py-1 rounded-md hover:bg-blue-50"
-            >
-              <Eye className="h-4 w-4" />
-              <span>Détails</span>
-            </Link>
-          }
+          action={renderActions}
         />
       </div>
     </div>

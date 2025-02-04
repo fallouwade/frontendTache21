@@ -3,61 +3,28 @@ import TableStatique from './TableStatique';
 
 const CardStatic = () => {
   const [activeTab, setActiveTab] = useState('Services');
-  
-  // Statut de chaque service (bloqué ou non)
-  const [blockedServices, setBlockedServices] = useState([]);
 
   // Données des services disponibles
   const servicesData = {
-    headers: ['Service', 'Description', 'Disponibilité', 'Action'],
+    headers: ['Service', 'Description'],
     data: [
       {
         service: 'Réparation PC',
         description: 'Diagnostic et réparation d\'ordinateurs',
-        disponibilite: 'Lun-Ven, 9h-18h'
       },
       {
         service: 'Installation Réseau',
         description: 'Configuration et mise en place de réseaux',
-        disponibilite: 'Lun-Sam, 8h-20h'
       }
     ]
   };
 
-  // Fonction pour gérer le blocage d'un service
-  const onBlockService = (index) => {
-    setBlockedServices((prev) => {
-      // Si le service est déjà bloqué, on le débloque, sinon on le bloque
-      if (prev.includes(index)) {
-        return prev.filter((id) => id !== index);
-      } else {
-        return [...prev, index];
-      }
-    });
-  };
-
-  // Statistiques d'utilisation des services
-  const statisticsData = {
-    headers: ['Service', 'Fréquence d\'exécution'],
-    data: [
-      {
-        service: 'Réparation PC',
-        clients: '150',
-      },
-      {
-        service: 'Installation Réseau',
-        clients: '45',
-      }
-    ]
-  };
 
   // Rendu du contenu en fonction de l'onglet sélectionné
   const renderContent = () => {
     switch (activeTab) {
       case 'Services':
-        return <TableStatique headers={servicesData.headers} data={servicesData.data} onBlockService={onBlockService} />;
-      case 'Statistics':
-        return <TableStatique headers={statisticsData.headers} data={statisticsData.data} />;
+        return <TableStatique headers={servicesData.headers} data={servicesData.data} />;
       default:
         return null;
     }
@@ -67,7 +34,7 @@ const CardStatic = () => {
     <div className="w-full max-w-4xl mx-auto border rounded-lg shadow-lg">
       <div className="border-b">
         <div className="flex">
-          {['Services', 'Statistics'].map((tab) => (
+          {['Services'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}

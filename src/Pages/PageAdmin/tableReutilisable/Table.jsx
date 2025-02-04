@@ -9,7 +9,7 @@ export default function Table({ columns, data, title, action }) {
   // Fonction de filtrage
   const filteredData = data.filter((row) =>
     Object.values(row).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
@@ -28,8 +28,13 @@ export default function Table({ columns, data, title, action }) {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  // Rendu du bouton détail
-  // const renderDetailButton = () => ;
+  // Fonction pour rendre l'action avec la ligne
+  const renderAction = (row) => {
+    if (typeof action === 'function') {
+      return action(row);
+    }
+    return action;
+  };
 
   return (
     <div className="w-full max-w-[100vw] bg-white shadow-md rounded-lg overflow-hidden">
@@ -92,8 +97,8 @@ export default function Table({ columns, data, title, action }) {
                     </td>
                   ))}
                   {action && (
-                    <td className="flex justify-around px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
-                      {action}
+                    <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
+                      {renderAction(row)}
                     </td>
                   )}
                 </tr>
