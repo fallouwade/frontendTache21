@@ -8,7 +8,9 @@ export default function InfoClients() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
 
+  // commentaire
   useEffect(() => {
     const fetchClients = async () => {
       const token = localStorage.getItem('token');
@@ -39,9 +41,19 @@ export default function InfoClients() {
   }, []);
 
   const columns = [
-    { header: 'Prenom', accessorKey: 'prenom' },
-    { header: 'Nom', accessorKey: 'nom' },
-    { header: 'Email', accessorKey: 'email' }
+    {
+      header: 'Prenom',
+      accessorKey: 'prenom',
+    },
+    {
+      header: 'Nom',
+      accessorKey: 'nom',
+    },
+    {
+      header: 'Email',
+      accessorKey: 'email',
+    },
+   
   ];
 
   if (loading) return <p>Chargement...</p>;
@@ -51,14 +63,16 @@ export default function InfoClients() {
     <div className="sm:px-5 mb-10 relative">
       <div className="grid md:grid-cols-2 gap-6 p-4">
         <div className="bg-white bg-opacity-10 rounded-lg relative">
-          <CardsClient totalClient={clients.length} />
+          <CardsClient clients={clients} />
         </div>
         <ChartClient clients={clients}/>
       </div>
       <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
         <Table
           columns={columns}
-          data={clients}
+          data={clients.map(client => ({
+            ...client,
+          }))}
           title="Liste de clients"
         />
       </div>

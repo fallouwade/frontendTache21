@@ -38,7 +38,7 @@ const Communautaire = () => {
           </div>
         </div>
       </div>
-
+ 
       <div>
         <div>
          <SearchBar/>
