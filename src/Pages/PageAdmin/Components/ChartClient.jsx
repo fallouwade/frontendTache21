@@ -46,9 +46,9 @@ const ChartClient = ({ clients }) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white border rounded-lg shadow-lg p-3">
-          <p className="text-sm font-medium">{label}</p>
-          <p className="text-sm text-blue-600">
+        <div className="bg-white border rounded-lg shadow-lg p-2 text-xs">
+          <p className="font-medium">{label}</p>
+          <p className="text-blue-600">
             {payload[0].value !== null ? `${payload[0].value} utilisateurs` : 'Pas de données'}
           </p>
         </div>
@@ -58,9 +58,9 @@ const ChartClient = ({ clients }) => {
   };
 
   const YearSelector = () => (
-    <div className="relative">
+    <div className="relative min-w-[80px]">
       <button
-        className="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex items-center justify-between w-full text-xs px-3 py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
         <span className="text-sm font-medium">{selectedYear || firstYear}</span>
@@ -70,7 +70,7 @@ const ChartClient = ({ clients }) => {
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-full bg-white border rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 mt-1 w-full bg-white border rounded-lg shadow-lg z-50">
           {years.map((year) => (
             <button
               key={year}
@@ -92,14 +92,14 @@ const ChartClient = ({ clients }) => {
   );
 
   return (
-    <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 relative my-8">
-      <div className="mb-6">
-        <div className="flex items-center justify-between">
+    <div className="w-full max-w-full px-2 md:px-4 lg:px-6 bg-white rounded-lg shadow-lg py-4 md:py-6">
+      <div className="mb-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between space-y-3 md:space-y-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold">Utilisateurs Inscrits</h2>
+            <h2 className="text-base md:text-xl font-bold text-gray-800">Utilisateurs Inscrits</h2>
           </div>
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 w-full md:w-auto">
+            <div className="flex items-center gap-2 text-xs md:text-sm text-gray-500">
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
               <span>Utilisateurs actifs</span>
             </div>
@@ -107,7 +107,7 @@ const ChartClient = ({ clients }) => {
           </div>
         </div>
       </div>
-      <div className="h-64 w-full">
+      <div className="w-full h-[250px] md:h-[300px] lg:h-[350px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={yearlyData[selectedYear || firstYear]} // Si aucun année sélectionnée, utilise la première année d'inscription
@@ -122,7 +122,7 @@ const ChartClient = ({ clients }) => {
               interval={0}
               angle={-45}
               textAnchor="end"
-              height={60}
+              height={50}
             />
             <YAxis fontSize={12} />
             <Tooltip
@@ -135,7 +135,7 @@ const ChartClient = ({ clients }) => {
               fill="#4a90e2"
               name="Utilisateurs"
               radius={[4, 4, 0, 0]}
-              barSize={30}
+              barSize={20}
               maxBarSize={30}
             />
           </BarChart>

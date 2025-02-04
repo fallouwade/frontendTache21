@@ -9,9 +9,9 @@ import { Link, useLocation, Outlet } from "react-router-dom"
 import { FaTachometerAlt } from "react-icons/fa"
 import ServiceGrid from "../Components/ServiceGrid"
 
-const LayoutClients = () => {
+const LayoutClients = (props) => {
   const location = useLocation()
-  const [isActive, setIsActive] = useState(location.pathname === "/client/message")
+  const [isActive, setIsActive] = useState(location.pathname === "/Client/message")
   const [isPrestataire, setIsPrestataire] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -38,7 +38,7 @@ const LayoutClients = () => {
   }
 
   useEffect(() => {
-    setIsActive(location.pathname === "/client/message")
+    setIsActive(location.pathname === "/Client/message")
   }, [location])
 
   useEffect(() => {
@@ -112,7 +112,7 @@ const LayoutClients = () => {
             </form>
             <div className="flex ms-10">
               <Link
-                to={isActive ? "/client" : "/client/message"}
+                to={isActive ? "/Client" : "/Client/message"}
                 className={`flex items-center text-gray-600 hover:text-gray-700 ${isActive ? "font-medium" : ""}`}
               >
                 <CardMessage title={isActive ? "Accueil" : "Réservation"}>
@@ -137,7 +137,7 @@ const LayoutClients = () => {
             />
             <main className="flex-1 min-w-0 sm:px-4 md:px-6">
               {location.pathname === "/Client" ? (
-                <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} />
+                <ServiceGrid {...filters} setCurrentPage={(page) => handleFilterChange("currentPage", page)} id={props.id} />
               ) : (
                 <Outlet />
               )}
@@ -150,4 +150,3 @@ const LayoutClients = () => {
 }
 
 export default LayoutClients
-

@@ -9,7 +9,6 @@ export default function InfoClients({clientId}) {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [blockedClients, setBlockedClients] = useState([]); // Liste des clients bloqués
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -28,16 +27,6 @@ export default function InfoClients({clientId}) {
       });
   }, []);
 
-  const handleBlockClient = (clientId) => {
-    setBlockedClients((prevState) => {
-      if (prevState.includes(clientId)) {
-        return prevState.filter(id => id !== clientId);
-      } else {
-        return [...prevState, clientId];
-      }
-    });
-  };
-
   const columns = [
     {
       header: 'Prenom',
@@ -52,21 +41,8 @@ export default function InfoClients({clientId}) {
       accessorKey: 'email',
     },
     {
-     
-     
-      cell: ({ row }) => {
-        const clientId = row.original.id; // On récupère l'ID du client
-        const isBlocked = blockedClients.includes(clientId);
-
-        return (
-          <button 
-            onClick={() => handleBlockClient(clientId)} 
-            className={`px-4 py-2 text-white ${isBlocked ? 'bg-red-600' : 'bg-blue-600'} rounded`}
-          >
-            {isBlocked ? 'Débloquer' : 'Bloquer'}
-          </button>
-        );
-      }
+      header: 'Action',
+      accessorKey: 'action',
     },
   ];
 
@@ -85,10 +61,8 @@ export default function InfoClients({clientId}) {
           columns={columns}
           data={clients.map(client => ({
             ...client,
-            isBlocked: blockedClients.includes(client.id), // Ajout de l'état bloqué dans les données
           }))}
           title="Liste de clients"
-          action={handleBlockClient} // Passage de l'action ici
         />
       </div>
     </div>
