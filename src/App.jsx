@@ -86,7 +86,7 @@ function App() {
           <DetailDemande />
         </ProtectionRoute>
       } />
-      <Route path="/editerprofil" element={
+      <Route path="/editerprofil/:id" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <EditerProfil />
         </ProtectionRoute>

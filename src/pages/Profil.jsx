@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import axios from "axios";
 import Image from "/images/electricien.jpg";
@@ -12,6 +12,7 @@ const Profil = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const { id } = useParams();
 
   // console.log("Token récupéré :", token);
 
@@ -51,6 +52,10 @@ const Profil = () => {
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
+  }
+  // fonction de mis à jour
+  const handleUpdate = (id) => {
+    navigate(`/editerprofil/${id}`)
   }
 
   return (
@@ -94,12 +99,13 @@ const Profil = () => {
             {userData.prestataire?.nomDeLentreprise || "Non renseigné"}
           </p>
           <p className="text-center mb-4">{userData.prestataire?.description || "Non renseigné"}</p>
-          <Link
-            to="/editerprofil"
+          <button
+             onClick={() => handleUpdate(userData.prestataire?.id)}
+            //  to="/editerprofil/:id"
             className="block w-full text-center bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700"
           >
             Éditer Profil
-          </Link>
+          </button>
         </div>
       </div>
     </Layout>

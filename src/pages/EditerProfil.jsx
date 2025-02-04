@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Layout from "../components/Layout";
 import Image from "/images/electricien.jpg";
+import { toast } from "react-toastify";
 
 const EditerProfil = () => {
+    const { id } = useParams()
     const [userData, setUserData] = useState({
         nom: "",
         prenom: "",
         email: "",
         telephone: "",
-        entreprise: "",
+        nomDeLentreprise: "",
         description: "",
     });
+    const [Data, setData] = useState({});
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,57 +24,75 @@ const EditerProfil = () => {
     const token = localStorage.getItem("token");
 
     // Récupérer les données du profil existant
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(
-                    "https://backendtache21.onrender.com/api/prestataires/profil-prestataire",
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                setUserData(response.data);
-                setIsLoading(false);
-            } catch (error) {
-                setError("Impossible de récupérer les informations du profil.");
-                setIsLoading(false);
+    const fetchPrestataireData = async () => {
+        if (!token) {
+          setError("Token manquant. Veuillez vous reconnecter.");
+          setIsLoading(false);
+          return;
+        }   
+        try {
+          const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
+            headers: {
+              "Content-Type": "application/json",
+               Authorization: `Bearer ${token}`,
             }
-        };
-
-        fetchUserData();
-    }, []);
-
+          });
+    
+          const data = response.data;
+          console.log("Données reçues :", data);
+        // recupérer les données à mettre à jour    
+        setUserData({
+            nom: data.prestataire?.nom || "Non renseigné",
+            prenom: data.prestataire?.prenom || "Non renseigné",
+            email: data.prestataire?.email || "Non renseigné",
+            telephone: data.prestataire?.telephone || "Non renseigné",
+            description: data.prestataire?.description || "Non renseigné",
+            nomDeLentreprise: data.prestataire?.nomDeLentreprise || "Non renseigné",
+        });
+          setIsLoading(false);
+        } catch (error) {
+          setError(error.response ? error.response.data : "Impossible de charger les données");
+          setIsLoading(false);
+        }
+      };
+      useEffect(() => {
+        fetchPrestataireData();
+      }, [id]);
+    // mis à jour des données recupérées
+  
     // Gérer les changements dans le formulaire
-    const handleChange = (e) => {
-        setUserData({ ...userData, [e.target.id]: e.target.value });
-    };
-
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserData({
+          ...userData,
+          [name]: value,
+        });
+      };
+    
     // Soumettre les modifications
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSaving(true);
         setError(null);
-
         try {
-            await axios.put(
-                "https://backendtache21.onrender.com/api/prestataires/profil-prestataire",
-                userData,
-                {
+            const response = await axios.post('https://backendtache21.onrender.com/api/prestataires/profil-prestataire', userData, {
                     headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setIsSaving(false);
-            navigate("/profil"); // Redirige vers le profil après la mise à jour
-        } catch (error) {
-            setError("Erreur lors de la mise à jour du profil.");
-            setIsSaving(false);
-        }
+                      'Content-Type': 'application/json',
+                    //    Authorization: `Bearer ${token}`,
+                    }
+              });
+            toast.success('Mis à jour effectuée !');
+            setTimeout(() => {
+            navigate('/profil');
+            }, 3000);
+            
+          } catch (err) {
+            console.error('Erreur : ', err);
+            setError(err.message);
+            toast.error(err.message || "Une erreur est survenue lors de la mis à jour");
+          } finally {
+            setIsLoading(false);
+          }
     };
 
     if (isLoading) return <p className="text-center text-gray-700">Chargement...</p>;
@@ -92,9 +113,9 @@ const EditerProfil = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    id="nom"
+                                    name="nom"
                                     value={userData.nom}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 />
                             </div>
@@ -104,9 +125,9 @@ const EditerProfil = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    id="prenom"
+                                    name="prenom"
                                     value={userData.prenom}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 />
                             </div>
@@ -116,9 +137,9 @@ const EditerProfil = () => {
                                 </label>
                                 <input
                                     type="email"
-                                    id="email"
+                                    name="email"
                                     value={userData.email}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 />
                             </div>
@@ -128,12 +149,37 @@ const EditerProfil = () => {
                                 </label>
                                 <input
                                     type="tel"
-                                    id="telephone"
+                                    name="telephone"
                                     value={userData.telephone}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 />
                             </div>
+                            <div>
+                                <label htmlFor="telephone" className="block text-sm font-medium text-gray-700">
+                                    Description
+                                </label>
+                                <input
+                                    type="texte"
+                                    name="description"
+                                    value={userData.description}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="telephone" className="block text-sm font-medium text-gray-700">
+                                    Nom Entreprise
+                                </label>
+                                <input
+                                    type="texte"
+                                    name="nomDeLentreprise"
+                                    value={userData.nomDeLentreprise}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+                            
                         </div>
                         <div className="mt-6">
                             <button
@@ -153,20 +199,20 @@ const EditerProfil = () => {
                         className="w-32 h-32 rounded-full mx-auto mb-4"
                     />
                     <h2 className="text-xl font-semibold text-center mb-2">
-                        {userData.prenom || "Non renseigné"}
+                        {Data.prestataire?.prenom || "Non renseigné"}
                     </h2>
                     <p className="text-gray-600 text-center mb-4">
-                        {userData.entreprise || "Non renseigné"}
+                        {Data.prestataire?.nomDeLentreprise || "Non renseigné"}
                     </p>
                     <p className="text-center mb-4">
-                        {userData.description || "Non renseigné"}
+                        {Data.prestataire?.description || "Non renseigné"}
                     </p>
-                    <a
-                        href="/profil"
+                    <Link
+                        to="/profil"
                         className="block w-full text-center bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700"
                     >
                         Voir Profil
-                    </a>
+                    </Link>
                 </div>
             </div>
         </Layout>
