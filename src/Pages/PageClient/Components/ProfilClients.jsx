@@ -1,13 +1,13 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaGlobe, FaBars, FaSearch } from "react-icons/fa";
 import SidebarClient from "./SidebarClient";
 
-function ProfilClients({ isLoggedIn, userName, userEmail, services }) {
+function ProfilClients({ isLoggedIn, userName, userEmail }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const dropdownRef = useRef(null);
+  // const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {

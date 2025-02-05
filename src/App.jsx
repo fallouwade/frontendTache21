@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import  { useState } from 'react';
 
-import Communautaire from './Pages/Communautaire.jsx';
 import Connection from './Authentification/PagesConnexion/Connection.jsx'
 import InscriptionPrestataire from "./Authentification/inscription/InscriptionPrestataire.jsx";
 import MotDePasseOublie from "./Authentification/PagesConnexion/MotDePasseOublie.jsx";
