@@ -26,6 +26,11 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
+import Dashboard from "./prestataire/Dashboard.jsx";
+import LesDemandes from "./prestataire/LesDemandes.jsx";
+import ProfilDuPrestataire from "./prestataire/ProfilDuPrestataire.jsx";
+import AjouterServicesPrestataire from "./prestataire/AjouterServicesPrestataire.jsx";
+
 
 
 
@@ -52,7 +57,7 @@ function App() {
 
 
       {/* Routes Client */}
-      <Route path="/client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
+      <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
         <Route path="message" element={<MessageClient />} />
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
@@ -109,6 +114,17 @@ function App() {
         <Route path="clients" element={<InfoClients />} />
         <Route path="categories" element={<Categorie />} />
       </Route>
+
+
+
+
+      {/* route test prestataire */}
+      {/* <Route path="/app-test" element={<AppTest />} /> */}
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/les-demande" element={<LesDemandes />} />
+      <Route path="/les-demande" element={<LesDemandes />} />
+      <Route path="/profil-prestataire" element={<ProfilDuPrestataire />} />
+      <Route path="/ajouter-service-prestataire" element={<AjouterServicesPrestataire />} />     
 
     </Routes>
 
