@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from "../Components/ProfilClients";
 import SearchForm from "../Components/ServiceGrid";
 import CategoryGrid from "../Components/CardMessage";
@@ -9,7 +9,7 @@ import Footer from '../../Composants/Footer';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
-function LayoutClients(props) {
+function LayoutCommunautaire(props) {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,4 +143,4 @@ function LayoutClients(props) {
   );
 }
 
-export default LayoutClients;
+export default LayoutCommunautaire;

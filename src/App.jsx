@@ -27,6 +27,7 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
+import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
 // import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
 
 
@@ -42,7 +43,7 @@ function App() {
     
     <Routes>
       {/* Route public */}
-      <Route path="/" element={<Communautaire />} />
+      <Route path="/" element={<LayoutCommunautaire />} />
       <Route path="/connexion" element={<Connection />} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
