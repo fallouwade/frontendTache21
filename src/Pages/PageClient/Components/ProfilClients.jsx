@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { FaGlobe, FaBars, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import SidebarClient from "./SidebarClient";
 
 function ProfilClients({ isLoggedIn, userName, userEmail }) {
@@ -54,7 +54,7 @@ function ProfilClients({ isLoggedIn, userName, userEmail }) {
                 Devenir prestataire
               </button> */}
              <div  className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
-              { buttonPrest}
+              
              </div>
               
               <div >
