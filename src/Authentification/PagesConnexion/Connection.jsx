@@ -53,7 +53,7 @@ const Connection = () => {
           navigate('/Client');
           break;
         case 'prestataire':
-          navigate('/accueil');
+          navigate('/dashboard');
           break;
         case 'admin':
           navigate('/dashboardAdmin');

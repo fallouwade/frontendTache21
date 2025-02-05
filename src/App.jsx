@@ -14,7 +14,7 @@ import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
 import ProfilAdmin from "./Pages/ProfilAdmin.jsx"
 
 
-import Accueil from "./Pages/Accueil.jsx";
+// import Accueil from "./Pages/Accueil.jsx";
 import Profil from "./Pages/Profil.jsx";
 import Demande from "./Pages/Demande.jsx";
 import DetailDemande from "./Pages/DetailDemande.jsx";
@@ -27,7 +27,16 @@ import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
 import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
-// import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
+
+
+import Dashboard from "./prestataire/Dashboard.jsx";
+import LesDemandes from "./prestataire/LesDemandes.jsx";
+import ProfilDuPrestataire from "./prestataire/ProfilDuPrestataire.jsx";
+import AjouterServicesPrestataire from "./prestataire/AjouterServicesPrestataire.jsx";
+
+
+
+
 
 
 function App() {
@@ -65,11 +74,11 @@ function App() {
         } />
 
       {/* Routes Prestataire */}
-      <Route path="/accueil" element={
+      {/* <Route path="/accueil" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Accueil />
         </ProtectionRoute>
-      } />
+      } /> */}
       <Route path="/profil" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Profil />
@@ -109,6 +118,17 @@ function App() {
         <Route path="clients" element={<InfoClients />} />
         <Route path="categories" element={<Categorie />} />
       </Route>
+
+
+
+
+      {/* route test prestataire */}
+      {/* <Route path="/app-test" element={<AppTest />} /> */}
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/les-demande" element={<LesDemandes />} />
+      <Route path="/les-demande" element={<LesDemandes />} />
+      <Route path="/profil-prestataire" element={<ProfilDuPrestataire />} />
+      <Route path="/ajouter-service-prestataire" element={<AjouterServicesPrestataire />} />     
 
     </Routes>
 
