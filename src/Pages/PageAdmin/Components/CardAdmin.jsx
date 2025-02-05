@@ -1,4 +1,3 @@
-// import { LuUsers } from "react-icons/lu";
 
 const CardAdmin = ({ totalUsers = 0, icone, titre, titrePourcent, pourcent, color }) => {
   return (

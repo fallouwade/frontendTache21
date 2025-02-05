@@ -1,4 +1,3 @@
-import { div } from "motion/react-client";
 
 export default function CardMessage({title,children}) {
     return (

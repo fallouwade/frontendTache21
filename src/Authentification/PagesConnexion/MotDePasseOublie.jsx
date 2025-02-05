@@ -49,7 +49,7 @@ const MotDePasseOublie = () => {
         toast.error(errorData.message || 'Erreur lors de l\'envoi de l\'e-mail.'); // Toast d'erreur
       }
     } catch (error) {
-      setMessage('Une erreur est survenue. Veuillez réessayer.');
+      setMessage('Une erreur est survenue. Veuillez réessayer.', error);
       toast.error('Une erreur est survenue. Veuillez réessayer.'); // Toast d'erreur en cas de problème réseau
     } finally {
       setIsLoading(false);

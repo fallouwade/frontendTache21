@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { FaChevronDown, FaInbox, FaHeart, FaTimes } from "react-icons/fa"
+import { FaChevronDown, FaTimes } from "react-icons/fa"
 
 
 
@@ -28,8 +28,6 @@ function Sidebar({
   locality,
   setSelectedLocality,
   onClose,
-  showFavorites,
-  setShowFavorites,
   showFilters,
 }) {
   const [openSections, setOpenSections] = useState({
@@ -68,22 +66,6 @@ function Sidebar({
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        {/* Messages & Favorites Buttons */}
-        {/* <div className="p-3 sm:p-4 space-y-2">
-          <button className="flex items-center w-full p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <FaInbox className="mr-2 text-gray-500" />
-            <span className="text-sm text-gray-700">Messages</span>
-          </button>
-          <button
-            className={`flex items-center w-full p-2 rounded-lg hover:bg-gray-100 transition-colors ${
-              showFavorites ? "bg-blue-50 text-blue-600" : ""
-            }`}
-            onClick={() => setShowFavorites(!showFavorites)}
-          >
-            <FaHeart className="mr-2 text-gray-500" />
-            <span className="text-sm text-gray-700">Favoris</span>
-          </button>
-        </div> */}
 
         {/* Dropdown Sections */}
         <div className="divide-y divide-gray-200">
