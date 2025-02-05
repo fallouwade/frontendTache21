@@ -1,23 +1,25 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { FaUserCircle } from "react-icons/fa"; // Import de l'icône utilisateur
+import { FaUserCircle } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import CardStatic from "./PageAdmin/static/CardStatic";
 
 const ProfilPrestataire = () => {
-    const { id } = useParams(); // Récupérer l'ID depuis l'URL
+    const { id } = useParams();
     const API_URL_prestataire = "https://backendtache21.onrender.com/api/prestataires/liste-prestataires";
+    const BLOCK_URL = `https://backendtache21.onrender.com/api/admin/prestataire/bloquer/${id}`;
+    const UNBLOCK_URL = `https://backendtache21.onrender.com/api/admin/prestataire/debloquer/${id}`;
 
-    // State pour stocker les données du prestataire
     const [prestataire, setPrestataire] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isBlocked, setIsBlocked] = useState(false);
+    const [notification, setNotification] = useState(null);
 
-    // Récupérer le token depuis le localStorage
     const token = localStorage.getItem("token");
 
-    // Requête API pour récupérer la liste des prestataires et filtrer celui correspondant à l'ID
+    // Requête pour récupérer les prestataires et vérifier l'attribut 'actif'
     useEffect(() => {
         if (!token) {
             setError("Authentification requise !");
@@ -31,8 +33,6 @@ const ProfilPrestataire = () => {
             }
         })
         .then(response => {
-            console.log("Réponse API :", response.data);
-
             if (!Array.isArray(response.data)) {
                 setError("Données invalides reçues de l'API !");
                 setLoading(false);
@@ -40,11 +40,16 @@ const ProfilPrestataire = () => {
             }
 
             const foundPrestataire = response.data.find(p => p._id && p._id.toString() === id);
-
             if (!foundPrestataire) {
                 setError("Prestataire non trouvé !");
             } else {
                 setPrestataire(foundPrestataire);
+                // Initialiser le statut bloqué basé sur l'attribut 'actif'
+                const isPrestataireBlocked = foundPrestataire.actif === false;
+                setIsBlocked(isPrestataireBlocked);
+
+                // Sauvegarder l'état de blocage dans le localStorage
+                localStorage.setItem(`prestataire-blocked-${id}`, isPrestataireBlocked.toString());
             }
             setLoading(false);
         })
@@ -55,11 +60,68 @@ const ProfilPrestataire = () => {
         });
     }, [id, token]);
 
+    // Fonction pour bloquer ou débloquer le prestataire
+    const toggleBlockStatus = () => {
+        const url = isBlocked ? UNBLOCK_URL : BLOCK_URL;
+
+        axios.put(url, { id, actif: !isBlocked }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(() => {
+            // Recharger les données après mise à jour
+            axios.get(API_URL_prestataire, { headers: { Authorization: `Bearer ${token}` } })
+            .then(response => {
+                const updatedPrestataire = response.data.find(p => p._id === id);
+                if (updatedPrestataire) {
+                    setPrestataire(updatedPrestataire);
+                    setIsBlocked(!updatedPrestataire.actif);
+                    // Sauvegarder l'état dans le localStorage
+                    localStorage.setItem(`prestataire-blocked-${id}`, !updatedPrestataire.actif);
+                    
+                    // Ajouter une notification
+                    setNotification({
+                        message: `Le prestataire ${updatedPrestataire.nom} ${updatedPrestataire.prenom} a été ${updatedPrestataire.actif ? "débloqué" : "bloqué"}.`,
+                        type: updatedPrestataire.actif ? 'success' : 'red'
+                    });
+
+                    // Effacer la notification après 3 secondes
+                    setTimeout(() => setNotification(null), 3000);
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Erreur lors du changement de statut :", error);
+            setError("Impossible de changer le statut du prestataire");
+
+            // Ajouter une notification d'erreur
+            setNotification({
+                message: "Impossible de changer le statut du prestataire.",
+                type: 'error'
+            });
+
+            // Effacer la notification après 3 secondes
+            setTimeout(() => setNotification(null), 2000);
+        });
+    };
+
     if (loading) return <p className="text-center text-gray-500">Chargement...</p>;
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-10">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-10 relative">
+            {/* Notification Toast */}
+            {notification && (
+                <div className={`right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-200
+                    ${notification.type === 'success' ? 'bg-green-500 text-white' : 
+                      notification.type === 'red' ? 'bg-red-500 text-white' : 
+                      'bg-red-500 text-white'}`}>
+                    {notification.message}
+                </div>
+            )}
+
             <div className="flex justify-between items-center mb-8">
                 <Link to={"/dashboardAdmin/prestataire"} className="flex items-center text-gray-600">
                     <HiOutlineArrowLeft className="w-5 h-5 mr-2" />
@@ -78,7 +140,7 @@ const ProfilPrestataire = () => {
                                 className="w-32 h-32 rounded-full mx-auto mb-4"
                             />
                         ) : (
-                            <FaUserCircle className="w-32 h-32 text-gray-400 mx-auto mb-4 border-2 border-[#0a2342] rounded-full" /> // Icône utilisateur
+                            <FaUserCircle className="w-32 h-32 text-gray-400 mx-auto mb-4 border-2 border-[#0a2342] rounded-full" />
                         )}
                         <h2 className="text-xl font-bold">{prestataire.nom} {prestataire.prenom}</h2>
                         <p className="text-gray-600">{prestataire.metier}</p>
@@ -121,9 +183,15 @@ const ProfilPrestataire = () => {
                     </div>
 
                     <div className="flex gap-4 mt-4">
-                        <button className="flex-1 border border-red-600 text-red-600 hover:bg-red-600 
-                                            hover:text-white py-2 rounded-lg transition-all duration-200 transform active:scale-95">
-                            Bloqué
+                        <button 
+                            onClick={toggleBlockStatus}
+                            className={`flex-1 border py-2 rounded-lg transition-all duration-200 transform active:scale-95 ${
+                                isBlocked 
+                                    ? "border-green-600 text-green-600 hover:bg-green-600 hover:text-white" 
+                                    : "border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                            }`}
+                        >
+                            {isBlocked ? "Débloquer" : "Bloquer"}
                         </button>
                     </div>
                 </div>

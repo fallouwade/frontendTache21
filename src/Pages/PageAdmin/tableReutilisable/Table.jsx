@@ -55,7 +55,7 @@ export default function Table({ columns, data, title, action }) {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1);
+                setCurrentPage(1); // Réinitialisation de la page à 1 lors de la recherche
               }}
               className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -97,7 +97,7 @@ export default function Table({ columns, data, title, action }) {
                     </td>
                   ))}
                   {action && (
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
+                    <td className="flex justify-center px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
                       {renderAction(row)}
                     </td>
                   )}
@@ -106,6 +106,7 @@ export default function Table({ columns, data, title, action }) {
             </tbody>
           </table>
 
+          {/* Message si aucune donnée ou aucun résultat de recherche */}
           {/* Message si aucune donnée ou aucun résultat de recherche */}
           {filteredData.length === 0 && (
             <div className="text-center py-8 text-gray-500">
