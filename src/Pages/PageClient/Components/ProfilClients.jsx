@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import { FaGlobe, FaBars, FaSearch } from "react-icons/fa";
 import SidebarClient from "./SidebarClient";
 
-function ProfilClients({ isLoggedIn, userName, userEmail, services }) {
+function ProfilClients({ isLoggedIn, userName, userEmail,  buttonPrest }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const dropdownRef = useRef(null);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,15 +49,15 @@ function ProfilClients({ isLoggedIn, userName, userEmail, services }) {
 
             {/* Right Side Navigation */}
             <div className="flex items-center gap-4">
-              <button className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
+              {/* <button className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
                 Devenir prestataire
-              </button>
-              <button className="hidden md:block hover:bg-gray-100 p-3 rounded-full transition">
-                <FaGlobe size={18} />
-              </button>
+              </button> */}
+             <div  className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
+              { buttonPrest}
+             </div>
               
-              <div className="flex items-center gap-2 border rounded-full p-2 hover:shadow-md transition cursor-pointer">
-                <FaBars size={18} />
+              <div >
+                
                 <SidebarClient isLoggedIn={isLoggedIn} userName={userName} userEmail={userEmail} />
               </div>
             </div>

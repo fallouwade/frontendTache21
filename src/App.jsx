@@ -27,7 +27,7 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
-// import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
+import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
 
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
     
     <Routes>
       {/* Route public */}
-      <Route path="/" element={<Communautaire />} />
+      <Route path="/" element={<LayoutCommunautaire id={identifiant} />} />
       <Route path="/connexion" element={<Connection />} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
@@ -59,9 +59,7 @@ function App() {
 
        {/* Route Réservation avec ID du prestataire */}
        <Route path="/reservation" element={
-          <ProtectionRoute allowedRoles={['client', 'prestataire']}>
-            <Reservation id={id} />
-          </ProtectionRoute>
+         <Reservation id={id} />
         } />
 
       {/* Routes Prestataire */}

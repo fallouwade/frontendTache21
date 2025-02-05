@@ -9,7 +9,8 @@ import Footer from '../../Composants/Footer';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
-function LayoutClients(props) {
+function LayoutCommunautaire
+(props) {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,4 +144,5 @@ function LayoutClients(props) {
   );
 }
 
-export default LayoutClients;
+export default LayoutCommunautaire
+;

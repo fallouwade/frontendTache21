@@ -47,20 +47,39 @@ const Connection = () => {
      
       login(user, response.data.token);
 
-      // Redirection basée sur le rôle
-      switch(user.role){
-        case 'client':
-          navigate('/Client');
-          break;
-        case 'prestataire':
-          navigate('/accueil');
-          break;
-        case 'admin':
-          navigate('/dashboardAdmin');
-          break;
-        default:
-          navigate('/');
+      const savedReservation = localStorage.getItem('reservationData');
+
+      if(savedReservation){
+        navigate('/reservation');
       }
+      else if (user.role == 'client'){
+        navigate('/Client');
+      }
+      else if (user.role == 'prestataire'){
+        navigate('/accueil');
+      }
+      else if (user.role == 'admin'){
+        navigate('/dashboardAdmin');
+      }
+      else{
+        navigate('/');
+      }
+
+
+      // Redirection basée sur le rôle
+      // switch(user.role){
+      //   case 'client':
+      //     navigate('/Client');
+      //     break;
+      //   case 'prestataire':
+      //     navigate('/accueil');
+      //     break;
+      //   case 'admin':
+      //     navigate('/dashboardAdmin');
+      //     break;
+      //   default:
+      //     navigate('/');
+      // }
 
       setFormData({
         email: '',

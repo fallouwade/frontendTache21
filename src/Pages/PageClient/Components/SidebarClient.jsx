@@ -1,7 +1,7 @@
 // components/SidebarClient.jsx
 import { useState } from "react"
-import { FaUserCircle, FaGift, FaBriefcase, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa"
-
+import { FaUserCircle, FaGift, FaBriefcase, FaQuestionCircle, FaCog, FaSignOutAlt, FaBars } from "react-icons/fa"
+import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
 function SidebarClient({ isLoggedIn, userName, userEmail }) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -16,11 +16,13 @@ function SidebarClient({ isLoggedIn, userName, userEmail }) {
     <div className="relative">
       <button
         type="button"
-        className="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out"
+       className="flex items-center gap-2 border rounded-full p-2 hover:shadow-md transition cursor-pointer"
         onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
-        <FaUserCircle className="w-8 h-8" />
+        <FaBars size={18} className="text-black" />
+        <button  className="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out"> <FaUserCircle className="w-8 h-8" /></button>
+       
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 transition-all duration-200 ease-in-out">
@@ -38,7 +40,8 @@ function SidebarClient({ isLoggedIn, userName, userEmail }) {
                 <MenuItem icon={FaUserCircle} text="Mon Profil" onClick={() => handleItemClick("profile")} />
                 <MenuItem icon={FaGift} text="Messages" onClick={() => handleItemClick("messages")} />
                 <MenuItem icon={FaBriefcase} text="Favoris" onClick={() => handleItemClick("favorites")} />
-                <MenuItem icon={FaSignOutAlt} text="Déconnexion" onClick={() => handleItemClick("logout")} />
+                {/* <MenuItem icon={FaSignOutAlt} text="Déconnexion" onClick={() => <DeconnexionButton/>} /> */}
+                <DeconnexionButton   text="Déconnexion" />
               </>
             ) : (
               <>
