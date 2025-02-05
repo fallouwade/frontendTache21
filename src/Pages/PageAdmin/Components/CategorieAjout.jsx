@@ -1,20 +1,36 @@
-import { useState } from "react";  
+import { useState } from "react";
 
-const CategorieAjout = () => {
-  const [categorie, setCategorie] = useState("");  
-  const [error, setError] = useState("");  
+const CategorieAjout = ({ ajouterCategorie }) => {
+  const [categorie, setCategorie] = useState(""); 
+  const [error, setError] = useState(""); 
+  const [loading, setLoading] = useState(false); 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    
     if (!categorie.trim()) {
       setError("Le nom de la catégorie est requis.");
       return;
     }
 
-    setError("");  
-    console.log("Categorie ajoutée :", categorie);
-    setCategorie("");  
+    setError(""); 
+    setLoading(true); 
+
+    try {
+      
+      await ajouterCategorie(categorie);
+
+      
+      setCategorie("");
+      console.log("Catégorie ajoutée:", categorie);
+
+    } catch (error) {
+      setError("Erreur lors de l'ajout de la catégorie.");
+      console.error(error);
+    } finally {
+      setLoading(false); 
+    }
   };
 
   return (
@@ -27,16 +43,18 @@ const CategorieAjout = () => {
             type="text"
             id="categorie"
             value={categorie}
-            onChange={(e) => setCategorie(e.target.value)}  
+            onChange={(e) => setCategorie(e.target.value)} 
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}  
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>} 
         </div>
         <button
           type="submit"
-          className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          Ajouter une catégorie
+          disabled={loading} 
+          className={`w-full p-3 text-white rounded-md ${loading ? 'bg-gray-500' : 'bg-blue-500'} hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+        >
+          {loading ? "Chargement..." : "Ajouter une catégorie"}
         </button>
       </form>
     </div>

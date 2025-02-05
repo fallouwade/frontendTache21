@@ -1,21 +1,37 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { useState } from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
-const ChartInfosStatus = () => {
+const ChartInfosStatus = ({prestataires}) => {
+  const prestatairesActifs = prestataires.filter(p => p.actif === true).length;
+  const prestatairesBloque = prestataires.filter(p => p.actif === false).length;
+
   const data = [
-    { name: 'actifs', value: 50 },
-    { name: 'bloqués', value: 50 }
+    { name: 'actifs', value: prestatairesActifs },
+    { name: 'bloqués', value: prestatairesBloque }
   ];
 
-  const COLORS = ['#228B22', '#E53E3E']; // Turquoise clair et rose clair
+  const COLORS = ['#228B22', '#E53E3E']; 
 
-  // Calculer le total pour les pourcentages
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
-  // Calculer le pourcentage pour chaque valeur
   const dataWithPercentage = data.map(item => ({
     ...item,
     percentage: ((item.value / total) * 100).toFixed(1)
   }));
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white p-2 border rounded shadow-lg">
+          <p className="font-bold">{data.name}</p>
+          <p>Nombre: {data.value}</p>
+          <p>Pourcentage: {data.percentage}%</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const renderLegend = (props) => {
     const { payload } = props;
@@ -58,7 +74,7 @@ const ChartInfosStatus = () => {
   };
 
   return (
-    <div className="w-full bg-white p-4 rounded-lg shadow-sm relative -z-10">
+    <div className="w-full bg-white p-4 rounded-lg shadow-sm relative">
       <h2 className="text-lg font-medium mb-4 text-center">
         Répartition des statuts
       </h2>
@@ -85,6 +101,7 @@ const ChartInfosStatus = () => {
                 />
               ))}
             </Pie>
+            <Tooltip content={<CustomTooltip />} />
             <Legend 
               content={renderLegend}
               verticalAlign="bottom"

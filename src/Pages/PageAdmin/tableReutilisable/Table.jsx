@@ -97,7 +97,7 @@ export default function Table({ columns, data, title, action }) {
                     </td>
                   ))}
                   {action && (
-                    <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
+                    <td className="flex justify-center px-3 py-2 sm:px-6 sm:py-4 whitespace-normal text-xs sm:text-sm text-gray-900">
                       {renderAction(row)}
                     </td>
                   )}

@@ -1,17 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaCloudUploadAlt, FaFileAlt, FaTrash } from 'react-icons/fa';
-
-// Définition des catégories de services
-const SERVICE_CATEGORIES = [
-  'Informatique',
-  'Santé',
-  'Éducation',
-  'Bâtiment',
-  'Événementiel',
-  'Marketing',
-  'Autre'
-];
 
 // Définition de l'état initial du service
 const INITIAL_SERVICE_STATE = {
@@ -24,9 +13,25 @@ const INITIAL_SERVICE_STATE = {
 
 const LocalServiceModel = () => {
   const [newService, setNewService] = useState(INITIAL_SERVICE_STATE);
+  const [categories, setCategories] = useState([]); // État pour stocker les catégories récupérées
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  // Récupérer les catégories depuis l'API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('https://backendtache21.onrender.com/api/categories/liste');
+        setCategories(response.data); // On stocke les catégories dans l'état
+      } catch (err) {
+        setError('Erreur de chargement des catégories');
+        console.error('Erreur lors de la récupération des catégories', err);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -156,9 +161,13 @@ const LocalServiceModel = () => {
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Sélectionnez une catégorie</option>
-            {SERVICE_CATEGORIES.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
+            {categories.length > 0 ? (
+              categories.map((cat) => (
+                <option key={cat._id} value={cat.nom}>{cat.nom}</option>
+              ))
+            ) : (
+              <option value="">Aucune catégorie disponible</option>
+            )}
           </select>
         </div>
 
@@ -182,7 +191,6 @@ const LocalServiceModel = () => {
               Télécharger des photos
               <input
                 type="file"
-                multiple
                 accept="image/*"
                 onChange={handlePhotoUpload}
                 className="hidden"
@@ -255,4 +263,5 @@ const LocalServiceModel = () => {
     </div>
   );
 };
+
 export default LocalServiceModel;

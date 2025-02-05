@@ -1,68 +1,114 @@
-// components/SidebarClient.jsx
-import { useState } from "react"
-import { FaUserCircle, FaGift, FaBriefcase, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa"
+import { useState, useRef, useEffect } from "react";
+import { FaGlobe, FaBars } from "react-icons/fa";
+import SidebarClient from "./SidebarClient";
+import { Link, useLocation } from "react-router-dom";
 
-function SidebarClient({ isLoggedIn, userName, userEmail }) {
-  const [isOpen, setIsOpen] = useState(false)
+function ProfilClients({ isLoggedIn, userName, userEmail }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const location = useLocation();
 
-  const handleToggle = () => setIsOpen(!isOpen)
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const handleItemClick = (action) => {
-    console.log(`Action clicked: ${action}`)
-    setIsOpen(false)
-  }
+  useEffect(() => {
+    if (location.hash === "#comment-ca-marche") {
+      setTimeout(() => {
+        const section = document.getElementById("comment-ca-marche");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300); // Petit délai pour s'assurer que l'élément est chargé
+    }
+  }, [location]);
+
+  const scrollToSection = () => {
+    const section = document.getElementById("comment-ca-marche");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
-    <div className="relative">
-      <button
-        type="button"
-        className="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out"
-        onClick={handleToggle}
-      >
-        <span className="sr-only">Open user menu</span>
-        <FaUserCircle className="w-8 h-8" />
-      </button>
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 transition-all duration-200 ease-in-out">
-          <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm leading-5 font-medium text-gray-900 truncate">
-              {isLoggedIn ? userName : "Mon compte"}
-            </p>
-            {isLoggedIn && (
-              <p className="text-sm leading-5 text-gray-500 truncate">{userEmail}</p>
-            )}
+    <>
+      <nav className={`fixed w-full z-50 bg-white transition-all duration-200 ${isScrolled ? 'shadow-md py-4' : 'py-6'}`}>
+        <div className="max-w-[2520px] mx-auto xl:px-10 md:px-10 sm:px-2 px-2">
+          <div className="flex items-center justify-between gap-3 md:gap-0">
+            {/* Logo */}
+            <a href="/" className="hidden md:block">
+              <span className="text-rose-500 text-xl font-bold">ServicePro</span>
+            </a>
+
+            <div>
+              <button
+                className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition"
+                onClick={scrollToSection}
+              >
+                Comment ça marche
+              </button>
+            </div>
+
+            {/* Right Side Navigation */}
+            <div className="flex items-center gap-4">
+              <button className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
+                <Link to='/inscriptionPrestataire'>
+                  Devenir prestataire
+                </Link>
+              </button>
+              <button className="hidden md:block hover:bg-gray-100 p-3 rounded-full transition">
+                <FaGlobe size={18} />
+              </button>
+
+              <div className="flex items-center gap-2 border rounded-full p-2 hover:shadow-md transition cursor-pointer">
+                <FaBars size={18} />
+                <SidebarClient isLoggedIn={isLoggedIn} userName={userName} userEmail={userEmail} />
+              </div>
+            </div>
           </div>
-          <div className="py-1">
-            {isLoggedIn ? (
-              <>
-                <MenuItem icon={FaUserCircle} text="Mon Profil" onClick={() => handleItemClick("profile")} />
-                <MenuItem icon={FaGift} text="Messages" onClick={() => handleItemClick("messages")} />
-                <MenuItem icon={FaBriefcase} text="Favoris" onClick={() => handleItemClick("favorites")} />
-                <MenuItem icon={FaSignOutAlt} text="Déconnexion" onClick={() => handleItemClick("logout")} />
-              </>
-            ) : (
-              <>
-                <MenuItem icon={FaUserCircle} text="Inscription" onClick={() => handleItemClick("inscription")} />
-                <MenuItem icon={FaUserCircle} text="Connexion" onClick={() => handleItemClick("connexion")} />
-              </>
-            )}
+        </div>
+      </nav>
+
+      {/* Expanded Search Modal */}
+      {isSearchExpanded && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+          <div className="absolute top-0 left-0 right-0 bg-white p-8">
+            <div className="max-w-[2520px] mx-auto">
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Service</label>
+                  <input
+                    type="text"
+                    placeholder="Quel service recherchez-vous ?"
+                    className="w-full p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Localisation</label>
+                  <input
+                    type="text"
+                    placeholder="Où ?"
+                    className="w-full p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={() => setIsSearchExpanded(false)}
+                className="mt-6 bg-rose-500 text-white px-6 py-3 rounded-lg hover:bg-rose-600 transition"
+              >
+                Rechercher
+              </button>
+            </div>
           </div>
         </div>
       )}
-    </div>
-  )
+    </>
+  );
 }
 
-function MenuItem({ icon: Icon, text, onClick }) {
-  return (
-    <button
-      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150 ease-in-out"
-      onClick={onClick}
-    >
-      <Icon className="inline-block w-5 h-5 mr-2" />
-      {text}
-    </button>
-  )
-}
-
-export default SidebarClient
+export default ProfilClients;

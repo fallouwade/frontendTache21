@@ -166,7 +166,7 @@ const Connection = () => {
               Se connecter
             </button>
 
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-right">
               <p className="text-sm text-gray-600">
                 
                 <Link className="text-blue-500 hover:text-blue-700" to="/inscriptionClient">

@@ -12,6 +12,7 @@ import InfoClients from "./Pages/InfoClients.jsx";
 import { IndexAdmin } from "./Pages/IndexAdmin.jsx";
 import Prestataire from "./Pages/Prestataire.jsx";
 import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
+import ProfilAdmin from "./Pages/ProfilAdmin.jsx"
 
 
 import Accueil from "./Pages/Accueil.jsx";
@@ -105,6 +106,7 @@ function App() {
           <IndexAdmin />
         </ProtectionRoute>
       }>
+        <Route path="profilAdmin" element={<ProfilAdmin />} />
         <Route path="prestataire" element={<Prestataire />} />
         <Route path="prestataire/profil/:id" element={<ProfilPrestataire />} />
         <Route path="clients" element={<InfoClients />} />

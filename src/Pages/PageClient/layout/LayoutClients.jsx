@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from "../Components/ProfilClients";
+ import ProfilClients from "../Components/ProfilClients";
 import SearchForm from "../Components/ServiceGrid";
 import CategoryGrid from "../Components/CardMessage";
 import RentalSection from "../Components/RentalSection";
-import Temoignages from '../Components/Temoignages';
-import Satisfaction from '../Components/Satisfaction';
+
 import Footer from '../../Composants/Footer';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
@@ -83,32 +82,21 @@ function LayoutClients(props) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
+       <ProfilClients 
+  isLoggedIn={true} 
+  userName="John Doe" 
+  userEmail="john@example.com"
+  services={["Jardinage", "Plomberie", "Électricité", "Menuiserie", "Peinture", "Nettoyage", "Déménagement", "Réparation"]}
+/>
       <main>
         <div>
-          <div className="relative w-full h-screen mb-10">
-            <video
-              src="/images/gettyimages-2180909650-640_adpp.mp4"
-              className="absolute top-0 left-0 w-full h-full object-cover"
-              autoPlay
-              muted
-              playsInline
-              loop
-              onError={(e) => console.error("Erreur vidéo:", e)}
-            ></video>
-            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 px-8 z-10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-screen-xl mx-auto">
-                <div className="text-center sm:text-left">
-                  <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
-                    Besoin d'un <span className="text-yellow-400">professionnel</span> près de chez vous ?
-                  </h1>
-                  <p className="text-lg sm:text-xl lg:text-2xl text-white">
-                    Trouvez rapidement des plombiers, électriciens, développeurs freelance, enseignants et bien plus,
-                    disponibles dans votre région, en quelques clics !
-                  </p>
-                </div>
-              </div>
-            </div>
+        <div className="text-center space-y-4 ">
+            <h1 className="text-3xl pt-24 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+              Trouvez le bon professionnel près de chez vous
+            </h1>
+            <p className="text-lg text-gray-600">
+              Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
+            </p>
           </div>
           <div className="container mx-auto px-4 pb-10">
             <div className="max-w-4xl mx-auto space-y-6">
@@ -130,12 +118,7 @@ function LayoutClients(props) {
 
             />
           </div>
-         <div>
-         <Temoignages/>
-         </div>
-         <div>
-          <Satisfaction/>
-         </div>
+       
          <Footer/>
         </div>
       </main>
