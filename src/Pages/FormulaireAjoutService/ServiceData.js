@@ -7,7 +7,7 @@ export const SERVICE_CATEGORIES = [
     'Nettoyage',
     'Déménagement',
     'Réparation',
-    'Autres'
+    
   ];
   
  
