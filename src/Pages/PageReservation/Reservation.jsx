@@ -15,7 +15,7 @@ const Reservation = (props) => {
   useEffect(() => {
     const fetchPrestataire = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/prestataires/complets/${props.id}`);
+        const response = await fetch(`https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`);
         if (!response.ok) {
           throw new Error("Erreur lors du chargement du prestataire");
         }
