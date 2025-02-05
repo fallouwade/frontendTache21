@@ -2,11 +2,20 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 
 const ChartInfosStatus = () => {
   const data = [
-    { name: 'actif', value: 50 },
-    { name: 'inactif', value: 50 }
+    { name: 'actifs', value: 50 },
+    { name: 'bloqués', value: 50 }
   ];
 
-  const COLORS = ['#86E2D5', '#FFB6C1']; // Turquoise clair et rose clair
+  const COLORS = ['#228B22', '#E53E3E']; // Turquoise clair et rose clair
+
+  // Calculer le total pour les pourcentages
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
+  // Calculer le pourcentage pour chaque valeur
+  const dataWithPercentage = data.map(item => ({
+    ...item,
+    percentage: ((item.value / total) * 100).toFixed(1)
+  }));
 
   const renderLegend = (props) => {
     const { payload } = props;
@@ -20,11 +29,31 @@ const ChartInfosStatus = () => {
               style={{ backgroundColor: COLORS[index] }}
             />
             <span className="text-sm text-gray-600">
-              {entry.value}
+              {`${entry.value} (${dataWithPercentage[index].percentage}%)`}
             </span>
           </div>
         ))}
       </div>
+    );
+  };
+
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        className="text-sm font-medium"
+      >
+        {`${dataWithPercentage[index].percentage}%`}
+      </text>
     );
   };
 
@@ -37,14 +66,16 @@ const ChartInfosStatus = () => {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={dataWithPercentage}
               cx="50%"
               cy="50%"
-              innerRadius="60%"
+              innerRadius="50%"
               outerRadius="80%"
               dataKey="value"
               startAngle={90}
               endAngle={-270}
+              label={renderCustomizedLabel}
+              labelLine={false}
             >
               {data.map((entry, index) => (
                 <Cell 

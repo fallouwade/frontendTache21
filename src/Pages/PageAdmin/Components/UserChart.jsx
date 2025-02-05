@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -10,88 +10,168 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const UserChart = () => {
+const UserChart = ({ data, className = "" }) => {
   const [timeFrame, setTimeFrame] = useState('month');
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
-  const generateData = useCallback(() => {
-    const data = [];
-    const periods = timeFrame === 'day' ? 30 : timeFrame === 'week' ? 12 : 12;
-    let clients = 100;
-    let pros = 50;
-    
-    for (let i = 0; i < periods; i++) {
-      // Ajuster la croissance en fonction de la période
-      const growthDivider = timeFrame === 'day' ? 5 : timeFrame === 'week' ? 3 : 1;
-      const clientGrowth = Math.floor((Math.random() * 30) + 10) / growthDivider;
-      const proGrowth = Math.floor((Math.random() * 15) + 5) / growthDivider;
-      
-      clients += clientGrowth;
-      pros += proGrowth;
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-      const periodLabel = 
-        timeFrame === 'day' ? `J${i + 1}` :
-        timeFrame === 'week' ? `S${i + 1}` :
-        `M${i + 1}`;
+  const formatPeriod = (date, timeFrame) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const isMobile = windowWidth < 768;
 
-      data.push({
-        period: periodLabel,
-        clients: Math.round(clients),
-        professionnels: Math.round(pros),
-        total: Math.round(clients + pros)
-      });
+    switch (timeFrame) {
+      case 'day':
+        return isMobile 
+          ? `${day}/${month}/${year.toString().slice(-2)}` 
+          : `${day}/${month}/${year}`;
+      case 'week':
+        return isMobile 
+          ? `S${Math.ceil(day / 7)}/${month}/${year.toString().slice(-2)}` 
+          : `Sem ${Math.ceil(day / 7)} - ${month}/${year}`;
+      case 'month':
+        const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+        return isMobile 
+          ? `${monthNames[month-1]}/${year.toString().slice(-2)}` 
+          : `${monthNames[month-1]} ${year}`;
+      default:
+        return '';
     }
-    return data;
-  }, [timeFrame]);
+  };
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 border rounded shadow-lg">
+          <p className="font-bold text-sm">{label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.stroke }} className="text-sm">
+              {entry.name}: {entry.value}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const chartData = useMemo(() => {
+    if (!data || !data.length) return [];
+
+    const sortedData = [...data].sort((a, b) => 
+      new Date(a.createdAt) - new Date(b.createdAt)
+    );
+
+    const periodData = new Map();
+
+    sortedData.forEach(user => {
+      const date = new Date(user.createdAt);
+      const periodLabel = formatPeriod(date, timeFrame);
+      
+      if (!periodData.has(periodLabel)) {
+        periodData.set(periodLabel, {
+          period: periodLabel,
+          clients: 0,
+          prestataires: 0,
+          total: 0,
+          date: date
+        });
+      }
+
+      const periodStats = periodData.get(periodLabel);
+      if (user.role === 'professional') {
+        periodStats.prestataires++;
+      } else {
+        periodStats.clients++;
+      }
+      periodStats.total++;
+    });
+
+    let periodsArray = Array.from(periodData.values())
+      .sort((a, b) => a.date - b.date);
+
+    let cumulClients = 0;
+    let cumulPrestataires = 0;
+    
+    return periodsArray.map(period => {
+      cumulClients += period.clients;
+      cumulPrestataires += period.prestataires;
+      return {
+        period: period.period,
+        clients: cumulClients,
+        prestataires: cumulPrestataires,
+        total: cumulClients + cumulPrestataires
+      };
+    });
+  }, [data, timeFrame, windowWidth]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 relative">
-      <div className="bg-white rounded-lg shadow-lg p-3">
-        <div className="p-1 rounded">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-md font-bold">Croissance des Utilisateurs</h2>
-            <select
-              value={timeFrame}
-              onChange={(e) => setTimeFrame(e.target.value)}
-              className="p-2 border rounded"
-            >
-              <option value="day">Par jour</option>
-              <option value="week">Par semaine</option>                   
-              <option value="month">Par mois</option>
-            </select>
-          </div>
+    <div className={`w-full h-full ${className}`}>
+      <div className="w-full h-full bg-white rounded-lg shadow-lg p-3 flex flex-col">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-4">
+          <h2 className="text-md font-bold">Croissance des Utilisateurs</h2>
+          <select
+            value={timeFrame}
+            onChange={(e) => setTimeFrame(e.target.value)}
+            className="p-2 border rounded w-full md:w-auto"
+          >
+            <option value="day">Par jour</option>
+            <option value="week">Par semaine</option>
+            <option value="month">Par mois</option>
+          </select>
+        </div>
           
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={generateData()}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="period" />
-                <YAxis />
-                <Tooltip wrapperStyle={{ zIndex: 0 }} />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="clients"
-                  stroke="#2563eb"
-                  name="Clients"
-                  strokeWidth={2}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="professionnels"
-                  stroke="#16a34a"
-                  name="Professionnels"
-                  strokeWidth={2}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="total"
-                  stroke="#6b7280"
-                  name="Total"
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+        <div className="flex-grow w-full min-h-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart 
+              data={chartData}
+              margin={{
+                top: 5,
+                right: 5,
+                left: 5,
+                bottom: windowWidth < 768 ? 20 : 5
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey="period"
+                angle={windowWidth < 768 ? -45 : 0}
+                textAnchor={windowWidth < 768 ? "end" : "middle"}
+                height={windowWidth < 768 ? 60 : 30}
+                tick={{ fontSize: windowWidth < 768 ? 10 : 12 }}
+              />
+              <YAxis />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="clients"
+                stroke="#2563eb"
+                name="Clients"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="prestataires"
+                stroke="#16a34a"
+                name="Prestataires"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="total"
+                stroke="#6b7280"
+                name="Total"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
