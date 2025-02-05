@@ -15,7 +15,7 @@ const EditerProfil = () => {
         nomDeLentreprise: "",
         description: "",
     });
-    const [Data, setData] = useState({});
+    const [prestataire, setPrestataire] = useState({});
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -40,6 +40,8 @@ const EditerProfil = () => {
     
           const data = response.data;
           console.log("Données reçues :", data);
+        // afficher les autres infos du profil
+        setPrestataire(data);
         // recupérer les données à mettre à jour    
         setUserData({
             nom: data.prestataire?.nom || "Non renseigné",
@@ -58,7 +60,6 @@ const EditerProfil = () => {
       useEffect(() => {
         fetchPrestataireData();
       }, [id]);
-    // mis à jour des données recupérées
   
     // Gérer les changements dans le formulaire
     const handleInputChange = (e) => {
@@ -199,13 +200,13 @@ const EditerProfil = () => {
                         className="w-32 h-32 rounded-full mx-auto mb-4"
                     />
                     <h2 className="text-xl font-semibold text-center mb-2">
-                        {Data.prestataire?.prenom || "Non renseigné"}
+                        {prestataire.prestataire?.prenom || "Non renseigné"}
                     </h2>
                     <p className="text-gray-600 text-center mb-4">
-                        {Data.prestataire?.nomDeLentreprise || "Non renseigné"}
+                        {prestataire.prestataire?.nomDeLentreprise || "Non renseigné"}
                     </p>
                     <p className="text-center mb-4">
-                        {Data.prestataire?.description || "Non renseigné"}
+                        {prestataire.prestataire?.description || "Non renseigné"}
                     </p>
                     <Link
                         to="/profil"

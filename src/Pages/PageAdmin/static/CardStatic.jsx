@@ -3,7 +3,8 @@ import TableStatique from './TableStatique';
 
 const CardStatic = () => {
   const [activeTab, setActiveTab] = useState('Services');
-
+  const API_URL_services = "https://backendtache21.onrender.com/api/services/tous-les-services";
+  
   // Données des services disponibles
   const servicesData = {
     headers: ['Service', 'Description'],

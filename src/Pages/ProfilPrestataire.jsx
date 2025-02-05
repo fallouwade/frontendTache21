@@ -7,7 +7,7 @@ import CardStatic from "./PageAdmin/static/CardStatic";
 
 const ProfilPrestataire = () => {
     const { id } = useParams(); // Récupérer l'ID depuis l'URL
-    const API_URL = "https://backendtache21.onrender.com/api/prestataires/liste-prestataires";
+    const API_URL_prestataire = "https://backendtache21.onrender.com/api/prestataires/liste-prestataires";
 
     // State pour stocker les données du prestataire
     const [prestataire, setPrestataire] = useState(null);
@@ -25,7 +25,7 @@ const ProfilPrestataire = () => {
             return;
         }
 
-        axios.get(API_URL, {
+        axios.get(API_URL_prestataire, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

@@ -27,7 +27,7 @@ const Profil = () => {
       const response = await axios.get("https://backendtache21.onrender.com/api/prestataires/profil-prestataire", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+           Authorization: `Bearer ${token}`,
         }
       });
 

@@ -1,15 +1,54 @@
 
-import { useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import Layout from "../components/Layout"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const DetailDemande = () => {
-  const { id } = useParams()
-  const [demande, setDemande] = useState()
+  const { id } = useParams();
+  const [detaildemande, setDetailDemande] = useState();
+  const [update, setUpdate] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  // fonction de recupération des demandes
+  const fetchDetailDemande = async () => {
+    if (!token) {
+      setError("Token manquant. Veuillez vous reconnecter.");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get("", {
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`,
+        }
+      });
+
+      const data = response.data;
+      console.log("Données reçues :", data);
+      setDetailDemande(data);
+      setIsLoading(false);
+      setUpdate(prev => !prev); // Force un re-render
+    } catch (error) {
+      setError(error.response ? error.response.data : "Une erreur est survenue");
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
+    fetchDetailDemande();
+  }, [id]);
+  if (isLoading) {
+    return <p className="text-center text-gray-700">Chargement...</p>;
+  }
 
-  }, [id])
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
 
   return (
     <Layout>
@@ -18,34 +57,33 @@ const DetailDemande = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
             <p className="font-semibold text-gray-600">Nom</p>
-            <p className="text-gray-800">Tidiany</p>
+            <p className="text-gray-800">{detaildemande.nom}</p>
           </div>
           <div>
             <p className="font-semibold text-gray-600">Prénom</p>
-            <p className="text-gray-800">Mouhamed</p>
+            <p className="text-gray-800">{detaildemande.prenom}</p>
           </div>
           <div>
             <p className="font-semibold text-gray-600">Service demandé</p>
-            <p className="text-gray-800">Plomberie</p>
+            <p className="text-gray-800">{detaildemande.servicedemande}</p>
           </div>
           <div>
             <p className="font-semibold text-gray-600">Date</p>
-            <p className="text-gray-800">12/02/2025</p>
+            <p className="text-gray-800">{detaildemande.date}</p>
           </div>
         </div>
         <div>
           <p className="font-semibold text-gray-600">Téléphone</p>
-          <p className="text-gray-800">789653214</p>
+          <p className="text-gray-800">{detaildemande.telephone}</p>
         </div>
         <div>
           <p className="font-semibold text-gray-600">Localisation</p>
-          <p className="text-gray-800">Dakar</p>
+          <p className="text-gray-800">{detaildemande.localisation}</p>
         </div>
         <div className="col-span-2 mt-4">
           <p className="font-semibold text-gray-600">Description</p>
           <p className="text-gray-800">
-            Une toilette qui fuit, entraînant une augmentation de ma facture d'eau du à un flotteur défectueux ou un
-            joint d'étanchéité usé. Je souhaite un remplacement de ces pièces pour résoudre le problème.
+            {detaildemande.description}
           </p>
         </div>
       </div>
