@@ -61,9 +61,7 @@ function App() {
 
        {/* Route Réservation avec ID du prestataire */}
        <Route path="/reservation" element={
-          <ProtectionRoute allowedRoles={['client', 'prestataire']}>
-            <Reservation id={id} />
-          </ProtectionRoute>
+         <Reservation id={id} />
         } />
 
       {/* Routes Prestataire */}
