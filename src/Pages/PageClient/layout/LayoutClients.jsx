@@ -18,7 +18,7 @@ function LayoutClients(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
-  const [isPrestataire, setIsPrestataire] = useState(false)
+    const [isPrestataire, setIsPrestataire] = useState(false)
 
   useEffect(() => {
     fetchServices();

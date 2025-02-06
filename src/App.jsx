@@ -28,6 +28,7 @@ import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
 import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
+import InfoDemande from "./Pages/PageClient/Components/InfoDemande.jsx";
 
 
 function App() {
@@ -42,17 +43,19 @@ function App() {
     
     <Routes>
       {/* Route public */}
+
       <Route path="/" element={<LayoutCommunautaire id={identifiant} />} />
       <Route path="/connexion" element={<Connection />} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
       <Route path="/modifier" element={<ModifieMotDePass />} />
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
+      <Route path="/messages" element={<InfoDemande />} />
 
 
       {/* Routes Client */}
       <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
-        <Route path="message" element={<MessageClient />} />
+       <Route path="message" element={<MessageClient />} /> 
         <Route path="profilClient" element={<ProfileClient />} />
       </Route>
 
