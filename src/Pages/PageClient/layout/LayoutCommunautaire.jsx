@@ -39,7 +39,9 @@ function LayoutCommunautaire
       }
       const data = await response.json();
       const validServices = data.filter((service) => service.services && service.services.length > 0);
-      setServices(validServices);
+
+      console.log(validServices);
+      
     } catch (error) {
       console.error('Error fetching services:', error);
       setError('Impossible de charger les services. Veuillez réessayer plus tard.');

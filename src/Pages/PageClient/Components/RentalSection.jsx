@@ -1,4 +1,3 @@
-import React from "react";
 import RentalCard from "./RentalCard";
 
 function RentalSection({ 
