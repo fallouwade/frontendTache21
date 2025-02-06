@@ -41,7 +41,7 @@ const AjouterServicesPrestataire = () => {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const response = await axios.get("http://localhost:5000/api/services/tous-les-services", {
+        const response = await axios.get("http://localhost:5000/api/services/service-par-utilisateur", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
