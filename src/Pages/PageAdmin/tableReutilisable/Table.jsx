@@ -107,7 +107,6 @@ export default function Table({ columns, data, title, action }) {
           </table>
 
           {/* Message si aucune donnée ou aucun résultat de recherche */}
-          {/* Message si aucune donnée ou aucun résultat de recherche */}
           {filteredData.length === 0 && (
             <div className="text-center py-8 text-gray-500">
               {searchTerm

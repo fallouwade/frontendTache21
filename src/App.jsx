@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import  { useState } from 'react';
 
-import Communautaire from './Pages/Communautaire.jsx';
 import Connection from './Authentification/PagesConnexion/Connection.jsx'
 import InscriptionPrestataire from "./Authentification/inscription/InscriptionPrestataire.jsx";
 import MotDePasseOublie from "./Authentification/PagesConnexion/MotDePasseOublie.jsx";
@@ -15,7 +14,7 @@ import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
 import ProfilAdmin from "./Pages/ProfilAdmin.jsx"
 
 
-import Accueil from "./Pages/Accueil.jsx";
+// import Accueil from "./Pages/Accueil.jsx";
 import Profil from "./Pages/Profil.jsx";
 import Demande from "./Pages/Demande.jsx";
 import DetailDemande from "./Pages/DetailDemande.jsx";
@@ -27,8 +26,15 @@ import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass
 import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
+// import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
 import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
-import InfoDemande from "./Pages/PageClient/Components/InfoDemande.jsx";
+
+
+import Dashboard from "./prestataire/Dashboard.jsx";
+import LesDemandes from "./prestataire/LesDemandes.jsx";
+import ProfilDuPrestataire from "./prestataire/ProfilDuPrestataire.jsx";
+import AjouterServicesPrestataire from "./prestataire/AjouterServicesPrestataire.jsx";
+
 
 
 function App() {
@@ -43,14 +49,13 @@ function App() {
     
     <Routes>
       {/* Route public */}
-
-      <Route path="/" element={<LayoutCommunautaire id={identifiant} />} />
+      <Route path="/" element={<LayoutCommunautaire />} />
       <Route path="/connexion" element={<Connection />} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
       <Route path="/modifier" element={<ModifieMotDePass />} />
       <Route path="/inscriptionClient" element={<InscriptionClient />} />
-      <Route path="/messages" element={<InfoDemande />} />
+      {/* <Route path="/messages" element={<InfoDemande />} /> */}
 
 
       {/* Routes Client */}
@@ -66,11 +71,11 @@ function App() {
         } />
 
       {/* Routes Prestataire */}
-      <Route path="/accueil" element={
+      {/* <Route path="/accueil" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Accueil />
         </ProtectionRoute>
-      } />
+      } /> */}
       <Route path="/profil" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Profil />
@@ -110,6 +115,17 @@ function App() {
         <Route path="clients" element={<InfoClients />} />
         <Route path="categories" element={<Categorie />} />
       </Route>
+
+
+
+
+      {/* route test prestataire */}
+      {/* <Route path="/app-test" element={<AppTest />} /> */}
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/les-demande" element={<LesDemandes />} />
+      <Route path="/les-demande" element={<LesDemandes />} />
+      <Route path="/profil-prestataire" element={<ProfilDuPrestataire />} />
+      <Route path="/ajouter-service-prestataire" element={<AjouterServicesPrestataire />} />     
 
     </Routes>
 

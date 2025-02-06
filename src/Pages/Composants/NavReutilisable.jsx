@@ -19,7 +19,7 @@ const NavReutilisable = ({
 
   return (
     <div className="container relative">
-      <nav className={`bg-white shadow-md px-4 py-2 fixed top-0 z-40 w-full transition-all duration-300 ${compact ? 'h-12' : 'h-16'}`}>
+      <nav className={`bg-white shadow-md px-4 py-2 fixed left-0 top-0 z-40 w-full transition-all duration-300 ${compact ? 'h-12' : 'h-16'}`}>
         <div className="flex justify-between items-center h-full">
           {/* Section gauche : logo et icône */}
           <div className="flex items-center gap-2 md:gap-4">
@@ -45,7 +45,7 @@ const NavReutilisable = ({
               )}
 
               {/* Profil utilisateur */}
-              <div className="relative">
+              <div className="relative mr-5">
                 <button
                   className="flex items-center gap-2"
                   onClick={() => setExtraDropdownOpen(!isExtraDropdownOpen)}
@@ -69,7 +69,7 @@ const NavReutilisable = ({
                     >
                       Profil
                     </Link>
-                    <DeconnexionButton />
+                    <DeconnexionButton color="hover:bg-red-200" />
                   </div>
                 )}
               </div>

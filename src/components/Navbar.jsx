@@ -1,8 +1,8 @@
 
 import  { useState } from "react"
-import { FaUserCircle, FaBars, FaBell } from "react-icons/fa"
+import { FaUserCircle, FaBars } from "react-icons/fa"
 
-const Navbar = ({ toggleSidebar, toggleRightSidebar }) => {
+const Navbar = ({ toggleSidebar}) => {
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false)
 
   return (
@@ -11,9 +11,6 @@ const Navbar = ({ toggleSidebar, toggleRightSidebar }) => {
         <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none md:hidden mr-4">
           <FaBars className="h-6 w-6" />
         </button>
-        {/* <button onClick={toggleRightSidebar} className="text-gray-500 focus:outline-none">
-          <FaBell className="h-6 w-6" />
-        </button>  */}
       </div>
       <div className="relative">
         <button className="flex items-center space-x-2 z-30" onClick={() => setProfileDropdownOpen(!isProfileDropdownOpen)}>

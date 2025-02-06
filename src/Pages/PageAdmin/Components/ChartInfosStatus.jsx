@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const ChartInfosStatus = ({prestataires}) => {
