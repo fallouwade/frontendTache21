@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { User } from "lucide-react";
+import { CgProfile } from "react-icons/cg";
 import DeconnexionButton from "../Authentification/déconnexion/DeconnexionButton";
 
 export default function NavbarPrestataire() {
@@ -27,11 +28,17 @@ export default function NavbarPrestataire() {
 
           {isProfileOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-900 text-white rounded-md shadow-lg">
-              <Link to="/profil" className="block px-4 py-2 hover:bg-gray-700">Voir Profil</Link>
-              {/* <button className="w-full text-left px-4 py-2 hover:bg-gray-700">Déconnexion</button> */}
+              <Link 
+                to="/profil-prestataire" 
+                className="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"
+                onClick={() => setIsProfileOpen(false)}
+              > 
+                  <CgProfile /> Voir Profil
+              </Link>
               <DeconnexionButton color="hover:bg-gray-700"/>
             </div>
-          )}
+          ) 
+          }
         </div>
       </div>
     </nav>

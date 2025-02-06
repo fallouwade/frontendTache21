@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { logout } from '../util/Auth';
-import { FaUserCircle, FaGift, FaBriefcase, FaQuestionCircle, FaCog, FaSignOutAlt, FaBars } from "react-icons/fa"
+import { FaSignOutAlt } from "react-icons/fa"
 
-const DeconnexionButton = () => {
+const DeconnexionButton = ({color}) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,7 +25,7 @@ const DeconnexionButton = () => {
   return (
     <button 
       onClick={handleLogout}
-      className="w-full px-4 py-2 text-sm text-start bg-red-300 hover:bg-red-400"
+      className={`flex items-center gap-3 w-full px-4 py-2 text-sm text-start ${color}`}
     >
       <FaSignOutAlt className='fw-bold font'/> Déconnexion
     </button>

@@ -4,7 +4,7 @@ import { FaUsersGear, FaUserTie } from "react-icons/fa6";
 import {RxDashboard} from "react-icons/rx";
 import {BiSolidCategoryAlt} from "react-icons/bi";
 
-const SidebarAdmin = ({ isOpen }) => {
+const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState('');
 
@@ -17,7 +17,6 @@ const SidebarAdmin = ({ isOpen }) => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    // console.log(activeLink);
     // Fonction pour vérifier si le chemin actuel correspond à une route de base
     const matchingItem = menuItems.find(item => {
       if (item.basePath === '/dashboardAdmin') {
@@ -59,7 +58,10 @@ const SidebarAdmin = ({ isOpen }) => {
           <div key={item.id} className="w-full mb-4">
             <Link
               to={item.route}
-              onClick={() => setActiveLink(item.label)}
+              onClick={() =>{ 
+                  setActiveLink(item.label);
+                  toggleSidebar();
+                }}
               className={linkStyle(item)}
             >
               <span className='text-xl'>
