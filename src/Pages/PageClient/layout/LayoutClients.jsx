@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import SearchForm from "../Components/ServiceGrid";
 import CategoryGrid from "../Components/CardMessage";
 import RentalSection from "../Components/RentalSection";
+import { Link } from "react-router-dom";
 
 import Footer from '../../Composants/Footer';
 
@@ -17,6 +18,7 @@ function LayoutClients(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
+    const [isPrestataire, setIsPrestataire] = useState(false)
 
   useEffect(() => {
     fetchServices();
@@ -80,13 +82,47 @@ function LayoutClients(props) {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const user = JSON.parse(localStorage.getItem("user"))
+
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"))
+      setIsPrestataire(user.role === "prestataire")
+    
+    } catch (err) {
+    
+      console.error(err)
+    }
+  }, [])
+
   return (
+
     <div className="min-h-screen bg-gray-100">
-       <ProfilClients 
+       < ProfilClients 
   isLoggedIn={true} 
-  userName="John Doe" 
-  userEmail="john@example.com"
-  services={["Jardinage", "Plomberie", "Électricité", "Menuiserie", "Peinture", "Nettoyage", "Déménagement", "Réparation"]}
+  userName={user.nom} 
+  userEmail={user.email}
+
+  buttonPrest={
+    isPrestataire ? (
+      <Link
+        to="/accueil"
+        className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
+      >
+        
+        retour a mon compte
+      </Link>
+    ) : (
+      <Link
+        to="/inscriptionPrestataire"
+        className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
+      >
+        Devenir Prestataire
+      </Link>
+    )
+  }
+
+  
 />
       <main>
         <div>

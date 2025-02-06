@@ -2,13 +2,32 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DetailsPrestataire from "./DetailsPrestataire";
-import GalleryPrestatiare from "./GallerryPrestataire"; // Vérifie bien le nom du fichier
+import GalleryPrestatiare from "./GallerryPrestataire";
+import ProfilClients from "../PageClient/Components/ProfilClients"; // Vérifie bien le nom du fichier
+import { Link } from "react-router-dom";
+
 
 const Reservation = (props) => {
   const { id } = useParams();
   const [prestataire, setPrestataire] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+      const [isPrestataire, setIsPrestataire] = useState(false)
+  
+
+
+   useEffect(() => {
+      try {
+        const user = JSON.parse(localStorage.getItem("user"))
+        setIsPrestataire(user.role === "prestataire")
+      
+      } catch (err) {
+      
+        console.error(err)
+      }
+    }, [])
+
+    const user = JSON.parse(localStorage.getItem("user"))
 
 
   console.log(props.id)
@@ -40,7 +59,39 @@ const Reservation = (props) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-grow">
+      <div>
+
+      {user && (
+
+< ProfilClients 
+isLoggedIn={true} 
+userName={user.nom} 
+userEmail={user.email}
+
+buttonPrest={
+  isPrestataire ? (
+    <Link
+      to="/accueil"
+      className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
+    >
+      
+      retour a mon compte
+    </Link>
+  ) : (
+    <Link
+      to="/inscriptionPrestataire"
+      className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
+    >
+      Devenir Prestataire
+    </Link>
+  )
+}
+/>
+        )}
+
+
+      </div>
+      <div className="flex-grow pt-24">
         {/* On passe la liste d'images du prestataire au composant galerie */}
         <GalleryPrestatiare prestataire={prestataire} />
         {/* On transmet les informations du prestataire au composant de détails */}

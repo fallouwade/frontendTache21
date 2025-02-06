@@ -3,6 +3,7 @@ import { FaRegCalendarAlt, FaRegClock, FaWrench, FaPhone } from 'react-icons/fa'
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; // Importation de useNavigate
 
 const ReservationCard = ({ selectedDate, id }) => {
   const [step, setStep] = useState(1);
@@ -14,6 +15,8 @@ const ReservationCard = ({ selectedDate, id }) => {
     phone: '',
     adresse: ''
   });
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Etat pour gérer l'authentification
+  const navigate = useNavigate(); // Hook pour la navigation
 
   // Met à jour la date de réservation si selectedDate change
   useEffect(() => {
@@ -21,6 +24,19 @@ const ReservationCard = ({ selectedDate, id }) => {
       setReservation(prev => ({ ...prev, date: selectedDate }));
     }
   }, [selectedDate]);
+
+  // Vérifier si le token est présent dans le localStorage
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token); // Mise à jour de l'état en fonction de la présence du token
+
+    // Si l'utilisateur revient après la connexion, récupérer les données de réservation
+    const savedReservation = JSON.parse(localStorage.getItem('reservationData'));
+    if (savedReservation) {
+      setReservation(savedReservation);
+      setShowDetails(true)
+    }
+  }, []);
 
   // Définition des services disponibles
   const services = [
@@ -57,7 +73,6 @@ const ReservationCard = ({ selectedDate, id }) => {
 
   // Envoi de la demande
   const handleSubmit = async () => {
-    // Vérification du numéro de téléphone (format sénégalais)
     if (!/^(70|76|77|78|75)\d{7}$/.test(reservation.phone)) {
       toast.error('Veuillez entrer un numéro de téléphone valide au Sénégal');
       return;
@@ -65,8 +80,7 @@ const ReservationCard = ({ selectedDate, id }) => {
 
     try {
       console.log('Réservation:', reservation);
-      console.log(id)
-      // Construction de l'objet demandeService à envoyer
+      console.log(id);
       const demandeService = {
         typeService: reservation.service.name,
         adresse: reservation.adresse,
@@ -76,13 +90,9 @@ const ReservationCard = ({ selectedDate, id }) => {
         prestataireId: id
       };
 
-
-      // Récupération du token dans le localStorage
       const token = localStorage.getItem('token');
-
-      // Envoi de la requête POST au serveur
       const response = await axios.post(
-        ' http://localhost:5000/api/demandes-services/demande',
+        'http://localhost:5000/api/demandes-services/demande',
         demandeService,
         {
           headers: {
@@ -92,16 +102,33 @@ const ReservationCard = ({ selectedDate, id }) => {
         }
       );
       toast.success('Votre demande a été envoyée au prestataire');
+
+      setReservation(
+        {
+          service: '',
+          date: '',
+          details: '',
+          phone: '',
+          adresse: ''
+        }
+      )
+
+      localStorage.removeItem('reservationData');
     } catch (error) {
       console.error('Erreur lors de l’envoi de la demande : ', error);
       toast.error('Une erreur est survenue lors de l’envoi de la demande');
     }
   };
 
+  const handleConnectAndSave = () => {
+    // Sauvegarder les données de réservation dans le localStorage avant la redirection
+    localStorage.setItem('reservationData', JSON.stringify(reservation));
+    navigate('/connexion');
+  };
+
   return (
     <div className="border rounded-xl p-6 shadow-lg h-fit bg-white sticky top-4">
       <div className="space-y-4">
-        {/* Affichage du prix du service */}
         <div>
           <span className="text-2xl font-semibold">
             {reservation.service ? reservation.service.price.toLocaleString() : '0'} FCFA
@@ -110,7 +137,6 @@ const ReservationCard = ({ selectedDate, id }) => {
         </div>
 
         <div className="border rounded-lg">
-          {/* Informations sur la disponibilité et les horaires */}
           <div className="grid grid-cols-1 sm:grid-cols-2 border-b">
             <div className="p-3 border-b sm:border-r sm:border-b-0">
               <div className="text-xs text-gray-500">DISPONIBLE</div>
@@ -128,7 +154,6 @@ const ReservationCard = ({ selectedDate, id }) => {
             </div>
           </div>
 
-          {/* Sélection du type d'intervention et de l'adresse */}
           <div className="p-3">
             <div className="text-xs text-gray-500">TYPE D'INTERVENTION</div>
             <div className="flex flex-col items-center gap-2 mt-1">
@@ -155,7 +180,6 @@ const ReservationCard = ({ selectedDate, id }) => {
             </div>
           </div>
 
-          {/* Affichage conditionnel des champs supplémentaires */}
           {showDetails && (
             <>
               <div className="p-3 border-t">
@@ -192,7 +216,7 @@ const ReservationCard = ({ selectedDate, id }) => {
               <div className="p-3 border-t">
                 {reservation.date && (
                   <div className="text-gray-600 mt-2">
-                    <span className="font-semibold">Date sélectionnée:</span> {reservation.date.toLocaleDateString()}
+ <span className="font-semibold">Date sélectionnée:</span> {new Date(reservation.date).toLocaleDateString('fr-FR')}
                   </div>
                 )}
               </div>
@@ -200,21 +224,18 @@ const ReservationCard = ({ selectedDate, id }) => {
           )}
         </div>
 
-        {/* Bouton d'envoi de la demande */}
-        {step >= 2 && (
-          <button
-            onClick={handleSubmit}
-            className="w-full bg-rose-600 text-white py-3 rounded-lg font-semibold hover:bg-rose-700"
-          >
-            Demander une intervention
-          </button>
-        )}
+        <button
+          onClick={() => (isAuthenticated ? handleSubmit() : handleConnectAndSave())}
+          className="w-full bg-rose-600 text-white py-3 rounded-lg font-semibold hover:bg-rose-700"
+          disabled={!reservation.service || !reservation.phone || !reservation.adresse || !reservation.details}
+        >
+          {isAuthenticated ? 'Demander une intervention' : 'Vous devez vous connecter pour réserver'}
+        </button>
 
         <p className="text-center text-sm text-gray-500">
           Devis gratuit • Déplacement inclus dans Dakar
         </p>
 
-        {/* Informations supplémentaires */}
         <div className="pt-2 text-center bg-gray-50 p-3 rounded-lg">
           <div className="flex justify-center items-center gap-3">
             <div className="flex flex-col items-center">
@@ -241,7 +262,6 @@ const ReservationCard = ({ selectedDate, id }) => {
           </p>
         </div>
       </div>
-      {/* Conteneur des notifications Toast */}
       <ToastContainer />
     </div>
   );
