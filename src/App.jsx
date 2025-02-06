@@ -49,7 +49,7 @@ function App() {
     
     <Routes>
       {/* Route public */}
-      <Route path="/" element={<LayoutCommunautaire />} />
+      <Route path="/" element={<LayoutCommunautaire  id={identifiant} />} />
       <Route path="/connexion" element={<Connection />} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
@@ -76,6 +76,8 @@ function App() {
           <Accueil />
         </ProtectionRoute>
       } /> */}
+
+      
       <Route path="/profil" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Profil />

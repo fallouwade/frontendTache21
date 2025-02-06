@@ -56,7 +56,7 @@ const Connection = () => {
         navigate('/Client');
       }
       else if (user.role == 'prestataire'){
-        navigate('/accueil');
+        navigate('/dashboard');
       }
       else if (user.role == 'admin'){
         navigate('/dashboardAdmin');
