@@ -1,6 +1,6 @@
 // components/SidebarClient.jsx
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FaUserCircle, FaGift, FaBriefcase, FaQuestionCircle, FaCog, FaSignOutAlt, FaBars } from "react-icons/fa"
 import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
 function SidebarClient({ isLoggedIn, userName, userEmail }) {
@@ -12,6 +12,7 @@ function SidebarClient({ isLoggedIn, userName, userEmail }) {
 
   const handleItemClick = (action) => {
     navigate(`/${action}`);
+    console.log(action);
     setIsOpen(false);
    };
 
