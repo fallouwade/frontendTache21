@@ -19,22 +19,21 @@ import Profil from "./Pages/Profil.jsx";
 import Demande from "./Pages/Demande.jsx";
 import DetailDemande from "./Pages/DetailDemande.jsx";
 import EditerProfil from "./Pages/EditerProfil.jsx";
-import MessageClient from "./Pages/MessageClient.jsx";
 import AjouterService from "./Pages/AjouterService.jsx";
 import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
-import ProfileClient from "./Pages/PageClient/Components/ProfilClients.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
 // import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
 import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
+import ProfilCli from "./Pages/PageClient/Components/ProfilCli.jsx";
 
 
 import Dashboard from "./prestataire/Dashboard.jsx";
 import LesDemandes from "./prestataire/LesDemandes.jsx";
 import ProfilDuPrestataire from "./prestataire/ProfilDuPrestataire.jsx";
 import AjouterServicesPrestataire from "./prestataire/AjouterServicesPrestataire.jsx";
-
+import InfoDemande from "./Pages/PageClient/Components/InfoDemande.jsx";
 
 
 function App() {
@@ -60,8 +59,8 @@ function App() {
 
       {/* Routes Client */}
       <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
-       <Route path="message" element={<MessageClient />} /> 
-        <Route path="profilClient" element={<ProfileClient />} />
+       <Route path="messages" element={<InfoDemande/>} /> 
+        <Route path="profilClient" element={<ProfilCli/>} />
       </Route>
 
 
@@ -76,13 +75,14 @@ function App() {
           <Accueil />
         </ProtectionRoute>
       } /> */}
+    
 
-      
       <Route path="/profil" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Profil />
         </ProtectionRoute>
       } />
+
       <Route path="/demande" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Demande />

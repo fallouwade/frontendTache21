@@ -17,13 +17,13 @@ function SidebarClient({ isLoggedIn, userName, userEmail }) {
     <div className="relative">
       <button
         type="button"
-       className="flex items-center gap-2 border rounded-full p-2 hover:shadow-md transition cursor-pointer"
+        className="flex items-center gap-2 border rounded-full p-2 hover:shadow-md transition cursor-pointer"
         onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
         <FaBars size={18} className="text-black" />
-        <button  className="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out"> <FaUserCircle className="w-8 h-8" /></button>
-       
+        <button className="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out"> <FaUserCircle className="w-8 h-8" /></button>
+
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 transition-all duration-200 ease-in-out">
@@ -38,16 +38,15 @@ function SidebarClient({ isLoggedIn, userName, userEmail }) {
           <div className="py-1">
             {isLoggedIn ? (
               <>
-                <MenuItem icon={FaUserCircle} text="Mon Profil" onClick={() => handleItemClick("profile")} />
-                <MenuItem icon={FaGift} text="Messages" onClick={() => handleItemClick("messages")} />
+              <Link to="/Client/profilClient">  <MenuItem icon={FaUserCircle} text="Mon Profil" onClick={() => handleItemClick("profile")} /></Link>
+                <Link to="/Client/messages">    <MenuItem icon={FaGift} text="Messages" onClick={() => handleItemClick("messages")} /></Link>
                 <MenuItem icon={FaBriefcase} text="Favoris" onClick={() => handleItemClick("favorites")} />
-                {/* <MenuItem icon={FaSignOutAlt} text="Déconnexion" onClick={() => <DeconnexionButton/>} /> */}
-                <DeconnexionButton   text="Déconnexion" />
+                <DeconnexionButton text="Déconnexion" />
               </>
             ) : (
               <>
-                 <Link to='/inscriptionClient'><MenuItem icon={FaUserCircle} text="Inscription" onClick={() => handleItemClick("inscription")} /></Link>
-                 <Link to='/connexion'><MenuItem icon={FaUserCircle} text="Connexion" onClick={() => handleItemClick("connexion")} /></Link>
+                <Link to='/inscriptionClient'><MenuItem icon={FaUserCircle} text="Inscription" onClick={() => handleItemClick("inscription")} /></Link>
+                <Link to='/connexion'><MenuItem icon={FaUserCircle} text="Connexion" onClick={() => handleItemClick("connexion")} /></Link>
               </>
             )}
           </div>

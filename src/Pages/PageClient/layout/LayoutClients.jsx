@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
- import ProfilClients from "../Components/ProfilClients";
+import { Outlet, useLocation } from "react-router-dom";
+import ProfilClients from "../Components/ProfilClients";
 import SearchForm from "../Components/ServiceGrid";
 import CategoryGrid from "../Components/CardMessage";
 import RentalSection from "../Components/RentalSection";
 import { Link } from "react-router-dom";
-
 import Footer from '../../Composants/Footer';
+import InfoDemande from '../Components/InfoDemande';
+import ProfilCli from '../Components/ProfilCli';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
 function LayoutClients(props) {
+  const location = useLocation();
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +21,7 @@ function LayoutClients(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
-    const [isPrestataire, setIsPrestataire] = useState(false)
+  const [isPrestataire, setIsPrestataire] = useState(false);
 
   useEffect(() => {
     fetchServices();
@@ -82,81 +85,96 @@ function LayoutClients(props) {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"))
-      setIsPrestataire(user.role === "prestataire")
-    
+      const user = JSON.parse(localStorage.getItem("user"));
+      setIsPrestataire(user.role === "prestataire");
     } catch (err) {
-    
-      console.error(err)
+      console.error(err);
     }
-  }, [])
+  }, []);
 
-  return (
+ 
 
-    <div className="min-h-screen bg-gray-100">
-       < ProfilClients 
-  isLoggedIn={true} 
-  userName={user.nom} 
-  userEmail={user.email}
-
-  buttonPrest={
-    isPrestataire ? (
-      <Link
-        to="/accueil"
-        className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
-      >
-        
-        retour a mon compte
-      </Link>
-    ) : (
-      <Link
-        to="/inscriptionPrestataire"
-        className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
-      >
-        Devenir Prestataire
-      </Link>
-    )
+  if (location.pathname === "/Client/messages") {
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <ProfilClients 
+          isLoggedIn={true} 
+          userName={user.nom} 
+          userEmail={user.email}
+        />
+        <InfoDemande />
+        <Footer />
+      </div>
+    );
   }
 
-  
-/>
-      <main>
-        <div>
-        <div className="text-center space-y-4 ">
-            <h1 className="text-3xl pt-24 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
-              Trouvez le bon professionnel près de chez vous
-            </h1>
-            <p className="text-lg text-gray-600">
-              Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
-            </p>
-          </div>
-          <div className="container mx-auto px-4 pb-10">
-            <div className="max-w-4xl mx-auto space-y-6">
-              <SearchForm onSearch={handleSearch} />
-              <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
-            </div>
-          </div>
-          <div className="px-5">
-            <RentalSection 
-              services={currentServices}
-              servicesPerPage={servicesPerPage}
-              totalServices={filteredServices.length}
-              paginate={paginate}
-              currentPage={currentPage}
-              isLoading={isLoading}
-              error={error}
-              noResults={filteredServices.length === 0 && !isLoading && !error}
-              id={props.id}
+  if (location.pathname === "/Client/profilClient") {
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <ProfilClients 
+          isLoggedIn={true} 
+          userName={user.nom} 
+          userEmail={user.email}
+        />
+        <ProfilCli/>
+        <Footer />
+      </div>
+    );
+  }
 
-            />
-          </div>
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <ProfilClients 
+        isLoggedIn={true} 
+        userName={user.nom} 
+        userEmail={user.email}
+        buttonPrest={
+          isPrestataire ? (
+            <Link to="/accueil" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
+              Retour à mon compte
+            </Link>
+          ) : (
+            <Link to="/inscriptionPrestataire" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
+              Devenir Prestataire
+            </Link>
+          )
+        }
+      />
+      <main>
        
-         <Footer/>
+        <div className="text-center space-y-4">
+          <h1 className="text-3xl pt-24 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+            Trouvez le bon professionnel près de chez vous
+          </h1>
+          <p className="text-lg text-gray-600">
+            Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
+          </p>
         </div>
+        <div className="container mx-auto px-4 pb-10">
+          <div className="max-w-4xl mx-auto space-y-6">
+            <SearchForm onSearch={handleSearch} />
+            <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
+          </div>
+        </div>
+        <div className="px-5">
+          <RentalSection 
+            services={currentServices}
+            servicesPerPage={servicesPerPage}
+            totalServices={filteredServices.length}
+            paginate={paginate}
+            currentPage={currentPage}
+            isLoading={isLoading}
+            error={error}
+            noResults={filteredServices.length === 0 && !isLoading && !error}
+            id={props.id}
+          />
+        </div>
+        <Outlet />
+        <Footer />
       </main>
     </div>
   );

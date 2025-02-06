@@ -11,13 +11,19 @@ import {
   FaUser,
   FaChevronDown,
 } from "react-icons/fa"
+import ProfilClients from "./ProfilClients"
+import { Link } from "react-router-dom";
 
-const UserRequests = () => {
+
+
+const InfoDemande = () => {
   const [requests, setRequests] = useState([])
   const [filteredRequests, setFilteredRequests] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [expandedRequest, setExpandedRequest] = useState(null)
+ const [isPrestataire, setIsPrestataire] = useState(false)
+  
 
   useEffect(() => {
     // Simuler le chargement des données depuis une API
@@ -109,7 +115,13 @@ const UserRequests = () => {
     setExpandedRequest(expandedRequest === requestId ? null : requestId)
   }
 
+
+
+
+
   return (
+    <div>
+       
     <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
       <h2 className="text-3xl font-bold mb-8 text-gray-800">Mes demandes de service</h2>
 
@@ -264,8 +276,9 @@ const UserRequests = () => {
         </div>
       )}
     </div>
+    </div>
   )
 }
 
-export default UserRequests
+export default InfoDemande
 
