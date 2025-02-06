@@ -122,7 +122,6 @@ function LayoutClients(props) {
     )
   }
 
-  
 />
       <main>
         <div>

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ServiceCard from './ServicesCard';
 
@@ -28,7 +28,6 @@ export default function CardCommunautaire() {
   }, []);
 
   if (loading) return <div>Chargement...</div>;
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {error && <div className="error-message">{error}</div>}

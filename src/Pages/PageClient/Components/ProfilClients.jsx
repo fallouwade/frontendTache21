@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaGlobe, FaBars, FaSearch } from "react-icons/fa";
 import SidebarClient from "./SidebarClient";
 
-function ProfilClients({ isLoggedIn, userName, userEmail,  buttonPrest }) {
+function ProfilClients({ isLoggedIn, userName, userEmail,  buttonPrest , buttonInfo }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -22,36 +22,19 @@ function ProfilClients({ isLoggedIn, userName, userEmail,  buttonPrest }) {
   return (
     <>
       <nav className={`fixed w-full z-50 bg-white transition-all duration-200 ${isScrolled ? 'shadow-md py-4' : 'py-6'}`}>
-        <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4">
+        <div className="max-w-[2520px] mx-auto xl:px-10 md:px-10 sm:px-2 px-4">
           <div className="flex items-center justify-between gap-3 md:gap-0">
             {/* Logo */}
             <a href="/" className="hidden md:block">
               <span className="text-rose-500 text-xl font-bold">ServicePro</span>
             </a>
 
-            {/* Search Bar - Compact */}
-            <button
-              onClick={toggleSearch}
-              className={`flex items-center w-full md:w-auto justify-between rounded-full border shadow-sm hover:shadow-md transition cursor-pointer ${
-                isScrolled ? 'py-2 px-4' : 'py-3 px-6'
-              }`}
-            >
-              <div className="flex items-center divide-x">
-                <span className="px-4 font-medium">Service</span>
-                <span className="px-4 font-medium">Localisation</span>
-                <div className="pl-4 pr-2">
-                  <div className="p-2 bg-rose-500 rounded-full text-white">
-                    <FaSearch size={14} />
-                  </div>
-                </div>
-              </div>
-            </button>
-
+            {/* passer en props comment ca marche  */}
+            <div  className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
+              {buttonInfo}
+             </div>
             {/* Right Side Navigation */}
             <div className="flex items-center gap-4">
-              {/* <button className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
-                Devenir prestataire
-              </button> */}
              <div  className="hidden md:block hover:bg-gray-100 py-3 px-4 rounded-full transition">
               { buttonPrest}
              </div>
