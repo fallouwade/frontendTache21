@@ -11,13 +11,14 @@ function RentalCard({
   rating,
   identifiant
 }) {
-  console.log(id)
+  console.log(id);
+  
   
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div>    <div className="relative w-full h-60 overflow-hidden rounded-t-xl">
         <img
-          src={imageUrl || "https://a0.muscache.com/im/pictures/miso/Hosting-675821330698620822/original/109c7f78-7fe8-4746-89fa-35e953ab65fc.jpeg?im_w=720&im_format=avif"}
+          src={ `https://backendtache21.onrender.com/uploads/images/${imageUrl}`}
           alt={`Service de ${services.categorie} à ${region}`}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
