@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import SidebarPrestataire from "./SidebarPrestataire";
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
@@ -7,6 +8,24 @@ import { FaBell, FaCheckCircle, FaTimesCircle, FaClipboardList, FaClock, FaThumb
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function Dashboard() {
+    const [services, setServices] = useState([]); // Nouvel état pour les services
+    
+    // Récupération des services avec Axios
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/toutes');
+                setServices(response.data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des services:", error);
+            }
+        };
+
+        fetchServices();
+    }, []);
+
+    console.log(services);
+
     const data = {
         labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
         datasets: [

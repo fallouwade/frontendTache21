@@ -1,16 +1,19 @@
 // components/SidebarClient.jsx
 import { useState } from "react"
-import { FaUserCircle, FaGift, FaBriefcase, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa"
+import { FaUserCircle, FaGift, FaBriefcase, FaSignOutAlt } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
 
 function SidebarClient({ isLoggedIn, userName, userEmail }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleToggle = () => setIsOpen(!isOpen)
 
+  const navigate = useNavigate()
+
   const handleItemClick = (action) => {
-    console.log(`Action clicked: ${action}`)
-    setIsOpen(false)
-  }
+    navigate(`/${action}`);
+    setIsOpen(false);
+   };
 
   return (
     <div className="relative">
