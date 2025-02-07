@@ -59,13 +59,15 @@ function LayoutClients(props) {
       );
     }
 
-    if (searchTerm.service || searchTerm.location) {
+   else if (searchTerm.service || searchTerm.location) {
+
       filtered = filtered.filter(service =>
-        service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
+        service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) ||
         (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
          service.departement.toLowerCase().includes(searchTerm.location.toLowerCase()))
       );
     }
+
 
     setFilteredServices(filtered);
     setCurrentPage(1);
