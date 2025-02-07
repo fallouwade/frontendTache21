@@ -18,7 +18,7 @@ const AjouterServicesPrestataire = () => {
   const [servicesCount, setServicesCount] = useState(0);
   const [categories, setCategories] = useState([]);
 
-  // Charger les catégories depuis 
+  // Charger les catégories depuis l'API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -39,24 +39,17 @@ const AjouterServicesPrestataire = () => {
     const fetchServices = async () => {
       try {
         const token = localStorage.getItem("token");
-        const prestataireId = localStorage.getItem("id");
-
         if (!token) return;
 
-        const response = await axios.get("https://backendtache21.onrender.com/api/services/tous-les-services", {
+        const response = await axios.get("http://localhost:5000/api/services/service-par-utilisateur", {
           headers: { Authorization: `Bearer ${token}` },
         });
-     
-        // Filtrer les services par l'ID du prestataire connecté
-        const servicesDuPrestataire = response.data.filter(
-          service => service.prestataire.toString() === prestataireId
-        );
 
         const services = response.data;
         setServicesCount(services.length);
 
         if (services.length > 0) {
-          const service = servicesDuPrestataire[0];
+          const service = services[0];
           setServiceId(service._id);
           setNomDeservice(service.nomDeservice);
           setCategorie(service.categorie);
@@ -67,7 +60,6 @@ const AjouterServicesPrestataire = () => {
           }
         }
       } catch (error) {
-        console.log(error)
         toast.error("Une erreur est survenue lors du chargement des services.", {
           icon: <FaExclamationCircle />,
           theme: "colored",
@@ -77,6 +69,7 @@ const AjouterServicesPrestataire = () => {
 
     fetchServices();
   }, []);
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -128,7 +121,7 @@ const AjouterServicesPrestataire = () => {
       if (serviceId) {
         // Mode modification
         response = await axios.put(
-          `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
+          `http://localhost:5000/api/services/modifier/${serviceId}`,
           formData,
           {
             headers: {
@@ -144,7 +137,7 @@ const AjouterServicesPrestataire = () => {
       } else {
         // Mode ajout
         response = await axios.post(
-          "https://backendtache21.onrender.com/api/services/ajouter",
+          "http://localhost:5000/api/services/ajouter",
           formData,
           {
             headers: {
@@ -160,7 +153,6 @@ const AjouterServicesPrestataire = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       setErreur("Une erreur est survenue lors de l'ajout ou modification du service.");
       toast.error("Une erreur est survenue, veuillez réessayer.", {
         icon: <FaExclamationCircle />,
@@ -173,7 +165,7 @@ const AjouterServicesPrestataire = () => {
 
   return (
     <SidebarPrestataire>
-      <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 p-6">
         <div className="w-full max-w-2xl bg-white p-8 rounded-2xl shadow-xl">
           <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-6">
             {serviceId ? "Modifier votre Service" : servicesCount < 2 ? "Ajouter un Service" : "Vous ne pouvez pas ajouter plus de 2 services"}
@@ -191,7 +183,7 @@ const AjouterServicesPrestataire = () => {
                   type="text"
                   value={nomDeservice}
                   onChange={(e) => setNomDeservice(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                   required
                 />
               </div>
@@ -203,7 +195,7 @@ const AjouterServicesPrestataire = () => {
                 <select
                   value={categorie}
                   onChange={(e) => setCategorie(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                   required
                 >
                   <option value="">Sélectionner une catégorie</option>
@@ -220,7 +212,7 @@ const AjouterServicesPrestataire = () => {
                 <textarea
                   value={descriptionDeService}
                   onChange={(e) => setDescriptionDeService(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                   rows="3"
                   required
                 />
@@ -232,7 +224,7 @@ const AjouterServicesPrestataire = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full p-2 rounded-xl cursor-pointer"
+                  className="w-full p-2 border rounded-lg cursor-pointer"
                 />
                 {(imagePreview || service?.imageUrl) && (
                   <div className="mt-3 flex items-center space-x-4">
