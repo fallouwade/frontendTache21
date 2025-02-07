@@ -12,6 +12,10 @@ const LayoutAdmine = ({ children }) => {
         setSidebarOpen((prev) => !prev);
     };
 
+    const handleSidebarItemClick = () => {
+        setSidebarOpen(false);
+    };
+
     return (
         <div className="flex w-full fixed max-h-screen bg-[#E8F0FE]">
             <div className="fixed z-40">
@@ -33,7 +37,11 @@ const LayoutAdmine = ({ children }) => {
             </div>
             <div className="flex w-screen z-0">
                 <div className=" flex flex-col min-h-screen bg-[#0A2342] ">
-                    <SidebarAdmin isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+                    <SidebarAdmin 
+                        isOpen={isSidebarOpen} 
+                        onItemClick={handleSidebarItemClick} 
+                        toggleSidebar={toggleSidebar} 
+                    />
                 </div>
                 <div className="w-screen overflow-x-auto lg:w-11/12 pt-20 ">
                     {children}

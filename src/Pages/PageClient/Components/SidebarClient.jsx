@@ -1,5 +1,5 @@
 "use client"
-
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { FaUserCircle, FaBriefcase, FaBars, FaEnvelope } from "react-icons/fa"
@@ -10,10 +10,13 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
 
   const handleToggle = () => setIsOpen(!isOpen)
 
+  const navigate = useNavigate()
+
   const handleItemClick = (action) => {
-    console.log(`Action clicked: ${action}`)
-    setIsOpen(false)
-  }
+    navigate(`/${action}`);
+    console.log(action);
+    setIsOpen(false);
+   };
 
   return (
     <div className="relative">

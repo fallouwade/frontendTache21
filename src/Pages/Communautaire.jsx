@@ -11,7 +11,7 @@ const Communautaire = () => {
     <div>
       {/* navbar  */}
       <div className=''>
-        < NavCommunautaire />
+        <NavCommunautaire />
       </div>
       <div className="relative w-full h-screen mb-10">
         <video

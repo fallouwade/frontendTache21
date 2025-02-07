@@ -1,43 +1,58 @@
 import { useEffect, useState } from "react";
 import SidebarPrestataire from "./SidebarPrestataire";
+import axios from "axios";
 
 export default function LesDemandes() {
   const [demandes, setDemandes] = useState([]);
   const [filtre, setFiltre] = useState("");
   const [page, setPage] = useState(1);
   const [erreur, setErreur] = useState("");
-  const [demandesParPage] = useState(2); // Nombre de demandes par page
+  const [demandesParPage] = useState(2);
+  const [allDemandes, setAllDemandes] = useState([]);
+  const token = localStorage.getItem('token');
 
-  // Charger les demandes des clients (simulateur pour le design)
   useEffect(() => {
-    // Simuler des demandes pour le design avec plus d'informations
-    const fakeDemandes = [
-      { _id: 1, clientNom: "Jean Dupont", clientTel: "0123456789", clientAdresse: "123 Rue de Paris, 75000 Paris", description: "Service de nettoyage" },
-      { _id: 2, clientNom: "Marie Leblanc", clientTel: "0987654321", clientAdresse: "456 Avenue des Champs, 75008 Paris", description: "Peinture de la maison" },
-      { _id: 3, clientNom: "Pierre Martin", clientTel: "0145782965", clientAdresse: "789 Boulevard Saint-Germain, 75006 Paris", description: "Déménagement" },
-      { _id: 4, clientNom: "Sophie Durand", clientTel: "0167382912", clientAdresse: "112 Rue de Lyon, 75012 Paris", description: "Réparation d'ordinateur" },
-      { _id: 5, clientNom: "Alexandre Lefevre", clientTel: "0172618345", clientAdresse: "56 Rue de la République, 69002 Lyon", description: "Nettoyage après travaux" },
-      { _id: 6, clientNom: "Clara Dubois", clientTel: "0178481920", clientAdresse: "23 Rue des Fleurs, 75015 Paris", description: "Jardinage" },
-      { _id: 7, clientNom: "Lucie Gauthier", clientTel: "0134567890", clientAdresse: "99 Rue de la Paix, 75008 Paris", description: "Aide à domicile" },
-      { _id: 8, clientNom: "Michel Roux", clientTel: "0158743201", clientAdresse: "24 Avenue Victor Hugo, 75016 Paris", description: "Dépannage informatique" },
-    ];
+    const reccupDemande = async () => {
+      try {
+        const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/toutes');
+        const prestataireId = JSON.parse(atob(token.split('.')[1])).id;
+        const prestataireServices = response.data.demandes.filter(
+          service => service.prestataire.id === prestataireId
+        );
+        
+        setAllDemandes(prestataireServices);
+        updateDisplayedDemandes(prestataireServices);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données:", error);
+      }
+    };
 
-    // Appliquer le filtre de recherche
-    const demandesFiltres = fakeDemandes.filter((demande) =>
-      demande.clientNom.toLowerCase().includes(filtre.toLowerCase())
+    reccupDemande();
+  }, [token]);
+
+  useEffect(() => {
+    updateDisplayedDemandes(allDemandes);
+  }, [filtre, page, allDemandes]);
+
+  const updateDisplayedDemandes = (services) => {
+    const demandesFiltrees = services.filter((demande) =>
+      demande.client?.nom?.toLowerCase().includes(filtre.toLowerCase()) ||
+      demande.description?.toLowerCase().includes(filtre.toLowerCase())
     );
 
-    // Calculer les demandes à afficher pour la page actuelle
     const indexOfLast = page * demandesParPage;
     const indexOfFirst = indexOfLast - demandesParPage;
-    const demandesActuelles = demandesFiltres.slice(indexOfFirst, indexOfLast);
-
-    setDemandes(demandesActuelles);
-  }, [filtre, page]);
+    setDemandes(demandesFiltrees.slice(indexOfFirst, indexOfLast));
+  };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
+
+  const totalPages = Math.ceil(allDemandes.filter(demande => 
+    demande.client?.nom?.toLowerCase().includes(filtre.toLowerCase()) ||
+    demande.description?.toLowerCase().includes(filtre.toLowerCase())
+  ).length / demandesParPage);
 
   return (
     <SidebarPrestataire>
@@ -49,7 +64,6 @@ export default function LesDemandes() {
 
           {erreur && <p className="text-red-600 text-center mb-4">{erreur}</p>}
 
-          {/* Filtre de recherche */}
           <div className="flex items-center relative w-full pb-5">
             <input
               type="text"
@@ -90,30 +104,30 @@ export default function LesDemandes() {
                   className="bg-slate-100 p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
                 >
                   <h3 className="text-xl font-semibold text-gray-800">
-                    Demande de {demande.clientNom}
+                    Demande de {demande.client?.nom || 'Client'}
                   </h3>
                   <p className="text-gray-600 mt-2">{demande.description}</p>
 
                   <div className="mt-4 space-y-2">
                     <div className="flex justify-between">
                       <p className="text-gray-600 font-medium">Numéro de téléphone:</p>
-                      <p className="text-gray-800">{demande.clientTel}</p>
+                      <p className="text-gray-800">{demande.numeroTelephone}</p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className="text-gray-600 font-medium">Email :</p>
+                      <p className="text-gray-800">{demande.client?.email || 'Non disponible'}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="text-gray-600 font-medium">Adresse:</p>
-                      <p className="text-gray-800">{demande.clientAdresse}</p>
+                      <p className="text-gray-800">{demande.adresse}</p>
                     </div>
                   </div>
 
                   <div className="mt-6 flex justify-end space-x-4">
-                    <button
-                      className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
-                    >
+                    <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
                       Accepter
                     </button>
-                    <button
-                      className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
-                    >
+                    <button className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
                       Refuser
                     </button>
                   </div>
@@ -122,21 +136,23 @@ export default function LesDemandes() {
             )}
           </div>
 
-          {/* Pagination */}
-          <div className="mt-6 flex justify-center space-x-4">
+          <div className="mt-6 flex justify-center items-center space-x-4">
             <button
-              className={`${page === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-                } text-white py-2 px-4 rounded-lg`}
+              className={`${page === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} 
+                text-white py-2 px-4 rounded-lg`}
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
             >
               Précédent
             </button>
+            <span className="text-gray-600">
+              Page {page} sur {totalPages}
+            </span>
             <button
-              className={`${demandes.length < demandesParPage ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-                } text-white py-2 px-4 rounded-lg`}
+              className={`${page >= totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} 
+                text-white py-2 px-4 rounded-lg`}
               onClick={() => handlePageChange(page + 1)}
-              disabled={demandes.length < demandesParPage}
+              disabled={page >= totalPages}
             >
               Suivant
             </button>

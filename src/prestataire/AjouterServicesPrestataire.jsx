@@ -39,8 +39,6 @@ const AjouterServicesPrestataire = () => {
     const fetchServices = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log(token);
-
         const prestataireId = localStorage.getItem("id");
 
         if (!token) return;
