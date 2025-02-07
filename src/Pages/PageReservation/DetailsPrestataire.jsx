@@ -2,7 +2,7 @@
 
 import  { useState } from 'react';
 import RatingBadge from './RatingBadge';
-import Stats from './Stats';
+import Stats from './Comment';
 // import ReservationCard from './ReservationCard';
 import Calendar from './Calendar';
 import ReservationCard from './ReservationCard';
@@ -32,7 +32,11 @@ const DetailsPrestataire = (props) => {
    
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-6">
-          <RatingBadge />
+        <div>
+                <h2 className="text-xl font-medium">Disponibilités du prestataire</h2>
+
+        </div>
+          {/* <RatingBadge /> */}
           <Calendar onDateSelect={handleDateSelect} />
           <Stats />
         </div>

@@ -7,6 +7,7 @@ import Temoignages from '../Components/Temoignages';
 import Satisfaction from '../Components/Satisfaction';
 import Footer from '../../Composants/Footer';
 import { Link } from 'react-router-dom';
+import { GrLinkTop } from "react-icons/gr";
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
@@ -20,6 +21,18 @@ function LayoutCommunautaire
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     fetchServices();
@@ -155,6 +168,17 @@ function LayoutCommunautaire
          <Footer/>
         </div>
       </main>
+      <div>
+      <button
+      onClick={scrollToTop}
+      className={`fixed bottom-5 right-5 p-2 rounded-full bg-yellow-400 text-white shadow-lg transition-all duration-300 text-xl ${
+        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+      }`}
+    >
+      <GrLinkTop />
+
+    </button>
+      </div>
     </div>
   );
 }
