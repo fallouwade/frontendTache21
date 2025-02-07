@@ -16,8 +16,8 @@ export default function NavbarPrestataire() {
 
       {/* Menu desktop */}
       <div className="flex space-x-6 items-center">
-        <Link to="/accueil" className="hover:text-gray-300 transition duration-300">
-          Accueil
+        <Link to="/client" className="hover:text-gray-300 transition duration-300">
+          Demande service
         </Link>
 
         {/* Menu Profil */}

@@ -9,8 +9,7 @@ const Satisfaction = () => {
     },
     {
       title: "Des experts locaux qualifiés",
-      description:
-        "Chaque prestataire est soigneusement sélectionné pour garantir un service fiable et de haute qualité.",
+      description:"Nous veillons à ce que chaque prestataire offre un service fiable et de haute qualité"
     },
     {
       title: "Un support client réactif",

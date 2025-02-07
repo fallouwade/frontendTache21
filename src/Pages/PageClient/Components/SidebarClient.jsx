@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { FaUserCircle, FaBriefcase, FaBars, FaEnvelope } from "react-icons/fa"
+import { FaUserCircle, FaBriefcase, FaBars, FaEnvelope, FaSignOutAlt} from "react-icons/fa"
 import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
 
 function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
@@ -26,7 +26,8 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
         onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
-        <FaBars size={18} className="text-black" />
+        <FaSignOutAlt size={18} className="text-yellow-500" />
+
         <div className="relative">
           <FaUserCircle className="w-8 h-8 text-gray-500 hover:text-gray-700" />
           {unreadMessages > 0 && (
@@ -35,6 +36,7 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
             </span>
           )}
         </div>
+
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 transition-all duration-200 ease-in-out">

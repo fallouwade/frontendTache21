@@ -9,13 +9,15 @@ import "slick-carousel/slick/slick-theme.css";
 const GalleryPrestatiare = (props) => {
   const [showMobileCarousel, setShowMobileCarousel] = useState(false);
 
-  const images = [
-    { src: plombier, alt: "Service plomberie - Vue 1" },
-    { src: plombier, alt: "Service plomberie - Vue 2" },
-    { src: plombier, alt: "Service plomberie - Vue 3" },
-    { src: plombier, alt: "Service plomberie - Vue 4" },
-    { src: plombier, alt: "Service plomberie - Vue 5" },
-  ];
+  // const images = [
+  //   { src: plombier, alt: "Service plomberie - Vue 1" },
+  //   { src: plombier, alt: "Service plomberie - Vue 2" },
+  //   { src: plombier, alt: "Service plomberie - Vue 3" },
+  //   { src: plombier, alt: "Service plomberie - Vue 4" },
+  //   { src: plombier, alt: "Service plomberie - Vue 5" },
+  // ];
+
+ 
 
   const settings = {
     dots: true,
@@ -32,24 +34,21 @@ const GalleryPrestatiare = (props) => {
   };
   const prestataire = props.prestataire
 
+  const imageUrl = `https://backendtache21.onrender.com/uploads/images/${prestataire.imageUrl}`;
+  const images = [
+    { src: imageUrl, alt: "" },
+    { src: imageUrl, alt: "" },
+    { src: imageUrl, alt: "" },
+    { src: imageUrl, alt: "" },
+    { src: imageUrl, alt: "" },
+  ];
   return (
     <div className="max-w-7xl mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-700">Bonjour, je suis {prestataire.prenom}{" "} {prestataire.nom}</h1>
-        <div className="flex gap-4">
-          <button className="flex items-center gap-2 hover:bg-gray-100 px-4 py-2 rounded-lg">
-            <FaShare className="w-5 h-5" />
-            <span className="hidden sm:inline">Partager</span>
-          </button>
-          <button className="flex items-center gap-2 hover:bg-gray-100 px-4 py-2 rounded-lg">
-            <FaHeart className="w-5 h-5" />
-            <span className="hidden sm:inline">Favoris</span>
-          </button>
-        </div>
+        <h1 className="text-3xl font-bold text-blue-700">Bonjour, je suis  {prestataire.prenom}{" "} {prestataire.nom}</h1>
       </div>
-
       <p className="text-lg text-gray-700 mb-6">
-        Je m'appelle Moustapha Ndiaye, et je suis spécialisé dans tous vos travaux de plomberie, que ce soit pour une installation neuve, des réparations ou des rénovations. Découvrez ci-dessous mes services et mes réalisations.
+        Je m'appelle {prestataire.prenom}{" "} {prestataire.nom} , et je suis spécialisé dans tous vos travaux de {prestataire.services[0].categorie}. Découvrez ci-dessous mes services et mes réalisations.
       </p>
 
       <div className="hidden sm:block">
@@ -57,36 +56,36 @@ const GalleryPrestatiare = (props) => {
           <div className="grid grid-cols-4 gap-2 h-[380px]">
             <div className="col-span-2 row-span-2 relative">
               <img
-                src={plombier}
-                alt="Installation de cuisine - Vue principale"
+                src={imageUrl}
+                alt="img"
                 className="w-full h-full object-cover rounded-l-xl"
               />
             </div>
             <div className="col-span-1">
               <img
-                src={plombier}
-                alt="Travaux de salle de bain"
+                src={imageUrl}
+                alt="img"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="col-span-1">
               <img
-                src={plombier}
-                alt="Réparation de fuite"
+                src={imageUrl}
+                alt="img"
                 className="w-full h-full object-cover rounded-tr-xl"
               />
             </div>
             <div className="col-span-1">
               <img
-                src={plombier}
-                alt="Installation de chauffe-eau"
+                src={imageUrl}
+                alt="img"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="col-span-1 relative">
               <img
-                src={plombier}
-                alt="Remplacement de canalisation"
+                src={imageUrl}
+                alt="img"
                 className="w-full h-full object-cover rounded-br-xl"
               />
             </div>
@@ -94,14 +93,13 @@ const GalleryPrestatiare = (props) => {
         </div>
       </div>
 
-      {/* Grille mobile : Utilisation de Slick Carousel */}
       <div className="block sm:hidden mt-8">
         <Slider {...settings}>
           {images.map((image, index) => (
             <div
               key={index}
               className="w-full h-72 cursor-pointer"
-              onClick={handleImageClick} // Ouvre le carrousel plein écran sur click
+              onClick={handleImageClick} 
             >
               <img
                 src={image.src}
