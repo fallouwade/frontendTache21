@@ -41,7 +41,7 @@ const AjouterServicesPrestataire = () => {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const response = await axios.get("http://localhost:5000/api/services/service-par-utilisateur", {
+        const response = await axios.get("https://backendtache21.onrender.com/api/services/service-par-utilisateur", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -69,7 +69,6 @@ const AjouterServicesPrestataire = () => {
 
     fetchServices();
   }, []);
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -121,7 +120,7 @@ const AjouterServicesPrestataire = () => {
       if (serviceId) {
         // Mode modification
         response = await axios.put(
-          `http://localhost:5000/api/services/modifier/${serviceId}`,
+          `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
           formData,
           {
             headers: {
@@ -137,7 +136,7 @@ const AjouterServicesPrestataire = () => {
       } else {
         // Mode ajout
         response = await axios.post(
-          "http://localhost:5000/api/services/ajouter",
+          "https://backendtache21.onrender.com/api/services/ajouter",
           formData,
           {
             headers: {
@@ -165,7 +164,7 @@ const AjouterServicesPrestataire = () => {
 
   return (
     <SidebarPrestataire>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200 p-6">
         <div className="w-full max-w-2xl bg-white p-8 rounded-2xl shadow-xl">
           <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-6">
             {serviceId ? "Modifier votre Service" : servicesCount < 2 ? "Ajouter un Service" : "Vous ne pouvez pas ajouter plus de 2 services"}
@@ -183,7 +182,7 @@ const AjouterServicesPrestataire = () => {
                   type="text"
                   value={nomDeservice}
                   onChange={(e) => setNomDeservice(e.target.value)}
-                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
+                  className="w-full p-3 border rounded-xl focus:ring  focus:ring-blue-300"
                   required
                 />
               </div>
@@ -195,7 +194,7 @@ const AjouterServicesPrestataire = () => {
                 <select
                   value={categorie}
                   onChange={(e) => setCategorie(e.target.value)}
-                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
+                  className="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300"
                   required
                 >
                   <option value="">Sélectionner une catégorie</option>
@@ -212,7 +211,7 @@ const AjouterServicesPrestataire = () => {
                 <textarea
                   value={descriptionDeService}
                   onChange={(e) => setDescriptionDeService(e.target.value)}
-                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
+                  className="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300"
                   rows="3"
                   required
                 />
@@ -236,9 +235,9 @@ const AjouterServicesPrestataire = () => {
                     <button
                       type="button"
                       onClick={removeImage}
-                      className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded-lg flex items-center space-x-1"
+                      className="bg-red-500 hover:bg-red-600 text-white py-1 px-2  flex items-center space-x-1"
                     >
-                      <FaTrashAlt /> <span>Supprimer</span>
+                      <FaTrashAlt /> <span></span>
                     </button>
                   </div>
                 )}
