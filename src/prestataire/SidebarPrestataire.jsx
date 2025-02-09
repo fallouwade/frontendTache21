@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, FileText, User, PlusCircle } from "lucide-react";
-// import NavbarPrestataire from "./NavbarPrestataire";
-import NavbarPrestataire from "./navbarPrestataire";
+import NavPrestataire from "./NavPrestataire";
 
 
 const navigation = [
@@ -31,7 +30,7 @@ export default function SidebarPrestataire({ children }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <NavbarPrestataire className="fixed top-0 left-0 right-0 z-50" />
+      <NavPrestataire className="fixed top-0 left-0 right-0 z-50" />
 
       <div className="flex relative">
         {/* Mobile Menu Button */}

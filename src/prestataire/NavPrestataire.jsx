@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import DeconnexionButton from "../Authentification/déconnexion/DeconnexionButton";
 import logo from "/images/logoblanc.png";
 
-export default function NavbarPrestataire() {
+export default function NavPrestataire() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const toggleProfileMenu = () => setIsProfileOpen(!isProfileOpen);
