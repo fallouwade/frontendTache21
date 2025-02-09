@@ -15,7 +15,7 @@ const ProfilCli = () => {
   const [imagePreview, setImagePreview] = useState(null);   // Aperçu de l'image
   const [error, setError] = useState(null);                 // Messages erreur
   const [isLoading, setIsLoading] = useState(true);        // État de chargement
-  const [updateSuccess, setUpdateSuccess] = useState(false);// Message de succès
+  const [updateSuccess, setUpdateSuccess] = useState(false); // Message de succès
 
   // Charger les données du profil ci moments montage composant bi
   useEffect(() => {
@@ -60,45 +60,48 @@ const ProfilCli = () => {
     setUpdateSuccess(false);
   };
 
-  // Sauvegarder les modifications du profil
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
       
-      // Utilisation de FormData pour pouvoir envoyer des fichiers
-      const formData = new FormData();
-      formData.append('prenom', profile.prenom);
-      formData.append('nom', profile.nom);
-      formData.append('email', profile.email);
-      if (profile.photo instanceof File) {
-        formData.append('photo', profile.photo);
-      }
-
+      const payload = {
+        prenom: profile.prenom,
+        nom: profile.nom,
+        email: profile.email
+      };
+  
+      console.log('Payload avant envoi:', payload); // Log du payload
+  
       const response = await fetch(
         'https://backendtache21.onrender.com/api/clients/mettre-a-jour-client',
         {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           },
-          body: formData
+          body: JSON.stringify(payload)
         }
       );
-
+  
+      console.log('Statut de la réponse:', response.status); // Log du statut de la réponse
+  
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Détails de l\'erreur:', errorText);
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
-
+  
       const updatedData = await response.json();
-      setProfile(updatedData);
+      console.log('Données mises à jour:', updatedData);
+      
+      // Rechargement manuel du profil
+      await getProfile();
+  
       setIsEditing(false);
       setError(null);
       setUpdateSuccess(true);
-      
-      // Rafraîchir les données pour avoir les dernières modifications
-      getProfile();
-      
-      // Masquer le message de succès après 3 secondes
+  
       setTimeout(() => {
         setUpdateSuccess(false);
       }, 3000);
@@ -127,18 +130,18 @@ const ProfilCli = () => {
         return;
       }
 
-      // Créer un aperçu de l'image
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-        setProfile(prev => ({
-          ...prev,
-          photo: file
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+          // Créer un aperçu de l'image
+            const reader = new FileReader();
+             reader.onloadend = () => {
+              setImagePreview(reader.result);
+              setProfile(prev => ({
+                ...prev,
+                photo: file
+              }));
+            };
+            reader.readAsDataURL(file);
+          }
+        };
 
   // Afficher un loader pendant le chargement
   if (isLoading) {
@@ -197,7 +200,9 @@ const ProfilCli = () => {
                       </div>
                     )}
                   </div>
+
                   {/* Bouton pour changer la photo (mais c visible uniquement en mode édition) */}
+
                   {isEditing && (
                     <label className="absolute bottom-2 right-2 cursor-pointer">
                       <input
@@ -214,6 +219,7 @@ const ProfilCli = () => {
                 </div>
                 
                 {/* Bouton Modifier/Sauvegarder */}
+
                 <button
                   onClick={isEditing ? handleSave : handleEdit}
                   className="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-3 text-lg font-medium"
@@ -251,10 +257,11 @@ const ProfilCli = () => {
                         name="prenom"
                         value={profile.prenom}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg"
+                        className="w-full pl-12 pr-4 py-3 border-1 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg"
                         placeholder="Prénom"
                       />
                     </div>
+
                     {/* Champ nom */}
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -265,7 +272,7 @@ const ProfilCli = () => {
                         name="nom"
                         value={profile.nom}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg"
+                        className="w-full pl-12 pr-4 py-3 border-1 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg"
                         placeholder="Nom"
                       />
                     </div>
@@ -279,7 +286,7 @@ const ProfilCli = () => {
                         name="email"
                         value={profile.email}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg"
+                        className="w-full pl-12 pr-4 py-3 border-1 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-lg"
                         placeholder="Email"
                       />
                     </div>
@@ -313,5 +320,4 @@ const ProfilCli = () => {
     </div>
   );
 };
-
 export default ProfilCli;

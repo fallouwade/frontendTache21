@@ -149,7 +149,7 @@ function LayoutClients(props) {
       <main>
        
         <div className="text-center space-y-4">
-          <h1 className="text-3xl pt-24 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+          <h1 className="text-3xl pt-14 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
             Trouvez le bon professionnel près de chez vous
           </h1>
           <p className="text-lg text-gray-600">
