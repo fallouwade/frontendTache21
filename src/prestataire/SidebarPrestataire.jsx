@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, FileText, User, PlusCircle } from "lucide-react";
 import NavbarPrestataire from "./navbarPrestataire";
 
+
 const navigation = [
   { name: "Dashboard", path: "/dashboard", icon: Home },
   { name: "Demandes", path: "/les-demande", icon: FileText },
