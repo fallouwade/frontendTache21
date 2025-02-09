@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, FileText, User, PlusCircle } from "lucide-react";
+// import NavbarPrestataire from "./NavbarPrestataire";
 import NavbarPrestataire from "./navbarPrestataire";
 
 
