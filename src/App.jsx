@@ -69,12 +69,7 @@ function App() {
          <Reservation id={id} />
         } />
 
-      {/* Routes Prestataire */}
-      {/* <Route path="/accueil" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <Accueil />
-        </ProtectionRoute>
-      } /> */}
+     
     
 
       <Route path="/profil" element={

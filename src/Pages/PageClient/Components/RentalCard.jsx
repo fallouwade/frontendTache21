@@ -24,7 +24,7 @@ function RentalCard({
         />
         <button
           className="absolute top-4 right-4 p-2 bg-white/80 hover:bg-white rounded-full transition-all duration-300 shadow-md"
-          aria-label="Ajouter aux favoris"
+          aria-label="Ajouter aux favoris ou supprimer au favoris"
         >
           <FaHeart className="h-6 w-6 text-gray-400 hover:text-red-500 transition-all duration-300" />
         </button>
