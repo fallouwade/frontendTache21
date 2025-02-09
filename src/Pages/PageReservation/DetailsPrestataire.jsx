@@ -1,7 +1,6 @@
 
 
 import  { useState } from 'react';
-import RatingBadge from './RatingBadge';
 import Stats from './Comment';
 // import ReservationCard from './ReservationCard';
 import Calendar from './Calendar';
