@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { User } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import DeconnexionButton from "../Authentification/déconnexion/DeconnexionButton";
+import logo from "/images/logoblanc.png";
 
 export default function NavbarPrestataire() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -10,9 +11,12 @@ export default function NavbarPrestataire() {
   const toggleProfileMenu = () => setIsProfileOpen(!isProfileOpen);
 
   return (
-    <nav className="bg-gray-800  w-full fixed z-50  text-white p-4 flex justify-between items-center shadow-lg">
+    <nav className="bg-gray-800  w-full fixed z-50  text-white pl-4 pr-4 flex justify-between items-center shadow-lg">
       {/* Logo */}
-      <span className="text-2xl font-semibold pl-20 cursor-pointer">Logo</span>
+        <a href="/" className="text-rose-500 text-2xl font-extrabold">
+        <img src={logo} alt="Logo" width="120" />
+      
+        </a>
 
       {/* Menu desktop */}
       <div className="flex space-x-6 items-center">
