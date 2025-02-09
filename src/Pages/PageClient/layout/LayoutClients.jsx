@@ -136,7 +136,7 @@ function LayoutClients(props) {
         userEmail={user.email}
         buttonPrest={
           isPrestataire ? (
-            <Link to="/accueil" className=" text-[12px] md:text-base  text-gray-700 font-normal py-2 sm:px-4 rounded">
+            <Link to="/ajouter-service-prestataire" className=" text-[12px] md:text-base  text-gray-700 font-normal py-2 sm:px-4 rounded">
               Retour à mon compte
             </Link>
           ) : (
