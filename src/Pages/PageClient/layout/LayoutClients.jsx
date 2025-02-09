@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from "react-router-dom";
 import ProfilClients from "../Components/ProfilClients";
-import SearchForm from "../Components/ServiceGrid";
+import ServiceGrid from '../Components/ServiceGrid';
 import CategoryGrid from "../Components/CardMessage";
 import RentalSection from "../Components/RentalSection";
 import { Link } from "react-router-dom";
@@ -158,7 +158,7 @@ function LayoutClients(props) {
         </div>
         <div className="container mx-auto px-4 pb-10">
           <div className="max-w-4xl mx-auto space-y-6">
-            <SearchForm onSearch={handleSearch} />
+            <ServiceGrid onSearch={handleSearch} />
             <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
           </div>
         </div>

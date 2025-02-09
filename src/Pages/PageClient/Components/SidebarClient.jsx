@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { FaUserCircle, FaBriefcase, FaBars, FaEnvelope, FaSignOutAlt} from "react-icons/fa"
+import { FaUserCircle, FaBriefcase,  FaEnvelope, FaSignOutAlt} from "react-icons/fa"
 import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
 
 function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
