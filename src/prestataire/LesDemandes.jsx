@@ -26,7 +26,7 @@ export default function LesDemandes() {
         console.error("Erreur lors de la récupération des données:", error);
       }
     };
-    console.log("ddd")
+
     reccupDemande();
   }, [token]);
 
