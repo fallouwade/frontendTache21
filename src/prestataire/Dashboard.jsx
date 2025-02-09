@@ -53,7 +53,7 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchServicesAndNotifications = async () => {
             try {
-                const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/toutes');
+                const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/clientAll');
                 const prestataireId = JSON.parse(atob(token.split('.')[1])).id;
                 const prestataireServices = response.data.demandes.filter(
                     service => service.prestataire.id === prestataireId
@@ -107,6 +107,8 @@ export default function Dashboard() {
     const removeNotification = (id) => {
         setNotifications(notifications.filter((notif) => notif.id !== id));
     };
+
+    console.log(services);
 
     return (
         <SidebarPrestataire>       

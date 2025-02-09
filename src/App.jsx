@@ -14,7 +14,6 @@ import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
 import ProfilAdmin from "./Pages/ProfilAdmin.jsx"
 
 
-// import Accueil from "./Pages/Accueil.jsx";
 import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
@@ -81,12 +80,29 @@ function App() {
 
       {/* route test prestataire */}
       {/* <Route path="/app-test" element={<AppTest />} /> */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/les-demande" element={<LesDemandes />} />
-      <Route path="/les-demande" element={<LesDemandes />} />
-      <Route path="/profil-prestataire" element={<ProfilDuPrestataire />} />
-      <Route path="/ajouter-service-prestataire" element={<AjouterServicesPrestataire />} />     
+      <Route path="/dashboard" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <Dashboard />
+        </ProtectionRoute>
+      } />
 
+      <Route path="/les-demande" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <LesDemandes />
+        </ProtectionRoute>
+      } />
+
+      <Route path="/profil-prestataire" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <ProfilDuPrestataire />
+        </ProtectionRoute>
+      } />
+
+      <Route path="/ajouter-service-prestataire" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <AjouterServicesPrestataire />
+        </ProtectionRoute>
+      } />
     </Routes>
 
 

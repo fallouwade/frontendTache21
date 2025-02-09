@@ -14,12 +14,12 @@ export default function LesDemandes() {
   useEffect(() => {
     const reccupDemande = async () => {
       try {
-        const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/toutes');
+        const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/clientAll');
         const prestataireId = JSON.parse(atob(token.split('.')[1])).id;
         const prestataireServices = response.data.demandes.filter(
           service => service.prestataire.id === prestataireId
         );
-        
+        console.log(prestataireServices);
         setAllDemandes(prestataireServices);
         updateDisplayedDemandes(prestataireServices);
       } catch (error) {
@@ -29,6 +29,7 @@ export default function LesDemandes() {
 
     reccupDemande();
   }, [token]);
+
 
   useEffect(() => {
     updateDisplayedDemandes(allDemandes);
@@ -104,7 +105,7 @@ export default function LesDemandes() {
                   className="bg-slate-100 p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
                 >
                   <h3 className="text-xl font-semibold text-gray-800">
-                    Demande de {demande.client?.nom || 'Client'}
+                    Demande de {demande.demandeur?.nom || 'Client'}
                   </h3>
                   <p className="text-gray-600 mt-2">{demande.description}</p>
 
@@ -115,7 +116,7 @@ export default function LesDemandes() {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-gray-600 font-medium">Email :</p>
-                      <p className="text-gray-800">{demande.client?.email || 'Non disponible'}</p>
+                      <p className="text-gray-800">{demande.demandeur?.email || 'Non disponible'}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="text-gray-600 font-medium">Adresse:</p>
