@@ -1,22 +1,19 @@
-"use client"
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { FaUserCircle, FaBriefcase,  FaEnvelope, FaSignOutAlt} from "react-icons/fa"
-import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
+
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { FaUserCircle, FaBriefcase, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
+import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton";
 
 function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = () => setIsOpen(!isOpen)
-
-  const navigate = useNavigate()
+  const handleToggle = () => setIsOpen(!isOpen);
 
   const handleItemClick = (action) => {
    
     console.log(action);
     setIsOpen(false);
-   };
+  };
 
   return (
     <div className="relative">
@@ -26,18 +23,24 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
         onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
-        <FaSignOutAlt size={18} className="text-yellow-500" />
+        <FaSignOutAlt size={18} className="text-yellow-500 transition-transform duration-300 hover:translate-x-2" />
 
         <div className="relative">
-          <FaUserCircle className="w-8 h-8 text-gray-500 hover:text-gray-700" />
+          {isLoggedIn && userName ? (
+            <div className="w-8 h-8 bg-gray-700 text-white flex items-center justify-center rounded-full text-lg font-bold">
+              {userName.charAt(0).toUpperCase()}
+            </div>
+          ) : (
+            <FaUserCircle className="w-8 h-8 text-gray-500 hover:text-gray-700" />
+          )}
           {unreadMessages > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
               {unreadMessages}
             </span>
           )}
         </div>
-
       </button>
+      
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 transition-all duration-200 ease-in-out">
           <div className="px-4 py-3 border-b border-gray-100">
@@ -65,6 +68,7 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
               </>
             ) : (
               <>
+                
                 <Link to="/inscriptionClient">
                   <MenuItem icon={FaUserCircle} text="Inscription" onClick={() => handleItemClick("inscription")} />
                 </Link>
@@ -77,7 +81,7 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function MenuItem({ icon: Icon, text, onClick, badge }) {
@@ -96,8 +100,9 @@ function MenuItem({ icon: Icon, text, onClick, badge }) {
         )}
       </div>
     </button>
-  )
+  );
 }
 
-export default SidebarClient
+export default SidebarClient;
+
 

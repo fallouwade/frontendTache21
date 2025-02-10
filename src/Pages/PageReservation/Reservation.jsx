@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DetailsPrestataire from "./DetailsPrestataire";
 import GalleryPrestatiare from "./GallerryPrestataire";
-import ProfilClients from "../PageClient/Components/ProfilClients"; // Vérifie bien le nom du fichier
+import ProfilClients from "../PageClient/Components/ProfilClients";
 import { Link } from "react-router-dom";
 
 
@@ -22,14 +22,11 @@ const Reservation = (props) => {
       setIsPrestataire(user.role === "prestataire")
 
     } catch (err) {
-
       console.error(err)
     }
   }, [])
 
   const user = JSON.parse(localStorage.getItem("user"))
-
-
   console.log(props.id)
   useEffect(() => {
     const fetchPrestataire = async () => {
@@ -47,7 +44,7 @@ const Reservation = (props) => {
       }
     };
 
-    if (props.id) {  // Assurez-vous que props.id est défini
+    if (props.id) { 
       fetchPrestataire();
     }
   }, [props.id]);
@@ -78,7 +75,7 @@ const Reservation = (props) => {
               ) : (
                 <Link
                   to="/inscriptionPrestataire"
-                  className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
+                  className="bg-gray-200 text-[12px] md:text-base hover:bg-gray-300 font-normal py-2 sm:px-4 rounded"
                 >
                   Devenir Prestataire
                 </Link>
@@ -87,6 +84,8 @@ const Reservation = (props) => {
           />
         )}
 
+      </div>
+      <div>
       </div>
       <div className="flex-grow pt-24">
         {/* On passe la liste d'images du prestataire au composant galerie */}

@@ -11,12 +11,12 @@ import logo from "/images/logofooterblanc.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white w-full">
+    <footer className="bg-[#000000] text-white w-full">
       <div className="container mx-auto px-4 py-12 max-w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
           <div className="text-center lg:text-left">
             {/* Logo */}
-              <a href="/" className="text-rose-500 text-2xl font-extrabold">
+              <a href="/" className=" text-2xl font-extrabold">
               <img src={logo} alt="Logo" width="160" />
             
               </a>
@@ -72,7 +72,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <div className="mt-12 pt-8 border-t border-gray-400">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-center md:text-left">

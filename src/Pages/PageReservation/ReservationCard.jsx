@@ -266,7 +266,7 @@ const ReservationCard = ({ selectedDate, id }) => {
          position="top-right"
          autoClose={5000}
          style={{
-           marginTop: '70px', 
+           marginTop: '90px', 
            zIndex: 9999
          }}
       />

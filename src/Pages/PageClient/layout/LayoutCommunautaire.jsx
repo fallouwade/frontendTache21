@@ -6,6 +6,7 @@ import RentalSection from "../Components/RentalSection";
 import Temoignages from '../Components/Temoignages';
 import Satisfaction from '../Components/Satisfaction';
 import Footer from '../../Composants/Footer';
+import { Link } from 'react-router-dom';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
@@ -83,7 +84,21 @@ function LayoutClients(props) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
+      <Navbar 
+      buttonInfo={
+        <p>Comment ça marche</p>
+      }
+      buttonPrest={
+
+          <Link
+            to="/inscriptionPrestataire"
+            className="hover:bg-gray-300 py-2 px-5 rounded-full transition text-sm font-medium cursor-pointer"
+          >
+            Devenir Prestataire
+          </Link>
+        
+      }
+    />
       <main>
         <div>
           <div className="relative w-full h-screen mb-10">
