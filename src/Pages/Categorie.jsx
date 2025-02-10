@@ -5,7 +5,6 @@ import CategorieAjout from "./PageAdmin/Components/CategorieAjout";
 
 const Categorie = () => {
   const [categories, setCategories] = useState([]);  
-  const [categoriesArchivees, setCategoriesArchivees] = useState([]);  
 
   const getCategories = async () => {
     try {
@@ -37,7 +36,7 @@ const Categorie = () => {
       if (response.status === 201) {
         setCategories((prevCategories) => [
           ...prevCategories,
-          { nom: categorie },
+          { nom: categorie, archive: false }, // On ajoute archive: false ici
         ]);
       }
     } catch (error) {
@@ -48,15 +47,21 @@ const Categorie = () => {
   const archiverCategorie = (categorieNom) => {
     try {
       // Mettre à jour les catégories
-      setCategories((prevCategories) => prevCategories.filter(cat => cat.nom !== categorieNom));
-      setCategoriesArchivees((prevArchivees) => [
-        ...prevArchivees,
-        { nom: categorieNom },
-      ]);
+      setCategories((prevCategories) => prevCategories.map(cat => {
+        if (cat.nom === categorieNom && !cat.archive) {
+          // Mettre à jour la catégorie pour qu'elle soit archivée (archive: true)
+          return { ...cat, archive: true };
+        }
+        return cat; // Retourner la catégorie non modifiée
+      }));
     } catch (error) {
       console.error("Erreur lors de l'archivage de la catégorie", error);
     }
   };
+
+  // Calcul des catégories archivées et non archivées à partir de la liste des catégories
+  const categoriesArchivées = categories.filter(cat => cat.archive).length;
+  const categoriesNonArchivees = categories.filter(cat => !cat.archive).length;
 
   const cards = [
     {
@@ -67,9 +72,15 @@ const Categorie = () => {
     },
     {
       title: "Categories archivés",
-      count: categoriesArchivees.length,
+      count: categoriesArchivées,  // Comptage des catégories archivées
       description: "",
-      bgColor: "bg-green-500",
+      bgColor: "bg-red-500",
+    },
+    {
+      title: "Categories non archivées",  
+      count: categoriesNonArchivees,  // Comptage des non archivées
+      description: "",
+      bgColor: "bg-green-500",  
     },
   ];
 
@@ -83,7 +94,7 @@ const Categorie = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-6 rounded-lg shadow-md text-white ${card.bgColor} flex flex-col items-center`}
+            className={`w-full w-[320px] p-6 rounded-lg shadow-md text-white ${card.bgColor} flex flex-col items-center`}
           >
             <h3 className="text-lg font-semibold text-center">{card.title}</h3>
             <div className="text-4xl font-bold py-2 text-center">{card.count}</div>
