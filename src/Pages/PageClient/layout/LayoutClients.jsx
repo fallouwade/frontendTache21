@@ -189,7 +189,7 @@ function LayoutClients(props) {
         userEmail={user.email}
         buttonPrest={
           isPrestataire ? (
-            <Link to="/accueil" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
+            <Link to="/dashboard" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
               Retour à mon compte
             </Link>
           ) : (
