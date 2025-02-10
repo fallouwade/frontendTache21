@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'; 
 import { regions, departements } from '../Constant';
 import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa'; 
 
 const InscriptionPrestataire = () => {
   const navigate = useNavigate(); 
@@ -100,6 +100,14 @@ const InscriptionPrestataire = () => {
   
   return (
     <div className="relative min-h-screen flex flex-col">
+      <nav className="w-full bg-white text-gray flex items-center justify-between">
+        <button
+          onClick={() => navigate(-1)} // Naviguer vers la page précédente
+          className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-blue-500 hover:border-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
+        >
+          <FaArrowLeft />
+        </button>
+      </nav>
 
       <div className="flex flex-grow flex-col md:flex-row">
         <div className="md:w-1/2 relative hidden md:block">
@@ -324,12 +332,12 @@ const InscriptionPrestataire = () => {
             )}
 
             <div className="mb-4">
-              <textarea 
-                className="w-full mt-2 border border-gray-300 rounded-xl" 
-                name="description" 
-                id="description" 
-                placeholder="Description">
-              </textarea>
+              <textarea
+                className="w-full mt-2 border border-gray-300 rounded-xl"
+                name="description"
+                id="description"
+                placeholder="Description"
+              ></textarea>
             </div>
             <button
               type="submit"
@@ -340,7 +348,10 @@ const InscriptionPrestataire = () => {
             </button>
             <div className="mt-4 text-right">
               <p className="text-sm text-gray-600">
-                <Link className="text-blue-500 hover:text-blue-700" to="/connexion">
+                <Link
+                  className="text-blue-500 hover:text-blue-700"
+                  to="/connexion"
+                >
                   Vous avez déjà un compte ?
                 </Link>
               </p>
