@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import Footer from '../../Composants/Footer';
 import InfoDemande from '../Components/InfoDemande';
 import ProfilCli from '../Components/ProfilCli';
+import axios from "axios"
 
-const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
+const API_URL = 'http://localhost:5000/api';
 
 function LayoutClients(props) {
   const location = useLocation();
@@ -22,33 +23,87 @@ function LayoutClients(props) {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
   const [isPrestataire, setIsPrestataire] = useState(false);
+  const [favorites, setFavorites] = useState([])
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    fetchServices();
-  }, []);
+    fetchServices()
+    checkLoginStatus()
+  }, [])
+
+
 
   useEffect(() => {
     filterServices();
   }, [services, selectedCategory, searchTerm]);
 
+
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem("token")
+    setIsLoggedIn(!!token)
+  }
+
+
+
   const fetchServices = async () => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des données');
+      const token = localStorage.getItem("token")
+      const headers = token ? { Authorization: `Bearer ${token}` } : {}
+      const response = await axios.get(`${API_URL}/prestataires/complets`, { headers })
+      const validServices = response.data.filter((service) => service.services && service.services.length > 0)
+      setServices(validServices)
+      if (isLoggedIn) {
+        setFavorites(validServices.flatMap((service) => service.services.filter((s) => s.isFavorite).map((s) => s.id)))
       }
-      const data = await response.json();
-      const validServices = data.filter((service) => service.services && service.services.length > 0);
-      setServices(validServices);
+     
     } catch (error) {
-      console.error('Error fetching services:', error);
-      setError('Impossible de charger les services. Veuillez réessayer plus tard.');
+
+      console.error("Error fetching services:", error)
+      setError("Impossible de charger les services. Veuillez réessayer plus tard.")
+
     } finally {
-      setIsLoading(false);
+
+      setIsLoading(false)
+
     }
-  };
+  }
+
+
+
+  const toggleFavorite = async (serviceId) => {
+    try {
+      const token = localStorage.getItem("token")
+      if (favorites.includes(serviceId)) {
+        await axios.delete(`${API_URL}/favorites/supprimer/${serviceId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        setFavorites(favorites.filter((id) => id !== serviceId))
+      } else {
+        await axios.post(
+          `${API_URL}/favorites/ajouter/${serviceId}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        )
+        setFavorites([...favorites, serviceId])
+        console.log(favorites)
+      }
+      // Update the services state to reflect the change
+      setServices(
+        services.map((service) => ({
+          ...service,
+          services: service.services.map((s) => (s.id === serviceId ? { ...s, isFavorite: !s.isFavorite } : s)),
+        })),
+      )
+    } catch (error) {
+      console.error("Error toggling favorite:", error)
+    }
+  }
+
+
 
   const filterServices = () => {
     let filtered = services;
@@ -164,15 +219,18 @@ function LayoutClients(props) {
         </div>
         <div className="px-5">
           <RentalSection 
-            services={currentServices}
-            servicesPerPage={servicesPerPage}
-            totalServices={filteredServices.length}
-            paginate={paginate}
-            currentPage={currentPage}
-            isLoading={isLoading}
-            error={error}
-            noResults={filteredServices.length === 0 && !isLoading && !error}
-            id={props.id}
+        services={currentServices}
+        servicesPerPage={servicesPerPage}
+        totalServices={filteredServices.length}
+        paginate={paginate}
+        currentPage={currentPage}
+        isLoading={isLoading}
+        error={error}
+        noResults={filteredServices.length === 0 && !isLoading && !error}
+        id={props.id}
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
+        isLoggedIn={isLoggedIn}
           />
         </div>
         <Outlet />
