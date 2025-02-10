@@ -14,17 +14,10 @@ import ProfilPrestataire from "./Pages/ProfilPrestataire.jsx";
 import ProfilAdmin from "./Pages/ProfilAdmin.jsx"
 
 
-// import Accueil from "./Pages/Accueil.jsx";
-import Profil from "./Pages/Profil.jsx";
-import Demande from "./Pages/Demande.jsx";
-import DetailDemande from "./Pages/DetailDemande.jsx";
-import EditerProfil from "./Pages/EditerProfil.jsx";
-import AjouterService from "./Pages/AjouterService.jsx";
 import Reservation from "./Pages/PageReservation/Reservation.jsx";
 import ModifieMotDePass from "./Authentification/PagesConnexion/ModifieMotDePass.jsx";
 import ProtectionRoute from "./Authentification/util/ProtectionRoute.jsx";
 import LayoutClients from "./Pages/PageClient/layout/LayoutClients.jsx";
-// import ClientContent from "./Pages/PageClient/Components/ClientContent.jsx";
 import LayoutCommunautaire from "./Pages/PageClient/layout/LayoutCommunautaire.jsx";
 import ProfilCli from "./Pages/PageClient/Components/ProfilCli.jsx";
 
@@ -69,41 +62,6 @@ function App() {
          <Reservation id={id} />
         } />
 
-      {/* Routes Prestataire */}
-      {/* <Route path="/accueil" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <Accueil />
-        </ProtectionRoute>
-      } /> */}
-    
-
-      <Route path="/profil" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <Profil />
-        </ProtectionRoute>
-      } />
-
-      <Route path="/demande" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <Demande />
-        </ProtectionRoute>
-      } />
-      <Route path="/detail" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <DetailDemande />
-        </ProtectionRoute>
-      } />
-      <Route path="/editerprofil" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <EditerProfil />
-        </ProtectionRoute>
-      } />
-      <Route path="/ajouter" element={
-        <ProtectionRoute allowedRoles={['prestataire']}>
-          <AjouterService />
-        </ProtectionRoute>
-      } />
-
 
       {/* Admin Dashboard and nested routes) */}
       <Route path="/dashboardAdmin" element={
@@ -120,18 +78,35 @@ function App() {
 
 
 
-
       {/* route test prestataire */}
       {/* <Route path="/app-test" element={<AppTest />} /> */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/les-demande" element={<LesDemandes />} />
-      <Route path="/les-demande" element={<LesDemandes />} />
-      <Route path="/profil-prestataire" element={<ProfilDuPrestataire />} />
-      <Route path="/ajouter-service-prestataire" element={<AjouterServicesPrestataire />} />     
+      <Route path="/dashboard" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <Dashboard />
+        </ProtectionRoute>
+      } />
 
+      <Route path="/les-demande" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <LesDemandes />
+        </ProtectionRoute>
+      } />
+
+      <Route path="/profil-prestataire" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <ProfilDuPrestataire />
+        </ProtectionRoute>
+      } />
+
+      <Route path="/ajouter-service-prestataire" element={
+        <ProtectionRoute allowedRoles={['prestataire']}>
+          <AjouterServicesPrestataire />
+        </ProtectionRoute>
+      } />
     </Routes>
 
 
   )
 }
 export default App
+

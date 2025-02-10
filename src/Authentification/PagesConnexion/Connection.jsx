@@ -41,8 +41,6 @@ const Connection = () => {
           'Content-Type': 'application/json'
         }
       });
-
-
       const user = response.data.utilisateur;
      
       login(user, response.data.token);
@@ -64,22 +62,6 @@ const Connection = () => {
       else{
         navigate('/');
       }
-
-
-      // Redirection basée sur le rôle
-      // switch(user.role){
-      //   case 'client':
-      //     navigate('/Client');
-      //     break;
-      //   case 'prestataire':
-      //     navigate('/accueil');
-      //     break;
-      //   case 'admin':
-      //     navigate('/dashboardAdmin');
-      //     break;
-      //   default:
-      //     navigate('/');
-      // }
 
       setFormData({
         email: '',

@@ -262,7 +262,14 @@ const ReservationCard = ({ selectedDate, id }) => {
           </p>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer 
+         position="top-right"
+         autoClose={5000}
+         style={{
+           marginTop: '70px', 
+           zIndex: 9999
+         }}
+      />
     </div>
   );
 };

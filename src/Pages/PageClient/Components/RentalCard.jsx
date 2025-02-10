@@ -1,4 +1,3 @@
-import React from "react";
 import { FaHeart, FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { Link } from "react-router-dom"
 
@@ -18,13 +17,13 @@ function RentalCard({
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div>    <div className="relative w-full h-60 overflow-hidden rounded-t-xl">
         <img
-          src={imageUrl || "https://a0.muscache.com/im/pictures/miso/Hosting-675821330698620822/original/109c7f78-7fe8-4746-89fa-35e953ab65fc.jpeg?im_w=720&im_format=avif"}
+          src={imageUrl || `https://backendtache21.onrender.com/uploads/images/${imageUrl}`}
           alt={`Service de ${services.categorie} à ${region}`}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
         <button
           className="absolute top-4 right-4 p-2 bg-white/80 hover:bg-white rounded-full transition-all duration-300 shadow-md"
-          aria-label="Ajouter aux favoris"
+          aria-label="Ajouter aux favoris ou supprimer au favoris"
         >
           <FaHeart className="h-6 w-6 text-gray-400 hover:text-red-500 transition-all duration-300" />
         </button>

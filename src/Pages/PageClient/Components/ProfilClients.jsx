@@ -1,28 +1,32 @@
-import { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
-import SidebarClient from "./SidebarClient";
+"use client"
 
-function ProfilClients({ isLoggedIn, userName, userEmail, buttonPrest }) {
-  const [isScrolled, setIsScrolled] = useState(false);
+import { useState, useEffect } from "react";
+import SidebarClient from "./SidebarClient";
+import logo from "/images/logo.png"
+
+function ProfilClients({ isLoggedIn, userName, userEmail, buttonPrest, unreadMessages }) {
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
+   
     <>
-      <nav className={`fixed w-full z-50 bg-white transition-all duration-200 ${
-        isScrolled ? 'shadow-md py-4' : 'py-6'
+      <nav className={`fixed w-full z-50 bg-white transition-all  duration-200 ${
+        isScrolled ? 'shadow-md py-1' : 'py-0'
       }`}>
         <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-2">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <a href="/" className="text-rose-500 text-2xl font-extrabold">
-              ServicePro
+            <img src={logo} alt="Logo" width="120" height="50" />
+
             </a>
 
             {/* Right Side Navigation */}
@@ -43,9 +47,10 @@ function ProfilClients({ isLoggedIn, userName, userEmail, buttonPrest }) {
         </div>
       </nav>
       {/* Spacer avec hauteur fixe */}
-      <div className="h-24" /> 
+      <div className="pb-16"/>
     </>
   );
 }
 
-export default ProfilClients;
+export default ProfilClients
+
