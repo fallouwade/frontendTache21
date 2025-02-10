@@ -59,15 +59,13 @@ function LayoutClients(props) {
       );
     }
 
-   else if (searchTerm.service || searchTerm.location) {
-
+    if (searchTerm.service || searchTerm.location) {
       filtered = filtered.filter(service =>
-        service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) ||
+        service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
         (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
          service.departement.toLowerCase().includes(searchTerm.location.toLowerCase()))
       );
     }
-
 
     setFilteredServices(filtered);
     setCurrentPage(1);
@@ -136,11 +134,11 @@ function LayoutClients(props) {
         userEmail={user.email}
         buttonPrest={
           isPrestataire ? (
-            <Link to="/ajouter-service-prestataire" className=" text-[12px] md:text-base  text-gray-700 font-normal py-2 sm:px-4 rounded">
+            <Link to="/accueil" className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded">
               Retour à mon compte
             </Link>
           ) : (
-            <Link to="/inscriptionPrestataire" className=" text-[12px] md:text-base  text-gray-700 font-normal py-2 sm:px-4 rounded">
+            <Link to="/inscriptionPrestataire" className="bg-gray-200 text-[12px] md:text-base hover:bg-gray-300 font-normal py-2 sm:px-4 rounded">
               Devenir Prestataire
             </Link>
           )
@@ -149,7 +147,7 @@ function LayoutClients(props) {
       <main>
        
         <div className="text-center space-y-4">
-          <h1 className="text-3xl pt-14 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+          <h1 className="text-3xl pt-24 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
             Trouvez le bon professionnel près de chez vous
           </h1>
           <p className="text-lg text-gray-600">

@@ -51,7 +51,7 @@ function RentalCard({
         <div className="flex justify-end mt-2">
          
           <Link to={`/reservation`} onClick={()=> identifiant(id)} >
-          <button className="text-white bg-primary-600 rounded-lg px-6 py-2 hover:bg-primary-700 transition-all duration-200">
+          <button className="text-white bg-[#000000] rounded-lg px-6 py-2 hover:bg-black-700 transition-all duration-200">
             Contacter
           </button>
                 </Link>

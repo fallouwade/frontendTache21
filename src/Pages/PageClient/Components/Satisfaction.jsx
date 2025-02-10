@@ -76,7 +76,7 @@ const Satisfaction = () => {
                   <span className="text-xl font-medium">1</span>
                 </div>
                 <p className="text-gray-800 text-lg">
-                  Choisissez un prestataire local en fonction du prix, des compétences et des avis.
+                  Choisissez un prestataire local en fonction  des compétences et des avis.
                 </p>
               </div>
   
@@ -85,7 +85,7 @@ const Satisfaction = () => {
                   <span className="text-xl font-medium">2</span>
                 </div>
                 <p className="text-gray-800 text-lg">
-                  Planifiez un service selon vos disponibilités.
+                Réservez votre service au moment qui vous convient le mieux.
                 </p>
               </div>
   
@@ -94,8 +94,7 @@ const Satisfaction = () => {
                   <span className="text-xl font-medium">3</span>
                 </div>
                 <p className="text-gray-800 text-lg">
-                  Discutez, payez et évaluez directement depuis la plateforme.
-                </p>
+                Collaborez, réglez vos transactions et laissez votre avis directement sur la plateforme.                </p>
               </div>
             </div>
           </div>

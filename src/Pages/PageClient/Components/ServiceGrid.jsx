@@ -43,7 +43,7 @@ function ServiceGrid({ onSearch }) {
         </div>
         <button
           type="submit"
-          className="w-full md:w-auto text-white bg-black hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-semibold rounded-lg text-sm px-6 py-3 transition-all duration-300 transform hover:scale-105 active:ring-none inline-flex items-center justify-center"
+          className="w-full md:w-auto text-white bg-black hover:bg-black-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-semibold rounded-lg text-sm px-6 py-3 transition-all duration-300 transform hover:scale-105 active:ring-none inline-flex items-center justify-center"
         >
           <FaSearch className="w-5 h-5 mr-2" />
           Rechercher
