@@ -4,11 +4,11 @@ import axios from "axios";
 
 export default function LesDemandes() {
   const [demandes, setDemandes] = useState([]);
-  const [filtre, setFiltre] = useState("");
-  const [page, setPage] = useState(1);
-  const [erreur, setErreur] = useState("");
-  const [demandesParPage] = useState(2);
+  const [filtre, setFiltre] = useState("Nouveaux messages");
+  const [search, setSearch] = useState("");
   const [allDemandes, setAllDemandes] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(2);  // 2 services par page
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -19,87 +19,95 @@ export default function LesDemandes() {
         const prestataireServices = response.data.demandes.filter(
           service => service.prestataire.id === prestataireId
         );
-        console.log(prestataireServices);
         setAllDemandes(prestataireServices);
-        updateDisplayedDemandes(prestataireServices);
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
       }
     };
-
     reccupDemande();
   }, [token]);
 
-
   useEffect(() => {
-    updateDisplayedDemandes(allDemandes);
-  }, [filtre, page, allDemandes]);
+    setDemandes(allDemandes.filter(demande => 
+      (filtre === "Nouveaux messages" && demande.statut === "en attente") ||
+      (filtre === "Demandes acceptées" && demande.statut === "accepte") ||
+      (filtre === "Demandes refusées" && demande.statut === "refuse")
+    ));
+  }, [filtre, allDemandes]);
 
-  const updateDisplayedDemandes = (services) => {
-    const demandesFiltrees = services.filter((demande) =>
-      demande.client?.nom?.toLowerCase().includes(filtre.toLowerCase()) ||
-      demande.description?.toLowerCase().includes(filtre.toLowerCase())
-    );
-
-    const indexOfLast = page * demandesParPage;
-    const indexOfFirst = indexOfLast - demandesParPage;
-    setDemandes(demandesFiltrees.slice(indexOfFirst, indexOfLast));
+  const handleActionDemande = async (demandeId, action) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      await axios.put(`https://backendtache21.onrender.com/api/demandes-services/${demandeId}/${action}`, {}, config);
+      setAllDemandes(allDemandes.map(demande => 
+        demande._id === demandeId ? { ...demande, statut: action === 'accepter' ? 'accepte' : 'refuse' } : demande
+      ));
+    } catch (error) {
+      console.error(`Erreur lors de l'action ${action}:`, error);
+    }
   };
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
+  // Pagination logic
+  const indexOfLastDemande = currentPage * itemsPerPage;
+  const indexOfFirstDemande = indexOfLastDemande - itemsPerPage;
+  const currentDemandes = demandes.slice(indexOfFirstDemande, indexOfLastDemande);
+
+  const totalPages = Math.ceil(demandes.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(allDemandes.filter(demande => 
-    demande.client?.nom?.toLowerCase().includes(filtre.toLowerCase()) ||
-    demande.description?.toLowerCase().includes(filtre.toLowerCase())
-  ).length / demandesParPage);
+  // Function to handle "Previous" and "Next" buttons
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <SidebarPrestataire>
       <div className="min-h-screen p-6">
         <div className="max-w-4xl mx-auto p-8 rounded-lg shadow-xl">
-          <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">
-            Vos demandes de services
-          </h2>
+          <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">Vos demandes de services</h2>
+          
+          <input 
+            type="text" 
+            placeholder="Rechercher une demande..." 
+            className="w-full p-2 border rounded mb-4"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-          {erreur && <p className="text-red-600 text-center mb-4">{erreur}</p>}
-
-          <div className="flex items-center relative w-full pb-5">
-            <input
-              type="text"
-              placeholder="Rechercher..."
-              className="w-full p-3 pl-10 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ease-in-out"
-              value={filtre}
-              onChange={(e) => setFiltre(e.target.value)}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="absolute left-3 top-1/3 transform -translate-y-1/2 text-gray-400"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            {filtre && (
+          <div className="flex border-b pb-2 mb-4">
+            {["Nouveaux messages", "Demandes acceptées", "Demandes refusées"].map((tab) => (
               <button
-                onClick={() => setFiltre('')}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                key={tab}
+                className={`px-4 py-2 ${filtre === tab ? "border-b-2 border-black font-semibold" : "text-gray-500"}`}
+                onClick={() => setFiltre(tab)}
               >
-                ✕
+                {tab}
               </button>
-            )}
+            ))}
           </div>
 
           <div className="space-y-6">
-            {demandes.length === 0 ? (
+            {currentDemandes.filter(demande => 
+              demande.description.toLowerCase().includes(search.toLowerCase())
+            ).length === 0 ? (
               <p className="text-center text-gray-500">Aucune demande trouvée.</p>
             ) : (
-              demandes.map((demande) => (
+              currentDemandes.filter(demande => 
+                demande.description.toLowerCase().includes(search.toLowerCase())
+              ).map((demande) => (
                 <div
                   key={demande._id}
                   className="bg-slate-100 p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
@@ -125,35 +133,57 @@ export default function LesDemandes() {
                   </div>
 
                   <div className="mt-6 flex justify-end space-x-4">
-                    <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
-                      Accepter
-                    </button>
-                    <button className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
-                      Refuser
-                    </button>
+                    {demande.statut === 'accepte' || demande.statut === 'refuse' ? (
+                      <button 
+                        disabled 
+                        className={`
+                          ${demande.statut === 'accepte' ? 'bg-green-500' : 'bg-red-500'} 
+                          text-white py-2 px-4 rounded-lg cursor-not-allowed
+                        `}
+                      >
+                        {demande.statut === 'accepte' ? 'Acceptée' : 'Refusée'}
+                      </button>
+                    ) : (
+                      <>
+                        <button 
+                          onClick={() => handleActionDemande(demande._id, 'accepter')}
+                          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+                        >
+                          Accepter
+                        </button>
+                        <button 
+                          onClick={() => handleActionDemande(demande._id, 'refuser')}
+                          className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+                        >
+                          Refuser
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               ))
             )}
           </div>
 
-          <div className="mt-6 flex justify-center items-center space-x-4">
+          {/* Pagination Controls */}
+          <div className="flex justify-center space-x-2 mt-4">
             <button
-              className={`${page === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} 
-                text-white py-2 px-4 rounded-lg`}
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg"
             >
               Précédent
             </button>
-            <span className="text-gray-600">
-              Page {page} sur {totalPages}
-            </span>
+            
+            {/* Display current page and total pages with slash */}
+            <p className="px-4 py-2 text-gray-700">
+              Page {currentPage} / {totalPages}
+            </p>
+            
             <button
-              className={`${page >= totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} 
-                text-white py-2 px-4 rounded-lg`}
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page >= totalPages}
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg"
             >
               Suivant
             </button>

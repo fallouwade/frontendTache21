@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from "../Components/ProfilClients";
 import SearchForm from "../Components/ServiceGrid";
 import CategoryGrid from "../Components/CardMessage";
@@ -7,12 +7,10 @@ import Temoignages from '../Components/Temoignages';
 import Satisfaction from '../Components/Satisfaction';
 import Footer from '../../Composants/Footer';
 import { Link } from 'react-router-dom';
-import { GrLinkTop } from "react-icons/gr";
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
-function LayoutCommunautaire
-(props) {
+function LayoutClients(props) {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,18 +19,6 @@ function LayoutCommunautaire
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 100);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   useEffect(() => {
     fetchServices();
@@ -106,7 +92,7 @@ function LayoutCommunautaire
 
           <Link
             to="/inscriptionPrestataire"
-            className=""
+            className="hover:bg-gray-300 py-2 px-5 rounded-full transition text-sm font-medium cursor-pointer"
           >
             Devenir Prestataire
           </Link>
@@ -168,20 +154,8 @@ function LayoutCommunautaire
          <Footer/>
         </div>
       </main>
-      <div>
-      <button
-      onClick={scrollToTop}
-      className={`fixed bottom-5 right-5 p-2 rounded-full bg-yellow-400 text-white shadow-lg transition-all duration-300 text-xl ${
-        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
-      }`}
-    >
-      <GrLinkTop />
-
-    </button>
-      </div>
     </div>
   );
 }
 
-export default LayoutCommunautaire
-;
+export default LayoutClients;

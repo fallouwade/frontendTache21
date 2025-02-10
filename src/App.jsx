@@ -51,9 +51,12 @@ function App() {
 
 
       {/* Routes Client */}
-      <Route path="/Client" element={<ProtectionRoute allowedRoles={['client', 'prestataire']}><LayoutClients id={identifiant} /></ProtectionRoute>}>
-       <Route path="messages" element={<InfoDemande/>} /> 
+      <Route path="/Client" element={
+      <ProtectionRoute allowedRoles={['client', 'prestataire']}>
+        <LayoutClients id={identifiant} />
+        </ProtectionRoute>}>
         <Route path="profilClient" element={<ProfilCli/>} />
+       <Route path="messages" element={<InfoDemande/>} /> 
       </Route>
 
 
@@ -79,7 +82,6 @@ function App() {
 
 
       {/* route test prestataire */}
-      {/* <Route path="/app-test" element={<AppTest />} /> */}
       <Route path="/dashboard" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Dashboard />
