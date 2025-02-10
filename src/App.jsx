@@ -82,7 +82,6 @@ function App() {
 
 
       {/* route test prestataire */}
-      {/* <Route path="/app-test" element={<AppTest />} /> */}
       <Route path="/dashboard" element={
         <ProtectionRoute allowedRoles={['prestataire']}>
           <Dashboard />
