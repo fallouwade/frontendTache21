@@ -3,7 +3,7 @@ import axios from 'axios';
 import SidebarPrestataire from "./SidebarPrestataire";
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { FaBell, FaCheckCircle, FaTimesCircle, FaClipboardList, FaClock, FaThumbsUp, FaThumbsDown, FaTimes } from 'react-icons/fa';
+import { FaBell, FaClipboardList, FaClock, FaThumbsUp, FaThumbsDown, FaTimes } from 'react-icons/fa';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -39,7 +39,7 @@ export default function Dashboard() {
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [{
-            label: 'Demandes par mois',
+            label: 'Demandes',
             data: [],
             borderColor: '#4ade80',
             backgroundColor: 'rgba(74, 234, 128, 0.2)',
@@ -65,7 +65,7 @@ export default function Dashboard() {
                 setChartData({
                     labels: monthlyData.labels,
                     datasets: [{
-                        label: 'Demandes par mois',
+                        label: 'Nombre des demandes',
                         data: monthlyData.data,
                         borderColor: '#4ade80',
                         backgroundColor: 'rgba(74, 234, 128, 0.2)',
@@ -75,11 +75,12 @@ export default function Dashboard() {
                 });
 
                 const newNotifications = prestataireServices
+                    .filter(service => service.statut === 'en attente')
                     .slice(-5)
                     .map((service, index) => ({
-                        id: index + 1,
+                        id: service.id,  // Use actual service ID instead of index
                         text: `Nouvelle demande: ${service.typeService}`,
-                        type: service.statut === 'en attente' ? 'info' :'error'
+                        type: 'info'
                     }));
                 setNotifications(newNotifications);
             } catch (error) {
@@ -107,8 +108,6 @@ export default function Dashboard() {
     const removeNotification = (id) => {
         setNotifications(notifications.filter((notif) => notif.id !== id));
     };
-
-    console.log(services);
 
     return (
         <SidebarPrestataire>       
@@ -138,7 +137,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Acceptées</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {services.filter(service => service.statut === 'acceptee').length}
+                            {services.filter(service => service.statut === 'accepte').length}
                         </p>
                     </div>
                 </div>
@@ -148,7 +147,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Refusées</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {services.filter(service => service.statut === 'refusee').length}
+                            {services.filter(service => service.statut === 'refuse').length}
                         </p>
                     </div>
                 </div>
@@ -167,16 +166,10 @@ export default function Dashboard() {
                             notifications.map((notif) => (
                                 <div
                                     key={notif.id}
-                                    className={`flex items-center justify-between p-3 rounded-md text-sm sm:text-base shadow-sm transition-all duration-300 transform hover:scale-105 ${
-                                        notif.type === 'info' ? 'bg-blue-100 text-blue-800' : 
-                                        notif.type === 'success' ? 'bg-green-100 text-green-800' : 
-                                        'bg-red-100 text-red-800'
-                                    }`}
+                                    className={`flex items-center justify-between p-3 rounded-md text-sm sm:text-base shadow-sm transition-all duration-300 transform hover:scale-105 bg-blue-100 text-blue-800`}
                                 >
                                     <div className="flex items-center space-x-3">
-                                        {notif.type === 'info' && <FaBell className="text-lg" />}
-                                        {notif.type === 'success' && <FaCheckCircle className="text-lg" />}
-                                        {notif.type === 'error' && <FaTimesCircle className="text-lg" />}
+                                        <FaBell className="text-lg" />
                                         <p>{notif.text}</p>
                                     </div>
                                     <button
