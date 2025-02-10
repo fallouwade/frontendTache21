@@ -14,7 +14,7 @@ const Reservation = (props) => {
   const [error, setError] = useState(null);
   const [isPrestataire, setIsPrestataire] = useState(false)
 
-
+ 
 
   useEffect(() => {
     try {
@@ -47,7 +47,7 @@ const Reservation = (props) => {
       }
     };
 
-    if (props.id) { // Assurez-vous que props.id est défini
+    if (props.id) {  // Assurez-vous que props.id est défini
       fetchPrestataire();
     }
   }, [props.id]);
@@ -99,3 +99,4 @@ const Reservation = (props) => {
 };
 
 export default Reservation;
+

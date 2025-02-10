@@ -1,11 +1,12 @@
 
 
 import  { useState } from 'react';
-import RatingBadge from './RatingBadge';
-import Stats from './Comment';
+// import RatingBadge from './RatingBadge';
+// import Stats from './Comment';
 // import ReservationCard from './ReservationCard';
 import Calendar from './Calendar';
 import ReservationCard from './ReservationCard';
+import Comment from './Comment';
 
 const DetailsPrestataire = (props) => {
   // Ajouter un état pour la date sélectionnée
@@ -27,7 +28,8 @@ const DetailsPrestataire = (props) => {
         </div>
           {/* <RatingBadge /> */}
           <Calendar onDateSelect={handleDateSelect} />
-          <Stats />
+         {/* Passer l'ID du prestataire ou du service au composant Comment */}
+         <Comment serviceId={props.prestataire.id} />
         </div>
 
         <ReservationCard selectedDate={selectedDate} id={props.prestataire.id} />
