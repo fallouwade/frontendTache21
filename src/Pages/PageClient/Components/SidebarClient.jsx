@@ -13,7 +13,7 @@ function SidebarClient({ isLoggedIn, userName, userEmail, unreadMessages }) {
   const navigate = useNavigate()
 
   const handleItemClick = (action) => {
-    navigate(`/${action}`);
+   
     console.log(action);
     setIsOpen(false);
    };
