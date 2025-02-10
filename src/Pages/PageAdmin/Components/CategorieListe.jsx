@@ -10,20 +10,19 @@ const CategorieListe = ({ categories, setCategories }) => {
     },
   ];
 
-  // Fonction d'archivage de la catégorie
   const archiverCategorie = async (categorieId) => {
     try {
       const response = await axios.put(`https://backendtache21.onrender.com/api/categories/archiver/${categorieId}`);
 
       if (response.status === 200) {
-        console.log(`Catégorie avec l'ID ${categorieId} a été archivée avec succès.`);
-
-        // Mise à jour de l'état local (si `setCategories` est passé comme prop)
+        // Mettre à jour l'archive pour la catégorie
         setCategories((prevCategories) => 
-          prevCategories.filter((categorie) => categorie._id !== categorieId)
+          prevCategories.map((categorie) => 
+            categorie._id === categorieId 
+              ? { ...categorie, archive: !categorie.archive } 
+              : categorie
+          )
         );
-
-        // Tu peux aussi gérer les catégories archivées ici si nécessaire
       } else {
         console.error("Échec de l'archivage de la catégorie.");
       }
@@ -45,7 +44,7 @@ const CategorieListe = ({ categories, setCategories }) => {
     <div className="overflow-x-auto">
       <Table 
         columns={columns} 
-        data={categories} 
+        data={categories}  
         title="Liste des Categories"
         action={actionButton}
       />
