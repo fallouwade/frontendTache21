@@ -100,21 +100,6 @@ const InscriptionPrestataire = () => {
   
   return (
     <div className="relative min-h-screen flex flex-col">
-      <nav className="w-full bg-white text-gray flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <img
-            src="https://img.freepik.com/vecteurs-libre/modele-logo-cobra-couleur-degrade_23-2149192539.jpg?ga=GA1.1.1841303701.1736946038&semt=ais_hybrid"
-            alt="Logo"
-            className="w-10 h-10 object-cover ml-2"
-          />
-        </div>
-        <Link
-          to="/"
-          className="text-black font-semibold hover:text-blue-500 mr-4"
-        >
-          Accueil
-        </Link>
-      </nav>
 
       <div className="flex flex-grow flex-col md:flex-row">
         <div className="md:w-1/2 relative hidden md:block">
@@ -156,7 +141,7 @@ const InscriptionPrestataire = () => {
                   name="nom"
                   value={formData.nom}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -173,7 +158,7 @@ const InscriptionPrestataire = () => {
                   name="prenom"
                   value={formData.prenom}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -192,7 +177,7 @@ const InscriptionPrestataire = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -209,7 +194,7 @@ const InscriptionPrestataire = () => {
                   name="telephone"
                   value={formData.telephone}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -231,7 +216,7 @@ const InscriptionPrestataire = () => {
                   value={formData.motDePasse}
                   onChange={handleChange}
                   maxLength="6" // Limitation à 6 caractères
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
                 <span
@@ -256,7 +241,7 @@ const InscriptionPrestataire = () => {
                   value={formData.confirmMotDePasse}
                   onChange={handleChange}
                   maxLength="6" // Limitation à 6 caractères
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
                 <span
@@ -281,7 +266,7 @@ const InscriptionPrestataire = () => {
                 name="nomDeLentreprise"
                 value={formData.nomDeLentreprise}
                 onChange={handleChange}
-                className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                 required
               />
             </div>
@@ -299,7 +284,7 @@ const InscriptionPrestataire = () => {
                 name="region"
                 value={formData.region}
                 onChange={handleChange}
-                className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                 required
               >
                 <option value="">Sélectionnez une région</option>
@@ -325,7 +310,7 @@ const InscriptionPrestataire = () => {
                   name="departement"
                   value={formData.departement}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 >
                   <option value="">Sélectionnez un département</option>
@@ -340,7 +325,7 @@ const InscriptionPrestataire = () => {
 
             <div className="mb-4">
               <textarea 
-                className="w-full mt-2 border border-gray-300 rounded-md" 
+                className="w-full mt-2 border border-gray-300 rounded-xl" 
                 name="description" 
                 id="description" 
                 placeholder="Description">
@@ -348,7 +333,7 @@ const InscriptionPrestataire = () => {
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="w-full py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
               disabled={isLoading}
             >
               {isLoading ? "Enregistrement..." : "S'inscrire"}
