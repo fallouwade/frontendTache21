@@ -51,6 +51,7 @@ function RentalSection({
       </section>
     )
   }
+  console.log(services)
 
   return (
     <section className="py-8 bg-gray-50">
@@ -62,8 +63,8 @@ function RentalSection({
               key={service.id}
               {...service}
               identifiant={id}
-              isFavorite={isLoggedIn && favorites.includes(service.id)}
-              onToggleFavorite={isLoggedIn ? () => onToggleFavorite(service.id) : undefined}
+              isFavorite={isLoggedIn && favorites.includes(service.services[0].id)}
+              onToggleFavorite={isLoggedIn ? () => onToggleFavorite(service.services[0].id) : undefined}
               isLoggedIn={isLoggedIn}
             />
           ))}

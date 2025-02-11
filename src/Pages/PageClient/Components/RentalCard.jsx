@@ -14,11 +14,17 @@ function RentalCard({
   isFavorite,
   onToggleFavorite,
   isLoggedIn,
-})
+}) {
+  const handleFavoriteClick = (e) => {
+    e.preventDefault() // Empêche la navigation lors du clic sur le bouton favori
+    if (isLoggedIn && onToggleFavorite) {
+      onToggleFavorite(id)
+    } else {
+      // Vous pouvez ajouter ici une notification pour demander à l'utilisateur de se connecter
+      console.log("Veuillez vous connecter pour ajouter aux favoris")
+    }
+  }
 
-
-
-{
   console.log(services)
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -32,7 +38,7 @@ function RentalCard({
           <button
             className="absolute top-4 right-4 p-2 bg-white/80 hover:bg-white rounded-full transition-all duration-300 shadow-md"
             aria-label={isFavorite ? "Supprimer des favoris" : "Ajouter aux favoris"}
-            onClick={onToggleFavorite}
+            onClick={handleFavoriteClick}
           >
             <FaHeart
               className={`h-6 w-6 transition-all duration-300 ${isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-500"}`}
@@ -58,12 +64,11 @@ function RentalCard({
         <p className="text-lg font-semibold text-gray-900">{prenom}</p>
 
         <div className="flex justify-end mt-2">
-         
-          <Link to={`/reservation`} onClick={()=> identifiant(id)} >
-          <button className="text-white bg-[#000000] rounded-lg px-6 py-2 hover:bg-black-700 transition-all duration-200">
-            Contacter
-          </button>
-                </Link>
+          <Link to={`/reservation`} onClick={() => identifiant(id)}>
+            <button className="text-white bg-[#000000] rounded-lg px-6 py-2 hover:bg-black-700 transition-all duration-200">
+              Contacter
+            </button>
+          </Link>
         </div>
       </div>
     </div>
