@@ -34,7 +34,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires-recu`
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires-recu`
       );
       setCommentaires(response.data || []);
     } catch (error) {
@@ -48,7 +48,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/statistique-notes`
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/statistique-notes`
       );
       const stats = response.data || [];
 
@@ -79,7 +79,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       await axios.post(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires`,
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
         { commentaire: contenu, note },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -104,7 +104,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       await axios.delete(
-        `http://localhost:5000/api/commentaires/supprimer/${id}`,
+        `https://backendtache21.onrender.com/api/commentaires/supprimer/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -124,7 +124,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:5000/api/commentaires/modifier/${id}`,
+        `https://backendtache21.onrender.com/api/commentaires/modifier/${id}`,
         { commentaire: editContenu, note: editNote },
         { headers: { Authorization: `Bearer ${token}` } }
       );
