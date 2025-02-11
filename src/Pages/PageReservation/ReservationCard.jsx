@@ -74,51 +74,53 @@ const ReservationCard = ({ selectedDate, id }) => {
   // Envoi de la demande
   const handleSubmit = async () => {
     if (!/^(70|76|77|78|75)\d{7}$/.test(reservation.phone)) {
-      toast.error('Veuillez entrer un numéro de téléphone valide au Sénégal');
-      return;
+        toast.error('Veuillez entrer un numéro de téléphone valide au Sénégal');
+        return;
     }
 
     try {
-      console.log('Réservation:', reservation);
-      console.log(id);
-      const demandeService = {
-        typeService: reservation.service.name,
-        adresse: reservation.adresse,
-        numeroTelephone: reservation.phone,
-        description: reservation.details,
-        date: new Date(reservation.date).toISOString(),
-        prestataireId: id
-      };
+        console.log('Réservation:', reservation);
+        console.log('ID du prestataire:', id);
 
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:5000/api/demandes-services/demande',
-        demandeService,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }
-      );
-      toast.success('Votre demande a été envoyée au prestataire');
+        const demandeService = {
+            typeService: reservation.service.name,
+            adresse: reservation.adresse,
+            numeroTelephone: reservation.phone,
+            description: reservation.details,
+            date: new Date(reservation.date).toISOString(),
+            prestataire: id
+        };
 
-      setReservation(
-        {
-          service: '',
-          date: '',
-          details: '',
-          phone: '',
-          adresse: ''
-        }
-      )
+        const token = localStorage.getItem('token');
+        const response = await axios.post(
+            'https://backendtache21.onrender.com/api/demandes-services/demande',
+            demandeService,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
 
-      localStorage.removeItem('reservationData');
+        toast.success('Votre demande a été envoyée au prestataire');
+
+        setReservation({
+            service: '',
+            date: '',
+            details: '',
+            phone: '',
+            adresse: ''
+        });
+
+        localStorage.removeItem('reservationData');
     } catch (error) {
-      console.error('Erreur lors de l’envoi de la demande : ', error);
-      toast.error('Une erreur est survenue lors de l’envoi de la demande');
+        console.error('Erreur lors de l’envoi de la demande : ', error.response?.data || error.message);
+        toast.error(error.response?.data?.message || 'Une erreur est survenue lors de l’envoi de la demande');
     }
-  };
+};
+
+  
 
   const handleConnectAndSave = () => {
     // Sauvegarder les données de réservation dans le localStorage avant la redirection

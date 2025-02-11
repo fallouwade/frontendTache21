@@ -10,11 +10,11 @@ function FavoriteButton({ favorites, onToggleFavorite, showFavorites }) {
       onClick={onToggleFavorite}
     >
       <FaHeart className="h-6 w-6" />
-      {favorites.length > 0 && (
+      {/* {favorites.length > 0 && (
         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
           {favorites.length}
         </span>
-      )}
+      )} */}
     </button>
   )
 }
