@@ -1,6 +1,7 @@
 
-import  { useState, useEffect } from 'react';
-import { FaUser, FaEnvelope, FaEdit, FaSave, FaCamera, FaUserCircle } from 'react-icons/fa';
+import  { useState, useEffect,} from 'react';
+import { FaUser, FaEnvelope, FaEdit, FaSave, FaCamera, FaUserCircle, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilCli = () => {
   // États pour gérer les données et l'interface utilisateur
@@ -16,6 +17,9 @@ const ProfilCli = () => {
   const [error, setError] = useState(null);                 // Messages erreur
   const [isLoading, setIsLoading] = useState(true);        // État de chargement
   const [updateSuccess, setUpdateSuccess] = useState(false); // Message de succès
+  const navigate = useNavigate()
+
+
 
   // Charger les données du profil ci moments montage composant bi
   useEffect(() => {
@@ -153,14 +157,22 @@ const ProfilCli = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-10 px-2">
+      <div className="w-full  text-gray flex items-center justify-between">
+        <button
+          onClick={() => navigate("/client")}
+          className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-200 hover:border-gray-500 hover:text-gray transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
+        >
+          <FaArrowLeft />
+        </button>
+      </div>
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
           {/* Affichage des messages d'erreur */}
           {error && (
             <div className="p-4 mx-4 mt-6 bg-red-100 text-red-700 rounded-xl flex items-center justify-between">
               <span>{error}</span>
-              <button 
+              <button
                 onClick={() => setError(null)}
                 className="text-red-500 hover:text-red-700"
               >
@@ -173,7 +185,7 @@ const ProfilCli = () => {
           {updateSuccess && (
             <div className="p-4 mx-4 mt-6 bg-green-100 text-green-700 rounded-xl flex items-center justify-between">
               <span>Profil mis à jour avec succès!</span>
-              <button 
+              <button
                 onClick={() => setUpdateSuccess(false)}
                 className="text-green-500 hover:text-green-700"
               >
@@ -189,9 +201,9 @@ const ProfilCli = () => {
                 <div className="relative">
                   <div className="w-48 h-48 rounded-full overflow-hidden ring-4 ring-indigo-600">
                     {imagePreview ? (
-                      <img 
-                        src={imagePreview} 
-                        alt="Profile" 
+                      <img
+                        src={imagePreview}
+                        alt="Profile"
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -217,7 +229,7 @@ const ProfilCli = () => {
                     </label>
                   )}
                 </div>
-                
+
                 {/* Bouton Modifier/Sauvegarder */}
 
                 <button
@@ -243,7 +255,7 @@ const ProfilCli = () => {
                 <h1 className="text-4xl font-bold text-gray-800 mb-10">
                   Mes Informations
                 </h1>
-                
+
                 {/* Formulaire d'édition ou affichage des informations */}
                 {isEditing ? (
                   <div className="space-y-8">
@@ -297,7 +309,9 @@ const ProfilCli = () => {
                     <div className="flex items-center space-x-4">
                       <FaUser className="text-indigo-600 w-8 h-8 flex-shrink-0" />
                       <div>
-                        <h3 className="text-base font-medium text-gray-500">Nom complet</h3>
+                        <h3 className="text-base font-medium text-gray-500">
+                          Nom complet
+                        </h3>
                         <p className="text-xl font-medium text-gray-900 mt-1">
                           {profile.prenom} {profile.nom}
                         </p>
@@ -306,8 +320,12 @@ const ProfilCli = () => {
                     <div className="flex items-center space-x-4">
                       <FaEnvelope className="text-indigo-600 w-8 h-8 flex-shrink-0" />
                       <div>
-                        <h3 className="text-base font-medium text-gray-500">Email</h3>
-                        <p className="text-xl text-gray-900 mt-1">{profile.email}</p>
+                        <h3 className="text-base font-medium text-gray-500">
+                          Email
+                        </h3>
+                        <p className="text-xl text-gray-900 mt-1">
+                          {profile.email}
+                        </p>
                       </div>
                     </div>
                   </div>
