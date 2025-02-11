@@ -17,8 +17,8 @@ function RentalCard({
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div>    <div className="relative w-full h-60 overflow-hidden rounded-t-xl">
         <img
-          src={imageUrl || `https://backendtache21.onrender.com/uploads/images/${imageUrl}`}
-          alt={`Service de ${services.categorie} à ${region}`}
+          src={services[0].imageUrl}
+          alt={`Service de ${prenom} à ${region}`}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
         <button
