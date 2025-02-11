@@ -75,10 +75,10 @@ export default function Dashboard() {
                 });
 
                 const newNotifications = prestataireServices
-                    .filter(service => service.statut === 'en attente')
+                    .filter(service => service.statut === 'attente')
                     .slice(-5)
-                    .map((service, index) => ({
-                        id: service.id,  // Use actual service ID instead of index
+                    .map((service) => ({
+                        id: `notif-${service.id}`,  // Use actual service ID instead of index
                         text: `Nouvelle demande: ${service.typeService}`,
                         type: 'info'
                     }));
@@ -90,7 +90,7 @@ export default function Dashboard() {
 
         fetchServicesAndNotifications();
     }, [token]);
-
+     console.log(services);
     const options = {
         responsive: true,
         plugins: {
@@ -127,7 +127,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">En Attente</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {services.filter(service => service.statut === 'en attente').length}
+                            {services.filter(service => service.statut === 'attente').length}
                         </p>
                     </div>
                 </div>
