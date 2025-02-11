@@ -44,6 +44,7 @@ const Categorie = () => {
     }
   };
 
+  // Fonction d'archivage
   const archiverCategorie = (categorieNom) => {
     try {
       // Mettre à jour les catégories
@@ -51,6 +52,10 @@ const Categorie = () => {
         if (cat.nom === categorieNom && !cat.archive) {
           // Mettre à jour la catégorie pour qu'elle soit archivée (archive: true)
           return { ...cat, archive: true };
+        }
+        if (cat.nom === categorieNom && cat.archive) {
+          // Réactiver la catégorie (déarchiver)
+          return { ...cat, archive: false };
         }
         return cat; // Retourner la catégorie non modifiée
       }));
@@ -94,7 +99,7 @@ const Categorie = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`w-full w-[320px] p-6 rounded-lg shadow-md text-white ${card.bgColor} flex flex-col items-center`}
+            className={`w-full w-[310px] p-6 rounded-lg shadow-md text-white ${card.bgColor} flex flex-col items-center`}
           >
             <h3 className="text-lg font-semibold text-center">{card.title}</h3>
             <div className="text-4xl font-bold py-2 text-center">{card.count}</div>
@@ -107,7 +112,7 @@ const Categorie = () => {
         <div className="flex-1 min-w-[300px]">
           <CategorieListe
             categories={categories}
-            archiverCategorie={archiverCategorie}
+            archiverCategorie={archiverCategorie} 
           />
         </div>
         <div className="flex-1 min-w-[300px]">
