@@ -9,7 +9,7 @@ export default function NavPrestataire() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profile, setProfile] = useState();
   const token = localStorage.getItem('token');
-
+  console.log(token);
   const toggleProfileMenu = () => setIsProfileOpen(!isProfileOpen);
 
   // Fonction principale pour récupérer le profil prestataire
@@ -33,6 +33,7 @@ export default function NavPrestataire() {
       }
 
       const data = await response.json()
+      console.log(data)
       setProfile(data.prestataire)
     } catch (error) {
       console.error('Erreur:', error.message);
@@ -44,7 +45,7 @@ export default function NavPrestataire() {
     getPrestataireProfil(token);
   }, [token])
 
-  console.log(profile)
+  // console.log(profile)
   return (
     <nav className="bg-gray-800  w-full fixed z-50  text-white pl-4 pr-4 flex justify-between items-center shadow-lg">
       {/* Logo */}
@@ -63,7 +64,7 @@ export default function NavPrestataire() {
         <div className="relative">
           <button onClick={toggleProfileMenu} className="flex items-center space-x-2 hover:text-gray-300 transition duration-300">
             <User size={24} />
-           <span>{profile.nom} {profile.prenom}</span>
+            {profile && (<span>{profile.nom} {profile.prenom}</span>)}
           </button>
 
           {isProfileOpen && (
@@ -72,12 +73,16 @@ export default function NavPrestataire() {
                 to="/dashboard"
                 className="flex flex-col items-start mb-2 bg-gray-700 rounded-xl gap-3 px-2 py-2 hover:bg-gray-700"
                 onClick={() => setIsProfileOpen(false)}
-              >   
-                <div>
-                  <span>{profile.nom} </span>
-                  <span>{profile.prenom}</span>
-                </div>
-                <div>{profile.email}</div>
+              >
+                {profile && (
+                  <>
+                    <div>
+                      <span>{profile.nom} </span>
+                      <span>{profile.prenom}</span>
+                    </div>
+                    <div>{profile.email}</div>
+                  </>
+                )}
               </Link>
               <DeconnexionButton color="hover:bg-gray-700 rounded-xl" />
             </div>
