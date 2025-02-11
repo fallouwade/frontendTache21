@@ -137,7 +137,7 @@ export default function LesDemandes() {
                       <button 
                         disabled 
                         className={`
-                          ${demande.statut === 'accepte' ? 'bg-green-500' : 'bg-red-500'} 
+                          ${demande.statut === 'accepte' ? 'bg-green-300' : 'bg-red-300'} 
                           text-white py-2 px-4 rounded-lg cursor-not-allowed
                         `}
                       >

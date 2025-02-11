@@ -109,7 +109,7 @@ export default function DashboardContent() {
                     <CardAdmin
                         titre="Total utilisateurs"
                         titrePourcent="utilisateurs actifs"
-                        pourcent="0"
+                        pourcent="100"
                         totalUsers={totaleClients}
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
                         color="border-l-4 border-blue-500 rounded-lg"
@@ -117,7 +117,7 @@ export default function DashboardContent() {
                     <CardAdmin
                         titre="Total services"
                         titrePourcent="Services actifs"
-                        pourcent="0"
+                        pourcent="100"
                         totalUsers={totalServices}
                         icone={<MdOutlineHomeRepairService
                             className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}

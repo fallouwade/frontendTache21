@@ -63,8 +63,6 @@ const InfoDemande = () => {
         // Filter des services
         const userRequests = data.demandes.filter(demande => demande.demandeur.id === userId)
         setFilteredRequests(userRequests)
-        console.log(data.demandes[0].demandeur.id)
-        console.log(userId)
       } catch (err) {
         console.error("Erreur lors de la récupération des demandes:", err)
       }
@@ -164,7 +162,7 @@ const InfoDemande = () => {
             </select>
           </div>
         </div>
-        {console.log(filteredRequests)}
+
         {filteredRequests.length === 0 ? (
           <p className="text-gray-600 text-center py-8">
             Aucune demande de service ne correspond à votre recherche.
