@@ -88,7 +88,7 @@ const ReservationCard = ({ selectedDate, id }) => {
             numeroTelephone: reservation.phone,
             description: reservation.details,
             date: new Date(reservation.date).toISOString(),
-            prestataire: id // Correction ici (avant c'était "prestataireId")
+            prestataire: id
         };
 
         const token = localStorage.getItem('token');
