@@ -216,7 +216,7 @@ const ReservationCard = ({ selectedDate, id }) => {
               <div className="p-3 border-t">
                 {reservation.date && (
                   <div className="text-gray-600 mt-2">
- <span className="font-semibold">Date sélectionnée:</span> {new Date(reservation.date).toLocaleDateString('fr-FR')}
+                          <span className="font-semibold">Date sélectionnée:</span> {new Date(reservation.date).toLocaleDateString('fr-FR')}
                   </div>
                 )}
               </div>
