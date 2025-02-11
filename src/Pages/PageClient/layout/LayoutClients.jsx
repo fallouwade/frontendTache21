@@ -10,7 +10,7 @@ import InfoDemande from '../Components/InfoDemande';
 import ProfilCli from '../Components/ProfilCli';
 import axios from "axios"
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://backendtache21.onrender.com/api';
 
 function LayoutClients(props) {
   const location = useLocation();

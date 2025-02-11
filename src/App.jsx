@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import  { useState } from 'react';
+import { useState } from 'react';
 
 import Connection from './Authentification/PagesConnexion/Connection.jsx'
 import InscriptionPrestataire from "./Authentification/inscription/InscriptionPrestataire.jsx";
@@ -31,17 +31,17 @@ import InfoDemande from "./Pages/PageClient/Components/InfoDemande.jsx";
 
 function App() {
 
-  const [id, setid]= useState()
+  const [id, setid] = useState()
 
-  const identifiant=  (id) => {
+  const identifiant = (id) => {
     setid(id)
   }
 
   return (
-    
+
     <Routes>
       {/* Route public */}
-      <Route path="/" element={<LayoutCommunautaire  id={identifiant} />} />
+      <Route path="/" element={<LayoutCommunautaire id={identifiant} />} />
       <Route path="/connexion" element={<Connection />} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
@@ -52,18 +52,18 @@ function App() {
 
       {/* Routes Client */}
       <Route path="/Client" element={
-      <ProtectionRoute allowedRoles={['client', 'prestataire']}>
-        <LayoutClients id={identifiant} />
+        <ProtectionRoute allowedRoles={['client', 'prestataire']}>
+          <LayoutClients id={identifiant} />
         </ProtectionRoute>}>
-        <Route path="profilClient" element={<ProfilCli/>} />
-       <Route path="messages" element={<InfoDemande/>} /> 
+        <Route path="profilClient" element={<ProfilCli />} />
+        <Route path="messages" element={<InfoDemande />} />
       </Route>
 
 
-       {/* Route Réservation avec ID du prestataire */}
-       <Route path="/reservation" element={
-         <Reservation id={id} />
-        } />
+      {/* Route Réservation avec ID du prestataire */}
+      <Route path="/reservation" element={
+        <Reservation id={id} />
+      } />
 
 
       {/* Admin Dashboard and nested routes) */}
