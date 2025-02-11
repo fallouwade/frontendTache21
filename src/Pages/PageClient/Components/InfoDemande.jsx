@@ -22,7 +22,7 @@ const InfoDemande = () => {
   const [userId, setUserId] = useState(null)
   const API_BASE_URL = "https://backendtache21.onrender.com/api"
 
-  // Recupération de l'id 
+  // Récupération de l'id 
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -37,7 +37,7 @@ const InfoDemande = () => {
 
   useEffect(() => {
     const fetchRequests = async () => {
-      if (!userId) return // Don't fetch if we don't have a userId
+      if (!userId) return
 
       try {
         const token = localStorage.getItem('token')
@@ -58,10 +58,8 @@ const InfoDemande = () => {
         }
   
         const data = await response.json()
-        setRequests(data.demandes)
-        console.log(requests);
-        // Filter des services
         const userRequests = data.demandes.filter(demande => demande.demandeur.id === userId)
+        setRequests(userRequests)
         setFilteredRequests(userRequests)
       } catch (err) {
         console.error("Erreur lors de la récupération des demandes:", err)
@@ -70,6 +68,29 @@ const InfoDemande = () => {
 
     fetchRequests()
   }, [userId])
+
+  // Effet pour gérer le filtrage
+  useEffect(() => {
+    let filtered = [...requests]
+    
+    // Filtre par statut
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(request => request.statut === statusFilter)
+    }
+    
+    // Filtre par terme de recherche
+    if (searchTerm) {
+      filtered = filtered.filter(request =>
+        request.typeService.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        request.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        request.adresse.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        request.numeroTelephone.includes(searchTerm) ||
+        (request.prestataire?.nom || "").toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+    
+    setFilteredRequests(filtered)
+  }, [searchTerm, statusFilter, requests])
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -122,7 +143,6 @@ const InfoDemande = () => {
 
       const updatedRequests = requests.filter((req) => req._id !== requestId)
       setRequests(updatedRequests)
-      setFilteredRequests(updatedRequests)
     } catch (error) {
       console.error("Erreur lors de la suppression:", error)
     }
@@ -163,6 +183,7 @@ const InfoDemande = () => {
           </div>
         </div>
 
+        {/* Rest of the component remains the same */}
         {filteredRequests.length === 0 ? (
           <p className="text-gray-600 text-center py-8">
             Aucune demande de service ne correspond à votre recherche.

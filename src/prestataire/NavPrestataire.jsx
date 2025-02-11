@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { User } from "lucide-react";
-import { CgProfile } from "react-icons/cg";
 import DeconnexionButton from "../Authentification/déconnexion/DeconnexionButton";
 import logo from "/images/logoblanc.png";
 
@@ -9,7 +8,7 @@ export default function NavPrestataire() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profile, setProfile] = useState();
   const token = localStorage.getItem('token');
-  console.log(token);
+  // console.log(token);
   const toggleProfileMenu = () => setIsProfileOpen(!isProfileOpen);
 
   // Fonction principale pour récupérer le profil prestataire
@@ -33,7 +32,7 @@ export default function NavPrestataire() {
       }
 
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       setProfile(data.prestataire)
     } catch (error) {
       console.error('Erreur:', error.message);
