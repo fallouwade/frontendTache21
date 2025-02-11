@@ -43,7 +43,7 @@ const GalleryPrestatiare = (props) => {
         <div className="absolute -top-16 z-40">
           <Link
             to="/client"
-            className="bg-black p-3 rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 transition duration-300"
+            className="bg-black p-2 rounded-full shadow-lg flex items-center justify-center transition duration-300"
             aria-label="Retour"
           >
             <FaArrowLeft className="w-5 h-5 text-white" />
