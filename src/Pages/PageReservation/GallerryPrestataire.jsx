@@ -31,11 +31,23 @@ const GalleryPrestatiare = ({ prestataire }) => {
   ] : [];
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-700">
-          Bonjour, je suis {prestataire.prenom} {prestataire.nom}
-        </h1>
+    <div className="max-w-7xl mx-auto relative">
+      {/* Affichage du bouton retour seulement si l'utilisateur est connecté */}
+      {isLoggedIn && (
+        <div className="absolute -top-16 z-40">
+          <Link
+            to="/client"
+            className="bg-black p-2 rounded-full shadow-lg flex items-center justify-center transition duration-300"
+            aria-label="Retour"
+          >
+            <FaArrowLeft className="w-5 h-5 text-white" />
+          </Link>
+        </div>
+      )}
+
+      {/* Informations sur le prestataire */}
+      <div className="flex justify-between items-center mb-6 mt-10">
+        <h1 className="text-3xl font-bold text-blue-700">Bonjour, je suis {prestataire.prenom} {prestataire.nom}</h1>
       </div>
 
       <p className="text-lg text-gray-700 mb-6">
