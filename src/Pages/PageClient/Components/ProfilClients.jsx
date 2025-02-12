@@ -4,7 +4,8 @@ import { useState, useEffect } from "react"
 import SidebarClient from "./SidebarClient"
 import logo from "/images/logo.png"
 import FavoriteButton from "./FavoriteButton"
-import MessageButton from "./MessageButton"
+import FavoriteBadge from "./FavoriteBadge"
+import MessageButton from "./Messagebutton"
 
 function ProfilClients({
   isLoggedIn,
@@ -12,7 +13,7 @@ function ProfilClients({
   userEmail,
   buttonPrest,
   unreadMessages,
-  favorites,
+  favorites = [],
   onToggleFavorite,
   onToggleFavoriteFilter,
 }) {
@@ -46,11 +47,13 @@ function ProfilClients({
               <div className="">{buttonPrest}</div>
               {isLoggedIn && (
                 <>
-                  <FavoriteButton
-                    favorites={favorites}
-                    onToggleFavorite={handleFavoriteClick}
-                    showFavorites={showFavorites}
-                  />
+                  <div className="flex items-center">
+                    <FavoriteButton
+                      favorites={favorites}
+                      onToggleFavorite={handleFavoriteClick}
+                      showFavorites={showFavorites}
+                    />
+                  </div>
                   <MessageButton unreadMessages={unreadMessages} />
                 </>
               )}

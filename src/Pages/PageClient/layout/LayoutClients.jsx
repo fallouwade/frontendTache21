@@ -28,6 +28,7 @@ function LayoutClients(props) {
   const [favorites, setFavorites] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
+  const [favoris, setFavoris] = useState([])
 
   useEffect(() => {
     fetchServices()
@@ -36,10 +37,11 @@ function LayoutClients(props) {
 
   useEffect(() => {
     filterServices()
-  }, [services, selectedCategory, searchTerm, showOnlyFavorites]) // Corrected dependency list
+  }, [services, selectedCategory, searchTerm, showOnlyFavorites, favorites]) // Corrected dependency list
 
   const checkLoginStatus = () => {
     const token = localStorage.getItem("token")
+
     setIsLoggedIn(!!token)
     if (token) {
       fetchFavorites()
@@ -52,10 +54,17 @@ function LayoutClients(props) {
       const response = await axios.get(`${API_URL}/favorites`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      setFavorites(response.data.map((fav) => fav.serviceId._id))
+      setFavorites(response.data.map((fav) => fav.serviceId._id) || [])
     } catch (error) {
       console.error("Erreur lors de la récupération des favoris:", error)
+      setFavorites([]) // Assurez-vous que favorites est toujours un tableau
     }
+  }, [])
+
+  console.log(favorites)
+
+  useEffect(() => {
+    fetchFavorites()
   }, [])
 
   useEffect(() => {
@@ -120,6 +129,7 @@ function LayoutClients(props) {
 
     if (showOnlyFavorites) {
       filtered = filtered.filter((service) => service.services.some((s) => favorites.includes(s.id)))
+      console.log(filtered)
     }
 
     if (selectedCategory) {
@@ -194,8 +204,8 @@ function LayoutClients(props) {
     <div className="min-h-screen bg-gray-100">
       <ProfilClients
         isLoggedIn={isLoggedIn}
-        userName={user.nom}
-        userEmail={user.email}
+        userName={user?.nom}
+        userEmail={user?.email}
         buttonPrest={
           isPrestataire ? (
             <Link
@@ -214,6 +224,7 @@ function LayoutClients(props) {
           )
         }
         favorites={favorites}
+        favoris={favoris}
         onToggleFavorite={toggleFavorite}
         onToggleFavoriteFilter={handleToggleFavoriteFilter}
         unreadMessages={0} // Remplacez par le nombre réel de messages non lus
