@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'; 
 import { regions, departements } from '../Constant';
 import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa'; 
 
 const InscriptionPrestataire = () => {
   const navigate = useNavigate(); 
@@ -101,19 +101,12 @@ const InscriptionPrestataire = () => {
   return (
     <div className="relative min-h-screen flex flex-col">
       <nav className="w-full bg-white text-gray flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <img
-            src="https://img.freepik.com/vecteurs-libre/modele-logo-cobra-couleur-degrade_23-2149192539.jpg?ga=GA1.1.1841303701.1736946038&semt=ais_hybrid"
-            alt="Logo"
-            className="w-10 h-10 object-cover ml-2"
-          />
-        </div>
-        <Link
-          to="/"
-          className="text-black font-semibold hover:text-blue-500 mr-4"
+        <button
+          onClick={() => navigate(-1)} // Naviguer vers la page précédente
+          className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-blue-500 hover:border-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
         >
-          Accueil
-        </Link>
+          <FaArrowLeft />
+        </button>
       </nav>
 
       <div className="flex flex-grow flex-col md:flex-row">
@@ -156,7 +149,7 @@ const InscriptionPrestataire = () => {
                   name="nom"
                   value={formData.nom}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -173,7 +166,7 @@ const InscriptionPrestataire = () => {
                   name="prenom"
                   value={formData.prenom}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -192,7 +185,7 @@ const InscriptionPrestataire = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -209,7 +202,7 @@ const InscriptionPrestataire = () => {
                   name="telephone"
                   value={formData.telephone}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
               </div>
@@ -231,7 +224,7 @@ const InscriptionPrestataire = () => {
                   value={formData.motDePasse}
                   onChange={handleChange}
                   maxLength="6" // Limitation à 6 caractères
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
                 <span
@@ -256,7 +249,7 @@ const InscriptionPrestataire = () => {
                   value={formData.confirmMotDePasse}
                   onChange={handleChange}
                   maxLength="6" // Limitation à 6 caractères
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
                 <span
@@ -281,7 +274,7 @@ const InscriptionPrestataire = () => {
                 name="nomDeLentreprise"
                 value={formData.nomDeLentreprise}
                 onChange={handleChange}
-                className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                 required
               />
             </div>
@@ -299,7 +292,7 @@ const InscriptionPrestataire = () => {
                 name="region"
                 value={formData.region}
                 onChange={handleChange}
-                className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                 required
               >
                 <option value="">Sélectionnez une région</option>
@@ -325,7 +318,7 @@ const InscriptionPrestataire = () => {
                   name="departement"
                   value={formData.departement}
                   onChange={handleChange}
-                  className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 >
                   <option value="">Sélectionnez un département</option>
@@ -339,23 +332,26 @@ const InscriptionPrestataire = () => {
             )}
 
             <div className="mb-4">
-              <textarea 
-                className="w-full mt-2 border border-gray-300 rounded-md" 
-                name="description" 
-                id="description" 
-                placeholder="Description">
-              </textarea>
+              <textarea
+                className="w-full mt-2 border border-gray-300 rounded-xl"
+                name="description"
+                id="description"
+                placeholder="Description"
+              ></textarea>
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="w-full py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
               disabled={isLoading}
             >
               {isLoading ? "Enregistrement..." : "S'inscrire"}
             </button>
             <div className="mt-4 text-right">
               <p className="text-sm text-gray-600">
-                <Link className="text-blue-500 hover:text-blue-700" to="/connexion">
+                <Link
+                  className="text-blue-500 hover:text-blue-700"
+                  to="/connexion"
+                >
                   Vous avez déjà un compte ?
                 </Link>
               </p>

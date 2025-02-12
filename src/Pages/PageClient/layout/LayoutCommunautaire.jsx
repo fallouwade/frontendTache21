@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from "../Components/ProfilClients";
 import SearchForm from "../Components/ServiceGrid";
 import CategoryGrid from "../Components/CardMessage";
@@ -10,8 +10,7 @@ import { Link } from 'react-router-dom';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
-function LayoutCommunautaire
-(props) {
+function LayoutCommunautaire(props) {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,14 +85,12 @@ function LayoutCommunautaire
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar 
-      buttonInfo={
-        <p>Comment ça marche</p>
-      }
+      
       buttonPrest={
 
           <Link
             to="/inscriptionPrestataire"
-            className=""
+            className="hover:bg-gray-300 py-2 px-5 rounded-full transition text-sm font-medium cursor-pointer"
           >
             Devenir Prestataire
           </Link>
@@ -159,5 +156,4 @@ function LayoutCommunautaire
   );
 }
 
-export default LayoutCommunautaire
-;
+export default LayoutCommunautaire;

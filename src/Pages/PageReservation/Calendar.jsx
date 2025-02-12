@@ -4,8 +4,9 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Calendar = ({ onDateSelect }) => { 
   const [selectedDate, setSelectedDate] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 0));
-  
+  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 1));
+
+
   const today = new Date();
 
   const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -32,7 +33,6 @@ const Calendar = ({ onDateSelect }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-medium">Disponibilités du plombier</h2>
       
       <div className="flex justify-between items-center my-4">
         <button 

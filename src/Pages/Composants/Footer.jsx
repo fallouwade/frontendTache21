@@ -7,14 +7,19 @@ import {
   FaMapMarkerAlt,
   FaPaperPlane
 } from 'react-icons/fa';
+import logo from "/images/logofooterblanc.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white w-full">
+    <footer className="bg-[#000000] text-white w-full">
       <div className="container mx-auto px-4 py-12 max-w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
           <div className="text-center lg:text-left">
-            <h2 className="text-2xl font-bold text-yellow-500 mb-4">Services Locaux</h2>
+            {/* Logo */}
+              <a href="/" className=" text-2xl font-extrabold">
+              <img src={logo} alt="Logo" width="160" />
+            
+              </a>
             <p className="text-gray-400 mb-6">
               Trouvez les meilleurs professionnels près de chez vous. Plombiers, électriciens, Mecaniens, coiffeurs, enseignats Privée et bien plus encore.
             </p>
@@ -67,7 +72,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <div className="mt-12 pt-8 border-t border-gray-400">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-center md:text-left">
