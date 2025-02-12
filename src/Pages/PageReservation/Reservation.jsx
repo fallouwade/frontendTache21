@@ -56,21 +56,32 @@ const Reservation = (props) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div>
-        {user && (
-          < ProfilClients
+     
+       <div>
+        {/* Vérification si l'utilisateur est connecté */}
+        {!user ? (
+          <ProfilClients
+            buttonPrest={
+              <Link
+                to="/inscriptionPrestataire"
+                className="hover:bg-gray-300 py-2 px-5 rounded-full transition text-sm font-medium cursor-pointer"
+              >
+                Devenir Prestataire
+              </Link>
+            }
+          />
+        ) : (
+          <ProfilClients
             isLoggedIn={true}
             userName={user.nom}
             userEmail={user.email}
-
             buttonPrest={
               isPrestataire ? (
                 <Link
                   to="/dashboard"
                   className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
                 >
-
-                  retour a mon compte
+                  Retour à mon compte
                 </Link>
               ) : (
                 <Link
@@ -83,11 +94,10 @@ const Reservation = (props) => {
             }
           />
         )}
-
       </div>
       <div>
       </div>
-      <div className="flex-grow pt-24">
+      <div className="flex-grow pt-10">
         {/* On passe la liste d'images du prestataire au composant galerie */}
         <GalleryPrestatiare prestataire={prestataire} />
         {/* On transmet les informations du prestataire au composant de détails */}

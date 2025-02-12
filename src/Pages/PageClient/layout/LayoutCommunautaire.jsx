@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
-function LayoutClients(props) {
+function LayoutCommunautaire(props) {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,9 +85,7 @@ function LayoutClients(props) {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar 
-      buttonInfo={
-        <p>Comment ça marche</p>
-      }
+      
       buttonPrest={
 
           <Link
@@ -158,4 +156,4 @@ function LayoutClients(props) {
   );
 }
 
-export default LayoutClients;
+export default LayoutCommunautaire;
