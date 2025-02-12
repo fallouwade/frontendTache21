@@ -1,6 +1,6 @@
-// Reservation.jsx
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners"; // Ajout du spinner
 import DetailsPrestataire from "./DetailsPrestataire";
 import GalleryPrestatiare from "./GallerryPrestataire";
 import ProfilClients from "../PageClient/Components/ProfilClients";
@@ -14,19 +14,19 @@ const Reservation = (props) => {
   const [error, setError] = useState(null);
   const [isPrestataire, setIsPrestataire] = useState(false)
 
- 
 
   useEffect(() => {
     try {
       const user = JSON.parse(localStorage.getItem("user"))
       setIsPrestataire(user.role === "prestataire")
-
     } catch (err) {
       console.error(err)
     }
   }, [])
 
   const user = JSON.parse(localStorage.getItem("user"))
+
+
   console.log(props.id)
   useEffect(() => {
     const fetchPrestataire = async () => {
@@ -49,10 +49,15 @@ const Reservation = (props) => {
     }
   }, [props.id]);
 
+  if (loading) 
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color="#3498db" loading={loading} />
+      </div>
+    );
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>{error}</div>;
-  if (!prestataire) return <div>Prestataire introuvable</div>;
+  if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
+  if (!prestataire) return <div className="text-center mt-10">Prestataire introuvable</div>;
 
   return (
     <div className="min-h-screen flex flex-col">
