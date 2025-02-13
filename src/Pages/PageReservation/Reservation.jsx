@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners"; // Ajout du spinner
 import DetailsPrestataire from "./DetailsPrestataire";
 import GalleryPrestatiare from "./GallerryPrestataire";
-import ProfilClients from "../PageClient/Components/ProfilClients";
+import ProfilClients from "../PageClient/Components/ProfilClients"; 
 import { Link } from "react-router-dom";
+import * as motion from "motion/react-client";
+import logo from "/images/logo.png"
 
 
 const Reservation = (props) => {
@@ -12,17 +13,16 @@ const Reservation = (props) => {
   const [prestataire, setPrestataire] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isPrestataire, setIsPrestataire] = useState(false)
-
+  const [isPrestataire, setIsPrestataire] = useState(false);
 
   useEffect(() => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"))
-      setIsPrestataire(user.role === "prestataire")
+      const user = JSON.parse(localStorage.getItem("user"));
+      setIsPrestataire(user.role === "prestataire");
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }, [])
+  }, []);
 
   const user = JSON.parse(localStorage.getItem("user"))
 
@@ -31,7 +31,9 @@ const Reservation = (props) => {
   useEffect(() => {
     const fetchPrestataire = async () => {
       try {
-        const response = await fetch(`https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`);
+        const response = await fetch(
+          `https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`
+        );
         if (!response.ok) {
           throw new Error("Erreur lors du chargement du prestataire");
         }
@@ -44,20 +46,28 @@ const Reservation = (props) => {
       }
     };
 
-    if (props.id) { 
+    if (props.id) {
+      // Assurez-vous que props.id est défini
       fetchPrestataire();
     }
   }, [props.id]);
 
-  if (loading) 
+  if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
-        <ClipLoader size={50} color="#3498db" loading={loading} />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: 'loop', ease: 'linear' }}
+        >
+          <img src={logo} alt="Chargement..." className=" h-24" />
+        </motion.div>
       </div>
     );
 
-  if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
-  if (!prestataire) return <div className="text-center mt-10">Prestataire introuvable</div>;
+  if (error)
+    return <div className="text-red-500 text-center mt-10">{error}</div>;
+  if (!prestataire)
+    return <div className="text-center mt-10">Prestataire introuvable</div>;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -91,7 +101,7 @@ const Reservation = (props) => {
               ) : (
                 <Link
                   to="/inscriptionPrestataire"
-                  className="bg-gray-200 text-[12px] md:text-base hover:bg-gray-300 font-normal py-2 sm:px-4 rounded"
+                  className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
                 >
                   Devenir Prestataire
                 </Link>
@@ -113,4 +123,4 @@ const Reservation = (props) => {
 };
 
 export default Reservation;
-
+//
