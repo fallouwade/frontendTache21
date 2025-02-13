@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Prestataire() {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [prestataires, setPrestataires] = useState([])
   const [prestatairesDeMois, setPrestatairesDeMois] = useState([]);
   const [prestatairesDeMoisPasse, setPrestatairesDeMoisPasse] = useState([]);
@@ -79,18 +79,19 @@ export default function Prestataire() {
     );
   };
 
+
   useEffect(() => {
     const reccupDonnéePrestataire = async () => {
       try {
         const response = await axios.get(API_URL);
-        setPrestataires(response.data);
+        // setPrestataires(response.data);
 
         // Combiner le nom et le prénom
         const transformedData = response.data.map((item) => ({
           ...item,
           nomComplet: `${item.prenom} ${item.nom}`, // Combinaison prénom + nom
         }));
-        setData(transformedData);
+        setPrestataires(transformedData);
         
         // Filtrer les prestataires bloqués
         const bloques = response.data.filter(prestataire => prestataire.actif === false);
@@ -134,7 +135,7 @@ export default function Prestataire() {
         <Link className="w-full">
           <CardProst
             color="text-white bg-blue-400"
-            nombre={data.length}
+            nombre={prestataires.length}
             titre="Total prestataires"
             icone={<FaUserGroup />}
             description="Prestataires inscrits"
@@ -170,16 +171,16 @@ export default function Prestataire() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 w-full p-4">
         <div>
-          <ChartNouveauInscription prestataires={data} />
+          <ChartNouveauInscription prestataires={prestataires} />
         </div>
         <div>
-          <ChartInfosStatus prestataires={data} />
+          <ChartInfosStatus prestataires={prestataires} />
         </div>
       </div>
       <div className="flex w-full mb-10 px-4">
         <Table
           columns={columns}
-          data={data}
+          data={prestataires}
           title="Listes de prestataires"
           action={renderActions}
         />
