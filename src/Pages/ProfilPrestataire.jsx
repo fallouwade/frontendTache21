@@ -19,6 +19,12 @@ const ProfilPrestataire = () => {
 
     const token = localStorage.getItem("token");
 
+    // Fonction pour reccuperer seulement la date 
+    function getFormattedDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+    }
+
     // Requête pour récupérer les prestataires et vérifier l'attribut 'actif'
     useEffect(() => {
         if (!token) {
@@ -32,32 +38,32 @@ const ProfilPrestataire = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-        .then(response => {
-            if (!Array.isArray(response.data)) {
-                setError("Données invalides reçues de l'API !");
+            .then(response => {
+                if (!Array.isArray(response.data)) {
+                    setError("Données invalides reçues de l'API !");
+                    setLoading(false);
+                    return;
+                }
+
+                const foundPrestataire = response.data.find(p => p._id && p._id.toString() === id);
+                if (!foundPrestataire) {
+                    setError("Prestataire non trouvé !");
+                } else {
+                    setPrestataire(foundPrestataire);
+                    // Initialiser le statut bloqué basé sur l'attribut 'actif'
+                    const isPrestataireBlocked = foundPrestataire.actif === false;
+                    setIsBlocked(isPrestataireBlocked);
+
+                    // Sauvegarder l'état de blocage dans le localStorage
+                    localStorage.setItem(`prestataire-blocked-${id}`, isPrestataireBlocked.toString());
+                }
                 setLoading(false);
-                return;
-            }
-
-            const foundPrestataire = response.data.find(p => p._id && p._id.toString() === id);
-            if (!foundPrestataire) {
-                setError("Prestataire non trouvé !");
-            } else {
-                setPrestataire(foundPrestataire);
-                // Initialiser le statut bloqué basé sur l'attribut 'actif'
-                const isPrestataireBlocked = foundPrestataire.actif === false;
-                setIsBlocked(isPrestataireBlocked);
-
-                // Sauvegarder l'état de blocage dans le localStorage
-                localStorage.setItem(`prestataire-blocked-${id}`, isPrestataireBlocked.toString());
-            }
-            setLoading(false);
-        })
-        .catch(error => {
-            console.error("Erreur lors de la récupération du prestataire:", error);
-            setError("Problème de connexion au serveur.");
-            setLoading(false);
-        });
+            })
+            .catch(error => {
+                console.error("Erreur lors de la récupération du prestataire:", error);
+                setError("Problème de connexion au serveur.");
+                setLoading(false);
+            });
     }, [id, token]);
 
     // Fonction pour bloquer ou débloquer le prestataire
@@ -70,41 +76,41 @@ const ProfilPrestataire = () => {
                 "Content-Type": "application/json"
             }
         })
-        .then(() => {
-            // Recharger les données après mise à jour
-            axios.get(API_URL_prestataire, { headers: { Authorization: `Bearer ${token}` } })
-            .then(response => {
-                const updatedPrestataire = response.data.find(p => p._id === id);
-                if (updatedPrestataire) {
-                    setPrestataire(updatedPrestataire);
-                    setIsBlocked(!updatedPrestataire.actif);
-                    // Sauvegarder l'état dans le localStorage
-                    localStorage.setItem(`prestataire-blocked-${id}`, !updatedPrestataire.actif);
-                    
-                    // Ajouter une notification
-                    setNotification({
-                        message: `Le prestataire ${updatedPrestataire.nom} ${updatedPrestataire.prenom} a été ${updatedPrestataire.actif ? "débloqué" : "bloqué"}.`,
-                        type: updatedPrestataire.actif ? 'success' : 'red'
+            .then(() => {
+                // Recharger les données après mise à jour
+                axios.get(API_URL_prestataire, { headers: { Authorization: `Bearer ${token}` } })
+                    .then(response => {
+                        const updatedPrestataire = response.data.find(p => p._id === id);
+                        if (updatedPrestataire) {
+                            setPrestataire(updatedPrestataire);
+                            setIsBlocked(!updatedPrestataire.actif);
+                            // Sauvegarder l'état dans le localStorage
+                            localStorage.setItem(`prestataire-blocked-${id}`, !updatedPrestataire.actif);
+
+                            // Ajouter une notification
+                            setNotification({
+                                message: `Le prestataire ${updatedPrestataire.nom} ${updatedPrestataire.prenom} a été ${updatedPrestataire.actif ? "débloqué" : "bloqué"}.`,
+                                type: updatedPrestataire.actif ? 'success' : 'red'
+                            });
+
+                            // Effacer la notification après 3 secondes
+                            setTimeout(() => setNotification(null), 3000);
+                        }
                     });
+            })
+            .catch(error => {
+                console.error("Erreur lors du changement de statut :", error);
+                setError("Impossible de changer le statut du prestataire");
 
-                    // Effacer la notification après 3 secondes
-                    setTimeout(() => setNotification(null), 3000);
-                }
+                // Ajouter une notification d'erreur
+                setNotification({
+                    message: "Impossible de changer le statut du prestataire.",
+                    type: 'error'
+                });
+
+                // Effacer la notification après 3 secondes
+                setTimeout(() => setNotification(null), 2000);
             });
-        })
-        .catch(error => {
-            console.error("Erreur lors du changement de statut :", error);
-            setError("Impossible de changer le statut du prestataire");
-
-            // Ajouter une notification d'erreur
-            setNotification({
-                message: "Impossible de changer le statut du prestataire.",
-                type: 'error'
-            });
-
-            // Effacer la notification après 3 secondes
-            setTimeout(() => setNotification(null), 2000);
-        });
     };
 
     if (loading) return <p className="text-center text-gray-500">Chargement...</p>;
@@ -115,9 +121,9 @@ const ProfilPrestataire = () => {
             {/* Notification Toast */}
             {notification && (
                 <div className={`right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-200
-                    ${notification.type === 'success' ? 'bg-green-500 text-white' : 
-                      notification.type === 'red' ? 'bg-red-500 text-white' : 
-                      'bg-red-500 text-white'}`}>
+                    ${notification.type === 'success' ? 'bg-green-500 text-white' :
+                        notification.type === 'red' ? 'bg-red-500 text-white' :
+                            'bg-red-500 text-white'}`}>
                     {notification.message}
                 </div>
             )}
@@ -177,19 +183,18 @@ const ProfilPrestataire = () => {
                     <div className="mb-6">
                         <CardStatic />
                     </div>
-                    
+
                     <div className="text-center text-gray-600 mt-6">
-                        <p><strong>ID du prestataire :</strong> {id}</p>
+                        <p><strong>Date de creation du prestataire: </strong> {getFormattedDate(prestataire.createdAt)}</p>
                     </div>
 
                     <div className="flex gap-4 mt-4">
-                        <button 
+                        <button
                             onClick={toggleBlockStatus}
-                            className={`flex-1 border py-2 rounded-lg transition-all duration-200 transform active:scale-95 ${
-                                isBlocked 
-                                    ? "border-green-600 text-green-600 hover:bg-green-600 hover:text-white" 
-                                    : "border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
-                            }`}
+                            className={`flex-1 border py-2 rounded-lg transition-all duration-200 transform active:scale-95 ${isBlocked
+                                ? "border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+                                : "border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                                }`}
                         >
                             {isBlocked ? "Débloquer" : "Bloquer"}
                         </button>

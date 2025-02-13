@@ -16,9 +16,9 @@ export default function LesDemandes() {
       try {
         const response = await axios.get('https://backendtache21.onrender.com/api/demandes-services/clientAll');
         const prestataireId = JSON.parse(atob(token.split('.')[1])).id;
-        const prestataireServices = response.data.demandes.filter(
-          service => service.prestataire.id === prestataireId
-        );
+        const prestataireServices = response.data.demandes
+          .filter(service => service.prestataire.id === prestataireId)
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
         setAllDemandes(prestataireServices);
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
@@ -28,11 +28,13 @@ export default function LesDemandes() {
   }, [token]);
 
   useEffect(() => {
-    setDemandes(allDemandes.filter(demande =>
+    const filteredDemandes = allDemandes.filter(demande =>
       (filtre === "Nouveaux messages" && demande.statut === "attente") ||
       (filtre === "Demandes acceptées" && demande.statut === "accepte") ||
       (filtre === "Demandes refusées" && demande.statut === "refuse")
-    ));
+    );
+    setDemandes(filteredDemandes);
+    setCurrentPage(1);
   }, [filtre, allDemandes]);
 
   const handleActionDemande = async (demandeId, action) => {
@@ -41,26 +43,27 @@ export default function LesDemandes() {
         headers: { Authorization: `Bearer ${token}` }
       };
       await axios.put(`https://backendtache21.onrender.com/api/demandes-services/${demandeId}/${action}`, {}, config);
-      setAllDemandes(allDemandes.map(demande =>
-        demande._id === demandeId ? { ...demande, statut: action === 'accepter' ? 'accepte' : 'refuse' } : demande
-      ));
+      setAllDemandes(prevDemandes => 
+        prevDemandes.map(demande =>
+          demande._id === demandeId 
+            ? { ...demande, statut: action === 'accepter' ? 'accepte' : 'refuse' } 
+            : demande
+        )
+      );
     } catch (error) {
       console.error(`Erreur lors de l'action ${action}:`, error);
     }
   };
 
-  // Pagination logic
   const indexOfLastDemande = currentPage * itemsPerPage;
   const indexOfFirstDemande = indexOfLastDemande - itemsPerPage;
-  const currentDemandes = demandes.slice(indexOfFirstDemande, indexOfLastDemande);
+  const filteredDemandes = demandes.filter(demande =>
+    demande.description.toLowerCase().includes(search.toLowerCase())
+  );
+  const currentDemandes = filteredDemandes.slice(indexOfFirstDemande, indexOfLastDemande);
 
-  const totalPages = Math.ceil(demandes.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredDemandes.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // Function to handle "Previous" and "Next" buttons
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -100,21 +103,27 @@ export default function LesDemandes() {
           </div>
 
           <div className="space-y-6">
-            {currentDemandes.filter(demande =>
-              demande.description.toLowerCase().includes(search.toLowerCase())
-            ).length === 0 ? (
+            {currentDemandes.length === 0 ? (
               <p className="text-center text-gray-500">Aucune demande trouvée.</p>
             ) : (
-              currentDemandes.filter(demande =>
-                demande.description.toLowerCase().includes(search.toLowerCase())
-              ).map((demande) => (
+              currentDemandes.map((demande) => (
                 <div
                   key={demande._id}
                   className="bg-slate-100 p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
                 >
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    Demande de {demande.demandeur?.nom || 'Client'}
-                  </h3>
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Demande de {demande.demandeur?.nom || 'Client'}
+                    </h3>
+                    <p className="text-gray-500">
+                      {new Date(demande.date).toLocaleDateString('fr-FR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
+                  
                   <p className="text-gray-600 mt-2">{demande.description}</p>
 
                   <div className="mt-4 space-y-2">
@@ -165,15 +174,15 @@ export default function LesDemandes() {
             )}
           </div>
 
-          {/* Pagination Controls */}
           <div className="flex justify-center space-x-2 mt-4">
             <button
               onClick={handlePrevPage}
               disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
+              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
+                currentPage === 1
                   ? 'bg-gray-200 text-gray-700 cursor-not-allowed'
-                  : 'bg-blue-500 text-gray-100 hover:bg-blue-600 '
-                }`}
+                  : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
+              }`}
             >
               Précédent
             </button>
@@ -185,10 +194,11 @@ export default function LesDemandes() {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
+              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
+                currentPage === totalPages
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
-                }`}
+              }`}
             >
               Suivant
             </button>
