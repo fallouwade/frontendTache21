@@ -113,6 +113,11 @@ const ReservationCard = ({ selectedDate, id }) => {
     navigate('/connexion');
   };
 
+  setTimeout(() => {
+    localStorage.removeItem("reservationData");
+    console.log("Les données ont été supprimées du localStorage.");
+}, 150000);
+
   return (
     <div className="border rounded-xl p-6 shadow-lg h-fit bg-white sticky top-4">
       <div className="space-y-4">

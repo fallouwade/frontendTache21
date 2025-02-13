@@ -42,7 +42,7 @@ function App() {
     <Routes>
       {/* Route public */}
       <Route path="/" element={<LayoutCommunautaire id={identifiant} />} />
-      <Route path="/connexion" element={<Connection />} />
+      <Route path="/connexion" element={<Connection id={id}/>} />
       <Route path="/inscriptionPrestataire" element={<InscriptionPrestataire />} />
       <Route path="/motdepasseoublie" element={<MotDePasseOublie />} />
       <Route path="/modifier" element={<ModifieMotDePass />} />
@@ -61,9 +61,8 @@ function App() {
 
 
       {/* Route Réservation avec ID du prestataire */}
-      <Route path="/reservation" element={
-        <Reservation id={id} />
-      } />
+     <Route path="/reservation/:id" element={<Reservation />} />
+
 
 
       {/* Admin Dashboard and nested routes) */}

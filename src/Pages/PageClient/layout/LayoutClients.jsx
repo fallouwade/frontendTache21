@@ -12,7 +12,7 @@ import InfoDemande from "../Components/InfoDemande"
 import ProfilCli from "../Components/ProfilCli"
 import axios from "axios"
 
-const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonne URL
+const API_URL = "http://localhost:5000/api" // Assurez-vous que c'est la bonne URL
 
 function LayoutClients(props) {
   const location = useLocation()

@@ -8,7 +8,7 @@ import * as motion from "motion/react-client";
 import logo from "/images/logo.png"
 
 
-const Reservation = (props) => {
+const Reservation = () => {
   const { id } = useParams();
   const [prestataire, setPrestataire] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,12 +27,12 @@ const Reservation = (props) => {
   const user = JSON.parse(localStorage.getItem("user"))
 
 
-  console.log(props.id)
+  console.log(id)
   useEffect(() => {
     const fetchPrestataire = async () => {
       try {
         const response = await fetch(
-          `https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`
+          `https://backendtache21.onrender.com/api/prestataires/complets/${id}`
         );
         if (!response.ok) {
           throw new Error("Erreur lors du chargement du prestataire");
@@ -45,12 +45,12 @@ const Reservation = (props) => {
         setLoading(false);
       }
     };
-
-    if (props.id) {
-      // Assurez-vous que props.id est défini
+  
+    if (id) { // Vérifie que l'ID est bien défini avant de lancer la requête
       fetchPrestataire();
     }
-  }, [props.id]);
+  }, [id]);
+  
 
   if (loading)
     return (
