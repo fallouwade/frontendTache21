@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import SidebarClient from "./SidebarClient"
 import logo from "/images/logo.png"
 import FavoriteButton from "./FavoriteButton"
-import FavoriteBadge from "./FavoriteBadge"
 import MessageButton from "./Messagebutton"
 
 function ProfilClients({

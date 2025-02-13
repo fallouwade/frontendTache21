@@ -63,15 +63,6 @@ function LayoutClients(props) {
 
   console.log(favorites)
 
-  useEffect(() => {
-    fetchFavorites()
-  }, [])
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchFavorites()
-    }
-  }, [isLoggedIn, fetchFavorites])
 
   const fetchServices = async () => {
     setIsLoading(true)

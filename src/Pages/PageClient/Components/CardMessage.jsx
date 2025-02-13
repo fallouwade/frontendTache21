@@ -11,6 +11,8 @@ const categories = [
   { name: "Réparation", icon: "🔧", href: "/services/reparation" },
 ];
 
+const API_URL = "https://backendtache21.onrender.com" ;
+
 function CategoryGrid({ onCategoryClick, selectedCategory }) {
   return (
     <div className="relative">
