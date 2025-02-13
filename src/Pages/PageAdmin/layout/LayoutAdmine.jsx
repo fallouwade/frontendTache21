@@ -2,7 +2,6 @@ import { useState } from "react";
 import NavReutilisable from "../../Composants/NavReutilisable";
 import SidebarAdmin from "..//Components/SidebarAdmin";
 import { FiAlignLeft } from "react-icons/fi";
-import logo from "/images/logo.png";
 
 const LayoutAdmine = ({ children }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -16,7 +15,7 @@ const LayoutAdmine = ({ children }) => {
     const handleSidebarItemClick = () => {
         setSidebarOpen(false);
     };
-
+//
     return (
         <div className="flex w-full fixed max-h-screen bg-[#E8F0FE]">
             <div className="fixed z-40">
@@ -31,7 +30,7 @@ const LayoutAdmine = ({ children }) => {
                         </button>}
 
                     userName={`${userName}`}
-                    logo={<img src={logo} width="120" height="50" />}    
+                    logo={<img src='' width="120" height="50" />}    
 
                     profil="profilAdmin"
                 />

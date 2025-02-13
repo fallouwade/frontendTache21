@@ -44,7 +44,7 @@ const CategorieAjout = ({ ajouterCategorie }) => {
             id="categorie"
             value={categorie}
             onChange={(e) => setCategorie(e.target.value)} 
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>} 
@@ -52,7 +52,7 @@ const CategorieAjout = ({ ajouterCategorie }) => {
         <button
           type="submit"
           disabled={loading} 
-          className={`w-full p-3 text-white rounded-md ${loading ? 'bg-gray-500' : 'bg-blue-500'} hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full p-3 text-white rounded-xl ${loading ? 'bg-gray-500' : 'bg-blue-500'} hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         >
           {loading ? "Chargement..." : "Ajouter une catégorie"}
         </button>

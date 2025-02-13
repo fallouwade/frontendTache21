@@ -1,35 +1,39 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners"; // Ajout du spinner
 import DetailsPrestataire from "./DetailsPrestataire";
 import GalleryPrestatiare from "./GallerryPrestataire";
-import ProfilClients from "../PageClient/Components/ProfilClients"; // Vérifie bien le nom du fichier
+import ProfilClients from "../PageClient/Components/ProfilClients"; 
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import * as motion from "motion/react-client";
 
 
+//
 const Reservation = (props) => {
   const { id } = useParams();
   const [prestataire, setPrestataire] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isPrestataire, setIsPrestataire] = useState(false)
+  const [isPrestataire, setIsPrestataire] = useState(false);
 
   useEffect(() => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"))
-      setIsPrestataire(user.role === "prestataire")
+      const user = JSON.parse(localStorage.getItem("user"));
+      setIsPrestataire(user.role === "prestataire");
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }, [])
+  }, []);
 
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  console.log(props.id)
+  console.log(props.id);
   useEffect(() => {
     const fetchPrestataire = async () => {
       try {
-        const response = await fetch(`https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`);
+        const response = await fetch(
+          `https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`
+        );
         if (!response.ok) {
           throw new Error("Erreur lors du chargement du prestataire");
         }
@@ -42,26 +46,34 @@ const Reservation = (props) => {
       }
     };
 
-    if (props.id) { // Assurez-vous que props.id est défini
+    if (props.id) {
+      // Assurez-vous que props.id est défini
       fetchPrestataire();
     }
   }, [props.id]);
 
-  if (loading) 
+  if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
-        <ClipLoader size={50} color="#3498db" loading={loading} />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: 'loop', ease: 'linear' }}
+        >
+          <img src={logo} alt="Chargement..." className=" h-24" />
+        </motion.div>
       </div>
     );
 
-  if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
-  if (!prestataire) return <div className="text-center mt-10">Prestataire introuvable</div>;
+  if (error)
+    return <div className="text-red-500 text-center mt-10">{error}</div>;
+  if (!prestataire)
+    return <div className="text-center mt-10">Prestataire introuvable</div>;
 
   return (
     <div className="min-h-screen flex flex-col">
       <div>
         {user && (
-          < ProfilClients
+          <ProfilClients
             isLoggedIn={true}
             userName={user.nom}
             userEmail={user.email}
@@ -96,3 +108,4 @@ const Reservation = (props) => {
 };
 
 export default Reservation;
+//

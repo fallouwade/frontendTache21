@@ -2,9 +2,12 @@ import { useState } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaArrowLeft } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const GalleryPrestatiare = ({ prestataire }) => {
   const [showMobileCarousel, setShowMobileCarousel] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   const settings = {
     dots: true,
@@ -34,6 +37,7 @@ const GalleryPrestatiare = ({ prestataire }) => {
           Bonjour, je suis {prestataire.prenom} {prestataire.nom}
         </h1>
       </div>
+
       <p className="text-lg text-gray-700 mb-6">
         Je m'appelle {prestataire.prenom} {prestataire.nom}, et je suis spécialisé dans tous vos travaux de{" "}
         {prestataire.services.length > 0 ? prestataire.services[0].categorie : "divers services"}.
@@ -72,21 +76,18 @@ const GalleryPrestatiare = ({ prestataire }) => {
 
       {/* Modal plein écran pour mobile */}
       {showMobileCarousel && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50">
-          <div className="relative h-full">
-            <button
-              onClick={() => setShowMobileCarousel(false)}
-              className="absolute top-4 right-4 z-10 text-white bg-black/50 p-2 rounded-full"
-            >
-              <span className="text-2xl">×</span>
-            </button>
-            <div className="carousel h-full">
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center">
+          <button onClick={() => setShowMobileCarousel(false)} className="absolute top-4 right-4 text-white bg-black/50 p-2 rounded-full">
+            <span className="text-2xl">×</span>
+          </button>
+          <div className="w-full max-w-md">
+            <Slider {...settings}>
               {images.map((image, index) => (
                 <div key={index} className="carousel-item h-full w-full relative">
                   <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
                 </div>
               ))}
-            </div>
+            </Slider>
           </div>
         </div>
       )}
