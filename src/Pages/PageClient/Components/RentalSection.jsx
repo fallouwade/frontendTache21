@@ -51,7 +51,7 @@ function RentalSection({
       </section>
     )
   }
-  console.log(services)
+  console.log(services, favorites)
 
   return (
     <section className="py-8 bg-gray-50">
