@@ -38,7 +38,7 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
         }
         const data = await response.json()
         // Filtrer pour n'avoir que les services non archivés
-        setServices(data.filter((service) => !service.archiver))
+        setServices(data.filter((service) => !service.archive))
       } catch (err) {
         setError("Failed to load services. Please try again later.")
       } finally {
