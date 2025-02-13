@@ -61,9 +61,8 @@ function App() {
 
 
       {/* Route Réservation avec ID du prestataire */}
-      <Route path="/reservation" element={
-        <Reservation id={id} />
-      } />
+     <Route path="/reservation/:id" element={<Reservation />} />
+
 
 
       {/* Admin Dashboard and nested routes) */}
