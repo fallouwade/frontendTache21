@@ -10,7 +10,8 @@ import {
   FaUser,
   FaChevronDown,
   FaPhone,
-  FaMapMarkerAlt
+  FaMapMarkerAlt,
+  FaSpinner // Ajout de l'icône de chargement
 } from "react-icons/fa"
 
 const InfoDemande = () => {
@@ -20,6 +21,7 @@ const InfoDemande = () => {
   const [statusFilter, setStatusFilter] = useState("all")
   const [expandedRequest, setExpandedRequest] = useState(null)
   const [userId, setUserId] = useState(null)
+  const [loading, setLoading] = useState(true) // État pour gérer le chargement
   const API_BASE_URL = "https://backendtache21.onrender.com/api"
 
   // Récupération de l'id 
@@ -40,6 +42,8 @@ const InfoDemande = () => {
       if (!userId) return
 
       try {
+        setLoading(true) // Démarrer le chargement
+
         const token = localStorage.getItem('token')
         if (!token) {
           throw new Error('No token found')
@@ -63,6 +67,8 @@ const InfoDemande = () => {
         setFilteredRequests(userRequests)
       } catch (err) {
         console.error("Erreur lors de la récupération des demandes:", err)
+      } finally {
+        setLoading(false) // Fin du chargement
       }
     }
 
@@ -183,8 +189,12 @@ const InfoDemande = () => {
           </div>
         </div>
 
-        {/* Rest of the component remains the same */}
-        {filteredRequests.length === 0 ? (
+        {/* Affichage du chargement */}
+        {loading ? (
+          <div className="flex justify-center items-center py-8">
+            <FaSpinner className="animate-spin text-blue-500 text-4xl" />
+          </div>
+        ) : filteredRequests.length === 0 ? (
           <p className="text-gray-600 text-center py-8">
             Aucune demande de service ne correspond à votre recherche.
           </p>

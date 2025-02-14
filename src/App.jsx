@@ -27,6 +27,8 @@ import LesDemandes from "./prestataire/LesDemandes.jsx";
 import ProfilDuPrestataire from "./prestataire/ProfilDuPrestataire.jsx";
 import AjouterServicesPrestataire from "./prestataire/AjouterServicesPrestataire.jsx";
 import InfoDemande from "./Pages/PageClient/Components/InfoDemande.jsx";
+import Desinscription from "./newsLetter/Desinscription.jsx";
+import EnvoyerNewsletter from "./Pages/PageAdmin/Components/EnvoyerNewsletter.jsx";
 
 
 function App() {
@@ -40,6 +42,7 @@ function App() {
   return (
 
     <Routes>
+      
       {/* Route public */}
       <Route path="/" element={<LayoutCommunautaire id={identifiant} />} />
       <Route path="/connexion" element={<Connection id={id}/>} />
@@ -76,6 +79,7 @@ function App() {
         <Route path="prestataire/profil/:id" element={<ProfilPrestataire />} />
         <Route path="clients" element={<InfoClients />} />
         <Route path="categories" element={<Categorie />} />
+        <Route path="envoyerNewsletter" element={<EnvoyerNewsletter />} />
       </Route>
 
 
@@ -104,7 +108,12 @@ function App() {
           <AjouterServicesPrestataire />
         </ProtectionRoute>
       } />
+
+      {/* route pour la desinscription du newsletter */}
+
+      <Route path="/desinscrire"  element={<Desinscription/>}/>
     </Routes>
+
 
 
   )

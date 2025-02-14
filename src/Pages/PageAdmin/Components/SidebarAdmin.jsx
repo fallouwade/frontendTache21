@@ -2,18 +2,21 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaUsersGear, FaUserTie } from "react-icons/fa6";
 import {RxDashboard} from "react-icons/rx";
-import {BiSolidCategoryAlt} from "react-icons/bi";
+import {BiSolidCategoryAlt } from "react-icons/bi";
+import { FaPaperPlane } from "react-icons/fa";
 
 const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState('');
 
   const menuItems = [
-    { id: 'dashboard', icon: <RxDashboard />, label: 'Dashboard', route: '/dashboardAdmin', basePath: '/dashboardAdmin' },
-    { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/dashboardAdmin/prestataire', basePath: '/dashboardAdmin/prestataire' },
-    { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/dashboardAdmin/clients', basePath: '/dashboardAdmin/clients' },
-    { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/dashboardAdmin/categories', basePath: '/dashboardAdmin/categories' }
-  ];
+  { id: 'dashboard', icon: <RxDashboard />, label: 'Dashboard', route: '/dashboardAdmin', basePath: '/dashboardAdmin' },
+  { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/dashboardAdmin/prestataire', basePath: '/dashboardAdmin/prestataire' },
+  { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/dashboardAdmin/clients', basePath: '/dashboardAdmin/clients' },
+  { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/dashboardAdmin/categories', basePath: '/dashboardAdmin/categories' },
+  { id: 'newsletter', icon: <FaPaperPlane />, label: 'Envoyer Newsletter', route: '/dashboardAdmin/envoyerNewsletter', basePath: '/dashboardAdmin/envoyerNewsletter' }  // Ajout du lien pour la newsletter
+];
+
 
   useEffect(() => {
     const currentPath = location.pathname;
