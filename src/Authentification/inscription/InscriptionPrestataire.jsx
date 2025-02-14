@@ -27,6 +27,7 @@ const InscriptionPrestataire = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // devenir prestataire 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
@@ -35,6 +36,8 @@ const InscriptionPrestataire = () => {
         nom: user.nom,
         prenom: user.prenom,
         email: user.email,
+        motDePasse:user.motDePasse,
+        confirmMotDePasse: user.confirmMotDePasse,
       });
     }
   }, []);
