@@ -1,37 +1,39 @@
-// Reservation.jsx
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DetailsPrestataire from "./DetailsPrestataire";
 import GalleryPrestatiare from "./GallerryPrestataire";
-import ProfilClients from "../PageClient/Components/ProfilClients";
+import ProfilClients from "../PageClient/Components/ProfilClients"; 
 import { Link } from "react-router-dom";
+import * as motion from "motion/react-client";
+import logo from "/images/logo.png"
 
 
-const Reservation = (props) => {
+const Reservation = () => {
   const { id } = useParams();
   const [prestataire, setPrestataire] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isPrestataire, setIsPrestataire] = useState(false)
-
- 
+  const [isPrestataire, setIsPrestataire] = useState(false);
 
   useEffect(() => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"))
-      setIsPrestataire(user.role === "prestataire")
-
+      const user = JSON.parse(localStorage.getItem("user"));
+      setIsPrestataire(user.role === "prestataire");
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }, [])
+  }, []);
 
   const user = JSON.parse(localStorage.getItem("user"))
-  console.log(props.id)
+
+
+  console.log(id)
   useEffect(() => {
     const fetchPrestataire = async () => {
       try {
-        const response = await fetch(`https://backendtache21.onrender.com/api/prestataires/complets/${props.id}`);
+        const response = await fetch(
+          `https://backendtache21.onrender.com/api/prestataires/complets/${id}`
+        );
         if (!response.ok) {
           throw new Error("Erreur lors du chargement du prestataire");
         }
@@ -43,16 +45,29 @@ const Reservation = (props) => {
         setLoading(false);
       }
     };
-
-    if (props.id) { 
+  
+    if (id) { // Vérifie que l'ID est bien défini avant de lancer la requête
       fetchPrestataire();
     }
-  }, [props.id]);
+  }, [id]);
+  
 
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: 'loop', ease: 'linear' }}
+        >
+          <img src={logo} alt="Chargement..." className=" h-24" />
+        </motion.div>
+      </div>
+    );
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>{error}</div>;
-  if (!prestataire) return <div>Prestataire introuvable</div>;
+  if (error)
+    return <div className="text-red-500 text-center mt-10">{error}</div>;
+  if (!prestataire)
+    return <div className="text-center mt-10">Prestataire introuvable</div>;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -86,7 +101,7 @@ const Reservation = (props) => {
               ) : (
                 <Link
                   to="/inscriptionPrestataire"
-                  className="bg-gray-200 text-[12px] md:text-base hover:bg-gray-300 font-normal py-2 sm:px-4 rounded"
+                  className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
                 >
                   Devenir Prestataire
                 </Link>
@@ -108,4 +123,4 @@ const Reservation = (props) => {
 };
 
 export default Reservation;
-
+//

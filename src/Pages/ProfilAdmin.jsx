@@ -176,7 +176,7 @@ const ProfilAdmin = () => {
               {/* Bouton Modifier/Sauvegarder */}
               <button
                 onClick={editable ? handleSubmit : () => setEditable(true)}
-                className="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-3 text-lg font-medium"
+                className="w-full sm:w-auto px-8 py-4 bg-[#0A2342] text-white rounded-xl hover:bg-gray-400 transition-colors flex items-center justify-center space-x-3 text-lg font-medium"
               >
                 {editable ? (
                   <>

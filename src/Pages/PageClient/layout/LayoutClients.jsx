@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import ProfilClients from "../Components/ProfilClients"
 import ServiceGrid from "../Components/ServiceGrid"
@@ -12,7 +12,7 @@ import InfoDemande from "../Components/InfoDemande"
 import ProfilCli from "../Components/ProfilCli"
 import axios from "axios"
 
-const API_URL = "http://localhost:5000/api" // Assurez-vous que c'est la bonne URL
+const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonne URL
 
 function LayoutClients(props) {
   const location = useLocation()
@@ -27,6 +27,8 @@ function LayoutClients(props) {
   const [isPrestataire, setIsPrestataire] = useState(false)
   const [favorites, setFavorites] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
+  const [favoris, setFavoris] = useState([])
 
   useEffect(() => {
     fetchServices()
@@ -35,29 +37,32 @@ function LayoutClients(props) {
 
   useEffect(() => {
     filterServices()
-  }, [services, selectedCategory, searchTerm, favorites]) //This line was flagged for improvement
+  }, [services, selectedCategory, searchTerm, showOnlyFavorites, favorites]) // Corrected dependency list
 
   const checkLoginStatus = () => {
     const token = localStorage.getItem("token")
+
     setIsLoggedIn(!!token)
     if (token) {
       fetchFavorites()
     }
   }
 
-  const fetchFavorites = async () => {
+  const fetchFavorites = useCallback(async () => {
     try {
       const token = localStorage.getItem("token")
       const response = await axios.get(`${API_URL}/favorites`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      setFavorites(response.data.map((fav) => fav.serviceId._id))
-      console.log(response.data)
-
+      setFavorites(response.data.map((fav) => fav.serviceId._id) || [])
     } catch (error) {
       console.error("Erreur lors de la récupération des favoris:", error)
+      setFavorites([]) // Assurez-vous que favorites est toujours un tableau
     }
-  }
+  }, [])
+
+  console.log(favorites)
+
 
   const fetchServices = async () => {
     setIsLoading(true)
@@ -76,44 +81,50 @@ function LayoutClients(props) {
     }
   }
 
-  const toggleFavorite = async (serviceId) => {
-    console.log(serviceId)
-    try {
-      const token = localStorage.getItem("token")
-      if (!token) {
-        console.error("Utilisateur non connecté")
-        return
+  const toggleFavorite = useCallback(
+    async (serviceId) => {
+      try {
+        const token = localStorage.getItem("token")
+        if (!token) {
+          console.error("Utilisateur non connecté")
+          return
+        }
+
+        const headers = { Authorization: `Bearer ${token}` }
+        const isFavorite = favorites.includes(serviceId)
+
+        if (isFavorite) {
+          await axios.post(`${API_URL}/favorites/supprimer/${serviceId}`, {}, { headers })
+
+          setFavorites(favorites.filter((id) => id !== serviceId))
+
+        } else {
+          await axios.post(`${API_URL}/favorites/ajouter/${serviceId}`, {}, { headers })
+          setFavorites([...favorites, serviceId])
+        }
+
+        // Mettre à jour l'état des services
+        setServices(
+          services.map((service) => ({
+            ...service,
+            services: service.services.map((s) => (s.id === serviceId ? { ...s, isFavorite: !isFavorite } : s)),
+          })),
+        )
+        
+      } catch (error) {
+        console.error("Erreur lors de la modification des favoris:", error.response?.data || error.message)
       }
-
-      const headers = { Authorization: `Bearer ${token}` }
-      const isFavorite = favorites.includes(serviceId)
-      console.log(isFavorite, favorites)
-
-      if (isFavorite) {
-        await axios.post(`${API_URL}/favorites/supprimer/${serviceId}`, {}, { headers })
-        setFavorites(favorites.filter((id) => id !== serviceId))
-      } else {
-        await axios.post(`${API_URL}/favorites/ajouter/${serviceId}`, {}, { headers })
-        setFavorites([...favorites, serviceId])
-      }
-
-      // Mettre à jour l'état des services
-      setServices(
-        services.map((service) => ({
-          ...service,
-          services: service.services.map((s) => (s.id === serviceId ? { ...s, isFavorite: !isFavorite } : s)),
-        })),
-      )
-    } catch (error) {
-      console.error("Erreur lors de la modification des favoris:", error.response?.data || error.message)
-      // Vous pouvez ajouter ici une notification pour l'utilisateur
-
-
-    }
-  }
+    },
+    [favorites, services],
+  )
 
   const filterServices = () => {
     let filtered = services
+
+    if (showOnlyFavorites) {
+      filtered = filtered.filter((service) => service.services.some((s) => favorites.includes(s.id)))
+      console.log(filtered)
+    }
 
     if (selectedCategory) {
       filtered = filtered.filter((service) =>
@@ -140,6 +151,10 @@ function LayoutClients(props) {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category === selectedCategory ? null : category)
+  }
+
+  const handleToggleFavoriteFilter = (showFavorites) => {
+    setShowOnlyFavorites(showFavorites)
   }
 
   const indexOfLastService = currentPage * servicesPerPage
@@ -182,9 +197,9 @@ function LayoutClients(props) {
   return (
     <div className="min-h-screen bg-gray-100">
       <ProfilClients
-        isLoggedIn={true}
-        userName={user.nom}
-        userEmail={user.email}
+        isLoggedIn={isLoggedIn}
+        userName={user?.nom}
+        userEmail={user?.email}
         buttonPrest={
           isPrestataire ? (
             <Link
@@ -202,6 +217,11 @@ function LayoutClients(props) {
             </Link>
           )
         }
+        favorites={favorites}
+        favoris={favoris}
+        onToggleFavorite={toggleFavorite}
+        onToggleFavoriteFilter={handleToggleFavoriteFilter}
+        unreadMessages={0} // Remplacez par le nombre réel de messages non lus
       />
       <main>
         <div className="text-center space-y-4">

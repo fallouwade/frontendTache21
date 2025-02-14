@@ -1,8 +1,8 @@
-import Table from "../tableReutilisable/Table";
+import Table from "../tableReutilisable/Table";  
 import { MdOutlineUnarchive, MdOutlineArchive } from "react-icons/md";
-import axios from "axios";  // You can also use fetch instead of axios
 
-const CategorieListe = ({ categories, setCategories }) => {
+const CategorieListe = ({ categories, archiverCategorie }) => {
+
   const columns = [
     {
       header: 'Nom de catégorie',
@@ -10,32 +10,11 @@ const CategorieListe = ({ categories, setCategories }) => {
     },
   ];
 
-  const archiverCategorie = async (categorieId) => {
-    try {
-      const response = await axios.put(`https://backendtache21.onrender.com/api/categories/archiver/${categorieId}`);
-
-      if (response.status === 200) {
-        // Mettre à jour l'archive pour la catégorie
-        setCategories((prevCategories) => 
-          prevCategories.map((categorie) => 
-            categorie._id === categorieId 
-              ? { ...categorie, archive: !categorie.archive } 
-              : categorie
-          )
-        );
-      } else {
-        console.error("Échec de l'archivage de la catégorie.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'archivage de la catégorie:", error);
-    }
-  };
-
   const actionButton = (row) => row.archive ?  
-    <button onClick={() => archiverCategorie(row._id)}>
+    <button onClick={() => archiverCategorie(row.nom)}>
       <MdOutlineUnarchive size={30} style={{ color: 'red' }} />
     </button> : (
-    <button onClick={() => archiverCategorie(row._id)}>
+    <button onClick={() => archiverCategorie(row.nom)}>
       <MdOutlineArchive size={30} style={{ color: 'green' }} />
     </button>
   );
