@@ -12,7 +12,7 @@ import InfoDemande from "../Components/InfoDemande"
 import ProfilCli from "../Components/ProfilCli"
 import axios from "axios"
 
-const API_URL = "http://localhost:5000/api" // Assurez-vous que c'est la bonne URL
+const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonne URL
 
 function LayoutClients(props) {
   const location = useLocation()
@@ -95,7 +95,9 @@ function LayoutClients(props) {
 
         if (isFavorite) {
           await axios.post(`${API_URL}/favorites/supprimer/${serviceId}`, {}, { headers })
+
           setFavorites(favorites.filter((id) => id !== serviceId))
+
         } else {
           await axios.post(`${API_URL}/favorites/ajouter/${serviceId}`, {}, { headers })
           setFavorites([...favorites, serviceId])
@@ -108,6 +110,7 @@ function LayoutClients(props) {
             services: service.services.map((s) => (s.id === serviceId ? { ...s, isFavorite: !isFavorite } : s)),
           })),
         )
+        
       } catch (error) {
         console.error("Erreur lors de la modification des favoris:", error.response?.data || error.message)
       }

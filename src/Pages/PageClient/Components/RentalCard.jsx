@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { FaHeart, FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -16,6 +17,9 @@ function RentalCard({
   onToggleFavorite,
   isLoggedIn,
 }) {
+
+
+
   const handleFavoriteClick = (e) => {
     e.preventDefault(); // Empêche la navigation lors du clic sur le bouton favori
     if (isLoggedIn && onToggleFavorite) {
@@ -24,6 +28,8 @@ function RentalCard({
       console.log("Veuillez vous connecter pour ajouter aux favoris");
     }
   };
+
+ 
 
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
