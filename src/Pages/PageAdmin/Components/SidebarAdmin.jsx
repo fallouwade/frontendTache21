@@ -14,7 +14,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   { id: 'prestataires', icon: <FaUserTie />, label: 'Prestataires', route: '/dashboardAdmin/prestataire', basePath: '/dashboardAdmin/prestataire' },
   { id: 'clients', icon: <FaUsersGear />, label: 'Clients', route: '/dashboardAdmin/clients', basePath: '/dashboardAdmin/clients' },
   { id: 'categories', icon: <BiSolidCategoryAlt />, label: 'Catégories', route: '/dashboardAdmin/categories', basePath: '/dashboardAdmin/categories' },
-  { id: 'newsletter', icon: <FaPaperPlane />, label: 'Envoyer Newsletter', route: '/dashboardAdmin/envoyerNewsletter', basePath: '/dashboardAdmin/envoyerNewsletter' }  // Ajout du lien pour la newsletter
+  { id: 'newsletter', icon: <FaPaperPlane />, label: ' Newsletter ', route: '/dashboardAdmin/envoyerNewsletter', basePath: '/dashboardAdmin/envoyerNewsletter' }  // Ajout du lien pour la newsletter
 ];
 
 
