@@ -48,7 +48,7 @@ function LayoutCommunautaire(props) {
   };
 
   const filterServices = () => {
-    let filtered = services;
+    let filtered = [...services];
 
     if (selectedCategory) {
       filtered = filtered.filter(service => 
@@ -57,11 +57,23 @@ function LayoutCommunautaire(props) {
     }
 
     if (searchTerm.service || searchTerm.location) {
+      // trier pour afficher les services recherchés en premier
+      let matchingServices = filtered.filter(service => 
+        service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase())
+      );
+
+      let otherService = filtered.filter(service =>
+        !service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase())
+      )
       filtered = filtered.filter(service =>
         service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
         (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
          service.departement.toLowerCase().includes(searchTerm.location.toLowerCase()))
       );
+      // mettre en premier les services recherchés
+
+      filtered = [...matchingServices, ...otherService];
+    
     }
 
     setFilteredServices(filtered);
@@ -140,7 +152,7 @@ function LayoutCommunautaire(props) {
               error={error}
               noResults={filteredServices.length === 0 && !isLoading && !error}
               id={props.id}
-
+            
             />
           </div>
          <div>

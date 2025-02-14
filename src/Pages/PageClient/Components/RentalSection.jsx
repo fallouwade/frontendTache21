@@ -13,7 +13,11 @@ function RentalSection({
   favorites = [], // Provide a default empty array
   onToggleFavorite,
   isLoggedIn = false, // Add this prop with a default value
+  searchTerm, // ajout de la prop searchTerm
+  highlightSearch, //ajout de la prop pour mettre en surbrillance le service recherché
 }) {
+  const hasSearch = searchTerm && searchTerm.service.trim() !== "";
+
   const pageNumbers = []
 
   for (let i = 1; i <= Math.ceil(totalServices / servicesPerPage); i++) {
@@ -58,7 +62,28 @@ function RentalSection({
       <div className="max-w-screen-xl mx-auto px-6">
         <h2 className="text-3xl font-semibold text-gray-800 mb-6">Services disponibles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {services.map((service) => (
+          {services.map((service) => {
+            const isHighlighted = hasSearch && highlightSearch && 
+              service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase());
+
+            return (
+              <div
+                key={service.id}
+                className={`p-4 border rounded-lg transition ${isHighlighted ? 'bg-yellow-200 border-yellow-200':''
+                  }`}
+              >
+                <RentalCard
+                  {...service}
+                  identifiant={id}
+                  isFavorite={isLoggedIn && favorites.includes(service.services[0].id)}
+                  onToggleFavorite={isLoggedIn ? () => onToggleFavorite(service.services[0].id) : undefined}
+                  isLoggedIn={isLoggedIn}
+                />
+              </div>
+            );
+          })}
+          {/* {services.map((service) => (
+            
             <RentalCard
               key={service.id}
               {...service}
@@ -67,7 +92,7 @@ function RentalSection({
               onToggleFavorite={isLoggedIn ? () => onToggleFavorite(service.services[0].id) : undefined}
               isLoggedIn={isLoggedIn}
             />
-          ))}
+          ))} */}
         </div>
         {totalServices > servicesPerPage && (
           <div className="flex justify-center mt-8">
@@ -77,9 +102,8 @@ function RentalSection({
                   <li key={number}>
                     <button
                       onClick={() => paginate(number)}
-                      className={`px-4 py-2 border ${
-                        currentPage === number ? "bg-primary-600 text-white" : "bg-white text-gray-500 hover:bg-gray-50"
-                      }`}
+                      className={`px-4 py-2 border ${currentPage === number ? "bg-primary-600 text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                        }`}
                     >
                       {number}
                     </button>
