@@ -3,7 +3,7 @@ import axios from "axios";
 import { Send, Edit, Trash2, Save, Loader, Star } from "lucide-react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Comment({ serviceId }) {
   const [contenu, setContenu] = useState("");
@@ -43,10 +43,12 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires-recu?page=${currentPage}&limit=${commentsPerPage}`
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires-recu?page=${currentPage}&limit=${commentsPerPage}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Trier les commentaires du plus récent au plus ancien
-      const sortedCommentaires = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+      const sortedCommentaires = response.data.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
       setCommentaires(sortedCommentaires);
     } catch (error) {
       setMessage("Erreur lors de la récupération des commentaires.");
@@ -54,24 +56,22 @@ export default function Comment({ serviceId }) {
       setLoading(false);
     }
   };
-  
+
   const getStatistiquesNotes = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/statistique-notes`
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/statistique-notes`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       const stats = response.data || [];
-
-      // Calcul de la moyenne des notes
       let totalNotes = 0;
       let totalAvis = 0;
       stats.forEach((stat) => {
-        totalNotes += stat.note * stat.count; // Multiplie la note par le nombre d'occurrences
-        totalAvis += stat.count; // Additionne le nombre d'avis
+        totalNotes += stat.note * stat.count;
+        totalAvis += stat.count;
       });
-
-      const moyenneNote = totalAvis === 0 ? 0 : totalNotes / totalAvis; // Si aucun avis, on évite la division par zéro
+      const moyenneNote = totalAvis === 0 ? 0 : totalNotes / totalAvis;
       const pourcentageNote = totalAvis === 0 ? 0 : (moyenneNote / 5) * 100;
 
       setStatistiques({ moyenneNote, totalAvis, pourcentageNote });
@@ -84,76 +84,71 @@ export default function Comment({ serviceId }) {
 
   const ajouterCommentaire = async () => {
     if (!token) return toast.error("Token manquant.");
-    if (!contenu.trim()) return toast.error("Le commentaire ne peut pas être vide.");
-  
+    if (!contenu.trim())
+      return toast.error("Le commentaire ne peut pas être vide.");
+
     setLoading(true);
     try {
       const response = await axios.post(
         `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
-        { commentaire: contenu, note },
+        { commentaire: contenu, note, utilisateurType: "Client" }, // Ici, 'Client' est un exemple
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
-      // Rafraîchir les commentaires après l'ajout pour récupérer les plus récents
-      await getCommentaires();  // Récupérer à nouveau les commentaires
-  
+
+      await getCommentaires(); // Rafraîchir les commentaires
       setContenu("");
       setNote(0);
       toast.success("Commentaire ajouté avec succès !");
       getStatistiquesNotes();
     } catch (error) {
-      toast.error(error.response?.data?.message || "Erreur lors de l'ajout du commentaire.");
+      toast.error(
+        error.response?.data?.message ||
+          "Erreur lors de l'ajout du commentaire."
+      );
     } finally {
       setLoading(false);
     }
   };
-  
+
   const modifierCommentaire = async (id) => {
     if (!token || !editContenu.trim()) {
       toast.error("Le commentaire ne peut pas être vide.");
       return;
     }
-  
+
     setLoading(true);
-  
-    // Sauvegarde de l'ancien commentaire pour rollback en cas d'erreur
     const ancienCommentaires = [...commentaires];
-  
-    // Mise à jour immédiate du commentaire en local (optimiste)
+
     setCommentaires((prevCommentaires) =>
       prevCommentaires.map((commentaire) =>
-        commentaire._id === id ? { ...commentaire, commentaire: editContenu, note: editNote } : commentaire
+        commentaire._id === id
+          ? { ...commentaire, commentaire: editContenu, note: editNote }
+          : commentaire
       )
     );
-  
+
     try {
       const response = await axios.put(
         `https://backendtache21.onrender.com/api/commentaires/modifier/${id}`,
         { commentaire: editContenu, note: editNote },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      // Rafraîchir les commentaires après la modification pour récupérer les plus récents
-      await getCommentaires();  // Récupérer à nouveau les commentaires
-  
-      // ✅ Toast de succès
+
+      await getCommentaires(); // Rafraîchir les commentaires
       toast.success("Commentaire modifié avec succès !");
     } catch (error) {
       toast.error("Erreur lors de la modification du commentaire.");
-  
-      // Rollback à l'ancien état en cas d'erreur
-      setCommentaires(ancienCommentaires);
+      setCommentaires(ancienCommentaires); // Rollback en cas d'erreur
     } finally {
       setLoading(false);
       setEditMode(null);
       getStatistiquesNotes();
     }
   };
-  
- 
+
   const supprimerCommentaire = async () => {
     if (!token) return toast.error("Token manquant.");
-  
+
     setLoading(true);
     try {
       await axios.delete(
@@ -161,24 +156,27 @@ export default function Comment({ serviceId }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCommentaires((prevCommentaires) =>
-        prevCommentaires.filter((commentaire) => commentaire._id !== commentaireASupprimer)
+        prevCommentaires.filter(
+          (commentaire) => commentaire._id !== commentaireASupprimer
+        )
       );
-      setShowModal(false);
       toast.success("Commentaire supprimé avec succès !");
       getStatistiquesNotes();
     } catch (error) {
       toast.error("Erreur lors de la suppression du commentaire.");
     } finally {
       setLoading(false);
+      setShowModal(false); // Fermer le modal après la suppression
     }
   };
-  
- 
 
   // Logique de pagination
   const indexOfLastComment = currentPage * commentsPerPage;
   const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const currentComments = commentaires.slice(indexOfFirstComment, indexOfLastComment);
+  const currentComments = commentaires.slice(
+    indexOfFirstComment,
+    indexOfLastComment
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -188,7 +186,9 @@ export default function Comment({ serviceId }) {
 
   return (
     <div className="bg-gray-50 shadow-lg rounded-xl p-6 mx-auto mt-8">
-      <h3 className="text-2xl font-bold text-gray-700 text-center mb-4">Commentaires</h3>
+      <h3 className="text-2xl font-bold text-gray-700 text-center mb-4">
+        Commentaires
+      </h3>
 
       {message && (
         <div
@@ -208,7 +208,9 @@ export default function Comment({ serviceId }) {
           Statistiques des notes
         </h4>
         {loading ? (
-          <p className="text-center text-gray-500">Chargement des statistiques...</p>
+          <p className="text-center text-gray-500">
+            Chargement des statistiques...
+          </p>
         ) : (
           <div className="text-center">
             <div className="mb-4">
@@ -220,7 +222,9 @@ export default function Comment({ serviceId }) {
 
             <div className="relative pt-1 mb-6">
               <div className="flex mb-2 items-center justify-between">
-                <span className="text-sm font-medium text-gray-500">Pourcentage</span>
+                <span className="text-sm font-medium text-gray-500">
+                  Pourcentage
+                </span>
                 <span className="text-sm font-medium text-gray-500">
                   {statistiques.pourcentageNote.toFixed(1)}%
                 </span>
@@ -235,11 +239,17 @@ export default function Comment({ serviceId }) {
 
             <div className="flex justify-center items-center space-x-4 mt-4">
               <div className="text-center">
-                <p className="text-lg text-gray-800 font-semibold">Total des avis</p>
-                <p className="text-xl text-gray-500">{statistiques.totalAvis} avis</p>
+                <p className="text-lg text-gray-800 font-semibold">
+                  Total des avis
+                </p>
+                <p className="text-xl text-gray-500">
+                  {statistiques.totalAvis} avis
+                </p>
               </div>
               <div className="relative w-16 h-16 rounded-full border-4 border-blue-500 flex items-center justify-center">
-                <p className="text-lg text-blue-500 font-bold">{statistiques.totalAvis}</p>
+                <p className="text-lg text-blue-500 font-bold">
+                  {statistiques.totalAvis}
+                </p>
               </div>
             </div>
           </div>
@@ -280,18 +290,29 @@ export default function Comment({ serviceId }) {
           disabled={!contenu.trim() || loading}
           className="w-full flex items-center justify-center gap-2 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-md disabled:bg-gray-400"
         >
-          {loading ? <Loader className="animate-spin" size={18} /> : <>Envoyer <Send size={18} /></>}
+          {loading ? (
+            <Loader className="animate-spin" size={18} />
+          ) : (
+            <>
+              Envoyer <Send size={18} />
+            </>
+          )}
         </button>
       </form>
 
       {/* Liste des commentaires */}
       <div className="mt-6">
         {loading ? (
-          <p className="text-center text-gray-500">Chargement des commentaires...</p>
+          <p className="text-center text-gray-500">
+            Chargement des commentaires...
+          </p>
         ) : currentComments.length > 0 ? (
           <div className="space-y-4">
             {currentComments.map((commentaire) => (
-              <div key={commentaire._id} className="p-4 bg-white rounded-lg shadow-md">
+              <div
+                key={commentaire._id}
+                className="p-4 bg-white rounded-lg shadow-md"
+              >
                 {editMode === commentaire._id ? (
                   <div>
                     <textarea
@@ -329,7 +350,17 @@ export default function Comment({ serviceId }) {
                       ))}
                     </div>
                     <small className="text-gray-500 block mt-2">
-                      📅 {new Date(commentaire.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })} - {new Date(commentaire.date).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                      📅{" "}
+                      {new Date(commentaire.date).toLocaleDateString("fr-FR", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}{" "}
+                      -{" "}
+                      {new Date(commentaire.date).toLocaleTimeString("fr-FR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </small>
                     <div className="mt-3 flex gap-3">
                       <button
@@ -345,7 +376,7 @@ export default function Comment({ serviceId }) {
                       <button
                         onClick={() => {
                           setCommentaireASupprimer(commentaire._id);
-                          setShowModal(true); // Affiche le modal de confirmation
+                          setShowModal(true);
                         }}
                         className="flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all"
                       >
@@ -358,53 +389,58 @@ export default function Comment({ serviceId }) {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500">Aucun commentaire pour ce service pour le moment.</p>
+          <p className="text-center text-gray-500">
+            Aucun commentaire pour ce service pour le moment.
+          </p>
         )}
       </div>
 
-     {/* Pagination */}
-     <div className="flex justify-center items-center mt-6">
-  {/* Bouton "Précédent" */}
-  <button
-    onClick={() => handlePageChange(currentPage - 1)}
-    disabled={currentPage === 1}
-    className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-      currentPage === 1
-        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
-    }`}
-  >
-    <ChevronLeft size={20} className="mr-2" />
-    Précédent
-  </button>
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-6">
+        {/* Bouton "Précédent" */}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+            currentPage === 1
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+          }`}
+        >
+          <ChevronLeft size={20} className="mr-2" />
+          Précédent
+        </button>
 
-  {/* Affichage de la page */}
-  <span className="mx-4 text-lg font-medium text-gray-700">
-    Page {currentPage} sur {totalPages}
-  </span>
+        {/* Affichage de la page */}
+        <span className="mx-4 text-lg font-medium text-gray-700">
+          Page {currentPage} sur {totalPages}
+        </span>
 
-  {/* Bouton "Suivant" */}
-  <button
-    onClick={() => handlePageChange(currentPage + 1)}
-    disabled={currentPage === totalPages}
-    className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-      currentPage === totalPages
-        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
-    }`}
-  >
-    Suivant
-    <ChevronRight size={20} className="ml-2" />
-  </button>
-</div>
-
+        {/* Bouton "Suivant" */}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+            currentPage === totalPages
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+          }`}
+        >
+          Suivant
+          <ChevronRight size={20} className="ml-2" />
+        </button>
+      </div>
 
       {/* Modal de confirmation */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg font-semibold text-gray-700">Confirmation</h3>
-            <p className="text-gray-600 mt-4">Êtes-vous sûr de vouloir supprimer ce commentaire ?</p>
+            <h3 className="text-lg font-semibold text-gray-700">
+              Confirmation
+            </h3>
+            <p className="text-gray-600 mt-4">
+              Êtes-vous sûr de vouloir supprimer ce commentaire ?
+            </p>
             <div className="mt-6 flex justify-end space-x-3">
               <button
                 onClick={() => setShowModal(false)}
