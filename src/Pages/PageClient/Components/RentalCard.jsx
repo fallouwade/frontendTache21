@@ -16,6 +16,8 @@ function RentalCard({
   isFavorite,
   onToggleFavorite,
   isLoggedIn,
+  isHighlighted,
+  ...props
 }) {
 
 
@@ -71,7 +73,7 @@ function RentalCard({
             <span className="text-gray-800">{rating}</span>
           </div>
         </div>
-
+        
         <p className="text-lg font-semibold text-gray-900">{prenom}</p>
 
         <div className="flex justify-end mt-2">

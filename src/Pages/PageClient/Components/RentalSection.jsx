@@ -16,7 +16,7 @@ function RentalSection({
   searchTerm, // ajout de la prop searchTerm
   highlightSearch, //ajout de la prop pour mettre en surbrillance le service recherché
 }) {
-  const hasSearch = searchTerm && searchTerm.service.trim() !== "";
+  // const hasSearch = searchTerm && searchTerm.service.trim() !== "";
 
   const pageNumbers = []
 
@@ -63,14 +63,16 @@ function RentalSection({
         <h2 className="text-3xl font-semibold text-gray-800 mb-6">Services disponibles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {services.map((service) => {
-            const isHighlighted = hasSearch && highlightSearch && 
-              service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase());
-
+            const isHighlighted =
+            highlightSearch &&
+            service.services.some((s) => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase()))
+           
             return (
               <div
                 key={service.id}
-                className={`p-4 border rounded-lg transition ${isHighlighted ? 'bg-yellow-200 border-yellow-200':''
+                className={`p-4 border rounded-lg transition ${isHighlighted ? "bg-white border-yellow-500" : "bg-white border-white  "
                   }`}
+
               >
                 <RentalCard
                   {...service}
@@ -82,17 +84,7 @@ function RentalSection({
               </div>
             );
           })}
-          {/* {services.map((service) => (
-            
-            <RentalCard
-              key={service.id}
-              {...service}
-              identifiant={id}
-              isFavorite={isLoggedIn && favorites.includes(service.services[0].id)}
-              onToggleFavorite={isLoggedIn ? () => onToggleFavorite(service.services[0].id) : undefined}
-              isLoggedIn={isLoggedIn}
-            />
-          ))} */}
+          
         </div>
         {totalServices > servicesPerPage && (
           <div className="flex justify-center mt-8">
