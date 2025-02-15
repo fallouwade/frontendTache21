@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, FileText, User, PlusCircle } from "lucide-react";
 import NavPrestataire from "./NavPrestataire";
 
-
 const navigation = [
   { name: "Dashboard", path: "/dashboard", icon: Home },
   { name: "Demandes", path: "/les-demande", icon: FileText },
@@ -30,17 +29,12 @@ export default function SidebarPrestataire({ children }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <NavPrestataire className="fixed top-0 left-0 right-0 z-50" />
+      <NavPrestataire 
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+        isSidebarOpen={isSidebarOpen}
+      />
 
       <div className="flex relative">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-gray-800 text-white md:hidden"
-        >
-          {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
         {/* Sidebar Overlay */}
         {isSidebarOpen && (
           <div
@@ -49,7 +43,7 @@ export default function SidebarPrestataire({ children }) {
           />
         )}
 
-        {/* Fixed Sidebar */}
+        {/* Sidebar */}
         <aside
           className={`fixed md:fixed top-16 bottom-0 left-0 w-64 bg-gray-900 transform transition-transform duration-200 ease-in-out z-40 
             ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}

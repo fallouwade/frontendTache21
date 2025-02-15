@@ -199,23 +199,25 @@ function LayoutClients(props) {
         isLoggedIn={isLoggedIn}
         userName={user?.nom}
         userEmail={user?.email}
-        buttonPrest={
-          isPrestataire ? (
-            <Link
-              to="/dashboard"
-              className="bg-gray-100 text-[12px] md:text-base hover:bg-gray-300 text-gray-700 font-normal py-2 sm:px-4 rounded"
-            >
-              Retour à mon compte
-            </Link>
-          ) : (
-            <Link
-              to="/inscriptionPrestataire"
-              className="bg-gray-200 text-[12px] md:text-base hover:bg-gray-300 font-normal py-2 sm:px-4 rounded"
-            >
-              Devenir Prestataire
-            </Link>
-          )
-        }
+        buttonPrest=
+        {isPrestataire ? (
+          <Link
+            to="/dashboard"
+            className="inline-flex items-center whitespace-nowrap bg-blue-500 md:bg-gray-100 text-[10px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-white md:text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 mr-2 rounded transition-all"
+          >
+            Retour à mon compte
+          </Link>
+        ) : (
+          <Link
+            to="/inscriptionPrestataire"
+            className="inline-flex items-center whitespace-nowrap bg-blue-500 md:bg-gray-200 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-white md:text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 rounded transition-all"
+          >
+            Devenir Prestataire
+          </Link>
+        )}
+
+
+        
         favorites={favorites}
         favoris={favoris}
         onToggleFavorite={toggleFavorite}
