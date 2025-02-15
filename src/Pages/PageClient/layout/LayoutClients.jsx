@@ -117,32 +117,49 @@ function LayoutClients(props) {
     [favorites, services],
   )
 
+
+
   const filterServices = () => {
-    let filtered = services
+    let filtered = [...services];
 
     if (showOnlyFavorites) {
       filtered = filtered.filter((service) => service.services.some((s) => favorites.includes(s.id)))
       console.log(filtered)
     }
 
+
     if (selectedCategory) {
-      filtered = filtered.filter((service) =>
-        service.services.some((s) => s.categorie.toLowerCase() === selectedCategory.toLowerCase()),
-      )
+      filtered = filtered.filter(service => 
+        service.services.some(s => s.categorie.toLowerCase() === selectedCategory.toLowerCase())
+      );
     }
 
     if (searchTerm.service || searchTerm.location) {
-      filtered = filtered.filter(
-        (service) =>
-          service.services.some((s) => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
-          (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
-            service.departement.toLowerCase().includes(searchTerm.location.toLowerCase())),
+      // trier pour afficher les services recherchés en premier
+      let matchingServices = filtered.filter(service => 
+        service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase())
+      );
+
+      let otherService = filtered.filter(service =>
+        !service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase())
       )
+      filtered = filtered.filter(service =>
+        service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
+        (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
+         service.departement.toLowerCase().includes(searchTerm.location.toLowerCase()))
+      );
+      // mettre en premier les services recherchés
+
+      filtered = [...matchingServices, ...otherService];
+    
     }
 
-    setFilteredServices(filtered)
-    setCurrentPage(1)
-  }
+    setFilteredServices(filtered);
+    setCurrentPage(1);
+  };
+
+
+
 
   const handleSearch = (service, location) => {
     setSearchTerm({ service, location })
