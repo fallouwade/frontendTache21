@@ -1,4 +1,3 @@
-"use client"
 
 import { useState, useEffect, useCallback } from "react"
 import { Outlet, useLocation } from "react-router-dom"

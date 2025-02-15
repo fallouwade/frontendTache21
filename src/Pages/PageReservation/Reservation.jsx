@@ -5,7 +5,7 @@ import GalleryPrestatiare from "./GallerryPrestataire";
 import ProfilClients from "../PageClient/Components/ProfilClients"; 
 import { Link } from "react-router-dom";
 import * as motion from "motion/react-client";
-import logo from "/images/logo.png"
+import logo from "../../assets/logo.png"
 
 
 const Reservation = () => {
