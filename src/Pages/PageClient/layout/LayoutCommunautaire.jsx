@@ -87,14 +87,12 @@ function LayoutCommunautaire(props) {
       <Navbar 
       
       buttonPrest={
-
-          <Link
-            to="/inscriptionPrestataire"
-            className="hover:bg-gray-300 py-2 px-5 rounded-full transition text-sm font-medium cursor-pointer"
-          >
-            Devenir Prestataire
-          </Link>
-        
+        <Link 
+          to="/inscriptionPrestataire" 
+          className="bg-gray-100 hover:bg-gray-200 py-2 px-5 ml-2 rounded-full transition text-sm font-medium cursor-pointer whitespace-nowrap shadow-sm flex items-center"
+        >
+          Devenir Prestataire
+        </Link>
       }
     />
       <main>
