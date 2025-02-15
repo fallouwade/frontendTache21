@@ -44,7 +44,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires-recu?page=${currentPage}&limit=${commentsPerPage}`,
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires-recu?page=${currentPage}&limit=${commentsPerPage}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const sortedCommentaires = response.data.sort(
@@ -62,7 +62,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/statistique-notes`,
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/statistique-notes`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const stats = response.data || [];
@@ -91,7 +91,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires`,
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
         { commentaire: contenu, note, utilisateurType: "Client" }, // Ici, 'Client' est un exemple
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -130,7 +130,7 @@ export default function Comment({ serviceId }) {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/commentaires/modifier/${id}`,
+        `https://backendtache21.onrender.com/api/commentaires/modifier/${id}`,
         { commentaire: editContenu, note: editNote },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -153,7 +153,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       await axios.delete(
-        `http://localhost:5000/api/commentaires/supprimer/${commentaireASupprimer}`,
+        `https://backendtache21.onrender.com/api/commentaires/supprimer/${commentaireASupprimer}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCommentaires((prevCommentaires) =>
