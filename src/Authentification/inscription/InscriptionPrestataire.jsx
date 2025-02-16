@@ -229,7 +229,7 @@ const InscriptionPrestataire = () => {
                   name="motDePasse"
                   value={formData.motDePasse}
                   onChange={handleChange}
-                  maxLength="6" // Limitation à 6 caractères
+                 // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
@@ -254,10 +254,10 @@ const InscriptionPrestataire = () => {
                   name="confirmMotDePasse"
                   value={formData.confirmMotDePasse}
                   onChange={handleChange}
-                  maxLength="6" // Limitation à 6 caractères
+                 // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
-                  readOnly
+                  
                 />
                 <span
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
