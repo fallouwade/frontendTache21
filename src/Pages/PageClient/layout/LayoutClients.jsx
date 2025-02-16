@@ -220,14 +220,14 @@ function LayoutClients(props) {
         {isPrestataire ? (
           <Link
             to="/dashboard"
-            className="inline-flex items-center whitespace-nowrap bg-blue-500 md:bg-gray-100 text-[10px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-white md:text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 mr-2 rounded transition-all"
+            className="inline-flex items-center whitespace-nowrap bg-gray-100 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 mr-2 rounded transition-all"
           >
             Retour à mon compte
           </Link>
         ) : (
           <Link
             to="/inscriptionPrestataire"
-            className="inline-flex items-center whitespace-nowrap bg-blue-500 md:bg-gray-200 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-white md:text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 rounded transition-all"
+            className="inline-flex items-center whitespace-nowrap bg-gray-200 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 rounded transition-all"
           >
             Devenir Prestataire
           </Link>
@@ -243,10 +243,10 @@ function LayoutClients(props) {
       />
       <main>
         <div className="text-center space-y-4">
-          <h1 className="text-3xl pt-24 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+          <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
             Trouvez le bon professionnel près de chez vous
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg px-3 text-gray-600">
             Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
           </p>
         </div>
