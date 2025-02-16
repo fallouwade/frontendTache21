@@ -168,7 +168,7 @@ const InfoDemande = () => {
         <div className="w-full bg-white text-gray flex items-center justify-between">
           <button
             onClick={() => navigate(-1)} // Naviguer vers la page précédente
-            className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-500 hover:border-gray-500 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
+            className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700  transition-all duration-300 transform hover:scale-105   flex items-center justify-center"
           >
             <FaArrowLeft />
           </button>

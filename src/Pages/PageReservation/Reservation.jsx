@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DetailsPrestataire from "./DetailsPrestataire";
 import GalleryPrestatiare from "./GallerryPrestataire";
-import ProfilClients from "../PageClient/Components/ProfilClients"; 
+import ProfilClients from "../PageClient/Components/ProfilClients";
 import { Link } from "react-router-dom";
 import * as motion from "motion/react-client";
 import logo from "../../assets/logo.png"
+import { useNavigate } from 'react-router-dom';
+import {
+  FaArrowLeft
+} from "react-icons/fa"
 
 
 const Reservation = () => {
@@ -25,7 +29,7 @@ const Reservation = () => {
   }, []);
 
   const user = JSON.parse(localStorage.getItem("user"))
-
+  const navigate = useNavigate();
 
   console.log(id)
   useEffect(() => {
@@ -45,12 +49,12 @@ const Reservation = () => {
         setLoading(false);
       }
     };
-  
+
     if (id) { // Vérifie que l'ID est bien défini avant de lancer la requête
       fetchPrestataire();
     }
   }, [id]);
-  
+
 
   if (loading)
     return (
@@ -71,8 +75,8 @@ const Reservation = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-     
-       <div>
+
+      <div>
         {/* Vérification si l'utilisateur est connecté */}
         {!user ? (
           <ProfilClients
@@ -110,9 +114,18 @@ const Reservation = () => {
           />
         )}
       </div>
-      <div>
+     
+      <div className="px-3">
+      <div className="w-full bg-white text-gray flex items-center mt-10 justify-between">
+        <button
+          onClick={() => navigate(-1)} // Naviguer vers la page précédente
+          className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700  transition-all duration-300 transform hover:scale-105   flex items-center justify-center"
+        >
+          <FaArrowLeft />
+        </button>
       </div>
-      <div className="flex-grow pt-10">
+      </div>
+      <div className="flex-grow pt-3 md:px-5 px-0 ">
         {/* On passe la liste d'images du prestataire au composant galerie */}
         <GalleryPrestatiare prestataire={prestataire} />
         {/* On transmet les informations du prestataire au composant de détails */}
