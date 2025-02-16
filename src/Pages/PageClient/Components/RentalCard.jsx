@@ -23,7 +23,7 @@ function RentalCard({
 
 
   const handleFavoriteClick = (e) => {
-    e.preventDefault(); // Empêche la navigation lors du clic sur le bouton favori
+    e.preventDefault(); // Empêche la navigation lors du clic sur le bouton favoris
     if (isLoggedIn && onToggleFavorite) {
       onToggleFavorite(id);
     } else {
