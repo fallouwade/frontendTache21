@@ -1,3 +1,4 @@
+
 import { ToastContainer, toast } from "react-toastify"; // Importer react-toastify
 import {
   FaCheckCircle,
@@ -146,7 +147,7 @@ const ProfilPrestataire = () => {
   if (erreur) return <p className="text-red-600 text-center mt-4">{erreur}</p>;
   if (isLoading)
     return (
-      <div className="fixed inset-0  flex flex-col items-center justify-center z-50">
+      <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
@@ -156,24 +157,28 @@ const ProfilPrestataire = () => {
             ease: "linear",
           }}
         >
-          <img src={logo} alt="Chargement..." className=" h-24" />
+          <img src={logo} alt="Chargement..." className="h-24" />
         </motion.div>
       </div>
     );
 
   return (
     <SidebarPrestataire>
-      <div className="font-std mb-10 w-full rounded-2xl bg-white p-10 font-normal leading-relaxed text-gray-900 shadow-xl">
-        <div className="flex flex-col mx-10">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-5">
-            <h2 className="mb-5 text-4xl font-bold text-blue-900">
-              Mise à jours de profile
+      {/* Conteneur principal avec padding adaptatif pour mobile */}
+      <div className="font-std mb-10 w-full rounded-2xl bg-white p-4 sm:p-10 font-normal leading-relaxed text-gray-900 shadow-xl">
+        {/* Conteneur flex avec espacement ajusté pour mobile */}
+        <div className="flex flex-col mx-2 sm:mx-10">
+          {/* En-tête avec disposition verticale sur mobile */}
+          <div className="flex flex-col md:flex-row items-center justify-between mb-5 gap-6">
+            {/* Titre avec taille de texte réduite sur mobile */}
+            <h2 className="mb-2 md:mb-5 text-2xl sm:text-4xl font-bold text-blue-900 text-center md:text-left">
+              Mise à jour de profil
             </h2>
             <div className="text-center">
               <div>
                 <img
                   alt="Profile Picture"
-                  className="rounded-full w-32 h-32 mx-auto border-4 border-indigo-800 mb-4 transition-transform duration-300 hover:scale-105 ring ring-gray-300"
+                  className="rounded-full w-24 h-24 sm:w-32 sm:h-32 mx-auto border-4 border-indigo-800 mb-4 transition-transform duration-300 hover:scale-105 ring ring-gray-300"
                   src="https://i.pravatar.cc/300"
                 />
                 <input
@@ -210,82 +215,88 @@ const ProfilPrestataire = () => {
                   </svg>
                 </label>
               </div>
-              <button className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300 ring ring-gray-300 hover:ring-indigo-300">
-                Change Profile Picture
+              {/* Bouton avec taille adaptée pour mobile */}
+              <button className="bg-indigo-800 text-white px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg hover:bg-blue-900 transition-colors duration-300 ring ring-gray-300 hover:ring-indigo-300">
+                Changer la photo
               </button>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          {/* Formulaire avec espacement vertical augmenté pour mobile */}
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
+                <label className="font-medium text-gray-700 flex items-center mb-1">
                   <FaUser className="mr-2" /> Nom
                 </label>
+                {/* Input avec gestion du débordement de texte */}
                 <input
                   type="text"
                   value={nom}
                   onChange={(e) => setNom(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300 text-sm sm:text-base overflow-ellipsis"
                   required
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
+                <label className="font-medium text-gray-700 flex items-center mb-1">
                   <FaUser className="mr-2" /> Prénom
                 </label>
                 <input
                   type="text"
                   value={prenom}
                   onChange={(e) => setPrenom(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300 text-sm sm:text-base overflow-ellipsis"
                   required
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
+                <label className="font-medium text-gray-700 flex items-center mb-1">
                   <FaEnvelope className="mr-2" /> Email
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300 text-sm sm:text-base overflow-ellipsis"
                   required
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
+                <label className="font-medium text-gray-700 flex items-center mb-1">
                   <FaPhoneAlt className="mr-2" /> Téléphone
                 </label>
                 <input
                   type="text"
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
+                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300 text-sm sm:text-base overflow-ellipsis"
                   required
                 />
               </div>
 
+              {/* Champ de description qui s'étend sur toute la largeur */}
               <div className="col-span-1 sm:col-span-2">
-                <label className="font-medium text-gray-700 flex items-center">
+                <label className="font-medium text-gray-700 flex items-center mb-1">
                   <FaMapMarkerAlt className="mr-2" /> Description
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300"
-                  rows="2"
+                  className="w-full p-2 rounded-xl focus:ring focus:ring-blue-300 text-sm sm:text-base"
+                  rows="3"
                 />
               </div>
             </div>
 
-            <div className="text-center">
+            {/* Bouton centré avec marge supérieure augmentée sur mobile */}
+            <div className="text-center mt-6 sm:mt-8">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-lg transition duration-300"
+                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 sm:py-3 sm:px-8 rounded-lg transition duration-300 text-sm sm:text-base"
                 disabled={isLoading}
               >
                 {isLoading ? "Mise à jour..." : "Mettre à jour"}
@@ -294,7 +305,7 @@ const ProfilPrestataire = () => {
           </form>
         </div>
       </div>
-      ;
+      
       <ToastContainer /> {/* Afficher le ToastContainer */}
     </SidebarPrestataire>
   );
