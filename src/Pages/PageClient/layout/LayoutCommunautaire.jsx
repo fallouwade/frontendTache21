@@ -177,6 +177,8 @@ function LayoutCommunautaire(props) {
               error={error}
               noResults={filteredServices.length === 0 && !isLoading && !error}
               id={props.id}
+              searchTerm={searchTerm}
+              highlightSearch={true}
             
             />
           </div>
