@@ -34,7 +34,7 @@ function RentalCard({
  
 
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <div className="bg-white rounded-xl  shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="relative w-full h-60 overflow-hidden rounded-t-xl">
         {services.length > 0 && (
           <img

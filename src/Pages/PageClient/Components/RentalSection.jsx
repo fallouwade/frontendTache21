@@ -70,8 +70,7 @@ function RentalSection({
             return (
               <div
                 key={service.id}
-                className={`p-4 border rounded-lg transition ${isHighlighted ? "bg-white border-yellow-500" : "bg-white border-white  "
-                  }`}
+               
 
               >
                 <RentalCard
