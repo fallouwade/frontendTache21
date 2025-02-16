@@ -148,7 +148,7 @@ function LayoutClients(props) {
         (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
          service.departement.toLowerCase().includes(searchTerm.location.toLowerCase()))
       );
-      // mettre en premier les services recherchés
+      // mettre en premier les services recherché
 
       filtered = [...matchingServices, ...otherService];
     
