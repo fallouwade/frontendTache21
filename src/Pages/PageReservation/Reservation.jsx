@@ -118,7 +118,7 @@ const Reservation = () => {
       <div className="px-3">
       <div className="w-full bg-white text-gray flex items-center mt-10 justify-between">
         <button
-          onClick={() => navigate(-1)} // Naviguer vers la page précédente
+          onClick={() => navigate(-1)} // Naviguer vers la page précédent
           className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700  transition-all duration-300 transform hover:scale-105   flex items-center justify-center"
         >
           <FaArrowLeft />
