@@ -1,7 +1,7 @@
 
 import  { useState } from 'react';
 
-const Stats = () => {
+const Stats = () => {   
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);  // État pour les commentaires soumis
 

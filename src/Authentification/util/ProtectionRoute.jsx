@@ -14,9 +14,9 @@ const ProtectionRoute = ({ children, allowedRoles }) => {
     // Redirection basée sur le rôle
     switch (userRole) {
       case 'client':
-        return <Navigate to="/client" replace />;
+        return <Navigate to="/Client" replace />;
       case 'prestataire':
-        return <Navigate to="/accueil" replace />;
+        return <Navigate to="/dashboard" replace />;
       case 'admin':
         return <Navigate to="/dashboardAdmin" replace />;
       default:

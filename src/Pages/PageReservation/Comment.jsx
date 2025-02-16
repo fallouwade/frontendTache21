@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Comment({ serviceId }) {
+
   const [contenu, setContenu] = useState("");
   const [note, setNote] = useState(0);
   const [message, setMessage] = useState("");
@@ -40,6 +41,9 @@ export default function Comment({ serviceId }) {
     }
   }, [serviceId, currentPage]); // Ajout de `currentPage` comme dépendance
 
+
+
+
   const getCommentaires = async () => {
     setLoading(true);
     try {
@@ -69,6 +73,7 @@ export default function Comment({ serviceId }) {
       let totalNotes = 0;
       let totalAvis = 0;
       stats.forEach((stat) => {
+
         totalNotes += stat.note * stat.count;
         totalAvis += stat.count;
       });
@@ -83,6 +88,10 @@ export default function Comment({ serviceId }) {
     }
   };
 
+
+  const user = JSON.parse(localStorage.getItem("user"))
+
+
   const ajouterCommentaire = async () => {
     if (!token) return toast.error("Token manquant.");
     if (!contenu.trim())
@@ -91,8 +100,8 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
-        { commentaire: contenu, note, utilisateurType: "Client" }, // Ici, 'Client' est un exemple
+        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires`,
+        { commentaire: contenu, note, utilisateurType: "Client", commentaireUser: `${user.prenom} ${user.nom}` }, // Ici, 'Client' est un exemple
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
