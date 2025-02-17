@@ -17,7 +17,7 @@ const Temoignages = () => {
   useEffect(() => {
     const fetchTemoignages = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/commentaires/AllCommentaire")
+        const response = await axios.get("https://backendtache21.onrender.com/api/commentaires/AllCommentaire")
         setTemoignages(response.data)
         setLoading(false)
       } catch (err) {
