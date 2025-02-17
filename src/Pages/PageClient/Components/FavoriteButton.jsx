@@ -1,10 +1,10 @@
-import { FaHeart } from "react-icons/fa"
+import { FaHeart } from "react-icons/fa";
 
 function FavoriteButton({ favorites = [], onToggleFavorite, showFavorites }) {
-  const favoritesCount = Array.isArray(favorites) ? favorites.length : 0
+  const favoritesCount = Array.isArray(favorites) ? favorites.length : 0;
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block group">
       <button
         className={`p-2 rounded-full transition-all duration-300 shadow-md ${
           showFavorites ? "bg-red-500 text-white" : "bg-white text-red-500"
@@ -19,9 +19,13 @@ function FavoriteButton({ favorites = [], onToggleFavorite, showFavorites }) {
           {favoritesCount}
         </div>
       )}
+      
+      {/* Tooltip */}
+      <div className="absolute invisible group-hover:visible bg-gray-800 text-white text-sm py-1 px-2 rounded -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+        Favoris
+      </div>
     </div>
-  )
+  );
 }
 
-export default FavoriteButton
-
+export default FavoriteButton;
