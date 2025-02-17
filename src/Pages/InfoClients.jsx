@@ -6,8 +6,15 @@ import Table from './PageAdmin/tableReutilisable/Table';
 
 export default function InfoClients() {
   const [clients, setClients] = useState([]);
+  const [clientsChart, setClientsChart] = useState([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // La fonction qui recupere les date 
+  function getFormattedDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -24,8 +31,23 @@ export default function InfoClients() {
             'Authorization': `Bearer ${token}`
           }
         });
-        setClients(response.data);
-        setLoading(false);
+
+        setClientsChart(response.data);
+
+        // Trier les clients et formater les dates
+        const sortedData = response.data.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        const users = sortedData.map(client => ({
+          ...client,
+          createdAt: getFormattedDate(client.createdAt)
+        }));
+
+        if (users.length) {
+          setClients(users);
+          setLoading(false);
+        }
       } catch (error) {
         console.error('Erreur lors de la récupération des clients:', error);
         setError(error.response?.data?.message || error.message || 'Une erreur est survenue');
@@ -81,9 +103,7 @@ export default function InfoClients() {
         <div className="bg-white bg-opacity-10 rounded-lg p-4 shadow-lg">
           <CardsClient clients={clients} />
         </div>
-        <div className="bg-white bg-opacity-10 rounded-lg p-4 shadow-lg">
-          <ChartClient clients={clients} />
-        </div>
+        <ChartClient clients={clientsChart} />
       </div>
 
       {/* Section Tableau */}
