@@ -154,7 +154,7 @@ const InscriptionPrestataire = () => {
                   onChange={handleChange}
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
-                  readOnly
+                 
                 />
               </div>
               <div className="mb-2 flex-1">
@@ -172,7 +172,7 @@ const InscriptionPrestataire = () => {
                   onChange={handleChange}
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
-                  readOnly
+                 
                 />
               </div>
             </div>
@@ -192,7 +192,7 @@ const InscriptionPrestataire = () => {
                   onChange={handleChange}
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
-                  readOnly
+                 
                 />
               </div>
               <div className="mb-2 flex-1">
@@ -229,7 +229,7 @@ const InscriptionPrestataire = () => {
                   name="motDePasse"
                   value={formData.motDePasse}
                   onChange={handleChange}
-                 // Limitation à 6 caractères
+                   // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
@@ -254,7 +254,7 @@ const InscriptionPrestataire = () => {
                   name="confirmMotDePasse"
                   value={formData.confirmMotDePasse}
                   onChange={handleChange}
-                 // Limitation à 6 caractères
+                // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                   

@@ -71,8 +71,6 @@ function RentalSection({
             return (
               <div
                 key={service.id}
-               
-
               >
                 <RentalCard
                   {...service}
@@ -116,4 +114,3 @@ function RentalSection({
 }
 
 export default RentalSection
-

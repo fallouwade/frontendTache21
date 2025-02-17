@@ -11,14 +11,14 @@ import InfoDemande from "../Components/InfoDemande"
 import ProfilCli from "../Components/ProfilCli"
 import axios from "axios"
 
-const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonne URL
+const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonn URL
 
 function LayoutClients(props) {
   const location = useLocation()
   const [services, setServices] = useState([])
   const [filteredServices, setFilteredServices] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [servicesPerPage] = useState(8)
+  const [servicesPerPage] = useState(4)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
