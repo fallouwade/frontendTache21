@@ -27,6 +27,7 @@ const InscriptionPrestataire = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // devenir prestataire 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
@@ -35,6 +36,8 @@ const InscriptionPrestataire = () => {
         nom: user.nom,
         prenom: user.prenom,
         email: user.email,
+        motDePasse:user.motDePasse,
+        confirmMotDePasse: user.confirmMotDePasse,
       });
     }
   }, []);
@@ -151,6 +154,7 @@ const InscriptionPrestataire = () => {
                   onChange={handleChange}
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
+                  readOnly
                 />
               </div>
               <div className="mb-2 flex-1">
@@ -168,6 +172,7 @@ const InscriptionPrestataire = () => {
                   onChange={handleChange}
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
+                  readOnly
                 />
               </div>
             </div>
@@ -187,6 +192,7 @@ const InscriptionPrestataire = () => {
                   onChange={handleChange}
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
+                  readOnly
                 />
               </div>
               <div className="mb-2 flex-1">
@@ -223,7 +229,7 @@ const InscriptionPrestataire = () => {
                   name="motDePasse"
                   value={formData.motDePasse}
                   onChange={handleChange}
-                  maxLength="6" // Limitation à 6 caractères
+                 // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
                 />
@@ -248,9 +254,10 @@ const InscriptionPrestataire = () => {
                   name="confirmMotDePasse"
                   value={formData.confirmMotDePasse}
                   onChange={handleChange}
-                  maxLength="6" // Limitation à 6 caractères
+                 // Limitation à 6 caractères
                   className="w-full p-2 mt-2 border border-gray-300 rounded-xl"
                   required
+                  
                 />
                 <span
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}

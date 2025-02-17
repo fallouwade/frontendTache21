@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   FaFacebookF,
   FaTwitter,
@@ -6,24 +7,58 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
   FaPaperPlane
-} from 'react-icons/fa';
+} from "react-icons/fa";
 import logo from "/images/logofooterblanc.png";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // success | error
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(""); // Réinitialiser le message
+
+    if (!email) {
+      setMessageType("error");
+      setMessage("Veuillez entrer un email valide.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://backendtache21.onrender.com/api/newsletter/inscrire", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setMessageType("success");
+        setMessage("Inscription réussie !");
+        setEmail(""); // Réinitialiser le champ email
+      } else {
+        setMessageType("error");
+        setMessage(data.message || "Erreur lors de l'inscription.");
+      }
+    } catch (error) {
+      setMessageType("error");
+      setMessage("Problème de connexion au serveur.");
+    }
+  };
+
   return (
     <footer className="bg-[#000000] text-white w-full">
       <div className="container mx-auto px-4 py-12 max-w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="text-center lg:text-left">
-            {/* Logo */}
-              <a href="/" className=" text-2xl font-extrabold">
+            <a href="/" className="text-2xl font-extrabold">
               <img src={logo} alt="Logo" width="160" />
-            
-              </a>
+            </a>
             <p className="text-gray-400 mb-6">
-              Trouvez les meilleurs professionnels près de chez vous. Plombiers, électriciens, Mecaniens, coiffeurs, enseignats Privée et bien plus encore.
+              Trouvez les meilleurs professionnels près de chez vous. Plombiers, électriciens, mécaniciens, coiffeurs, enseignants privés et bien plus encore.
             </p>
-            
           </div>
 
           <div className="text-center lg:text-left">
@@ -32,8 +67,8 @@ const Footer = () => {
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Plomberie</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Électricité</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Coiffure</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Enseignats Privée</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Mecaniens.....</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Enseignants Privés</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Mécaniciens...</a></li>
             </ul>
           </div>
 
@@ -57,19 +92,24 @@ const Footer = () => {
 
           <div className="text-center lg:text-left">
             <h3 className="text-yellow-500 font-bold mb-4">Newsletter</h3>
-            <p className="text-gray-400 mb-4">
-              Restez informé de nos dernières actualités
-            </p>
-            <div className="flex">
+            <p className="text-gray-400 mb-4">Restez informé de nos dernières actualités</p>
+            <form onSubmit={handleNewsletterSubmit} className="flex">
               <input
                 type="email"
                 placeholder="Votre email"
                 className="bg-gray-800 text-white px-4 py-2 rounded-l w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <button className="bg-yellow-500 p-2 rounded-r hover:bg-yellow-600 transition-colors">
+              <button type="submit" className="bg-yellow-500 p-2 rounded-r hover:bg-yellow-600 transition-colors">
                 <FaPaperPlane className="text-gray-900" />
               </button>
-            </div>
+            </form>
+            {message && (
+              <p className={`mt-2 text-sm ${messageType === "success" ? "text-green-400" : "text-red-400"}`}>
+                {message}
+              </p>
+            )}
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-gray-400">
@@ -78,15 +118,9 @@ const Footer = () => {
               © 2025 ServiceLocal. Tous droits réservés.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <FaFacebookF />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <FaTwitter />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <FaYoutube />
-              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><FaFacebookF /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><FaTwitter /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><FaYoutube /></a>
             </div>
           </div>
         </div>
@@ -96,3 +130,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

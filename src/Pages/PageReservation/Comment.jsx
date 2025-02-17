@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Send, Edit, Trash2, Save, Loader, Star } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Comment({ serviceId }) {
+
   const [contenu, setContenu] = useState("");
   const [note, setNote] = useState(0);
   const [message, setMessage] = useState("");
@@ -17,26 +21,40 @@ export default function Comment({ serviceId }) {
     totalAvis: 0,
     pourcentageNote: 0,
   });
+  const [showModal, setShowModal] = useState(false); // État pour afficher ou masquer le modal
+  const [commentaireASupprimer, setCommentaireASupprimer] = useState(null); // ID du commentaire à supprimer
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [commentsPerPage] = useState(4); // Nombre de commentaires par page
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
   }, []);
+  
 
   useEffect(() => {
     if (serviceId) {
       getCommentaires();
       getStatistiquesNotes();
     }
-  }, [serviceId]);
+  }, [serviceId, currentPage]); // Ajout de `currentPage` comme dépendance
+
+
+
 
   const getCommentaires = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires-recu`
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires-recu?page=${currentPage}&limit=${commentsPerPage}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      setCommentaires(response.data || []);
+      const sortedCommentaires = response.data.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+      setCommentaires(sortedCommentaires);
     } catch (error) {
       setMessage("Erreur lors de la récupération des commentaires.");
     } finally {
@@ -48,19 +66,18 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/statistique-notes`
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/statistique-notes`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       const stats = response.data || [];
-
-      // Calcul de la moyenne des notes
       let totalNotes = 0;
       let totalAvis = 0;
       stats.forEach((stat) => {
-        totalNotes += stat.note * stat.count; // Multiplie la note par le nombre d'occurrences
-        totalAvis += stat.count; // Additionne le nombre d'avis
-      });
 
-      const moyenneNote = totalAvis === 0 ? 0 : totalNotes / totalAvis; // Si aucun avis, on évite la division par zéro
+        totalNotes += stat.note * stat.count;
+        totalAvis += stat.count;
+      });
+      const moyenneNote = totalAvis === 0 ? 0 : totalNotes / totalAvis;
       const pourcentageNote = totalAvis === 0 ? 0 : (moyenneNote / 5) * 100;
 
       setStatistiques({ moyenneNote, totalAvis, pourcentageNote });
@@ -71,23 +88,30 @@ export default function Comment({ serviceId }) {
     }
   };
 
+
+  const user = JSON.parse(localStorage.getItem("user"))
+
+
   const ajouterCommentaire = async () => {
-    if (!token) return setMessage("Token manquant.");
+    if (!token) return toast.error("Token manquant.");
     if (!contenu.trim())
-      return setMessage("Le commentaire ne peut pas être vide.");
+      return toast.error("Le commentaire ne peut pas être vide.");
 
     setLoading(true);
     try {
-      await axios.post(
-        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
-        { commentaire: contenu, note },
+      const response = await axios.post(
+        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires`,
+        { commentaire: contenu, note, utilisateurType: "Client", commentaireUser: `${user.prenom} ${user.nom}` }, // Ici, 'Client' est un exemple
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      await getCommentaires(); // Rafraîchir les commentaires
       setContenu("");
       setNote(0);
-      getCommentaires();
+      toast.success("Commentaire ajouté avec succès !");
+      getStatistiquesNotes();
     } catch (error) {
-      setMessage(
+      toast.error(
         error.response?.data?.message ||
           "Erreur lors de l'ajout du commentaire."
       );
@@ -96,46 +120,79 @@ export default function Comment({ serviceId }) {
     }
   };
 
-  const supprimerCommentaire = async (id) => {
-    if (!token) return setMessage("Token manquant.");
-    if (!window.confirm("Voulez-vous vraiment supprimer ce commentaire ?"))
-      return;
-
-    setLoading(true);
-    try {
-      await axios.delete(
-        `https://backendtache21.onrender.com/api/commentaires/supprimer/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      getCommentaires();
-    } catch (error) {
-      setMessage("Erreur lors de la suppression du commentaire.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const modifierCommentaire = async (id) => {
-    if (!token || !editContenu.trim())
-      return setMessage("Le commentaire ne peut pas être vide.");
+    if (!token || !editContenu.trim()) {
+      toast.error("Le commentaire ne peut pas être vide.");
+      return;
+    }
 
     setLoading(true);
+    const ancienCommentaires = [...commentaires];
+
+    setCommentaires((prevCommentaires) =>
+      prevCommentaires.map((commentaire) =>
+        commentaire._id === id
+          ? { ...commentaire, commentaire: editContenu, note: editNote }
+          : commentaire
+      )
+    );
+
     try {
-      await axios.put(
+      const response = await axios.put(
         `https://backendtache21.onrender.com/api/commentaires/modifier/${id}`,
         { commentaire: editContenu, note: editNote },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setEditMode(null);
-      getCommentaires();
+
+      await getCommentaires(); // Rafraîchir les commentaires
+      toast.success("Commentaire modifié avec succès !");
     } catch (error) {
-      setMessage("Erreur lors de la modification du commentaire.");
+      toast.error("Erreur lors de la modification du commentaire.");
+      setCommentaires(ancienCommentaires); // Rollback en cas d'erreur
     } finally {
       setLoading(false);
+      setEditMode(null);
+      getStatistiquesNotes();
     }
   };
+
+  const supprimerCommentaire = async () => {
+    if (!token) return toast.error("Token manquant.");
+
+    setLoading(true);
+    try {
+      await axios.delete(
+        `https://backendtache21.onrender.com/api/commentaires/supprimer/${commentaireASupprimer}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setCommentaires((prevCommentaires) =>
+        prevCommentaires.filter(
+          (commentaire) => commentaire._id !== commentaireASupprimer
+        )
+      );
+      toast.success("Commentaire supprimé avec succès !");
+      getStatistiquesNotes();
+    } catch (error) {
+      toast.error("Erreur lors de la suppression du commentaire.");
+    } finally {
+      setLoading(false);
+      setShowModal(false); // Fermer le modal après la suppression
+    }
+  };
+
+  // Logique de pagination
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComments = commentaires.slice(
+    indexOfFirstComment,
+    indexOfLastComment
+  );
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPages = Math.ceil(commentaires.length / commentsPerPage);
 
   return (
     <div className="bg-gray-50 shadow-lg rounded-xl p-6 mx-auto mt-8">
@@ -166,7 +223,6 @@ export default function Comment({ serviceId }) {
           </p>
         ) : (
           <div className="text-center">
-            {/* Note moyenne avec icône */}
             <div className="mb-4">
               <p className="text-3xl text-gray-800 font-bold flex justify-center items-center">
                 <Star size={30} className="text-yellow-500 mr-2" />
@@ -174,7 +230,6 @@ export default function Comment({ serviceId }) {
               </p>
             </div>
 
-            {/* Barre de progression avec transition fluide */}
             <div className="relative pt-1 mb-6">
               <div className="flex mb-2 items-center justify-between">
                 <span className="text-sm font-medium text-gray-500">
@@ -192,7 +247,6 @@ export default function Comment({ serviceId }) {
               </div>
             </div>
 
-            {/* Total des avis avec un graphique circulaire */}
             <div className="flex justify-center items-center space-x-4 mt-4">
               <div className="text-center">
                 <p className="text-lg text-gray-800 font-semibold">
@@ -262,9 +316,9 @@ export default function Comment({ serviceId }) {
           <p className="text-center text-gray-500">
             Chargement des commentaires...
           </p>
-        ) : commentaires.length > 0 ? (
+        ) : currentComments.length > 0 ? (
           <div className="space-y-4">
-            {commentaires.map((commentaire) => (
+            {currentComments.map((commentaire) => (
               <div
                 key={commentaire._id}
                 className="p-4 bg-white rounded-lg shadow-md"
@@ -330,10 +384,13 @@ export default function Comment({ serviceId }) {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => supprimerCommentaire(commentaire._id)}
+                        onClick={() => {
+                          setCommentaireASupprimer(commentaire._id);
+                          setShowModal(true);
+                        }}
                         className="flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all"
                       >
-                        <Trash2 size={16} /> 
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </>
@@ -347,6 +404,70 @@ export default function Comment({ serviceId }) {
           </p>
         )}
       </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-6">
+        {/* Bouton "Précédent" */}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+            currentPage === 1
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+          }`}
+        >
+          <ChevronLeft size={20} className="mr-2" />
+          Précédent
+        </button>
+
+        {/* Affichage de la page */}
+        <span className="mx-4 text-lg font-medium text-gray-700">
+          Page {currentPage} sur {totalPages}
+        </span>
+
+        {/* Bouton "Suivant" */}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+            currentPage === totalPages
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+          }`}
+        >
+          Suivant
+          <ChevronRight size={20} className="ml-2" />
+        </button>
+      </div>
+
+      {/* Modal de confirmation */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-lg font-semibold text-gray-700">
+              Confirmation
+            </h3>
+            <p className="text-gray-600 mt-4">
+              Êtes-vous sûr de vouloir supprimer ce commentaire ?
+            </p>
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={supprimerCommentaire}
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

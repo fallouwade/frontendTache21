@@ -78,133 +78,138 @@ export default function LesDemandes() {
 
   return (
     <SidebarPrestataire>
-      <div className="min-h-screen p-6">
-        <div className="max-w-4xl mx-auto p-8 rounded-lg shadow-xl">
-          <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">Vos demandes de services</h2>
+    <div className="min-h-screen p-2 sm:p-4 md:p-6">
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-lg shadow-xl bg-white">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center text-blue-600 mb-4 md:mb-6">
+          Vos demandes de services
+        </h2>
 
-          <input
-            type="text"
-            placeholder="Rechercher une demande..."
-            className="w-full p-2 border rounded mb-4"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <input
+          type="text"
+          placeholder="Rechercher une demande..."
+          className="w-full p-2 border rounded mb-4"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-          <div className="flex border-b pb-2 mb-4">
-            {["Nouveaux messages", "Demandes acceptées", "Demandes refusées"].map((tab) => (
-              <button
-                key={tab}
-                className={`px-4 py-2 ${filtre === tab ? "border-b-2 border-black font-semibold" : "text-gray-500"}`}
-                onClick={() => setFiltre(tab)}
+        {/* Tabs responsifs */}
+        <div className="flex flex-col sm:flex-row border-b pb-2 mb-4 gap-2 sm:gap-0">
+          {["Nouveaux messages", "Demandes acceptées", "Demandes refusées"].map((tab) => (
+            <button
+              key={tab}
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base ${
+                filtre === tab 
+                  ? "border-b-2 border-black font-semibold bg-gray-50" 
+                  : "text-gray-500 hover:bg-gray-50"
+              } rounded-t-lg transition-colors`}
+              onClick={() => setFiltre(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="space-y-4 sm:space-y-6">
+          {currentDemandes.filter(demande =>
+            demande.description.toLowerCase().includes(search.toLowerCase())
+          ).length === 0 ? (
+            <p className="text-center text-gray-500 py-4">Aucune demande trouvée.</p>
+          ) : (
+            currentDemandes.filter(demande =>
+              demande.description.toLowerCase().includes(search.toLowerCase())
+            ).map((demande) => (
+              <div
+                key={demande._id}
+                className="bg-slate-100 p-4 sm:p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
               >
-                {tab}
-              </button>
-            ))}
-          </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
+                  Demande de {demande.demandeur?.nom || 'Client'}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 mt-2">{demande.description}</p>
 
-          <div className="space-y-6">
-            {currentDemandes.length === 0 ? (
-              <p className="text-center text-gray-500">Aucune demande trouvée.</p>
-            ) : (
-              currentDemandes.map((demande) => (
-                <div
-                  key={demande._id}
-                  className="bg-slate-100 p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
-                >
-                  <div className="flex justify-between items-start">
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      Demande de {demande.demandeur?.nom || 'Client'}
-                    </h3>
-                    <p className="text-gray-500">
-                      {new Date(demande.date).toLocaleDateString('fr-FR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
+                <div className="mt-4 space-y-2">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                    <p className="text-gray-600 font-medium text-sm sm:text-base">Numéro de téléphone:</p>
+                    <p className="text-gray-800 text-sm sm:text-base">{demande.numeroTelephone}</p>
                   </div>
-                  
-                  <p className="text-gray-600 mt-2">{demande.description}</p>
-
-                  <div className="mt-4 space-y-2">
-                    <div className="flex justify-between">
-                      <p className="text-gray-600 font-medium">Numéro de téléphone:</p>
-                      <p className="text-gray-800">{demande.numeroTelephone}</p>
-                    </div>
-                    <div className="flex justify-between">
-                      <p className="text-gray-600 font-medium">Email :</p>
-                      <p className="text-gray-800">{demande.demandeur?.email || 'Non disponible'}</p>
-                    </div>
-                    <div className="flex justify-between">
-                      <p className="text-gray-600 font-medium">Adresse:</p>
-                      <p className="text-gray-800">{demande.adresse}</p>
-                    </div>
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                    <p className="text-gray-600 font-medium text-sm sm:text-base">Email :</p>
+                    <p className="text-gray-800 text-sm sm:text-base">{demande.demandeur?.email || 'Non disponible'}</p>
                   </div>
-
-                  <div className="mt-6 flex justify-end space-x-4">
-                    {demande.statut === 'accepte' || demande.statut === 'refuse' ? (
-                      <button
-                        disabled
-                        className={`
-                          ${demande.statut === 'accepte' ? 'bg-green-300' : 'bg-red-300'} 
-                          text-white py-2 px-4 rounded-lg cursor-not-allowed
-                        `}
-                      >
-                        {demande.statut === 'accepte' ? 'Acceptée' : 'Refusée'}
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleActionDemande(demande._id, 'accepter')}
-                          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
-                        >
-                          Accepter
-                        </button>
-                        <button
-                          onClick={() => handleActionDemande(demande._id, 'refuser')}
-                          className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
-                        >
-                          Refuser
-                        </button>
-                      </>
-                    )}
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                    <p className="text-gray-600 font-medium text-sm sm:text-base">Adresse:</p>
+                    <p className="text-gray-800 text-sm sm:text-base">{demande.adresse}</p>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
 
-          <div className="flex justify-center space-x-2 mt-4">
-            <button
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-                currentPage === 1
-                  ? 'bg-gray-200 text-gray-700 cursor-not-allowed'
-                  : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
-              }`}
-            >
-              Précédent
-            </button>
+                <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:justify-end gap-2 sm:space-x-4">
+                  {demande.statut === 'accepte' || demande.statut === 'refuse' ? (
+                    <button
+                      disabled
+                      className={`
+                        ${demande.statut === 'accepte' ? 'bg-green-300' : 'bg-red-300'} 
+                        text-white py-2 px-4 rounded-lg cursor-not-allowed w-full sm:w-auto
+                      `}
+                    >
+                      {demande.statut === 'accepte' ? 'Acceptée' : 'Refusée'}
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleActionDemande(demande._id, 'accepter')}
+                        className="w-full sm:w-auto bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+                      >
+                        Accepter
+                      </button>
+                      <button
+                        onClick={() => handleActionDemande(demande._id, 'refuser')}
+                        className="w-full sm:w-auto bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+                      >
+                        Refuser
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
 
-            <p className="px-4 py-2 text-gray-700">
-              Page {currentPage} / {totalPages}
-            </p>
+        {/* Pagination Controls */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:space-x-2 mt-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg transition-colors duration-200 w-full sm:w-auto ${
+              currentPage === 1
+                ? 'bg-gray-200 text-gray-700 cursor-not-allowed'
+                : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
+            }`}
+          >
+            Précédent
+          </button>
 
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-                currentPage === totalPages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
-              }`}
-            >
-              Suivant
-            </button>
-          </div>
+          <p className="px-4 py-2 text-gray-700 text-sm sm:text-base">
+            Page {currentPage} / {totalPages}
+          </p>
+
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg transition-colors duration-200 w-full sm:w-auto ${
+              currentPage === totalPages
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
+            }`}
+          >
+            Suivant
+          </button>
         </div>
       </div>
-    </SidebarPrestataire>
-  );
+    </div>
+  </SidebarPrestataire>
+);
 }
+
+
+

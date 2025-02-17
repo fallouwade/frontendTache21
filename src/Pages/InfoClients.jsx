@@ -19,7 +19,6 @@ export default function InfoClients() {
   useEffect(() => {
     const fetchClients = async () => {
       const token = localStorage.getItem('token');
-
       if (!token) {
         setError('Aucun token trouvé. Veuillez vous reconnecter.');
         setLoading(false);
@@ -55,11 +54,9 @@ export default function InfoClients() {
         setLoading(false);
       }
     };
-
     fetchClients();
   }, []);
 
-  // Colonnes de tableau avec formatage de la date seulement
   const columns = [
     {
       header: 'Prenom',
@@ -78,23 +75,39 @@ export default function InfoClients() {
       accessorKey: 'createdAt',
       cell: ({ getValue }) => {
         const date = new Date(getValue());
-        return date.toLocaleDateString('fr-FR'); // Affiche uniquement la date
+        return date.toLocaleDateString('fr-FR');
       }
     }
   ];
 
-  if (loading) return <p>Chargement...</p>;
-  if (error) return <p>Erreur : {error}</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg">Chargement...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg text-red-500">Erreur : {error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="sm:px-5 mb-10 relative">
-      <div className="grid md:grid-cols-2 gap-6 p-4">
-        <div className="bg-white bg-opacity-10 rounded-lg relative">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Section Cards et Graphique */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white bg-opacity-10 rounded-lg p-4 shadow-lg">
           <CardsClient clients={clients} />
         </div>
         <ChartClient clients={clientsChart} />
       </div>
-      <div className="grid grid-cols-1 p-5 md:p-0 mx-8">
+
+      {/* Section Tableau */}
+      <div className="bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden">
         <Table
           columns={columns}
           data={clients}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom';
 import {
   FaCheck,
   FaTimes,
@@ -10,7 +11,9 @@ import {
   FaUser,
   FaChevronDown,
   FaPhone,
-  FaMapMarkerAlt
+  FaMapMarkerAlt,
+  FaSpinner, // Ajout de l'icône de chargement
+  FaArrowLeft
 } from "react-icons/fa"
 
 const InfoDemande = () => {
@@ -20,7 +23,10 @@ const InfoDemande = () => {
   const [statusFilter, setStatusFilter] = useState("all")
   const [expandedRequest, setExpandedRequest] = useState(null)
   const [userId, setUserId] = useState(null)
+  const [loading, setLoading] = useState(true) // État pour gérer le chargement
   const API_BASE_URL = "https://backendtache21.onrender.com/api"
+  
+  const navigate = useNavigate(); // Initialisation du hook useNavigate
 
   // Récupération de l'id 
   useEffect(() => {
@@ -40,6 +46,8 @@ const InfoDemande = () => {
       if (!userId) return
 
       try {
+        setLoading(true) // Démarrer le chargement
+
         const token = localStorage.getItem('token')
         if (!token) {
           throw new Error('No token found')
@@ -58,11 +66,13 @@ const InfoDemande = () => {
         }
   
         const data = await response.json()
-        const userRequests = data.demandes.filter(demande => demande.demandeur.id === userId)
+        const userRequests = data.demandes?.filter(demande => demande.demandeur.id === userId) || []
         setRequests(userRequests)
         setFilteredRequests(userRequests)
       } catch (err) {
         console.error("Erreur lors de la récupération des demandes:", err)
+      } finally {
+        setLoading(false) // Fin du chargement
       }
     }
 
@@ -155,7 +165,17 @@ const InfoDemande = () => {
   return (
     <div>
       <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">Mes demandes de service</h2>
+        <div className="w-full bg-white text-gray flex items-center justify-between">
+          <button
+            onClick={() => navigate(-1)} // Naviguer vers la page précédente
+            className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700  transition-all duration-300 transform hover:scale-105   flex items-center justify-center"
+          >
+            <FaArrowLeft />
+          </button>
+        </div>
+        <h2 className="text-3xl font-bold mb-8 text-gray-800">
+          Mes demandes de service
+        </h2>
 
         <div className="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="relative w-full md:w-1/2">
@@ -183,8 +203,12 @@ const InfoDemande = () => {
           </div>
         </div>
 
-        {/* Rest of the component remains the same */}
-        {filteredRequests.length === 0 ? (
+        {/* Affichage du chargement */}
+        {loading ? (
+          <div className="flex justify-center items-center py-8">
+            <FaSpinner className="animate-spin text-blue-500 text-4xl" />
+          </div>
+        ) : filteredRequests.length === 0 ? (
           <p className="text-gray-600 text-center py-8">
             Aucune demande de service ne correspond à votre recherche.
           </p>
@@ -196,11 +220,15 @@ const InfoDemande = () => {
                 className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border border-gray-200"
               >
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-800">{request.typeService}</h3>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                    {request.typeService}
+                  </h3>
 
                   <div className="flex justify-between items-center mb-4">
                     <div>
-                      <h4 className="text-sm font-medium text-gray-600 mb-1">Date</h4>
+                      <h4 className="text-sm font-medium text-gray-600 mb-1">
+                        Date
+                      </h4>
                       <span className="text-gray-800 flex items-center">
                         <FaCalendarAlt className="mr-2 text-blue-500" />
                         {new Date(request.date).toLocaleDateString("fr-FR", {
@@ -211,8 +239,14 @@ const InfoDemande = () => {
                       </span>
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-gray-600 mb-1">Statut</h4>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.statut)}`}>
+                      <h4 className="text-sm font-medium text-gray-600 mb-1">
+                        Statut
+                      </h4>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                          request.statut
+                        )}`}
+                      >
                         {getStatusIcon(request.statut)}
                         {getStatusText(request.statut)}
                       </span>
@@ -220,7 +254,9 @@ const InfoDemande = () => {
                   </div>
 
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-600 mb-1">Prestataire</h4>
+                    <h4 className="text-sm font-medium text-gray-600 mb-1">
+                      Prestataire
+                    </h4>
                     <span className="text-gray-800 flex items-center">
                       <FaUser className="mr-2 text-blue-500" />
                       {request.prestataire?.nom || "Non assigné"}
@@ -228,7 +264,9 @@ const InfoDemande = () => {
                   </div>
 
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-600 mb-1">Contact</h4>
+                    <h4 className="text-sm font-medium text-gray-600 mb-1">
+                      Contact
+                    </h4>
                     <span className="text-gray-800 flex items-center">
                       <FaPhone className="mr-2 text-blue-500" />
                       {request.numeroTelephone}
@@ -236,7 +274,9 @@ const InfoDemande = () => {
                   </div>
 
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-600 mb-1">Adresse</h4>
+                    <h4 className="text-sm font-medium text-gray-600 mb-1">
+                      Adresse
+                    </h4>
                     <span className="text-gray-800 flex items-center">
                       <FaMapMarkerAlt className="mr-2 text-blue-500" />
                       {request.adresse}
@@ -253,7 +293,9 @@ const InfoDemande = () => {
                       }`}
                     >
                       <span className="font-medium">
-                        {expandedRequest === request._id ? "Masquer les détails" : "Voir les détails"}
+                        {expandedRequest === request._id
+                          ? "Masquer les détails"
+                          : "Voir les détails"}
                       </span>
                       <span
                         className={`transform transition-transform duration-300 ${
@@ -270,7 +312,9 @@ const InfoDemande = () => {
                       }`}
                     >
                       <div className="p-4 bg-gray-50 rounded-lg">
-                        <h4 className="text-sm font-medium text-gray-600 mb-2">Description</h4>
+                        <h4 className="text-sm font-medium text-gray-600 mb-2">
+                          Description
+                        </h4>
                         <p className="text-gray-800">{request.description}</p>
                       </div>
                     </div>
@@ -292,7 +336,7 @@ const InfoDemande = () => {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export default InfoDemande

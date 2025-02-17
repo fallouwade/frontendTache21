@@ -1,153 +1,99 @@
-import Slider from "react-slick";
+"use client"
+
+import { useState, useEffect } from "react"
+import axios from "axios"
+import Slider from "react-slick"
+import { Star, Quote } from "lucide-react"
 
 // Importer les styles slick-carousel
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 const Temoignages = () => {
+  const [temoignages, setTemoignages] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchTemoignages = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/commentaires/AllCommentaire")
+        setTemoignages(response.data)
+        setLoading(false)
+      } catch (err) {
+        setError("Erreur lors de la récupération des témoignages")
+        setLoading(false)
+      }
+    }
+
+    fetchTemoignages()
+  }, [])
+
   const settings = {
-    // dots: true,           
-    infinite: true,       
-    speed: 500,           
-    slidesToScroll: 1,    
-    centerMode: true,   
-    centerPadding: "0",
-    focusOnSelect: true,  
-    autoplay: true,     
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 768, 
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
+    adaptiveHeight: false,
+  }
+
+  if (loading) return <div className="text-center py-16 text-xl text-gray-600">Chargement des témoignages...</div>
+  if (error) return <div className="text-center py-16 text-xl text-red-500">{error}</div>
 
   return (
-    <div className="w-full px-4 md:px-8 py-8 md:py-12 bg-gray-100 flex justify-center shadow-gray-500">
-      <div className="w-full max-w-3xl"> 
-        <h1 className="text-xl md:text-2xl text-green-800 font-medium mb-8 md:mb-16 text-center">
-          Découvrez ce que disent les clients satisfaits de notre plateforme
-        </h1>
-
+    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Ce que disent nos clients</h2>
         <Slider {...settings}>
-          {/* Première critique */}
-          <div className="flex justify-center items-center ">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Ndeye Ngone Gningue</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
+          {temoignages.map((temoignage) => (
+            <div key={temoignage._id} className="px-4">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div className="p-8 h-64 flex flex-col justify-between">
+                  <div>
+                    <Quote className="h-8 w-8 text-indigo-400 mb-4" />
+                    <p className="text-gray-600 text-lg leading-relaxed mb-4 line-clamp-3">
+                      {temoignage.commentaire || "Ce client a apprécié nos services."}
+                    </p>
+                  </div>
+                  <div>
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0">
+                        <img
+                          className="h-10 w-10 rounded-full bg-indigo-100"
+                          src={`https://ui-avatars.com/api/?name=${temoignage.commentaireUser || "Client"}&background=random`}
+                          alt=""
+                        />
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-sm font-medium text-gray-900">
+                          {temoignage.  commentaireUser || "Client satisfait"}
+                        </p>
+                        <div className="flex items-center mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`h-4 w-4 ${i < (temoignage.note || 5) ? "text-yellow-400" : "text-gray-300"}`}
+                              fill="currentColor"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">{new Date(temoignage.date).toLocaleDateString()}</p>
+                  </div>
+                </div>
               </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                Ali a assemblé pour moi la commode à tiroirs  en moins de 30 minutes, et il a également assemblé une étagère en fil métallique en environ 10 minutes. Il a également fixé un tiroir sur un...
-              </p>
-              <span className="text-green-600 font-medium">Assemblage de meubles</span>
             </div>
-          </div>
-
-          {/* Deuxième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Abdoulaye Diouf</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                David a fait un travail formidable en assemblant un berceau et une commode pour la chambre de bébé. J'apprécie vraiment ça ! Il a nettoyé la zone après son travail, a organisé les boîtes pour une élimination facil...
-              </p>
-              <span className="text-green-600 font-medium">Installation de portes</span>
-            </div>
-          </div>
-
-          {/* Troisième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Fallou Wade</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                J'ai engagé Joe pour réparer 2 trous sur mon mur et 1 trou sur mon plafond. Joe a été très bon en communication, il a été rapide, professionnel et a fait un travail fantastique. Il est même revenu pour...
-              </p>
-              <span className="text-green-600 font-medium">Réparation de murs</span>
-            </div>
-          </div>
-          {/* Quatrième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Mouhamed Gueye</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                Mouhamed était fantastique ! Il est venu avec tout l'équipement nécessaire pour faire le travail, même le matériel dont je ne savais pas que j'aurais besoin. Il a parfaitement accroché un lustre...
-              </p>
-              <span className="text-green-600 font-medium">Installation électrique</span>
-            </div>
-          </div>
-          {/* Cinquième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Abdou Khoudoss Mbacke</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                Service exceptionnel ! Le montage de ma cuisine a été fait avec une précision remarquable. Tout a été installé parfaitement et le travail a été terminé plus tôt que prévu. Je recommande vivement...
-              </p>
-              <span className="text-green-600 font-medium">Montage de cuisine</span>
-            </div>
-          </div>
-          {/* Sixième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Abdourahmane Soilihi</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                Une expérience très positive ! Le peintre a fait un travail impeccable dans tout l'appartement. Il a été minutieux, propre et efficace. Les finitions sont parfaites et le résultat dépasse mes attentes...
-              </p>
-              <span className="text-green-600 font-medium">Peinture d'intérieur</span>
-            </div>
-          </div>
-
-          {/* Septième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Alimatou Sow</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                Excellent service de plomberie ! Le problème a été diagnostiqué rapidement et réparé efficacement. Le plombier était professionnel, ponctuel et a laissé l'espace de travail impeccable après son intervention...
-              </p>
-              <span className="text-green-600 font-medium">Plomberie</span>
-            </div>
-          </div>
-
-          {/* Huitième critique */}
-          <div className="flex justify-center items-center">
-            <div className="w-full  bg-white p-6 rounded-xl shadow-lg transform transition-all ">
-              <div>
-                <span className="text-lg font-medium">Ali</span>
-                <div className="flex gap-1 text-yellow-400 my-2">★ ★ ★ ★ ★</div>
-              </div>
-              <p className="text-gray-700 my-4 line-clamp-4">
-                Service de déménagement parfait ! L'équipe était ponctuelle, efficace et très soigneuse avec mes meubles. Ils ont géré le transport avec professionnalisme et ont tout installé exactement comme demandé...
-              </p>
-              <span className="text-green-600 font-medium">Déménagement</span>
-            </div>
-          </div>
+          ))}
         </Slider>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Temoignages;
-
+export default Temoignages
 

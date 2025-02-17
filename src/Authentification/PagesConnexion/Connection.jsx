@@ -6,9 +6,11 @@ import { FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa';  // Import de F
 import axios from 'axios';
 import { login } from '../util/Auth';
 
-const Connection = () => {
+const Connection = (props) => {
   const LOGIN_API_URL = 'https://backendtache21.onrender.com/api/utilisateurs/connexion';
   const navigate = useNavigate();
+
+  console.log(props.id)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -51,7 +53,7 @@ const Connection = () => {
       const savedReservation = localStorage.getItem('reservationData');
 
       if(savedReservation){
-        navigate('/reservation');
+        navigate(`/reservation/${props.id}`);
       }
       else if (user.role === 'client'){
         navigate('/Client');
