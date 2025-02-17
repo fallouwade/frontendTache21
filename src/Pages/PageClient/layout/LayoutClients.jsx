@@ -173,6 +173,9 @@ function LayoutClients(props) {
     setShowOnlyFavorites(showFavorites)
   }
 
+  console.log(showOnlyFavorites)
+
+
   const indexOfLastService = currentPage * servicesPerPage
   const indexOfFirstService = indexOfLastService - servicesPerPage
   const currentServices = filteredServices.slice(indexOfFirstService, indexOfLastService)
@@ -242,20 +245,29 @@ function LayoutClients(props) {
         unreadMessages={0} // Remplacez par le nombre réel de messages non lus
       />
       <main>
-        <div className="text-center space-y-4">
-          <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
-            Trouvez le bon professionnel près de chez vous
-          </h1>
-          <p className="text-lg px-3 text-gray-600">
-            Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
-          </p>
-        </div>
-        <div className="container mx-auto px-4 pb-10">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <ServiceGrid onSearch={handleSearch} />
-            <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
+
+      <div>
+      {!showOnlyFavorites && (
+        <>
+          <div className="text-center space-y-4">
+            <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+              Trouvez le bon professionnel près de chez vous
+            </h1>
+            <p className="text-lg px-3 text-gray-600">
+              Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
+            </p>
           </div>
-        </div>
+          <div className="container mx-auto px-4 pb-10">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <ServiceGrid onSearch={handleSearch} />
+              <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
+            </div>
+          </div>
+        </>
+      )}
+      {/* Rest of the component, if any */}
+    </div>
+
         <div className="px-5">
           <RentalSection
             services={currentServices}

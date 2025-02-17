@@ -2,7 +2,7 @@
 const CardAdmin = ({ totalUsers = 0, icone, titre, titrePourcent, pourcent, color }) => {
   return (
     <div className="w-full">
-      <div className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 sm:p-5 lg:p-6 ${color}`}>
+      <div className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 sm:p-5 lg:p-6 ${color}`}>
         <div className="flex items-center justify-between">
           <div className="space-y-1 sm:space-y-2">
             <p className="text-xs sm:text-sm font-medium text-gray-600">
