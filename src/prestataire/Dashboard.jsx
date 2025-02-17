@@ -90,7 +90,9 @@ export default function Dashboard() {
 
         fetchServicesAndNotifications();
     }, [token]);
+
      console.log(services);
+     
     const options = {
         responsive: true,
         plugins: {
