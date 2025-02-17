@@ -55,7 +55,8 @@ function RentalSection({
       </section>
     )
   }
-  console.log(services, favorites)
+  console.log( totalServices, servicesPerPage)
+
 
   return (
     <section className="py-8 bg-gray-50">
@@ -104,10 +105,14 @@ function RentalSection({
             </nav>
           </div>
         )}
+
+
+
+
+
       </div>
     </section>
   )
 }
 
 export default RentalSection
-
