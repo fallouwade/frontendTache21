@@ -84,6 +84,7 @@ function RentalSection({
           })}
           
         </div>
+        
         {totalServices > servicesPerPage && (
           <div className="flex justify-center mt-8">
             <nav>
@@ -103,9 +104,6 @@ function RentalSection({
             </nav>
           </div>
         )}
-
-
-
 
 
       </div>

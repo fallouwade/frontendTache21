@@ -234,7 +234,6 @@ function LayoutClients(props) {
         )}
 
 
-        
         favorites={favorites}
         favoris={favoris}
         onToggleFavorite={toggleFavorite}
