@@ -16,8 +16,7 @@ function RentalCard({
   isFavorite,
   onToggleFavorite,
   isLoggedIn,
-  isHighlighted,
-  ...props
+
 }) {
 
 
@@ -61,7 +60,7 @@ function RentalCard({
       <div className="p-5 space-y-3">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="font-bold text-xl text-gray-900">
+            <h3 className="font-bold text-x text-gray-900">
               {services.length > 0 ? services[0].categorie : "Service inconnu"}
             </h3>
             <p className="text-gray-500 text-sm flex items-center gap-1">
@@ -74,7 +73,7 @@ function RentalCard({
           </div>
         </div>
         
-        <p className="text-lg font-semibold text-gray-900">{prenom}</p>
+        <p className="text-l font-semibold text-gray-900">{prenom}</p>
 
         <div className="flex justify-end mt-2">
           <Link to={`/reservation/${id}`} onClick={() => identifiant(id)}>

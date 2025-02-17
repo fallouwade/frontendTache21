@@ -71,6 +71,8 @@ function RentalSection({
             return (
               <div
                 key={service.id}
+               
+
               >
                 <RentalCard
                   {...service}

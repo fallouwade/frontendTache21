@@ -18,7 +18,7 @@ function LayoutClients(props) {
   const [services, setServices] = useState([])
   const [filteredServices, setFilteredServices] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [servicesPerPage] = useState(9)
+  const [servicesPerPage] = useState(4)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
