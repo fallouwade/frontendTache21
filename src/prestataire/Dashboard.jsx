@@ -78,7 +78,7 @@ export default function Dashboard() {
                     .filter(service => service.statut === 'attente')
                     .slice(-5)
                     .map((service) => ({
-                        id: `notif-${service.id}`,  // Use actual service ID instead of index
+                        id: `notif-${service.id}`,
                         text: `Nouvelle demande: ${service.typeService}`,
                         type: 'info'
                     }));
@@ -90,15 +90,24 @@ export default function Dashboard() {
 
         fetchServicesAndNotifications();
     }, [token]);
-     console.log(services);
+
     const options = {
         responsive: true,
+        scales: {
+            y: {
+                ticks: {
+                    stepSize: 1,
+                    callback: (value) => Math.round(value)
+                },
+                beginAtZero: true
+            }
+        },
         plugins: {
             legend: { position: 'top' },
             tooltip: {
                 callbacks: {
                     label: function (tooltipItem) {
-                        return `${tooltipItem.dataset.label}: ${tooltipItem.raw} demandes`;
+                        return `${tooltipItem.dataset.label}: ${Math.round(tooltipItem.raw)} demandes`;
                     },
                 },
             },
