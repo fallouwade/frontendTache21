@@ -88,7 +88,7 @@ const Connection = (props) => {
     <div className="relative min-h-screen flex flex-col">
       <nav className="w-full bg-white text-gray flex items-center justify-between">
         <button
-          onClick={() => navigate(-1)} // Naviguer vers la page précédente
+          onClick={() => navigate(-1)} 
           className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-blue-500 hover:border-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
         >
           <FaArrowLeft />
