@@ -9,8 +9,10 @@ import { useEffect, useState } from "react";
 
 export default function DashboardContent() {
     const [donneesClients, setDonneesClients] = useState([]);
-    const [totaleClients, setTotalClients] = useState(0);
     const [totalServices, setTotalServices] = useState(0);
+    const [totaleClients, setTotalClients] = useState(0);
+    const [utilisateursInactifs, setutilisateursInactifs] = useState(0);
+    const [UtilisateurActif, setUtilisateurActif] = useState(0);
     const [loading, setLoading] = useState(true);
     const [erreur, setErreur] = useState(null);
     const token = localStorage.getItem('token');
@@ -62,7 +64,7 @@ export default function DashboardContent() {
             try {
                 // Charger les utilisateurs
                 const resultat = await reccupUtilisateur(token);
-                
+
                 // Formater les clients avec leur rôle
                 const clients = (resultat.clients || []).map(client => ({
                     ...client,
@@ -75,11 +77,21 @@ export default function DashboardContent() {
                     role: 'professional'
                 }));
 
+                const prestatairesInactifs = prestataires.filter(prestataire => prestataire.actif === false);
+                setutilisateursInactifs(prestatairesInactifs)
+
+
                 const utilisateurs = [...clients, ...prestataires];
                 setDonneesClients(utilisateurs);
 
                 const totalUtilisateurs = resultat.totalClients + resultat.totalPrestataires;
                 setTotalClients(totalUtilisateurs);
+
+                //Calcul de pourcentage des utilisateur actif
+                if (totaleClients !== 0) {
+                    const pourcentageUserActif = ((totaleClients - prestatairesInactifs.length) / totaleClients) * 100;
+                    setUtilisateurActif(pourcentageUserActif)
+                }
 
                 // Charger les services
                 const services = await recupererServices(token);
@@ -95,21 +107,23 @@ export default function DashboardContent() {
         chargeDonnees();
     }, [token])
 
+    // console.log();
+
     return (
         <div className="w-full p-4 sm:p-0">
             {/* Lors de chargement des donnée  */}
-            {loading && ( <div>Chargement...</div> )}
+            {loading && (<div>Chargement...</div>)}
 
             {/* Lors d'erreur */}
-            {erreur && ( <div>Erreur : {erreur}</div> )}
+            {erreur && (<div>Erreur : {erreur}</div>)}
 
             {/* Blocs d'information totale */}
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <CardAdmin
                         titre="Total utilisateurs"
                         titrePourcent="utilisateurs actifs"
-                        pourcent="100"
+                        pourcent={UtilisateurActif.toFixed(2)}
                         totalUsers={totaleClients}
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
                         color="border-l-4 border-blue-500 rounded-lg"
@@ -127,16 +141,17 @@ export default function DashboardContent() {
                         titre="Utilisateurs bloqué"
                         titrePourcent="Des utilisateurs"
                         pourcent="0"
+                        totalUsers={utilisateursInactifs.length}
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-red-600" />}
                         color="border-l-4 border-red-500 rounded-lg"
                     />
-                    <CardAdmin
+                    {/* <CardAdmin
                         titre="Nouveaux avis"
                         titrePourcent="Avis rejeter"
                         pourcent="0"
                         icone={<BiMessageDots className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
                         color="border-l-4 border-green-500 rounded-lg"
-                    />
+                    /> */}
                 </div>
             </div>
             <div className="flex flex-col gap-4 md:flex-row mt-5 p-4 mb-10">
