@@ -108,11 +108,12 @@ export default function DashboardContent() {
     }, [token])
 
     // console.log();
+    
 
     return (
         <div className="w-full p-4 sm:p-0">
             {/* Lors de chargement des donnée  */}
-            {loading && (<div>Chargement...</div>)}
+            {/* {loading && (<div>Chargement...</div>)} */}
 
             {/* Lors d'erreur */}
             {erreur && (<div>Erreur : {erreur}</div>)}
