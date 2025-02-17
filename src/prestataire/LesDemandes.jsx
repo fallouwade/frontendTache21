@@ -11,6 +11,12 @@ export default function LesDemandes() {
   const [itemsPerPage] = useState(2);  // 2 services par page
   const token = localStorage.getItem('token');
 
+    // La fonction qui recupere les date 
+    function getFormattedDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+    }
+
   useEffect(() => {
     const reccupDemande = async () => {
       try {
@@ -121,10 +127,11 @@ export default function LesDemandes() {
                   key={demande._id}
                   className="bg-slate-100 p-4 sm:p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
                 >
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
-                    Demande de {demande.demandeur?.nom || 'Client'}
+                  <h3 className="flex justify-between text-lg sm:text-xl font-semibold text-gray-800">
+                    <span> Demande de {demande.demandeur?.nom || 'Client'}</span>
+                    <span>{getFormattedDate(demande.date)}</span>
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-800 mt-2">
+                  <p className="text-sm sm:text-base text-gray-800 break-words mt-2">
                     <span className="text-gray-600  font-medium">Description : </span>
                     {demande.description}
                   </p>
