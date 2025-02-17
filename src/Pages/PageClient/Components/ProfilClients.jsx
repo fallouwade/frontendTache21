@@ -1,6 +1,6 @@
-"use client"
 
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import SidebarClient from "./SidebarClient"
 import logo from "/images/logo.png"
 import FavoriteButton from "./FavoriteButton"
@@ -18,6 +18,10 @@ function ProfilClients({
 }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [showFavorites, setShowFavorites] = useState(false)
+  const navigate = useNavigate()
+  
+  // Récupération du token utilisateur
+  const clientToken = sessionStorage.getItem("token") || localStorage.getItem("token")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +36,15 @@ function ProfilClients({
     onToggleFavoriteFilter(!showFavorites)
   }
 
+  const handleLogoClick = (e) => {
+    e.preventDefault()
+    if (clientToken) {
+      navigate("/client") 
+      window.location.reload()
+    } else {
+      navigate("/")
+    }
+  }
   return (
     <>
       <nav
@@ -39,9 +52,15 @@ function ProfilClients({
       >
         <div className="max-w-[2520px] mx-auto xl:px-10 md:px-10 sm:px-4 px-2">
           <div className="flex items-center justify-between">
-            <a href="/" className="text-rose-500 lg:text-2xl md:text-sm font-extrabold">
+            
+            <a
+              href={clientToken ? "#" : "/"}
+              onClick={handleLogoClick}
+              className="text-rose-500 lg:text-2xl md:text-sm font-extrabold"
+            >
               <img src={logo || "/placeholder.svg"} alt="Logo" width="120" height="50" />
             </a>
+
             <div className="flex items-center gap-6">
               <div className="">{buttonPrest}</div>
               {isLoggedIn && (
