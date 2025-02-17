@@ -7,40 +7,48 @@ import { FaBell, FaClipboardList, FaClock, FaThumbsUp, FaThumbsDown, FaTimes } f
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const aggregateServicesByMonth = (services) => {
+const MONTHS = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+const aggregateServicesByMonth = (services, selectedYear = null) => {
+  // Initialize data for all months
   const monthData = {};
-  const months = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Dec'];
+  MONTHS.forEach(month => {
+    monthData[month] = 0;
+  });
   
-  services.forEach(service => {
+  // Filter services by selected year if provided
+  const filteredServices = selectedYear 
+    ? services.filter(service => new Date(service.date).getFullYear() === parseInt(selectedYear))
+    : services;
+
+  // Count services for each month
+  filteredServices.forEach(service => {
     const date = new Date(service.date);
     const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-    const monthName = `${months[monthIndex]}/${year}`;
+    const monthName = MONTHS[monthIndex];
     monthData[monthName] = (monthData[monthName] || 0) + 1;
   });
 
-  const sortedMonths = Object.keys(monthData)
-    .sort((a, b) => {
-      const [monthA, yearA] = a.split('/');
-      const [monthB, yearB] = b.split('/');
-      return yearA !== yearB 
-        ? parseInt(yearA) - parseInt(yearB)
-        : months.indexOf(monthA) - months.indexOf(monthB);
-    });
-
   return {
-    labels: sortedMonths,
-    data: sortedMonths.map(month => monthData[month])
+    labels: MONTHS,
+    data: MONTHS.map(month => monthData[month])
   };
+};
+
+const getAvailableYears = (services) => {
+  const years = new Set(services.map(service => new Date(service.date).getFullYear()));
+  return Array.from(years).sort((a, b) => b - a); // Sort in descending order
 };
 
 export default function Dashboard() {
     const [services, setServices] = useState([]);
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [availableYears, setAvailableYears] = useState([]);
     const [chartData, setChartData] = useState({
-        labels: [],
+        labels: MONTHS,
         datasets: [{
             label: 'Demandes',
-            data: [],
+            data: Array(12).fill(0),
             borderColor: '#4ade80',
             backgroundColor: 'rgba(74, 234, 128, 0.2)',
             tension: 0.3,
@@ -61,7 +69,13 @@ export default function Dashboard() {
                 
                 setServices(prestataireServices);
                 
-                const monthlyData = aggregateServicesByMonth(prestataireServices);
+                // Get available years from services
+                const years = getAvailableYears(prestataireServices);
+                setAvailableYears(years);
+                // Set initial selected year to most recent
+                setSelectedYear(years[0]?.toString() || null);
+
+                const monthlyData = aggregateServicesByMonth(prestataireServices, years[0]?.toString());
                 setChartData({
                     labels: monthlyData.labels,
                     datasets: [{
@@ -78,7 +92,7 @@ export default function Dashboard() {
                     .filter(service => service.statut === 'attente')
                     .slice(-5)
                     .map((service) => ({
-                        id: `notif-${service.id}`,  // Use actual service ID instead of index
+                        id: `notif-${service.id}`,
                         text: `Nouvelle demande: ${service.typeService}`,
                         type: 'info'
                     }));
@@ -91,16 +105,45 @@ export default function Dashboard() {
         fetchServicesAndNotifications();
     }, [token]);
 
-     console.log(services);
-     
+    useEffect(() => {
+        if (services.length > 0 && selectedYear) {
+            const monthlyData = aggregateServicesByMonth(services, selectedYear);
+            setChartData({
+                labels: monthlyData.labels,
+                datasets: [{
+                    label: 'Nombre des demandes',
+                    data: monthlyData.data,
+                    borderColor: '#4ade80',
+                    backgroundColor: 'rgba(74, 234, 128, 0.2)',
+                    tension: 0.3,
+                    fill: true,
+                }]
+            });
+        }
+    }, [selectedYear, services]);
+
     const options = {
         responsive: true,
+        scales: {
+            y: {
+                ticks: {
+                    stepSize: 1,
+                    callback: (value) => Math.round(value)
+                },
+                beginAtZero: true
+            },
+            x: {
+                grid: {
+                    display: true
+                }
+            }
+        },
         plugins: {
             legend: { position: 'top' },
             tooltip: {
                 callbacks: {
                     label: function (tooltipItem) {
-                        return `${tooltipItem.dataset.label}: ${tooltipItem.raw} demandes`;
+                        return `${tooltipItem.dataset.label}: ${Math.round(tooltipItem.raw)} demandes`;
                     },
                 },
             },
@@ -111,6 +154,11 @@ export default function Dashboard() {
         setNotifications(notifications.filter((notif) => notif.id !== id));
     };
 
+    // Filter services for statistics based on selected year
+    const filteredServices = selectedYear
+        ? services.filter(service => new Date(service.date).getFullYear() === parseInt(selectedYear))
+        : services;
+
     return (
         <SidebarPrestataire>       
             <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Tableau de bord</h1>
@@ -120,7 +168,7 @@ export default function Dashboard() {
                     <FaClipboardList className="text-2xl sm:text-3xl mr-3" />
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Total Demandes</h2>
-                        <p className="text-2xl sm:text-3xl font-bold">{services.length}</p>
+                        <p className="text-2xl sm:text-3xl font-bold">{filteredServices.length}</p>
                     </div>
                 </div>
                 
@@ -129,7 +177,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">En Attente</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {services.filter(service => service.statut === 'attente').length}
+                            {filteredServices.filter(service => service.statut === 'attente').length}
                         </p>
                     </div>
                 </div>
@@ -139,7 +187,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Acceptées</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {services.filter(service => service.statut === 'accepte').length}
+                            {filteredServices.filter(service => service.statut === 'accepte').length}
                         </p>
                     </div>
                 </div>
@@ -149,7 +197,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Refusées</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {services.filter(service => service.statut === 'refuse').length}
+                            {filteredServices.filter(service => service.statut === 'refuse').length}
                         </p>
                     </div>
                 </div>
@@ -157,7 +205,20 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <div className="bg-white p-6 rounded-lg shadow-md w-full">
-                    <h2 className="text-xl font-semibold mb-4 text-center">Graphique des Demandes</h2>
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-semibold">Graphique des Demandes</h2>
+                        <select
+                            value={selectedYear || ''}
+                            onChange={(e) => setSelectedYear(e.target.value)}
+                            className="px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                        >
+                            {availableYears.map((year) => (
+                                <option key={year} value={year}>
+                                    {year}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                     <Line data={chartData} options={options} />
                 </div>
 

@@ -11,10 +11,10 @@ const CategorieListe = ({ categories, archiverCategorie }) => {
   ];
 
   const actionButton = (row) => row.archive ?  
-    <button onClick={() => archiverCategorie(row.nom)}>
+    <button onClick={() => archiverCategorie(row._id)}>  {/* Passer row._id */}
       <MdOutlineUnarchive size={30} style={{ color: 'red' }} />
     </button> : (
-    <button onClick={() => archiverCategorie(row.nom)}>
+    <button onClick={() => archiverCategorie(row._id)}>  {/* Passer row._id */}
       <MdOutlineArchive size={30} style={{ color: 'green' }} />
     </button>
   );

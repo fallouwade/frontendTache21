@@ -51,7 +51,7 @@ export default function NavPrestataire({ toggleSidebar, isSidebarOpen }) {
         >
           {isSidebarOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
-        <Link to="/" className="block">
+        <Link to="/dashboard" className="block">
           <img src={logo} alt="Logo" className="h-12 w-auto md:h-20 md:w-auto" />
         </Link>
       </div>
@@ -94,7 +94,7 @@ export default function NavPrestataire({ toggleSidebar, isSidebarOpen }) {
               {profile && (
                 <div className="mb-2 p-2 bg-gray-700 rounded-xl">
                   <div className="font-medium">{profile.nom} {profile.prenom}</div>
-                  <div className="text-sm text-gray-300">{profile.email}</div>
+                  <div className="text-sm text-gray-300 break-words">{profile.email}</div>
                 </div>
               )}
               <DeconnexionButton color="hover:bg-gray-700 rounded-xl" />

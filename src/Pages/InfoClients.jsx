@@ -82,11 +82,11 @@ export default function InfoClients() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-lg">Chargement...</p>
-      </div>
+        <div className="w-full h-full flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        </div>
     );
-  }
+}
 
   if (error) {
     return (

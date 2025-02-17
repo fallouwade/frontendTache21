@@ -1,11 +1,11 @@
 import { MdOutlineHomeRepairService } from "react-icons/md";
-import { BiMessageDots } from "react-icons/bi";
 import UserChart from "./UserChart";
 import { LuUsers } from "react-icons/lu";
 import CardAdmin from "./CardAdmin";
 import ReservationChart from "./ReservationChart";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BiMessageDots } from "react-icons/bi";
 
 export default function DashboardContent() {
     const [donneesClients, setDonneesClients] = useState([]);
@@ -108,18 +108,19 @@ export default function DashboardContent() {
     }, [token])
 
     // console.log();
+    
 
     return (
         <div className="w-full p-4 sm:p-0">
             {/* Lors de chargement des donnée  */}
-            {loading && (<div>Chargement...</div>)}
+            {/* {loading && (<div>Chargement...</div>)} */}
 
             {/* Lors d'erreur */}
             {erreur && (<div>Erreur : {erreur}</div>)}
 
             {/* Blocs d'information totale */}
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
                     <CardAdmin
                         titre="Total utilisateurs"
                         titrePourcent="utilisateurs actifs"
@@ -145,13 +146,6 @@ export default function DashboardContent() {
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-red-600" />}
                         color="border-l-4 border-red-500 rounded-lg"
                     />
-                    {/* <CardAdmin
-                        titre="Nouveaux avis"
-                        titrePourcent="Avis rejeter"
-                        pourcent="0"
-                        icone={<BiMessageDots className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
-                        color="border-l-4 border-green-500 rounded-lg"
-                    /> */}
                 </div>
             </div>
             <div className="flex flex-col gap-4 md:flex-row mt-5 p-4 mb-10">
@@ -159,7 +153,7 @@ export default function DashboardContent() {
                     <UserChart data={donneesClients} />
                 </div>
                 <div className="w-full d:w-6/12">
-                    <ReservationChart />
+                    <ReservationChart services={recupererServices} />
                 </div>
             </div>
         </div>

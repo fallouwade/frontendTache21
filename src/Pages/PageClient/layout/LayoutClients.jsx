@@ -1,3 +1,4 @@
+"use client"
 
 import { useState, useEffect, useCallback } from "react"
 import { Outlet, useLocation } from "react-router-dom"
@@ -11,14 +12,14 @@ import InfoDemande from "../Components/InfoDemande"
 import ProfilCli from "../Components/ProfilCli"
 import axios from "axios"
 
-const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonn URL
+const API_URL = "https://backendtache21.onrender.com/api" // Assurez-vous que c'est la bonne URL
 
 function LayoutClients(props) {
   const location = useLocation()
   const [services, setServices] = useState([])
   const [filteredServices, setFilteredServices] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [servicesPerPage] = useState(9)
+  const [servicesPerPage] = useState(8)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -36,7 +37,7 @@ function LayoutClients(props) {
 
   useEffect(() => {
     filterServices()
-  }, [services, selectedCategory, searchTerm, showOnlyFavorites, favorites]) // Corrected dependency list
+  }, [services, selectedCategory, searchTerm, showOnlyFavorites]) // Removed 'favorites' from dependencies
 
   const checkLoginStatus = () => {
     const token = localStorage.getItem("token")
@@ -56,12 +57,11 @@ function LayoutClients(props) {
       setFavorites(response.data.map((fav) => fav.serviceId._id) || [])
     } catch (error) {
       console.error("Erreur lors de la récupération des favoris:", error)
-      setFavorites([]) // Assurez-vous que favorites est toujours un tableau
+      setFavorites([])
     }
   }, [])
 
   console.log(favorites)
-
 
   const fetchServices = async () => {
     setIsLoading(true)
@@ -94,22 +94,18 @@ function LayoutClients(props) {
 
         if (isFavorite) {
           await axios.post(`${API_URL}/favorites/supprimer/${serviceId}`, {}, { headers })
-
           setFavorites(favorites.filter((id) => id !== serviceId))
-
         } else {
           await axios.post(`${API_URL}/favorites/ajouter/${serviceId}`, {}, { headers })
           setFavorites([...favorites, serviceId])
         }
 
-        // Mettre à jour l'état des services
         setServices(
           services.map((service) => ({
             ...service,
             services: service.services.map((s) => (s.id === serviceId ? { ...s, isFavorite: !isFavorite } : s)),
           })),
         )
-        
       } catch (error) {
         console.error("Erreur lors de la modification des favoris:", error.response?.data || error.message)
       }
@@ -117,49 +113,41 @@ function LayoutClients(props) {
     [favorites, services],
   )
 
-
-
   const filterServices = () => {
-    let filtered = [...services];
+    let filtered = [...services]
 
     if (showOnlyFavorites) {
       filtered = filtered.filter((service) => service.services.some((s) => favorites.includes(s.id)))
       console.log(filtered)
     }
 
-
     if (selectedCategory) {
-      filtered = filtered.filter(service => 
-        service.services.some(s => s.categorie.toLowerCase() === selectedCategory.toLowerCase())
-      );
+      filtered = filtered.filter((service) =>
+        service.services.some((s) => s.categorie.toLowerCase() === selectedCategory.toLowerCase()),
+      )
     }
 
     if (searchTerm.service || searchTerm.location) {
-      // trier pour afficher les services recherchés en premier
-      let matchingServices = filtered.filter(service => 
-        service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase())
-      );
-
-      let otherService = filtered.filter(service =>
-        !service.services.some(s => s.categorie.toLowerCase() === searchTerm.service.toLowerCase())
+      const matchingServices = filtered.filter((service) =>
+        service.services.some((s) => s.categorie.toLowerCase() === searchTerm.service.toLowerCase()),
       )
-      filtered = filtered.filter(service =>
-        service.services.some(s => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
-        (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
-         service.departement.toLowerCase().includes(searchTerm.location.toLowerCase()))
-      );
-      // mettre en premier les services recherché
 
-      filtered = [...matchingServices, ...otherService];
-    
+      const otherService = filtered.filter(
+        (service) => !service.services.some((s) => s.categorie.toLowerCase() === searchTerm.service.toLowerCase()),
+      )
+      filtered = filtered.filter(
+        (service) =>
+          service.services.some((s) => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase())) &&
+          (service.region.toLowerCase().includes(searchTerm.location.toLowerCase()) ||
+            service.departement.toLowerCase().includes(searchTerm.location.toLowerCase())),
+      )
+
+      filtered = [...matchingServices, ...otherService]
     }
 
-    setFilteredServices(filtered);
-    setCurrentPage(1);
-  };
-
-
-
+    setFilteredServices(filtered)
+    setCurrentPage(1)
+  }
 
   const handleSearch = (service, location) => {
     setSearchTerm({ service, location })
@@ -216,45 +204,48 @@ function LayoutClients(props) {
         isLoggedIn={isLoggedIn}
         userName={user?.nom}
         userEmail={user?.email}
-        buttonPrest=
-        {isPrestataire ? (
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center whitespace-nowrap bg-gray-100 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 mr-2 rounded transition-all"
-          >
-            Retour à mon compte
-          </Link>
-        ) : (
-          <Link
-            to="/inscriptionPrestataire"
-            className="inline-flex items-center whitespace-nowrap bg-gray-200 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 rounded transition-all"
-          >
-            Devenir Prestataire
-          </Link>
-        )}
-
-
+        buttonPrest={
+          isPrestataire ? (
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center whitespace-nowrap bg-gray-100 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 mr-2 rounded transition-all"
+            >
+              Mon compte
+            </Link>
+          ) : (
+            <Link
+              to="/inscriptionPrestataire"
+              className="inline-flex items-center whitespace-nowrap bg-gray-200 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 rounded transition-all"
+            >
+              Devenir Prestataire
+            </Link>
+          )
+        }
         favorites={favorites}
         favoris={favoris}
         onToggleFavorite={toggleFavorite}
         onToggleFavoriteFilter={handleToggleFavoriteFilter}
-        unreadMessages={0} // Remplacez par le nombre réel de messages non lus
+        unreadMessages={0}
       />
       <main>
-        <div className="text-center space-y-4">
-          <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
-            Trouvez le bon professionnel près de chez vous
-          </h1>
-          <p className="text-lg px-3 text-gray-600">
-            Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
-          </p>
-        </div>
-        <div className="container mx-auto px-4 pb-10">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <ServiceGrid onSearch={handleSearch} />
-            <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
-          </div>
-        </div>
+        {!showOnlyFavorites && (
+          <>
+            <div className="text-center space-y-4">
+              <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+                Trouvez le bon professionnel près de chez vous
+              </h1>
+              <p className="text-lg px-3 text-gray-600">
+                Plombiers, électriciens, coiffeurs et plus encore - tous les services dont vous avez besoin
+              </p>
+            </div>
+            <div className="container mx-auto px-4 pb-10">
+              <div className="max-w-4xl mx-auto space-y-6">
+                <ServiceGrid onSearch={handleSearch} />
+                <CategoryGrid onCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} />
+              </div>
+            </div>
+          </>
+        )}
         <div className="px-5">
           <RentalSection
             services={currentServices}

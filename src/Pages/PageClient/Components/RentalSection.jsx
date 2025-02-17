@@ -1,4 +1,5 @@
 import RentalCard from "./RentalCard"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 function RentalSection({
   services,
@@ -10,20 +11,18 @@ function RentalSection({
   error,
   noResults,
   id,
-  favorites = [], // Provide a default empty array
+  favorites = [],
   onToggleFavorite,
-  isLoggedIn = false, // Add this prop with a default value
-  searchTerm, // ajout de la prop searchTerm
-  highlightSearch, //ajout de la prop pour mettre en surbrillance le service recherché
+  isLoggedIn = false,
+  searchTerm,
+  highlightSearch,
 }) {
-  // const hasSearch = searchTerm && searchTerm.service.trim() !== "";
-
   const pageNumbers = []
 
   for (let i = 1; i <= Math.ceil(totalServices / servicesPerPage); i++) {
     pageNumbers.push(i)
   }
-
+  
   if (isLoading) {
     return (
       <section className="py-8 bg-gray-50">
@@ -55,8 +54,6 @@ function RentalSection({
       </section>
     )
   }
-  console.log( totalServices, servicesPerPage)
-
 
   return (
     <section className="py-8 bg-gray-50">
@@ -65,13 +62,11 @@ function RentalSection({
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {services.map((service) => {
             const isHighlighted =
-            highlightSearch &&
-            service.services.some((s) => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase()))
-           
+              highlightSearch &&
+              service.services.some((s) => s.categorie.toLowerCase().includes(searchTerm.service.toLowerCase()))
+
             return (
-              <div
-                key={service.id}
-              >
+              <div key={service.id}>
                 <RentalCard
                   {...service}
                   identifiant={id}
@@ -80,35 +75,34 @@ function RentalSection({
                   isLoggedIn={isLoggedIn}
                 />
               </div>
-            );
+            )
           })}
-          
         </div>
-        
         {totalServices > servicesPerPage && (
-          <div className="flex justify-center mt-8">
-            <nav>
-              <ul className="flex">
-                {pageNumbers.map((number) => (
-                  <li key={number}>
-                    <button
-                      onClick={() => paginate(number)}
-                      className={`px-4 py-2 border ${currentPage === number ? "bg-primary-600 text-white" : "bg-white text-gray-500 hover:bg-gray-50"
-                        }`}
-                    >
-                      {number}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          <div className="flex justify-center items-center mt-8 text-sm text-gray-600">
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-2 disabled:opacity-50"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <span className="mx-4">
+              Page {currentPage} sur {Math.ceil(totalServices / servicesPerPage)}
+            </span>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === Math.ceil(totalServices / servicesPerPage)}
+              className="p-2 disabled:opacity-50"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
         )}
-
-
       </div>
     </section>
   )
 }
 
 export default RentalSection
+

@@ -1,4 +1,3 @@
-
 import { ToastContainer, toast } from "react-toastify"; // Importer react-toastify
 import {
   FaCheckCircle,
@@ -14,7 +13,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css"; // Importer les styles
 import SidebarPrestataire from "./SidebarPrestataire";
 import * as motion from "motion/react-client";
-import logo from "../assets/logo.png";
+import logo from "../../public/images/logo.png";
 
 const ProfilPrestataire = () => {
   const [profil, setProfil] = useState(null);
