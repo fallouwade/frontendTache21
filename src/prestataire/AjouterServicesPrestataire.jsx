@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaRegFileAlt, FaTag, FaTrashAlt, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import { FaRegFileAlt, FaTag, FaTrashAlt, FaCheckCircle, FaExclamationCircle, FaArrowLeft } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SidebarPrestataire from "./SidebarPrestataire";
@@ -162,103 +162,128 @@ const AjouterServicesPrestataire = () => {
     }
   };
 
+  const handleGoBack = () => {
+    window.history.back();
+  };
+
   return (
     <SidebarPrestataire>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200 p-6">
-        <div className="w-full max-w-2xl bg-white p-8 rounded-2xl shadow-xl">
-          <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-6">
-            {serviceId ? "Modifier votre Service" : servicesCount < 2 ? "Ajouter un Service" : "Vous ne pouvez pas ajouter plus de 2 services"}
-          </h2>
-
-          {erreur && <p className="text-red-600 text-center font-semibold">{erreur}</p>}
-
-          {servicesCount < 2 ? (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
-                  <FaRegFileAlt className="mr-2 text-blue-500" /> Nom du service
-                </label>
-                <input
-                  type="text"
-                  value={nomDeservice}
-                  onChange={(e) => setNomDeservice(e.target.value)}
-                  className="w-full p-3 border rounded-xl focus:ring  focus:ring-blue-300"
-                  required
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
-                  <FaTag className="mr-2 text-blue-500" /> Catégorie
-                </label>
-                <select
-                  value={categorie}
-                  onChange={(e) => setCategorie(e.target.value)}
-                  className="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300"
-                  required
-                >
-                  <option value="">Sélectionner une catégorie</option>
-                  {categories.map((cat) => (
-                    <option key={cat._id} value={cat.nom}>{cat.nom}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex flex-col">
-                <label className="font-medium text-gray-700 flex items-center">
-                  <FaRegFileAlt className="mr-2 text-blue-500" /> Description du service
-                </label>
-                <textarea
-                  value={descriptionDeService}
-                  onChange={(e) => setDescriptionDeService(e.target.value)}
-                  className="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300"
-                  rows="3"
-                  required
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="font-medium text-gray-700">Image du Service</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="w-full p-2 border rounded-lg cursor-pointer"
-                />
-                {(imagePreview || service?.imageUrl) && (
-                  <div className="mt-3 flex items-center space-x-4">
-                    <img
-                      src={imagePreview || service?.imageUrl}
-                      alt="Aperçu"
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="bg-red-500 hover:bg-red-600 text-white py-1 px-2  flex items-center space-x-1"
-                    >
-                      <FaTrashAlt /> <span></span>
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className={`w-full py-3 px-6 rounded-xl shadow-lg ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
-                  disabled={isLoading}
-                >
-                  {isLoading ? "En cours..." : serviceId ? "Modifier" : "Ajouter"}
-                </button>
-              </div>
-            </form>
-          ) : (
-            <p className="text-center text-red-600">Vous avez atteint la limite de 2 services. Vous ne pouvez pas ajouter d'autres services.</p>
-          )}
+      <div className="min-h-screen flex flex-col bg-gradient-to-r from-gray-100 to-gray-200 p-2 sm:p-4">
+        <div className="block sm:hidden px-2 mb-2">
+          <button 
+            onClick={handleGoBack}
+            className="flex items-center text-blue-700 hover:text-blue-900 transition-colors"
+          >
+            <FaArrowLeft className="mr-2" /> Retour
+          </button>
         </div>
 
-        {/* Toast notifications */}
+        <div className="w-full flex-1 flex justify-center">
+          <div className="w-full max-w-2xl bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <h2 className="text-xl sm:text-2xl font-bold text-center text-blue-700 mb-4">
+              {serviceId ? "Modifier votre Service" : servicesCount < 2 ? "Ajouter un Service" : "Vous ne pouvez pas ajouter plus de 2 services"}
+            </h2>
+
+            {erreur && <p className="text-red-600 text-center font-semibold mb-4">{erreur}</p>}
+
+            {servicesCount < 2 ? (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="flex flex-col space-y-2">
+                  <label className="font-medium text-gray-700 flex items-center">
+                    <FaRegFileAlt className="mr-2 text-blue-500" /> Nom du service
+                  </label>
+                  <input
+                    type="text"
+                    value={nomDeservice}
+                    onChange={(e) => setNomDeservice(e.target.value)}
+                    className="w-full p-2 border rounded-full focus:ring focus:ring-blue-300 focus:outline-none"
+                    required
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label className="font-medium text-gray-700 flex items-center">
+                    <FaTag className="mr-2 text-blue-500" /> Catégorie
+                  </label>
+                  <select
+                    value={categorie}
+                    onChange={(e) => setCategorie(e.target.value)}
+                    className="w-full p-2 border rounded-full focus:ring focus:ring-blue-300 focus:outline-none appearance-none bg-white pl-4 pr-10"
+                    required
+                    style={{ backgroundImage: "url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z\"/></svg>')", backgroundRepeat: "no-repeat", backgroundPosition: "right 1rem center" }}
+                  >
+                    <option value="">Sélectionner une catégorie</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat.nom}>{cat.nom}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label className="font-medium text-gray-700 flex items-center">
+                    <FaRegFileAlt className="mr-2 text-blue-500" /> Description du service
+                  </label>
+                  <textarea
+                    value={descriptionDeService}
+                    onChange={(e) => setDescriptionDeService(e.target.value)}
+                    className="w-full p-2 border rounded-2xl focus:ring focus:ring-blue-300 focus:outline-none"
+                    rows="4"
+                    required
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label className="font-medium text-gray-700">Image du Service</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="w-full p-2 border rounded-full cursor-pointer bg-white"
+                  />
+                  {(imagePreview || service?.imageUrl) && (
+                    <div className="relative inline-block mt-2">
+                      <img
+                        src={imagePreview || service?.imageUrl}
+                        alt="Aperçu"
+                        className="w-20 h-20 object-cover rounded-full"
+                      />
+                      <button
+                        type="button"
+                        onClick={removeImage}
+                        className="absolute top-0 right-0 text-red-500 hover:text-red-700 transition-colors bg-white rounded-full p-1"
+                      >
+                        <FaTrashAlt className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    className={`w-full py-2 px-4 rounded-full shadow-md text-base ${
+                      isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+                    }`}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "En cours..." : serviceId ? "Modifier" : "Ajouter"}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-center space-y-4">
+                <p className="text-red-600">Vous avez atteint la limite de 2 services. Vous ne pouvez pas ajouter d'autres services.</p>
+                <a 
+                  href="/services" 
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full"
+                >
+                  Voir mes services
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
         <ToastContainer
           position="top-right"
           autoClose={5000}

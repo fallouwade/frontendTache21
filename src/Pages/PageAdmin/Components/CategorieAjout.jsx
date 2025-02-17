@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Importer le style de react-toastify
 
 const CategorieAjout = ({ ajouterCategorie }) => {
   const [categorie, setCategorie] = useState(""); 
@@ -8,9 +10,8 @@ const CategorieAjout = ({ ajouterCategorie }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     if (!categorie.trim()) {
-      setError("Le nom de la catégorie est requis.");
+      toast.error("Le nom de la catégorie est requis.");
       return;
     }
 
@@ -18,15 +19,14 @@ const CategorieAjout = ({ ajouterCategorie }) => {
     setLoading(true); 
 
     try {
-      
       await ajouterCategorie(categorie);
 
-      
       setCategorie("");
+      toast.success("Catégorie ajoutée avec succès !");
       console.log("Catégorie ajoutée:", categorie);
 
     } catch (error) {
-      setError("Erreur lors de l'ajout de la catégorie.");
+      toast.error("Erreur lors de l'ajout de la catégorie.");
       console.error(error);
     } finally {
       setLoading(false); 
@@ -57,6 +57,7 @@ const CategorieAjout = ({ ajouterCategorie }) => {
           {loading ? "Chargement..." : "Ajouter une catégorie"}
         </button>
       </form>
+      <ToastContainer /> {/* Ajoute le container de toast ici */}
     </div>
   );
 };
