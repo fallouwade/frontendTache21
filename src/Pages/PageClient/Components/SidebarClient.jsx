@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { FaUserCircle, FaSignOutAlt, FaHeart, FaEnvelope } from "react-icons/fa"
+import { AiOutlineCaretDown,AiOutlineCaretUp } from "react-icons/ai";
 import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
 
 function SidebarClient({ 
@@ -32,10 +33,17 @@ function SidebarClient({
         onClick={handleToggle}
       >
         <span className="sr-only">Open user menu</span>
-        <FaSignOutAlt 
-          size={18} 
-          className="text-yellow-500 transition-transform duration-300 hover:translate-x-2" 
-        />
+        {isOpen ? (
+          <AiOutlineCaretUp 
+            size={18} 
+            className={`text-yellow-500 transition-transform duration-300 ${isOpen ? 'translate-x-2' : 'translate-x-0'}`}
+          />
+        ) : (
+          <AiOutlineCaretDown 
+            size={18} 
+            className={`text-yellow-500 transition-transform duration-300 ${isOpen ? 'translate-x-2' : 'translate-x-0'}`}
+          />
+        )}
         
         {/* Avatar de l'utilisateur */}
         <div className="relative">
