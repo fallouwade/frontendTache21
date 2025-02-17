@@ -145,13 +145,6 @@ export default function DashboardContent() {
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-red-600" />}
                         color="border-l-4 border-red-500 rounded-lg"
                     />
-                    {/* <CardAdmin
-                        titre="Nouveaux avis"
-                        titrePourcent="Avis rejeter"
-                        pourcent="0"
-                        icone={<BiMessageDots className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
-                        color="border-l-4 border-green-500 rounded-lg"
-                    /> */}
                 </div>
             </div>
             <div className="flex flex-col gap-4 md:flex-row mt-5 p-4 mb-10">
