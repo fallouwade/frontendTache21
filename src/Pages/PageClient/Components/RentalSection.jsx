@@ -56,10 +56,10 @@ function RentalSection({
   }
 
   return (
-    <section className="py-8 bg-gray-50">
-      <div className="max-w-screen-xl mx-auto px-6">
+    <section className="py-8 bg-gray-50 rounded">
+      <div className="max-w-screen-xl mx-auto md:px-6 px-3">
         <h2 className="text-3xl font-semibold text-gray-800 mb-6">Services disponibles</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:mr-1 mr-3 lg:grid-cols-4 gap-8">
           {services.map((service) => {
             const isHighlighted =
               highlightSearch &&

@@ -244,7 +244,7 @@ function LayoutClients(props) {
             </div>
           </>
         )}
-        <div className="px-5">
+        <div className="md:px-3  px-0">
           <RentalSection
             services={currentServices}
             servicesPerPage={servicesPerPage}
