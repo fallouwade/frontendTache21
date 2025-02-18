@@ -1,6 +1,6 @@
-"use client"
 
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import SidebarClient from "./SidebarClient"
 import logo from "/images/logo.png"
 import FavoriteButton from "./FavoriteButton"
@@ -18,6 +18,10 @@ function ProfilClients({
   // États pour gérer le scroll et l'affichage des favoris
   const [isScrolled, setIsScrolled] = useState(false)
   const [showFavorites, setShowFavorites] = useState(false)
+  const navigate = useNavigate()
+  
+  // Récupération du token utilisateur
+  const clientToken = sessionStorage.getItem("token") || localStorage.getItem("token")
 
   // Effet pour gérer le changement de style lors du scroll
   useEffect(() => {
@@ -34,6 +38,15 @@ function ProfilClients({
     onToggleFavoriteFilter(!showFavorites)
   }
 
+  const handleLogoClick = (e) => {
+    e.preventDefault()
+    if (clientToken) {
+      navigate("/client") 
+      window.location.reload()
+    } else {
+      navigate("/")
+    }
+  }
   return (
     <>
       {/* Barre de navigation fixe */}
@@ -44,12 +57,15 @@ function ProfilClients({
       >
         <div className="max-w-[2520px] mx-auto xl:px-10 md:px-10 sm:px-4 px-2">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href="/" className="text-rose-500 lg:text-2xl md:text-sm font-extrabold">
+            
+            <a
+              href={clientToken ? "#" : "/"}
+              onClick={handleLogoClick}
+              className="text-rose-500 lg:text-2xl md:text-sm font-extrabold"
+            >
               <img src={logo || "/placeholder.svg"} alt="Logo" width="120" height="50" />
             </a>
 
-            {/* Section droite de la navigation */}
             <div className="flex items-center gap-6">
               {/* Bouton prestataire */}
               <div className="">{buttonPrest}</div>

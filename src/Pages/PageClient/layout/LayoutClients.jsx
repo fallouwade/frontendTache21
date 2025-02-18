@@ -209,7 +209,7 @@ function LayoutClients(props) {
               to="/dashboard"
               className="inline-flex items-center whitespace-nowrap bg-gray-100 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 mr-2 rounded transition-all"
             >
-              Retour à mon compte
+              Mon compte
             </Link>
           ) : (
             <Link
