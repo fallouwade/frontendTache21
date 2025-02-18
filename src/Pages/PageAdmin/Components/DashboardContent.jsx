@@ -5,7 +5,6 @@ import CardAdmin from "./CardAdmin";
 import ReservationChart from "./ReservationChart";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BiMessageDots } from "react-icons/bi";
 
 export default function DashboardContent() {
     const [donneesClients, setDonneesClients] = useState([]);
@@ -13,7 +12,7 @@ export default function DashboardContent() {
     const [totaleClients, setTotalClients] = useState(0);
     const [utilisateursInactifs, setutilisateursInactifs] = useState(0);
     const [UtilisateurActif, setUtilisateurActif] = useState(0);
-    const [loading, setLoading] = useState(true);
+    const [ setLoading] = useState(true);
     const [erreur, setErreur] = useState(null);
     const token = localStorage.getItem('token');
 
