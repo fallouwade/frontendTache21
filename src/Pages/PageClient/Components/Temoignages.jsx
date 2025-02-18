@@ -5,7 +5,7 @@ import axios from "axios"
 import Slider from "react-slick"
 import { Star, Quote } from "lucide-react"
 
-// Importer les styles slick-carousel
+// Import slick-carousel styles
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 
@@ -18,7 +18,9 @@ const Temoignages = () => {
     const fetchTemoignages = async () => {
       try {
         const response = await axios.get("https://backendtache21.onrender.com/api/commentaires/AllCommentaire")
-        setTemoignages(response.data)
+        // Trier les témoignages par date (les plus récents en premier) et prendre les 5 derniers
+        const sortedTemoignages = response.data.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5)
+        setTemoignages(sortedTemoignages)
         setLoading(false)
       } catch (err) {
         setError("Erreur lors de la récupération des témoignages")
@@ -45,9 +47,9 @@ const Temoignages = () => {
   if (error) return <div className="text-center py-16 text-xl text-red-500">{error}</div>
 
   return (
-    <div className=" from-blue-50 to-indigo-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-b from-blue-50 to-indigo-50 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Ce que disent nos clients</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Nos 5 derniers témoignages</h2>
         <Slider {...settings}>
           {temoignages.map((temoignage) => (
             <div key={temoignage._id} className="px-4">
@@ -70,7 +72,7 @@ const Temoignages = () => {
                       </div>
                       <div className="ml-3">
                         <p className="text-sm font-medium text-gray-900">
-                          {temoignage.  commentaireUser || "Client satisfait"}
+                          {temoignage.commentaireUser || "Client satisfait"}
                         </p>
                         <div className="flex items-center mt-1">
                           {[...Array(5)].map((_, i) => (
