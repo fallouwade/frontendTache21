@@ -59,13 +59,15 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
       autoScrollIntervalRef.current = setInterval(() => {
         if (containerRef.current) {
           const { scrollLeft, clientWidth, scrollWidth } = containerRef.current
-          if (scrollLeft + clientWidth >= scrollWidth) {
+          if (scrollLeft + clientWidth >= scrollWidth - 1) {
+            // If we're at the end, smoothly scroll back to the start
             containerRef.current.scrollTo({ left: 0, behavior: "smooth" })
           } else {
+            // Otherwise, continue scrolling
             containerRef.current.scrollBy({ left: 100, behavior: "smooth" })
           }
         }
-      }, 1200) // Scroll every 3 seconds
+      }, 1200) // Scroll every 1.2 seconds
     }
 
     const stopAutoScroll = () => {
@@ -96,11 +98,25 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
   }
 
   const scrollRight = () => {
-    containerRef.current?.scrollBy({ left: 100, behavior: "smooth" })
+    if (containerRef.current) {
+      const { scrollLeft, clientWidth, scrollWidth } = containerRef.current
+      if (scrollLeft + clientWidth >= scrollWidth - 1) {
+        containerRef.current.scrollTo({ left: 0, behavior: "smooth" })
+      } else {
+        containerRef.current.scrollBy({ left: 100, behavior: "smooth" })
+      }
+    }
   }
 
   const scrollLeft = () => {
-    containerRef.current?.scrollBy({ left: -100, behavior: "smooth" })
+    if (containerRef.current) {
+      const { scrollLeft, scrollWidth } = containerRef.current
+      if (scrollLeft === 0) {
+        containerRef.current.scrollTo({ left: scrollWidth, behavior: "smooth" })
+      } else {
+        containerRef.current.scrollBy({ left: -100, behavior: "smooth" })
+      }
+    }
   }
 
   if (isLoading) {
