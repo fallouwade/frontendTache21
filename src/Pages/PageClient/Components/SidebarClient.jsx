@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { FaUserCircle, FaSignOutAlt, FaHeart, FaEnvelope } from "react-icons/fa"
+import { FaUserCircle, FaHeart, FaEnvelope } from "react-icons/fa"
 import { AiOutlineCaretDown,AiOutlineCaretUp } from "react-icons/ai";
 import DeconnexionButton from "../../../Authentification/déconnexion/DeconnexionButton"
 

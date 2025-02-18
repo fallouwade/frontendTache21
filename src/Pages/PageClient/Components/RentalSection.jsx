@@ -78,7 +78,6 @@ function RentalSection({
             )
           })}
         </div>
-
         {totalServices > servicesPerPage && (
           <div className="flex justify-center items-center mt-8 text-sm text-gray-600">
             <button
