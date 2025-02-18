@@ -6,12 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 import SidebarPrestataire from "./SidebarPrestataire";
 
 const AjouterServicesPrestataire = () => {
-  const [service, setService] = useState(null);
   const [nomDeservice, setNomDeservice] = useState("");
   const [categorie, setCategorie] = useState("");
   const [descriptionDeService, setDescriptionDeService] = useState("");
-  const [imageService, setImageService] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imageService, setImageService] = useState([]); // Stocke plusieurs images
+  const [imagePreview, setImagePreview] = useState([]); // Stocke les aperçus d'images
   const [serviceId, setServiceId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [erreur, setErreur] = useState("");
@@ -25,16 +24,14 @@ const AjouterServicesPrestataire = () => {
         const response = await axios.get("https://backendtache21.onrender.com/api/categories/liste");
         setCategories(response.data);
       } catch (error) {
-        toast.error("Une erreur est survenue lors du chargement des catégories.", {
-          icon: <FaExclamationCircle />,
-          theme: "colored",
-        });
+        toast.error("Erreur lors du chargement des catégories.", { icon: <FaExclamationCircle />, theme: "colored" });
       }
     };
 
     fetchCategories();
   }, []);
 
+  // Charger les services existants
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -54,35 +51,42 @@ const AjouterServicesPrestataire = () => {
           setNomDeservice(service.nomDeservice);
           setCategorie(service.categorie);
           setDescriptionDeService(service.descriptionDeService);
-
-          if (service.imageUrl) {
-            setImagePreview(service.imageUrl);
+          if (service.imagesService) {
+            setImagePreview(service.imagesService.map(img => `https://backendtache21.onrender.com/uploads/images/${img}`));
           }
         }
       } catch (error) {
-        toast.error("Une erreur est survenue lors du chargement des services.", {
-          icon: <FaExclamationCircle />,
-          theme: "colored",
-        });
+        toast.error("Erreur lors du chargement des services.", { icon: <FaExclamationCircle />, theme: "colored" });
       }
     };
 
     fetchServices();
   }, []);
 
+  // Gérer la sélection de plusieurs images
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageService(file);
-      setImagePreview(URL.createObjectURL(file));
+    const files = Array.from(e.target.files);
+    if (files.length + imageService.length > 5) {
+      toast.error("Vous ne pouvez pas ajouter plus de 5 images.", { icon: <FaExclamationCircle />, theme: "colored" });
+      return;
     }
+
+    setImageService([...imageService, ...files]);
+setImagePreview([...imagePreview, ...files.map(file => URL.createObjectURL(file))]);
+
   };
 
-  const removeImage = () => {
-    setImageService(null);
-    setImagePreview(null);
+  // Supprimer une image sélectionnée
+  const removeImage = (index) => {
+    const newImages = [...imageService];
+    const newPreviews = [...imagePreview];
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+    setImageService(newImages);
+    setImagePreview(newPreviews);
   };
 
+  // Soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -90,22 +94,14 @@ const AjouterServicesPrestataire = () => {
 
     const token = localStorage.getItem("token");
     if (!token) {
-      setErreur("Vous devez être connecté pour effectuer cette action.");
+      toast.error("Veuillez vous connecter pour continuer.", { icon: <FaExclamationCircle />, theme: "colored" });
       setIsLoading(false);
-      toast.error("Veuillez vous connecter pour continuer.", {
-        icon: <FaExclamationCircle />,
-        theme: "colored",
-      });
       return;
     }
 
     if (!nomDeservice || !categorie || !descriptionDeService) {
-      setErreur("Veuillez remplir tous les champs requis.");
+      toast.error("Tous les champs doivent être remplis.", { icon: <FaExclamationCircle />, theme: "colored" });
       setIsLoading(false);
-      toast.error("Tous les champs doivent être remplis.", {
-        icon: <FaExclamationCircle />,
-        theme: "colored",
-      });
       return;
     }
 
@@ -113,55 +109,35 @@ const AjouterServicesPrestataire = () => {
     formData.append("nomDeservice", nomDeservice);
     formData.append("categorie", categorie);
     formData.append("descriptionDeService", descriptionDeService);
-    if (imageService) formData.append("imageService", imageService);
+
+    imageService.forEach(file => {
+      formData.append("imagesService", file); // Ajout multiple d'images
+    });
 
     try {
       let response;
       if (serviceId) {
-        // Mode modification
         response = await axios.put(
-          `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
+          `http://localhost:5000/api/services/modifier/${serviceId}`,
           formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } }
         );
-        toast.success("Service mis à jour avec succès !", {
-          icon: <FaCheckCircle />,
-          theme: "colored",
-        });
+        toast.success("Service mis à jour avec succès !", { icon: <FaCheckCircle />, theme: "colored" });
       } else {
-        // Mode ajout
         response = await axios.post(
           "https://backendtache21.onrender.com/api/services/ajouter",
           formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } }
         );
         setServiceId(response.data._id);
-        toast.success("Service ajouté avec succès !", {
-          icon: <FaCheckCircle />,
-          theme: "colored",
-        });
+        toast.success("Service ajouté avec succès !", { icon: <FaCheckCircle />, theme: "colored" });
       }
     } catch (error) {
-      setErreur("Une erreur est survenue lors de l'ajout ou modification du service.");
-      toast.error("Une erreur est survenue, veuillez réessayer.", {
-        icon: <FaExclamationCircle />,
-        theme: "colored",
-      });
+      toast.error("Une erreur est survenue, veuillez réessayer.", { icon: <FaExclamationCircle />, theme: "colored" });
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <SidebarPrestataire>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200 p-6">
@@ -169,9 +145,9 @@ const AjouterServicesPrestataire = () => {
           <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-6">
             {serviceId ? "Modifier votre Service" : servicesCount < 2 ? "Ajouter un Service" : "Vous ne pouvez pas ajouter plus de 2 services"}
           </h2>
-
+  
           {erreur && <p className="text-red-600 text-center font-semibold">{erreur}</p>}
-
+  
           {servicesCount < 2 ? (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="flex flex-col">
@@ -182,11 +158,11 @@ const AjouterServicesPrestataire = () => {
                   type="text"
                   value={nomDeservice}
                   onChange={(e) => setNomDeservice(e.target.value)}
-                  className="w-full p-3 border rounded-xl focus:ring  focus:ring-blue-300"
+                  className="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300"
                   required
                 />
               </div>
-
+  
               <div className="flex flex-col">
                 <label className="font-medium text-gray-700 flex items-center">
                   <FaTag className="mr-2 text-blue-500" /> Catégorie
@@ -203,7 +179,7 @@ const AjouterServicesPrestataire = () => {
                   ))}
                 </select>
               </div>
-
+  
               <div className="flex flex-col">
                 <label className="font-medium text-gray-700 flex items-center">
                   <FaRegFileAlt className="mr-2 text-blue-500" /> Description du service
@@ -216,33 +192,36 @@ const AjouterServicesPrestataire = () => {
                   required
                 />
               </div>
-
+  
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">Image du Service</label>
+                <label className="font-medium text-gray-700">Images du Service</label>
                 <input
                   type="file"
                   accept="image/*"
+                  multiple
                   onChange={handleImageChange}
                   className="w-full p-2 border rounded-lg cursor-pointer"
                 />
-                {(imagePreview || service?.imageUrl) && (
-                  <div className="mt-3 flex items-center space-x-4">
-                    <img
-                      src={imagePreview || service?.imageUrl}
-                      alt="Aperçu"
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="bg-red-500 hover:bg-red-600 text-white py-1 px-2  flex items-center space-x-1"
-                    >
-                      <FaTrashAlt /> <span></span>
-                    </button>
+  
+                {/* Aperçu des images sélectionnées */}
+                {imagePreview.length > 0 && (
+                  <div className="flex flex-wrap mt-2 gap-2">
+                    {imagePreview.map((src, index) => (
+                      <div key={index} className="relative w-20 h-20">
+                        <img src={src} alt={`Aperçu ${index}`} className="w-full h-full object-cover rounded-md" />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs"
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
-
+  
               <div className="text-center">
                 <button
                   type="submit"
@@ -257,7 +236,7 @@ const AjouterServicesPrestataire = () => {
             <p className="text-center text-red-600">Vous avez atteint la limite de 2 services. Vous ne pouvez pas ajouter d'autres services.</p>
           )}
         </div>
-
+  
         {/* Toast notifications */}
         <ToastContainer
           position="top-right"
@@ -271,6 +250,7 @@ const AjouterServicesPrestataire = () => {
       </div>
     </SidebarPrestataire>
   );
+  
 };
 
 export default AjouterServicesPrestataire;
