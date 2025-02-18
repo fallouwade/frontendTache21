@@ -17,7 +17,7 @@ function LayoutCommunautaire(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [servicesPerPage] = useState(8);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);  // Chargement activé au départ
+  const [isLoading, setIsLoading] = useState(true);  // Chargement activé au départs
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
 
