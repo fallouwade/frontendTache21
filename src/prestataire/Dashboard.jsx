@@ -10,34 +10,34 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const MONTHS = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const aggregateServicesByMonth = (services, selectedYear = null) => {
-  // Initialize data for all months
-  const monthData = {};
-  MONTHS.forEach(month => {
-    monthData[month] = 0;
-  });
-  
-  // Filter services by selected year if provided
-  const filteredServices = selectedYear 
-    ? services.filter(service => new Date(service.date).getFullYear() === parseInt(selectedYear))
-    : services;
+    // Initialize data for all months
+    const monthData = {};
+    MONTHS.forEach(month => {
+        monthData[month] = 0;
+    });
 
-  // Count services for each month
-  filteredServices.forEach(service => {
-    const date = new Date(service.date);
-    const monthIndex = date.getMonth();
-    const monthName = MONTHS[monthIndex];
-    monthData[monthName] = (monthData[monthName] || 0) + 1;
-  });
+    // Filter services by selected year if provided
+    const filteredServices = selectedYear
+        ? services.filter(service => new Date(service.date).getFullYear() === parseInt(selectedYear))
+        : services;
 
-  return {
-    labels: MONTHS,
-    data: MONTHS.map(month => monthData[month])
-  };
+    // Count services for each month
+    filteredServices.forEach(service => {
+        const date = new Date(service.date);
+        const monthIndex = date.getMonth();
+        const monthName = MONTHS[monthIndex];
+        monthData[monthName] = (monthData[monthName] || 0) + 1;
+    });
+
+    return {
+        labels: MONTHS,
+        data: MONTHS.map(month => monthData[month])
+    };
 };
 
 const getAvailableYears = (services) => {
-  const years = new Set(services.map(service => new Date(service.date).getFullYear()));
-  return Array.from(years).sort((a, b) => b - a); // Sort in descending order
+    const years = new Set(services.map(service => new Date(service.date).getFullYear()));
+    return Array.from(years).sort((a, b) => b - a); // Sort in descending order
 };
 
 export default function Dashboard() {
@@ -66,7 +66,7 @@ export default function Dashboard() {
                 const prestataireServices = response.data.demandes.filter(
                     service => service.prestataire.id === prestataireId
                 );
-                
+
                 setServices(prestataireServices);
                 // Get available years from services
                 const years = getAvailableYears(prestataireServices);
@@ -125,6 +125,7 @@ export default function Dashboard() {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,  
         scales: {
             y: {
                 ticks: {
@@ -157,9 +158,9 @@ export default function Dashboard() {
 
 
     return (
-        <SidebarPrestataire>       
+        <SidebarPrestataire>
             <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Tableau de bord</h1>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white p-4 rounded-lg shadow-md flex items-center transform hover:scale-105 transition-transform duration-300">
                     <FaClipboardList className="text-2xl sm:text-3xl mr-3" />
@@ -168,7 +169,7 @@ export default function Dashboard() {
                         <p className="text-2xl sm:text-3xl font-bold">{services.length}</p>
                     </div>
                 </div>
-                
+
                 <div className="bg-gradient-to-r from-green-400 to-blue-500 text-white p-4 rounded-lg shadow-md flex items-center transform hover:scale-105 transition-transform duration-300">
                     <FaClock className="text-2xl sm:text-3xl mr-3" />
                     <div>
@@ -201,7 +202,7 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="bg-white p-6 rounded-lg shadow-md w-full">
+                <div className="bg-white p-6 rounded-lg shadow-md w-full min-h-[300px]">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-semibold">Graphique des Demandes</h2>
                         <select
@@ -216,14 +217,21 @@ export default function Dashboard() {
                             ))}
                         </select>
                     </div>
-                    <Line data={chartData} options={options} />
+                    <div className=' w-full min-h-[300px]'>
+                        <Line data={chartData} options={options}
+                            style={{
+                                width: '100%',
+                                height: '100%', 
+                            }}
+                        />
+                    </div>
                 </div>
 
                 <div className="bg-white p-6 rounded-lg shadow-md w-full max-h-94 overflow-y-auto">
                     <h2 className="text-xl font-semibold mb-4 text-center">Notifications</h2>
                     <div className="space-y-3">
                         {notifications.length > 0 ? (
-                            notifications.map((notif,index) => (
+                            notifications.map((notif, index) => (
                                 <div
                                     key={notif.id || index}
                                     className={`flex items-center justify-between p-3 rounded-md text-sm sm:text-base shadow-sm transition-all duration-300 transform hover:scale-105 bg-blue-100 text-blue-800`}
