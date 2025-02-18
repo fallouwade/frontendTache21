@@ -218,6 +218,7 @@ const Footer = () => {
                 S'inscrire en tant que prestataire
               </button>
             </div>
+
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-gray-400 hover:text-white transition-colors"><FaFacebookF /></a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors"><FaTwitter /></a>
@@ -225,7 +226,7 @@ const Footer = () => {
               {showScrollButton && (
                 <button
                   onClick={scrollToTop}
-                  className="bg-yellow-500 hover:bg-yellow-600 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110"
+                  className="bg-yellow-500 hover:bg-yellow-600 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 absolute md:relative right-4 md:right-0 bottom-4 md:bottom-0"
                   aria-label="Retour en haut"
                 >
                   <FaChevronUp className="text-gray-900" />
