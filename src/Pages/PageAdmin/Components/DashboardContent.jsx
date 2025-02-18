@@ -120,7 +120,7 @@ export default function DashboardContent() {
 
             {/* Blocs d'information totale */}
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-20">
                     <CardAdmin
                         titre="Total utilisateurs"
                         titrePourcent="utilisateurs actifs"
