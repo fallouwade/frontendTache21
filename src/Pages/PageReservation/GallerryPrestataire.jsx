@@ -63,7 +63,7 @@ const GalleryPrestataire = ({ prestataire }) => {
       {images.length > 0 && (
         <div className="hidden sm:block">
           <div className="relative rounded-xl overflow-hidden">
-            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px]">
+            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px]">
               {images.map((image, index) => (
                 <div
                   key={index}
