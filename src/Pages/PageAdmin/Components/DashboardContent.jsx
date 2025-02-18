@@ -12,7 +12,7 @@ export default function DashboardContent() {
     const [totaleClients, setTotalClients] = useState(0);
     const [utilisateursInactifs, setutilisateursInactifs] = useState(0);
     const [UtilisateurActif, setUtilisateurActif] = useState(0);
-    const [ setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [erreur, setErreur] = useState(null);
     const token = localStorage.getItem('token');
 
