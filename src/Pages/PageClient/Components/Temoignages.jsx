@@ -45,7 +45,7 @@ const Temoignages = () => {
   if (error) return <div className="text-center py-16 text-xl text-red-500">{error}</div>
 
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className=" from-blue-50 to-indigo-50 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Ce que disent nos clients</h2>
         <Slider {...settings}>
@@ -54,7 +54,7 @@ const Temoignages = () => {
               <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <div className="p-8 h-64 flex flex-col justify-between">
                   <div>
-                    <Quote className="h-8 w-8 text-indigo-400 mb-4" />
+                    <Quote className="h-4 w-4 text-green-800 mb-4" />
                     <p className="text-gray-600 text-lg leading-relaxed mb-4 line-clamp-3">
                       {temoignage.commentaire || "Ce client a apprécié nos services."}
                     </p>
