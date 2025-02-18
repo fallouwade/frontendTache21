@@ -79,6 +79,7 @@ export default function Prestataire() {
     );
   };
 
+ 
 
   useEffect(() => {
     const reccupDonnéePrestataire = async () => {
@@ -91,6 +92,7 @@ export default function Prestataire() {
           ...item,
           nomComplet: `${item.prenom} ${item.nom}`, // Combinaison prénom + nom
         }));
+
         setPrestataires(transformedData);
         
         // Filtrer les prestataires bloqués

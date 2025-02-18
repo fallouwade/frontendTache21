@@ -8,8 +8,7 @@ import Temoignages from '../Components/Temoignages';
 import Satisfaction from '../Components/Satisfaction';
 import Footer from '../../Composants/Footer';
 import { Link } from 'react-router-dom';
-import logo from '../../../assets/logo.png'
-
+import logo from "/images/logo.png"
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
 function LayoutCommunautaire(props) {
@@ -109,7 +108,7 @@ function LayoutCommunautaire(props) {
         )}
       />
       
-      {/* Affichage du chargement pendant le démarrage */}
+      {/* Affichage du chargement pendant le démarragee */}
       {isLoading && (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
           <motion.div
@@ -166,7 +165,7 @@ function LayoutCommunautaire(props) {
             </div>
           </div>
 
-          <div className="px-5">
+          <div className="md:px-3  px-0">
             <RentalSection 
               services={currentServices}
               servicesPerPage={servicesPerPage}

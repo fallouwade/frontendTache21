@@ -1,13 +1,14 @@
-import { useState } from 'react';
+
+import { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const GalleryPrestatiare = ({ prestataire }) => {
+const GalleryPrestataire = ({ prestataire }) => {
   const [showMobileCarousel, setShowMobileCarousel] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const settings = {
     dots: true,
@@ -21,13 +22,17 @@ const GalleryPrestatiare = ({ prestataire }) => {
 
   const handleImageClick = () => {
     setShowMobileCarousel(true);
-  };//
+  };
 
-  const imageUrl = prestataire.services.length > 0 ? prestataire.services[0].imageUrl : null;
+  // Récupérer toutes les images de chaque service
+  const images = prestataire?.services?.flatMap(service =>
+    service.imagesService?.map(img => ({
+      src: `https://backendtache21.onrender.com/uploads/images/${img}`,
+      alt: service.nomService,
+    }))
+  ) || [];
+  console.log(images);
 
-  const images = imageUrl ? [
-    { src: imageUrl, alt: prestataire.services[0].nomService },
-  ] : [];
 
   return (
     <div className="max-w-7xl mx-auto relative">
@@ -54,17 +59,24 @@ const GalleryPrestatiare = ({ prestataire }) => {
         {prestataire.services.length > 0 ? prestataire.services[0].categorie : "divers services"}.
       </p>
 
-      {/* Section Image principale */}
-      {imageUrl && (
+      {/* Section Images Desktop */}
+      {images.length > 0 && (
         <div className="hidden sm:block">
           <div className="relative rounded-xl overflow-hidden">
-            <div className="grid grid-cols-4 gap-2 h-[330px]">
-              <div className="col-span-2 row-span-2 relative">
-                <img src={imageUrl} alt="Service" className="w-full h-full object-cover rounded-l-xl" />
-              </div>
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="col-span-1">
-                  <img src={imageUrl} alt={`Service ${index + 1}`} className="w-full h-full object-cover" />
+            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px]">
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className={`relative ${index === 0
+                      ? "col-span-2 row-span-2 h-full"
+                      : "col-span-1 row-span-1 h-[240px]" 
+                    }`}
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover rounded-xl"
+                  />
                 </div>
               ))}
             </div>
@@ -72,17 +84,19 @@ const GalleryPrestatiare = ({ prestataire }) => {
         </div>
       )}
 
+
       {/* Galerie Mobile */}
-      <div className="block sm:hidden mt-8">
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <div key={index} className="w-full h-72 cursor-pointer" onClick={handleImageClick}>
-              <img src={image.src} alt={image.alt} className="w-full h-full object-cover rounded-lg" />
-            </div>
-          ))}
-        </Slider>
-      </div>
-      
+      {images.length > 0 && (
+        <div className="block sm:hidden mt-8">
+          <Slider {...settings}>
+            {images.map((image, index) => (
+              <div key={index} className="w-full h-72 cursor-pointer" onClick={handleImageClick}>
+                <img src={image.src} alt={image.alt} className="w-full h-full object-cover rounded-lg" />
+              </div>
+            ))}
+          </Slider>
+        </div>
+      )}
 
       {/* Modal plein écran pour mobile */}
       {showMobileCarousel && (
@@ -97,7 +111,7 @@ const GalleryPrestatiare = ({ prestataire }) => {
                   <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
                 </div>
               ))}
-            </Slider>   
+            </Slider>
           </div>
         </div>
       )}
@@ -119,5 +133,4 @@ const GalleryPrestatiare = ({ prestataire }) => {
   );
 };
 
-export default GalleryPrestatiare;
-
+export default GalleryPrestataire;

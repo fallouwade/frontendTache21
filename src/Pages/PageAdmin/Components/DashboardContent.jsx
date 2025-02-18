@@ -5,7 +5,6 @@ import CardAdmin from "./CardAdmin";
 import ReservationChart from "./ReservationChart";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BiMessageDots } from "react-icons/bi";
 
 export default function DashboardContent() {
     const [donneesClients, setDonneesClients] = useState([]);

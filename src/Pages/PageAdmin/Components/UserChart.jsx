@@ -112,7 +112,7 @@ const UserChart = ({ data, className = "" }) => {
   }, [data, timeFrame, windowWidth]);
 
   return (
-    <div className={`w-full h-full ${className}`}>
+    <div className={`w-full h-[500px] md:h-full ${className}`}>
       <div className="w-full h-full bg-white rounded-lg shadow-lg p-3 flex flex-col">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-4">
           <h2 className="text-md font-bold">Croissance des Utilisateurs</h2>
@@ -127,15 +127,15 @@ const UserChart = ({ data, className = "" }) => {
           </select>
         </div>
           
-        <div className="flex-grow w-full min-h-0">
+        <div className="flex-grow w-full min-h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart 
               data={chartData}
               margin={{
                 top: 5,
-                right: 5,
-                left: 5,
-                bottom: windowWidth < 768 ? 20 : 5
+                right: 20,
+                left: 0,
+                bottom: windowWidth < 768 ? 60 : 5
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -143,12 +143,16 @@ const UserChart = ({ data, className = "" }) => {
                 dataKey="period"
                 angle={windowWidth < 768 ? -45 : 0}
                 textAnchor={windowWidth < 768 ? "end" : "middle"}
-                height={windowWidth < 768 ? 60 : 30}
+                height={windowWidth < 768 ? 80 : 30}
                 tick={{ fontSize: windowWidth < 768 ? 10 : 12 }}
+                interval={windowWidth < 768 ? 1 : 0}
               />
-              <YAxis />
+              <YAxis width={50} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend />
+              <Legend 
+                verticalAlign={windowWidth < 768 ? "bottom" : "top"}
+                height={36}
+              />
               <Line
                 type="monotone"
                 dataKey="clients"
