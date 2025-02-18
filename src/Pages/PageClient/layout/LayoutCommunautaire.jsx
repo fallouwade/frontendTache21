@@ -8,7 +8,7 @@ import Temoignages from '../Components/Temoignages';
 import Satisfaction from '../Components/Satisfaction';
 import Footer from '../../Composants/Footer';
 import { Link } from 'react-router-dom';
-import logo from '../../../assets/logo.png'
+import logo from '/images/logo.png'
 
 const API_URL = 'https://backendtache21.onrender.com/api/prestataires/complets';
 
@@ -31,7 +31,7 @@ function LayoutCommunautaire(props) {
   }, [services, selectedCategory, searchTerm]);
 
   const fetchServices = async () => {
-    setIsLoading(true); // Démarre le chargement
+    setIsLoading(true); // Démarre le chargements
     setError(null);
     try {
       const response = await fetch(API_URL);
