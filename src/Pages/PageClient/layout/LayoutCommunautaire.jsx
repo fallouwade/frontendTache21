@@ -31,7 +31,7 @@ function LayoutCommunautaire(props) {
   }, [services, selectedCategory, searchTerm]);
 
   const fetchServices = async () => {
-    setIsLoading(true); // Démarre le chargement
+    setIsLoading(true); // Démarre le chargements
     setError(null);
     try {
       const response = await fetch(API_URL);
