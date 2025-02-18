@@ -13,7 +13,6 @@ function ProfilClients({
   buttonPrest,
   unreadMessages,
   favorites = [],
-  onToggleFavorite,
   onToggleFavoriteFilter,
 }) {
   // États pour gérer le scroll et l'affichage des favoris

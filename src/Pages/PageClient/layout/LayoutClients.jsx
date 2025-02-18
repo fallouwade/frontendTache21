@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useCallback } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import ProfilClients from "../Components/ProfilClients"
@@ -28,7 +26,7 @@ function LayoutClients(props) {
   const [favorites, setFavorites] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
-  const [favoris, setFavoris] = useState([])
+  const [favoris] = useState([])
 
   useEffect(() => {
     fetchServices()
