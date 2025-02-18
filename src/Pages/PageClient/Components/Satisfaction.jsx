@@ -22,8 +22,8 @@ const Satisfaction = () => {
     return (
       <div>
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-4xl font-bold mb-16 text-start">
-          <span className="text-[#2B4C29]">Votre satisfaction</span>
+        <h2 className="text-3xl font-bold mb-16 text-gray-900 text-center">
+          <span className="">Votre satisfaction</span>
           {" "}
           <span className="text-yellow-500">garantie</span>
         </h2>
