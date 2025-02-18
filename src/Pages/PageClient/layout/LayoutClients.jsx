@@ -229,7 +229,7 @@ function LayoutClients(props) {
         {!showOnlyFavorites && (
           <>
             <div className="text-center space-y-4">
-              <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-5 font-bold tracking-tight sm:text-4xl md:text-18xl">
+              <h1 className="text-3xl pt-5 md:pt-16 px-3 pb-2 font-bold tracking-tight sm:text-4xl md:text-18xl">
                 Trouvez le bon professionnel près de chez vous
               </h1>
               <p className="text-lg px-3 text-gray-600">

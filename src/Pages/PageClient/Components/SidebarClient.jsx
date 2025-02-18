@@ -48,7 +48,7 @@ function SidebarClient({
         {/* Avatar de l'utilisateur */}
         <div className="relative">
           {isLoggedIn && userName ? (
-            <div className="w-8 h-8 bg-gray-700 text-white flex items-center justify-center rounded-full text-lg font-bold">
+            <div className="w-8 h-8 bg-gray-800 text-white flex items-center justify-center rounded-full text-lg font-bold">
               {userName.charAt(0).toUpperCase()}
             </div>
           ) : (
