@@ -100,7 +100,7 @@ export default function Comment({ serviceId }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/commentaires/services/${serviceId}/commentaires`,
+        `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
         { commentaire: contenu, note, utilisateurType: "Client", commentaireUser: `${user.prenom} ${user.nom}` }, // Ici, 'Client' est un exemple
         { headers: { Authorization: `Bearer ${token}` } }
       );
