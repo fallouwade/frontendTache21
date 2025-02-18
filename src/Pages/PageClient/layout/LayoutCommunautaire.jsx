@@ -109,7 +109,7 @@ function LayoutCommunautaire(props) {
         )}
       />
       
-      {/* Affichage du chargement pendant le démarrage */}
+      {/* Affichage du chargement pendant le démarragee */}
       {isLoading && (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
           <motion.div
