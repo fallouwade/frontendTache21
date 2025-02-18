@@ -164,7 +164,7 @@ const ProfilPrestataire = () => {
   return (
     <SidebarPrestataire>
       {/* Conteneur principal avec padding adaptatif pour mobile */}
-      <div className="font-std mb-10 w-full rounded-2xl bg-white p-4 sm:p-10 font-normal leading-relaxed text-gray-900 shadow-xl">
+      <div className="font-std mb-5 rounded-2xl bg-white w-2/3 relative top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 sm:p-20 font-normal leading-relaxed text-gray-900 shadow-xl">
         {/* Conteneur flex avec espacement ajusté pour mobile */}
         <div className="flex flex-col mx-2 sm:mx-10">
           {/* En-tête avec disposition verticale sur mobile */}
@@ -173,52 +173,7 @@ const ProfilPrestataire = () => {
             <h2 className="mb-2 md:mb-5 text-2xl sm:text-4xl font-bold text-blue-900 text-center md:text-left">
               Mise à jour de profil
             </h2>
-            <div className="text-center">
-              <div>
-                <img
-                  alt="Profile Picture"
-                  className="rounded-full w-24 h-24 sm:w-32 sm:h-32 mx-auto border-4 border-indigo-800 mb-4 transition-transform duration-300 hover:scale-105 ring ring-gray-300"
-                  src="https://i.pravatar.cc/300"
-                />
-                <input
-                  hidden
-                  id="upload_profile"
-                  name="profile"
-                  required
-                  type="file"
-                />
-                <label
-                  className="inline-flex items-center"
-                  htmlFor="upload_profile"
-                >
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-blue-700"
-                    data-slot="icon"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                    <path
-                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                  </svg>
-                </label>
-              </div>
-              {/* Bouton avec taille adaptée pour mobile */}
-              <button className="bg-indigo-800 text-white px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg hover:bg-blue-900 transition-colors duration-300 ring ring-gray-300 hover:ring-indigo-300">
-                Changer la photo
-              </button>
-            </div>
+           
           </div>
           
           {/* Formulaire avec espacement vertical augmenté pour mobile */}
@@ -295,7 +250,7 @@ const ProfilPrestataire = () => {
             <div className="text-center mt-6 sm:mt-8">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 sm:py-3 sm:px-8 rounded-lg transition duration-300 text-sm sm:text-base"
+                className="bg-blue-900 hover:bg-blue-900 text-white py-2 px-6 sm:py-3 sm:px-8 rounded-lg transition duration-300 text-sm sm:text-base"
                 disabled={isLoading}
               >
                 {isLoading ? "Mise à jour..." : "Mettre à jour"}
