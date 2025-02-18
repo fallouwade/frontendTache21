@@ -68,7 +68,6 @@ export default function Dashboard() {
                 );
                 
                 setServices(prestataireServices);
-                
                 // Get available years from services
                 const years = getAvailableYears(prestataireServices);
                 setAvailableYears(years);
@@ -104,6 +103,8 @@ export default function Dashboard() {
 
         fetchServicesAndNotifications();
     }, [token]);
+
+    console.log(services);
 
     useEffect(() => {
         if (services.length > 0 && selectedYear) {
@@ -154,10 +155,6 @@ export default function Dashboard() {
         setNotifications(notifications.filter((notif) => notif.id !== id));
     };
 
-    // Filter services for statistics based on selected year
-    const filteredServices = selectedYear
-        ? services.filter(service => new Date(service.date).getFullYear() === parseInt(selectedYear))
-        : services;
 
     return (
         <SidebarPrestataire>       
@@ -168,7 +165,7 @@ export default function Dashboard() {
                     <FaClipboardList className="text-2xl sm:text-3xl mr-3" />
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Total Demandes</h2>
-                        <p className="text-2xl sm:text-3xl font-bold">{filteredServices.length}</p>
+                        <p className="text-2xl sm:text-3xl font-bold">{services.length}</p>
                     </div>
                 </div>
                 
@@ -177,7 +174,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">En Attente</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {filteredServices.filter(service => service.statut === 'attente').length}
+                            {services.filter(service => service.statut === 'attente').length}
                         </p>
                     </div>
                 </div>
@@ -187,7 +184,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Acceptées</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {filteredServices.filter(service => service.statut === 'accepte').length}
+                            {services.filter(service => service.statut === 'accepte').length}
                         </p>
                     </div>
                 </div>
@@ -197,7 +194,7 @@ export default function Dashboard() {
                     <div>
                         <h2 className="text-base sm:text-lg font-semibold">Refusées</h2>
                         <p className="text-2xl sm:text-3xl font-bold">
-                            {filteredServices.filter(service => service.statut === 'refuse').length}
+                            {services.filter(service => service.statut === 'refuse').length}
                         </p>
                     </div>
                 </div>
@@ -226,9 +223,9 @@ export default function Dashboard() {
                     <h2 className="text-xl font-semibold mb-4 text-center">Notifications</h2>
                     <div className="space-y-3">
                         {notifications.length > 0 ? (
-                            notifications.map((notif) => (
+                            notifications.map((notif,index) => (
                                 <div
-                                    key={notif.id}
+                                    key={notif.id || index}
                                     className={`flex items-center justify-between p-3 rounded-md text-sm sm:text-base shadow-sm transition-all duration-300 transform hover:scale-105 bg-blue-100 text-blue-800`}
                                 >
                                     <div className="flex items-center space-x-3">
