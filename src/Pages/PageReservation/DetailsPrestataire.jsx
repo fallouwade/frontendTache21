@@ -1,9 +1,6 @@
 
 
 import  { useState } from 'react';
-// import RatingBadge from './RatingBadge';
-// import Stats from './Comment';
-// import ReservationCard from './ReservationCard';
 import Calendar from './Calendar';
 import ReservationCard from './ReservationCard';
 import Comment from './Comment';
@@ -32,7 +29,7 @@ const DetailsPrestataire = (props) => {
          <Comment serviceId={props.prestataire.id} />
         </div>
 
-        <ReservationCard selectedDate={selectedDate} id={props.prestataire.id} />
+        <ReservationCard selectedDate={selectedDate} id={props.prestataire.id} service={props.prestataire} />
       </div>
     </div>
   );

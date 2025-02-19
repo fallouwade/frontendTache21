@@ -212,11 +212,11 @@ function LayoutClients(props) {
             </Link>
           ) : (
             <Link
-            to="/inscriptionPrestataire"
-            className="inline-flex items-center whitespace-nowrap text-nowrap md:bg-gray-200 text-base md:text-[15px] hover:text-grey md:hover:bg-gray-300 text-gray-700 font-medium md:font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-4 sm:ml-6 md:ml-6 rounded md:rounded-full transition-all"
-          >
-            Devenir Prestataire
-          </Link>
+              to="/inscriptionPrestataire"
+              className="inline-flex items-center whitespace-nowrap bg-gray-200 text-[15px] sm:text-sm md:text-base hover:bg-blue-600 md:hover:bg-gray-300 text-gray-700 font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-6 sm:ml-8 md:ml-6 rounded transition-all"
+            >
+              Devenir Prestataire
+            </Link>
           )
         }
         favorites={favorites}
