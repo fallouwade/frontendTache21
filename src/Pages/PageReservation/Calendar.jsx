@@ -74,7 +74,7 @@ const Calendar = ({ onDateSelect }) => {
             return (
               <div  
                 key={index}
-                onClick={() => isValidDay && !isPast ? handleDateSelect(day) : null} // Désactiver la sélection des jours passés
+                onClick={() => isValidDay && !isPast ? handleDateSelect(day) : null} // Désactiverr la sélection des jours passés
                 className={`
                   text-center p-2 text-sm
                   ${isValidDay ? 'cursor-pointer hover:border hover:border-blue-600 hover:rounded-full' : 'invisible'}
