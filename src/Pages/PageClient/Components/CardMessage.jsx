@@ -5,7 +5,6 @@ import { Loader2, ChevronRight, ChevronLeft } from "lucide-react"
 
 const API_URL = "https://backendtache21.onrender.com"
 
-// Définition de la correspondance entre les services et les icônes
 const iconMap = {
   Jardinage: "🌱",
   Plomberie: "🚽",
@@ -28,10 +27,11 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
   const [services, setServices] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-  // "arrow" pourra être "right", "left" ou null
   const [arrow, setArrow] = useState("right")
+  const [isHovering, setIsHovering] = useState(false)
 
   const containerRef = useRef(null)
+  const autoScrollIntervalRef = useRef(null)
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -41,7 +41,6 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
           throw new Error("Failed to fetch services")
         }
         const data = await response.json()
-        // Filtrer pour n'avoir que les services non archivés
         setServices(data.filter((service) => !service.archive))
       } catch (err) {
         setError("Failed to load services. Please try again later.")
@@ -53,30 +52,71 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
     fetchServices()
   }, [])
 
-  // Fonction appelée lors du scroll sur le conteneur
+  useEffect(() => {
+    const startAutoScroll = () => {
+      if (isHovering) return
+
+      autoScrollIntervalRef.current = setInterval(() => {
+        if (containerRef.current) {
+          const { scrollLeft, clientWidth, scrollWidth } = containerRef.current
+          if (scrollLeft + clientWidth >= scrollWidth - 1) {
+            // If we're at the end, smoothly scroll back to the start
+            containerRef.current.scrollTo({ left: 0, behavior: "smooth" })
+          } else {
+            // Otherwise, continue scrolling
+            containerRef.current.scrollBy({ left: 100, behavior: "smooth" })
+          }
+        }
+      }, 1200) // Scroll every 1.2 seconds
+    }
+
+    const stopAutoScroll = () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current)
+        autoScrollIntervalRef.current = null
+      }
+    }
+
+    if (!isHovering) {
+      startAutoScroll()
+    } else {
+      stopAutoScroll()
+    }
+
+    return () => stopAutoScroll()
+  }, [isHovering])
+
   const handleScroll = (e) => {
     const { scrollLeft, clientWidth, scrollWidth } = e.target
-    // Si on est tout au début, afficher la flèche droite (si contenu déborde)
     if (scrollLeft === 0 && scrollWidth > clientWidth) {
       setArrow("right")
-    }
-    // Si on est à la fin, afficher la flèche gauche
-    else if (scrollLeft + clientWidth >= scrollWidth - 1) {
+    } else if (scrollLeft + clientWidth >= scrollWidth - 1) {
       setArrow("left")
-    }
-    // Sinon, on est au milieu et aucune flèche n'est affichée
-    else {
+    } else {
       setArrow(null)
     }
   }
 
-  // Fonctions pour défiler de 100 pixels
   const scrollRight = () => {
-    containerRef.current?.scrollBy({ left: 100, behavior: "smooth" })
+    if (containerRef.current) {
+      const { scrollLeft, clientWidth, scrollWidth } = containerRef.current
+      if (scrollLeft + clientWidth >= scrollWidth - 1) {
+        containerRef.current.scrollTo({ left: 0, behavior: "smooth" })
+      } else {
+        containerRef.current.scrollBy({ left: 100, behavior: "smooth" })
+      }
+    }
   }
 
-  const scrollLeftFn = () => {
-    containerRef.current?.scrollBy({ left: -100, behavior: "smooth" })
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      const { scrollLeft, scrollWidth } = containerRef.current
+      if (scrollLeft === 0) {
+        containerRef.current.scrollTo({ left: scrollWidth, behavior: "smooth" })
+      } else {
+        containerRef.current.scrollBy({ left: -100, behavior: "smooth" })
+      }
+    }
   }
 
   if (isLoading) {
@@ -97,7 +137,9 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex overflow-x-auto space-x-4 py-1 scrollbar-hide"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        className="flex overflow-x-auto space-x-2 py-1 scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {services.map((service) => (
@@ -109,15 +151,11 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
             }`}
           >
             <span className="text-3xl mb-3">{iconMap[service.nom] || "🔧"}</span>
-            <span className="text-center text-lg text-gray-800 font-semibold">
-              {service.nom}
-            </span>
+            <span className="text-center text-lg text-gray-800 font-semibold">{service.nom}</span>
           </button>
         ))}
       </div>
 
-      {/* === CHANGEMENTS EFFECTUÉS === */}
-      {/* Affichage d'une seule flèche en fonction de la position du scroll */}
       {arrow === "right" && (
         <div className="absolute top-1/2 right-1 md:right-[-45px] transform -translate-y-1/2">
           <button
@@ -131,16 +169,16 @@ function CategoryGrid({ onCategoryClick, selectedCategory }) {
       {arrow === "left" && (
         <div className="absolute top-1/2 left-1 md:left-[-45px] transform -translate-y-1/2">
           <button
-            onClick={scrollLeftFn}
+            onClick={scrollLeft}
             className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 focus:outline-none"
           >
             <ChevronLeft className="w-6 h-6 text-gray-400" />
           </button>
         </div>
       )}
-      {/* === FIN DES CHANGEMENTS === */}
     </div>
   )
 }
 
 export default CategoryGrid
+

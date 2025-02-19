@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios"; 
+import { FaList, FaArchive, FaRegClipboard } from "react-icons/fa"; 
+import { toast, ToastContainer } from 'react-toastify';  // Import des Toasts
+import 'react-toastify/dist/ReactToastify.css';  // Import du style des Toasts
 import CategorieListe from "./PageAdmin/Components/CategorieListe";
 import CategorieAjout from "./PageAdmin/Components/CategorieAjout";
-import { FaList, FaArchive, FaRegClipboard } from "react-icons/fa"; 
 
 const Categorie = () => {
   const [categories, setCategories] = useState([]);  
@@ -10,21 +12,22 @@ const Categorie = () => {
   const getCategories = async () => {
     try {
       const response = await axios.get("https://backendtache21.onrender.com/api/categories/liste");
-  
+
       console.log("Données reçues de l'API:", response.data);
-  
+
       const categoriesWithNom = response.data.filter(categories => {
         const nom = categories.nom ? categories.nom.trim() : "";  
         console.log("Nom de la catégorie après trim:", nom);  
         return nom.length > 0;
       });
-  
+
       console.log("Catégories filtrées avec un nom valide:", categoriesWithNom);  
 
       setCategories(categoriesWithNom);
-  
+
     } catch (error) {
       console.error("Erreur lors de la récupération des catégories:", error);
+      toast.error("Erreur lors de la récupération des catégories.", { toastId: "error-fetch" }); // Notification en cas d'erreur
     }
   };
 
@@ -39,24 +42,29 @@ const Categorie = () => {
           ...prevCategories,
           { nom: categorie, archive: false },
         ]);
+        toast.success("Catégorie ajoutée avec succès !", { toastId: "success-add-category" }); // Notification en cas de succès
       }
     } catch (error) {
       console.error("Erreur lors de l'ajout de la catégorie", error);
+      toast.error("Erreur lors de l'ajout de la catégorie.", { toastId: "error-add-category" }); // Notification en cas d'erreur
     }
   };
 
   const archiverCategorie = async (categorieId) => {
     try {
-      // Effectuer la requête pour archiver ou restaurer la catégorie via l'API
       const response = await axios.put(`https://backendtache21.onrender.com/api/categories/archiver/${categorieId}`);
 
       if (response.status === 200) {
-        // Si la requête est réussie, mettre à jour localement l'état des catégories
         setCategories((prevCategories) =>
           prevCategories.map((cat) => {
-            // Vérifier si la catégorie correspond à l'ID et inverser l'état de l'archive
-            if (cat._id === categorieId) {  // Assurez-vous que chaque catégorie a un `_id` unique
-              return { ...cat, archive: !cat.archive };
+            if (cat._id === categorieId) {
+              const updatedCategory = { ...cat, archive: !cat.archive };
+              if (updatedCategory.archive) {
+                toast.success("Catégorie archivée avec succès !", { toastId: "success-archive-category" }); // Notification en cas d'archivage
+              } else {
+                toast.success("Catégorie restaurée avec succès !", { toastId: "success-restore-category" }); // Notification en cas de restauration
+              }
+              return updatedCategory;
             }
             return cat;
           })
@@ -64,6 +72,7 @@ const Categorie = () => {
       }
     } catch (error) {
       console.error("Erreur lors de l'archivage de la catégorie", error);
+      toast.error("Erreur lors de l'archivage de la catégorie.", { toastId: "error-archive-category" }); // Notification en cas d'erreur
     }
   };
 
@@ -76,21 +85,21 @@ const Categorie = () => {
       count: categories.length,
       description: "",
       bgColor: "bg-blue-500",
-      icon: <FaList className="text-4xl mb-2" />  // Icône pour Total Categories
+      icon: <FaList className="text-4xl mb-2" />  
     },
     {
       title: "Categories archivés",
       count: categoriesArchivées,
       description: "",
       bgColor: "bg-red-500",
-      icon: <FaArchive className="text-4xl mb-2" />  // Icône pour Categories archivés
+      icon: <FaArchive className="text-4xl mb-2" />  
     },
     {
       title: "Categories non archivées",  
       count: categoriesNonArchivees,
       description: "",
       bgColor: "bg-green-500",
-      icon: <FaRegClipboard className="text-4xl mb-2" />  // Icône pour Categories non archivées
+      icon: <FaRegClipboard className="text-4xl mb-2" />  
     },
   ];
 
@@ -100,13 +109,13 @@ const Categorie = () => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-6 p-6 bg-blue-50">
+      <div className="flex flex-wrap justify-center gap-6 p-4 bg-blue-50">
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`w-[330px] p-6 rounded-lg shadow-md text-white ${card.bgColor} flex flex-col items-center`}
+            className={`w-[330px] p-4 rounded-lg shadow-md text-white ${card.bgColor} flex flex-col items-center`}
           >
-            <div className="mb-4">{card.icon}</div>  {/* Icône ajoutée ici */}
+            <div className="mb-4">{card.icon}</div>  
             <h3 className="text-lg font-semibold text-center">{card.title}</h3>
             <div className="text-4xl font-bold py-2 text-center">{card.count}</div>
             <p className="text-sm text-center">{card.description}</p>
@@ -118,13 +127,29 @@ const Categorie = () => {
         <div className="flex-1 min-w-[300px]">
           <CategorieListe
             categories={categories}
-            archiverCategorie={archiverCategorie}  // Passer la fonction archiverCategorie
+            archiverCategorie={archiverCategorie}  
           />
         </div>
         <div className="flex-1 min-w-[300px]">
           <CategorieAjout ajouterCategorie={ajouterCategorie} />
         </div>
       </div>
+
+      {/* Conteneur pour afficher les notifications toast */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        style={{
+          marginTop: "60px", 
+          zIndex: 9999, 
+        }}
+      />
     </>
   );
 };
