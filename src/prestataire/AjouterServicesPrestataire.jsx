@@ -118,7 +118,7 @@ setImagePreview([...imagePreview, ...files.map(file => URL.createObjectURL(file)
       let response;
       if (serviceId) {
         response = await axios.put(
-          `http://localhost:5000/api/services/modifier/${serviceId}`,
+          `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } }
         );
