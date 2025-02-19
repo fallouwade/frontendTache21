@@ -72,7 +72,7 @@ const Calendar = ({ onDateSelect }) => {
             const isPast = isValidDay && isPastDay(day); 
 
             return (
-              <div 
+              <div  
                 key={index}
                 onClick={() => isValidDay && !isPast ? handleDateSelect(day) : null} // Désactiver la sélection des jours passés
                 className={`
