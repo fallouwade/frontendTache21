@@ -15,7 +15,7 @@ const AjouterServicesPrestataire = () => {
   const [nomDeservice, setNomDeservice] = useState("");
   const [categorie, setCategorie] = useState("");
   const [descriptionDeService, setDescriptionDeService] = useState("");
-  const [imageService, setImageService] = useState([]); // Stocke plusieurs images
+  const [imagesService, setImagesService] = useState([]); // Stocke plusieurs images
   const [imagePreview, setImagePreview] = useState([]); // Stocke les aperçus d'images
   const [serviceId, setServiceId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,151 +42,212 @@ const AjouterServicesPrestataire = () => {
     fetchCategories();
   }, []);
 
+
+
   // Charger les services existants
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-
+  
         const response = await axios.get(
           "https://backendtache21.onrender.com/api/services/service-par-utilisateur",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-
+  
         const services = response.data;
         setServicesCount(services.length);
-
+  
         if (services.length > 0) {
           const service = services[0];
           setServiceId(service._id);
           setNomDeservice(service.nomDeservice);
           setCategorie(service.categorie);
           setDescriptionDeService(service.descriptionDeService);
+  
+          // Mettre à jour les images avec celles de Cloudinary
           if (service.imagesService) {
-            setImagePreview(
-              service.imagesService.map(
-                (img) =>
-                  `https://backendtache21.onrender.com/uploads/images/${img}`
-              )
-            );
+            setImagePreview(service.imagesService);  // Utiliser directement les URLs Cloudinary
           }
         }
       } catch (error) {
-        // toast.error("Erreur lors du chargement des services.", { icon: <FaExclamationCircle />, theme: "colored" });
+        toast.error("Erreur lors du chargement des services.", {
+          icon: <FaExclamationCircle />,
+          theme: "colored",
+        });
       }
     };
-
+  
     fetchServices();
   }, []);
+  
+
+  useEffect(() => {
+    return () => {
+      imagePreview.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [imagePreview]);
+  
 
   // Gérer la sélection de plusieurs images
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length + imageService.length > 5) {
+  
+    if (files.length + imagesService.length > 5) {
       toast.error("Vous ne pouvez pas ajouter plus de 5 images.", {
         icon: <FaExclamationCircle />,
         theme: "colored",
       });
       return;
     }
-
-    setImageService([...imageService, ...files]);
-    setImagePreview([
-      ...imagePreview,
-      ...files.map((file) => URL.createObjectURL(file)),
-    ]);
+  
+    const validImages = files.filter((file) => file.type.startsWith("image/"));
+  
+    if (validImages.length !== files.length) {
+      toast.error("Seuls les fichiers images sont acceptés.", {
+        icon: <FaExclamationCircle />,
+        theme: "colored",
+      });
+      return;
+    }
+  
+    // 🔄 Révoquer les anciennes URL pour éviter les fuites mémoire
+    imagePreview.forEach((url) => URL.revokeObjectURL(url));
+  
+    // ✅ Mise à jour avec une fonction callback pour éviter les décalages
+    setImagesService((prev) => [...prev, ...validImages]);
+    setImagePreview((prev) => [
+      ...prev,
+      ...validImages.map((file) => URL.createObjectURL(file)),
+    ]); 
   };
+  
 
   // Supprimer une image sélectionnée
   const removeImage = (index) => {
-    const newImages = [...imageService];
+    const newImages = [...imagesService];
     const newPreviews = [...imagePreview];
     newImages.splice(index, 1);
     newPreviews.splice(index, 1);
-    setImageService(newImages);
+    setImagesService(newImages);
     setImagePreview(newPreviews);
   };
 
-  // Soumettre le formulaire
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErreur("");
+  const uploadImagesToCloudinary = async (images) => {
+    const uploadedImages = [];
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Veuillez vous connecter pour continuer.", {
-        icon: <FaExclamationCircle />,
-        theme: "colored",
-      });
-      setIsLoading(false);
-      return;
+    for (const image of images) {
+        // Vérifie si c'est une URL déjà existante
+        if (typeof image === "string" && image.startsWith("http")) {
+            uploadedImages.push(image); // ✅ Conserver les images déjà hébergées
+            continue;
+        }
+
+        // Vérifie si c'est bien un fichier (évite d'uploader autre chose)
+        if (!(image instanceof File)) {
+            console.error("L'élément n'est pas un fichier valide :", image);
+            toast.error("L'image sélectionnée n'est pas un fichier valide.");
+            continue;
+        }
+
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "ml_default");
+
+        try {
+            const response = await axios.post(
+                "https://api.cloudinary.com/v1_1/dnzva49jt/image/upload",
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+            uploadedImages.push(response.data.secure_url);
+        } catch (error) {
+            console.error("Erreur d'upload Cloudinary :", error);
+            toast.error("Erreur lors de l'upload d'une image.");
+        }
     }
 
-    if (!nomDeservice || !categorie || !descriptionDeService) {
-      toast.error("Tous les champs doivent être remplis.", {
-        icon: <FaExclamationCircle />,
-        theme: "colored",
-      });
+    return uploadedImages;
+};
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setErreur("");
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+      toast.error("Veuillez vous connecter pour continuer.");
       setIsLoading(false);
       return;
-    }
+  }
 
-    const formData = new FormData();
-    formData.append("nomDeservice", nomDeservice);
-    formData.append("categorie", categorie);
-    formData.append("descriptionDeService", descriptionDeService);
+  if (!nomDeservice || !categorie || !descriptionDeService) {
+      toast.error("Tous les champs doivent être remplis.");
+      setIsLoading(false);
+      return;
+  }
 
-    imageService.forEach((file) => {
-      formData.append("imagesService", file); // Ajout multiple d'images
-    });
+  try {
+      
 
-    try {
+      // 1️⃣ Upload des nouvelles images uniquement
+      const uploadedImageUrls = await uploadImagesToCloudinary(imagesService);
+      
+
+      // 2️⃣ Création de l'objet JSON pour le backend
+      const serviceData = {
+          nomDeservice,
+          categorie,
+          descriptionDeService,
+          imagesService: uploadedImageUrls, // Assure que c'est un tableau JSON
+      };
+
+
       let response;
       if (serviceId) {
-        response = await axios.put(
-          `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        toast.success("Service mis à jour avec succès !", {
-          icon: <FaCheckCircle />,
-          theme: "colored",
-        });
+         
+          response = await axios.put(
+              `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
+              serviceData, 
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                  },
+              }
+          );
+          toast.success("Service mis à jour avec succès !");
       } else {
-        response = await axios.post(
-          "https://backendtache21.onrender.com/api/services/ajouter",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setServiceId(response.data._id);
-        toast.success("Service ajouté avec succès !", {
-          icon: <FaCheckCircle />,
-          theme: "colored",
-        });
+        
+          response = await axios.post(
+              "https://backendtache21.onrender.com/api/services/ajouter",
+              serviceData,
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json", //  Correction du type
+                  },
+              }
+          );
+          setServiceId(response.data._id);
+          toast.success("Service ajouté avec succès !");
       }
-    } catch (error) {
-      toast.error("Une erreur est survenue, veuillez réessayer.", {
-        icon: <FaExclamationCircle />,
-        theme: "colored",
-      });
-    } finally {
+  } catch (error) {
+      console.error("Erreur lors de la soumission :", error);
+      toast.error("Une erreur est survenue, veuillez réessayer.");
+  } finally {
       setIsLoading(false);
-    }
-  };
+  }
+};
+
+
+
+  
   return (
     <SidebarPrestataire>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200 p-6">

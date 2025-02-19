@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -20,62 +19,69 @@ const GalleryPrestataire = ({ prestataire }) => {
     autoplaySpeed: 3000,
   };
 
-  const handleImageClick = () => {
-    setShowMobileCarousel(true);
-  };
+  const handleImageClick = () => setShowMobileCarousel(true);
 
-  // Récupérer toutes les images de chaque service
-  const images = prestataire?.services?.flatMap(service =>
-    service.imagesService?.map(img => ({
-      src: `https://backendtache21.onrender.com/uploads/images/${img}`,
-      alt: service.nomService,
-    }))
-  ) || [];
-  console.log(images);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setShowMobileCarousel(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
+  const images =
+    prestataire?.services?.flatMap((service) =>
+      service.imagesService?.map((img) => ({
+        src: img,
+        alt: service.nomService,
+      }))
+    ) || [];
 
   return (
-    <div className="max-w-7xl mx-auto relative">
-      {/* Affichage du bouton retour seulement si l'utilisateur est connecté */}
+    <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8">
+      {/* Back Button for Logged In Users */}
       {isLoggedIn && (
-        <div className="absolute -top-16 z-40">
+        <div className="absolute top-6 left-6 z-40">
           <Link
             to="/client"
-            className="bg-black p-2 rounded-full shadow-lg flex items-center justify-center transition duration-300"
+            className="bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition duration-300"
             aria-label="Retour"
           >
-            <FaArrowLeft className="w-5 h-5 text-white" />
+            <FaArrowLeft className="w-6 h-6 text-white" />
           </Link>
         </div>
       )}
 
-      {/* Informations sur le prestataire */}
-      <div className="flex justify-between items-center mb-6 mt-10">
-        <h1 className="text-3xl font-bold text-blue-700">Bonjour, je suis {prestataire.prenom} {prestataire.nom}</h1>
+      {/* Provider Info Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 mt-12">
+        <h1 className="text-4xl font-bold text-blue-700">{`Bonjour, je suis ${prestataire?.prenom} ${prestataire?.nom}`}</h1>
       </div>
 
-      <p className="text-lg text-gray-700 mb-6">
-        Je m'appelle {prestataire.prenom} {prestataire.nom}, et je suis spécialisé dans tous vos travaux de{" "}
-        {prestataire.services.length > 0 ? prestataire.services[0].categorie : "divers services"}.
+      <p className="text-xl text-gray-700 mb-6">
+        Je m'appelle {prestataire?.prenom} {prestataire?.nom}, et je suis spécialisé dans tous vos travaux de{" "}
+        {prestataire?.services?.length > 0
+          ? prestataire.services[0].categorie
+          : "divers services"}.
       </p>
 
-      {/* Section Images Desktop */}
+      {/* Desktop Image Gallery */}
       {images.length > 0 && (
         <div className="hidden sm:block">
-          <div className="relative rounded-xl overflow-hidden">
-            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px]">
-              {images.map((image, index) => (
+          <div className="relative rounded-xl overflow-hidden shadow-lg transition-transform transform hover:scale-105">
+            <div className="grid grid-cols-4 gap-4 h-[500px]">
+              {images.slice(0, 5).map((image, index) => (
                 <div
                   key={index}
-                  className={`relative ${index === 0
+                  className={`relative ${
+                    index === 0
                       ? "col-span-2 row-span-2 h-full"
-                      : "col-span-1 row-span-1 h-[240px]" 
-                    }`}
+                      : "col-span-1 row-span-1 h-[240px]"
+                  }`}
                 >
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-full object-cover rounded-xl"
+                    className="w-full h-full object-cover rounded-xl transition duration-300"
                   />
                 </div>
               ))}
@@ -84,31 +90,51 @@ const GalleryPrestataire = ({ prestataire }) => {
         </div>
       )}
 
-
-      {/* Galerie Mobile */}
+      {/* Mobile Image Gallery */}
       {images.length > 0 && (
-        <div className="block sm:hidden mt-8">
+        <div className="block sm:hidden  mt-8">
           <Slider {...settings}>
             {images.map((image, index) => (
-              <div key={index} className="w-full h-72 cursor-pointer" onClick={handleImageClick}>
-                <img src={image.src} alt={image.alt} className="w-full h-full object-cover rounded-lg" />
+              <div
+                key={index}
+                className="w-full h-72  cursor-pointer"
+                onClick={handleImageClick}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover  shadow-md transition duration-300"
+                />
               </div>
             ))}
           </Slider>
         </div>
       )}
 
-      {/* Modal plein écran pour mobile */}
+      {/* Fullscreen Modal for Mobile */}
       {showMobileCarousel && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center">
-          <button onClick={() => setShowMobileCarousel(false)} className="absolute top-4 right-4 text-white bg-black/50 p-2 rounded-full">
-            <span className="text-2xl">×</span>
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center transition-opacity duration-300"
+          onClick={() => setShowMobileCarousel(false)}
+        >
+          <button
+            onClick={() => setShowMobileCarousel(false)}
+            className="absolute top-6 right-6 text-white bg-black/50 p-3 rounded-full hover:scale-105 transition-transform"
+          >
+            <span className="text-3xl">×</span>
           </button>
-          <div className="w-full max-w-md">
+          <div
+            className="w-full max-w-4xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Slider {...settings}>
               {images.map((image, index) => (
-                <div key={index} className="carousel-item h-full w-full relative">
-                  <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
+                <div key={index} className="h-full w-full relative">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
                 </div>
               ))}
             </Slider>
@@ -116,16 +142,19 @@ const GalleryPrestataire = ({ prestataire }) => {
         </div>
       )}
 
-      {/* Section Services */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold text-blue-700 mb-4">Mes Services</h2>
-        <ul className="space-y-4 text-gray-700">
-          {prestataire.services.length > 0 ? (
+      {/* Services Section */}
+      <div className="mt-12">
+        <h2 className="text-3xl font-semibold text-blue-700 mb-6">Mes Services</h2>
+        <ul className="space-y-4 text-gray-800 text-lg">
+          {prestataire?.services?.length > 0 ? (
             prestataire.services.map((service, index) => (
-              <li key={index}>✔️ {service.categorie} - {service.nomService}</li>
+              <li key={index} className="flex items-center">
+                <span className="text-2xl text-green-600">✔️</span>
+                <span className="ml-2">{service.categorie} - {service.nomService}</span>
+              </li>
             ))
           ) : (
-            <li>Aucun service ajouté pour le moment.</li>
+            <li className="text-lg">Aucun service ajouté pour le moment.</li>
           )}
         </ul>
       </div>
