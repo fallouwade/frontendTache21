@@ -52,7 +52,7 @@ const GalleryPrestataire = ({ prestataire }) => {
         </div>
       )}
 
-      {/* Provider InfO Section */}
+      {/* Provider Info Section */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 mt-12">
         <h1 className="text-4xl font-bold text-blue-700">{`Bonjour, je suis ${prestataire?.prenom} ${prestataire?.nom}`}</h1>
       </div>
