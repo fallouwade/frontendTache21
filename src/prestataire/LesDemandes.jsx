@@ -32,7 +32,7 @@ export default function LesDemandes() {
     };
     reccupDemande();
   }, [token]);
-
+ console.log(demandes);
   useEffect(() => {
     const filteredDemandes = allDemandes.filter(demande =>
       (filtre === "Nouveaux messages" && demande.statut === "attente") ||
@@ -61,11 +61,15 @@ export default function LesDemandes() {
     }
   };
 
+
+
   const indexOfLastDemande = currentPage * itemsPerPage;
   const indexOfFirstDemande = indexOfLastDemande - itemsPerPage;
+
   const filteredDemandes = demandes.filter(demande =>
     demande.description.toLowerCase().includes(search.toLowerCase())
   );
+
   const currentDemandes = filteredDemandes.slice(indexOfFirstDemande, indexOfLastDemande);
 
   const totalPages = Math.ceil(filteredDemandes.length / itemsPerPage);
