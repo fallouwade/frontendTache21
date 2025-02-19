@@ -122,7 +122,7 @@ const AjouterServicesPrestataire = () => {
     setImagePreview((prev) => [
       ...prev,
       ...validImages.map((file) => URL.createObjectURL(file)),
-    ]); console.log("Aperçu des images:", imagePreview);
+    ]); 
   };
   
 
