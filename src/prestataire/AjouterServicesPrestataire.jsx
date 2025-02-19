@@ -193,45 +193,44 @@ const handleSubmit = async (e) => {
   }
 
   try {
-      console.log("Envoi des images au serveur Cloudinary...");
+      
 
       // 1️⃣ Upload des nouvelles images uniquement
       const uploadedImageUrls = await uploadImagesToCloudinary(imagesService);
-      console.log("URLs des images après l'upload sur Cloudinary :", uploadedImageUrls);
+      
 
       // 2️⃣ Création de l'objet JSON pour le backend
       const serviceData = {
           nomDeservice,
           categorie,
           descriptionDeService,
-          imagesService: uploadedImageUrls, // ✅ Assure que c'est un tableau JSON
+          imagesService: uploadedImageUrls, // Assure que c'est un tableau JSON
       };
 
-      console.log("Données envoyées :", serviceData);
 
       let response;
       if (serviceId) {
-          console.log("Modification du service avec ID :", serviceId);
+         
           response = await axios.put(
               `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
-              serviceData, // ✅ Envoie un objet JSON directement
+              serviceData, 
               {
                   headers: {
                       Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json", // ✅ Correction du type
+                      "Content-Type": "application/json",
                   },
               }
           );
           toast.success("Service mis à jour avec succès !");
       } else {
-          console.log("Ajout du nouveau service.");
+        
           response = await axios.post(
               "https://backendtache21.onrender.com/api/services/ajouter",
-              serviceData, // ✅ Envoie un objet JSON directement
+              serviceData,
               {
                   headers: {
                       Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json", // ✅ Correction du type
+                      "Content-Type": "application/json", //  Correction du type
                   },
               }
           );
