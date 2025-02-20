@@ -81,14 +81,16 @@ export default function Comment({ serviceId }) {
       setLoading(false);
     }
   };
-
   const user = JSON.parse(localStorage.getItem("user"));
-
   const ajouterCommentaire = async () => {
-    if (!token) return toast.error("Token manquant.");
-    if (!contenu.trim())
-      return toast.error("Le commentaire ne peut pas être vide.");
-
+    if (!token) return toast.error("Connecter vous!");
+    if (!contenu.trim()) return toast.error("Le commentaire ne peut pas être vide.");
+  
+    // Vérification du type d'utilisateur (bloquer si prestataire)
+    if (user && user.role === "prestataire" && user.id === serviceId) {
+      return toast.error("Vous ne pouvez pas commenter votre propre service.");
+    }
+  
     setLoading(true);
     try {
       const response = await axios.post(
@@ -98,10 +100,10 @@ export default function Comment({ serviceId }) {
           note,
           utilisateurType: "Client",
           commentaireUser: `${user.prenom} ${user.nom}`,
-        }, // Ici, 'Client' est un exemple
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+  
       await getCommentaires(); // Rafraîchir les commentaires
       setContenu("");
       setNote(0);
@@ -116,6 +118,7 @@ export default function Comment({ serviceId }) {
       setLoading(false);
     }
   };
+  
 
   const modifierCommentaire = async (id) => {
     if (!token || !editContenu.trim()) {
@@ -154,7 +157,7 @@ export default function Comment({ serviceId }) {
   };
 
   const supprimerCommentaire = async () => {
-    if (!token) return toast.error("Token manquant.");
+    if (!token) return toast.error("Connecter vous");
 
     setLoading(true);
     try {
@@ -429,40 +432,39 @@ export default function Comment({ serviceId }) {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center mt-6">
-        {/* Bouton "Précédent" */}
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-            currentPage === 1
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
-          }`}
-        >
-          <ChevronLeft size={20} className="mr-2" />
-          
-        </button>
+<div className="flex justify-center items-center mt-6">
+  {/* Bouton "Précédent" */}
+  <button
+    onClick={() => handlePageChange(currentPage - 1)}
+    disabled={currentPage === 1 || commentaires.length === 0}
+    className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+      currentPage === 1 || commentaires.length === 0
+        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+    }`}
+  >
+    <ChevronLeft size={20} className="mr-2" />
+  </button>
 
-        {/* Affichage de la page */}
-        <span className="mx-4 text-lg font-medium text-gray-700">
-          Page {currentPage} sur {totalPages}
-        </span>
+  {/* Affichage de la page */}
+  <span className="mx-4 text-lg font-medium text-gray-700">
+    Page {currentPage} sur {totalPages}
+  </span>
 
-        {/* Bouton "Suivant" */}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages  }
-          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-            currentPage === totalPages
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
-          }`}
-        >
-          
-          <ChevronRight size={20} className="ml-2" />
-        </button>
-      </div>
+  {/* Bouton "Suivant" */}
+  <button
+    onClick={() => handlePageChange(currentPage + 1)}
+    disabled={currentPage === totalPages || commentaires.length === 0}
+    className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+      currentPage === totalPages || commentaires.length === 0
+        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+    }`}
+  >
+    <ChevronRight size={20} className="ml-2" />
+  </button>
+</div>
+
 
       {/* Modal de confirmation */}
       {showModal && (

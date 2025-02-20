@@ -32,6 +32,7 @@ const NextArrow = ({ onClick, visible }) => (
 function RentalCard({
   services = [],
   prenom,
+  nom,
   region,
   departement,
   id,
@@ -132,7 +133,7 @@ function RentalCard({
           </div>
         </div>
 
-        <p className="text-sm font-semibold text-gray-900">{prenom}</p>
+        <p className="text-sm font-semibold text-gray-900">{prenom} {nom}</p>
 
         <div className="flex justify-end mt-2">
           <Link to={`/reservation/${id}`} onClick={() => identifiant(id)}>

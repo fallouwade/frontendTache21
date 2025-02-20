@@ -340,6 +340,8 @@ const InscriptionPrestataire = () => {
 
             <div className="mb-4">
               <textarea
+               value={formData.description}
+               onChange={handleChange}
                 className="w-full mt-2 border border-gray-300 rounded-xl"
                 name="description"
                 id="description"

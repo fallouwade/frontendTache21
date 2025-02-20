@@ -60,23 +60,7 @@ const ProfilPrestataire = () => {
     fetchProfil()
   }, [])
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        document.body.style.overflow = "hidden"
-      } else {
-        document.body.style.overflow = "auto"
-      }
-    }
-
-    handleResize()
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      window.removeEventListener("resize", handleResize)
-      document.body.style.overflow = "auto"
-    }
-  }, [])
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -172,7 +156,7 @@ const ProfilPrestataire = () => {
 
   return (
     <SidebarPrestataire>
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 sm:px-6 lg:px-8 overflow-auto lg:overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 sm:px-6 pt-5 lg:px-8 overflow-auto lg:overflow-hidden">
         <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-blue-900 py-3 px-8">
             <h2 className="text-2xl font-bold text-white text-center">Mise à jour de profil</h2>

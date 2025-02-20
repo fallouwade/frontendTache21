@@ -65,12 +65,12 @@ const GalleryPrestataire = ({ prestataire }) => {
       {images.length > 0 && (
         <div className="hidden sm:block">
           <div className="relative rounded-xl overflow-hidden shadow-lg">
-            <div className="grid grid-cols-4 gap-2 h-[400px]">
+            <div className="grid grid-cols-4 gap-2 h-[380px]">
               {images.slice(0, 5).map((image, index) => (
                 <div
                   key={index}
                   className={`relative overflow-hidden ${index === 0
-                    ? "col-span-2 row-span-2 h-[400px]"
+                    ? "col-span-2 row-span-2 h-[380px]"
                     : "col-span-1 row-span-1 h-[198px]"
                     }`}
                 >

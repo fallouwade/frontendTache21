@@ -12,7 +12,7 @@ const DeconnexionButton = ({color}) => {
       logout();
       
       // Afficher une notification de succès
-      toast.success('Déconnexion réussie');
+      // toast.success('Déconnexion réussie');
       localStorage.removeItem('reservationData');
       // Redirection
       navigate('/');

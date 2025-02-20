@@ -83,14 +83,9 @@ export default function DashboardContent() {
                 const utilisateurs = [...clients, ...prestataires];
                 setDonneesClients(utilisateurs);
 
-                const totalUtilisateurs = resultat.totalClients + resultat.totalPrestataires;
+                const totalUtilisateurs = resultat.totalClients + resultat.totalPrestataires + resultat.totalAdmins;
                 setTotalClients(totalUtilisateurs);
 
-                //Calcul de pourcentage des utilisateur actif
-                if (totaleClients !== 0) {
-                    const pourcentageUserActif = ((totaleClients - prestatairesInactifs.length) / totaleClients) * 100;
-                    setUtilisateurActif(pourcentageUserActif)
-                }
 
                 // Charger les services
                 const services = await recupererServices(token);
@@ -122,16 +117,12 @@ export default function DashboardContent() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-20">
                     <CardAdmin
                         titre="Total utilisateurs"
-                        titrePourcent="utilisateurs actifs"
-                        pourcent={UtilisateurActif.toFixed(2)}
                         totalUsers={totaleClients}
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
                         color="border-l-4 border-blue-500 rounded-lg"
                     />
                     <CardAdmin
                         titre="Total services"
-                        titrePourcent="Services actifs"
-                        pourcent="100"
                         totalUsers={totalServices}
                         icone={<MdOutlineHomeRepairService
                             className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />}
@@ -139,8 +130,6 @@ export default function DashboardContent() {
                     />
                     <CardAdmin
                         titre="Utilisateurs bloqué"
-                        titrePourcent="Des utilisateurs"
-                        pourcent="0"
                         totalUsers={utilisateursInactifs.length}
                         icone={<LuUsers className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-red-600" />}
                         color="border-l-4 border-red-500 rounded-lg"
