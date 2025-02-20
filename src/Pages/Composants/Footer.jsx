@@ -155,13 +155,23 @@ const Footer = () => {
                 <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Dakar, Sénégal</span>
               </li>
               <li className="flex items-center justify-center lg:justify-start">
-                <FaPhone className="text-yellow-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">+221 76 408 93 12</span>
-              </li>
+                  <FaPhone className="text-yellow-500 mr-2 flex-shrink-0" />
+                  <a 
+                    href="tel:+221764089312"
+                    className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    +221 76 408 93 12
+                  </a>
+                </li>
               <li className="flex items-center justify-center lg:justify-start">
-                <FaEnvelope className="text-yellow-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">gningngone50@gmail.com</span>
-              </li>
+                  <FaEnvelope className="text-yellow-500 mr-2 flex-shrink-0" />
+                  <a 
+                    href="mailto:gningngone50@gmail.com"
+                    className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    gningngone50@gmail.com
+                  </a>
+                </li>
             </ul>
 
             {/* Boutons alignés */}
