@@ -66,6 +66,7 @@ const InfoDemande = () => {
         }
   
         const data = await response.json()
+        console.log(data);
         const userRequests = data.demandes?.filter(demande => demande.demandeur.id === userId) || []
         setRequests(userRequests)
         setFilteredRequests(userRequests)
