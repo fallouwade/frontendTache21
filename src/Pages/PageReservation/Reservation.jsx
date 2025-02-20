@@ -5,7 +5,7 @@ import GalleryPrestatiare from "./GallerryPrestataire";
 import ProfilClients from "../PageClient/Components/ProfilClients";
 import { Link } from "react-router-dom";
 import * as motion from "motion/react-client";
-import logo from "../../assets/logo.png"
+import logo from "/images/logo.png"
 import { useNavigate } from 'react-router-dom';
 import {
   FaArrowLeft
@@ -125,7 +125,7 @@ const Reservation = () => {
         </button>
       </div>
       </div>
-      <div className="flex-grow pt-3 md:px-5 px-0 ">
+      <div className="flex-grow  md:px-5 px-0 ">
         {/* On passe la liste d'images du prestataire au composant galerie */}
         <GalleryPrestatiare prestataire={prestataire} />
         {/* On transmet les informations du prestataire au composant de détails */}

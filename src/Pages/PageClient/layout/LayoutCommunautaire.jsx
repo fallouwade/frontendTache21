@@ -101,7 +101,7 @@ function LayoutCommunautaire(props) {
         buttonPrest={(
           <Link
             to="/inscriptionPrestataire"
-            className="inline-flex items-center whitespace-nowrap text-nowrap md:bg-gray-200 text-base md:text-[15px] hover:text-grey md:hover:bg-gray-300 text-gray-700 font-medium md:font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-4 sm:ml-6 md:ml-6 rounded md:rounded-full transition-all"
+            className="inline-flex items-center whitespace-nowrap text-nowrap md:bg-gray-200 text-base md:text-[15px] hover:text-grey md:hover:bg-gray-300 text-gray-700 font-medium md:font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-4 sm:ml-6 md:ml-6 rounded md:rounded-lg font-bold transition-all"
           >
             Devenir Prestataire
           </Link>

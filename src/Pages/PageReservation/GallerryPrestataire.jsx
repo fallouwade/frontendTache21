@@ -53,35 +53,31 @@ const GalleryPrestataire = ({ prestataire }) => {
       )}
 
       {/* Provider InfO Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 mt-12">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 mt-5">
         <h1 className="text-4xl font-bold text-blue-700">{`Bonjour, je suis ${prestataire?.prenom} ${prestataire?.nom}`}</h1>
       </div>
 
       <p className="text-xl text-gray-700 mb-6">
-        Je m'appelle {prestataire?.prenom} {prestataire?.nom}, et je suis spécialisé dans tous vos travaux de{" "}
-        {prestataire?.services?.length > 0
-          ? prestataire.services[0].categorie
-          : "divers services"}.
+        {prestataire?.description}
       </p>
 
       {/* Desktop Image Gallery */}
       {images.length > 0 && (
         <div className="hidden sm:block">
-          <div className="relative rounded-xl overflow-hidden shadow-lg transition-transform transform hover:scale-105">
-            <div className="grid grid-cols-4 gap-4 h-[500px]">
+          <div className="relative rounded-xl overflow-hidden shadow-lg">
+            <div className="grid grid-cols-4 gap-2 h-[400px]">
               {images.slice(0, 5).map((image, index) => (
                 <div
                   key={index}
-                  className={`relative ${
-                    index === 0
-                      ? "col-span-2 row-span-2 h-full"
-                      : "col-span-1 row-span-1 h-[240px]"
-                  }`}
+                  className={`relative overflow-hidden ${index === 0
+                    ? "col-span-2 row-span-2 h-[400px]"
+                    : "col-span-1 row-span-1 h-[198px]"
+                    }`}
                 >
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-full object-cover rounded-xl transition duration-300"
+                    className="w-full h-full object-cover rounded-xl"
                   />
                 </div>
               ))}
@@ -142,21 +138,41 @@ const GalleryPrestataire = ({ prestataire }) => {
         </div>
       )}
 
+
       {/* Services Section */}
-      <div className="mt-12">
+      <div className="mt-5">
         <h2 className="text-3xl font-semibold text-blue-700 mb-6">Mes Services</h2>
+
         <ul className="space-y-4 text-gray-800 text-lg">
           {prestataire?.services?.length > 0 ? (
             prestataire.services.map((service, index) => (
               <li key={index} className="flex items-center">
                 <span className="text-2xl text-green-600">✔️</span>
-                <span className="ml-2">{service.categorie} - {service.nomService}</span>
+                <span className="ml-2">
+                 
+                  {service.categorie} - {service.nomService}
+                  </span>
               </li>
             ))
           ) : (
             <li className="text-lg">Aucun service ajouté pour le moment.</li>
           )}
         </ul>
+
+
+        <div className="pt-5 px-10 pb-5">
+          {prestataire?.services?.length > 0 ? (
+            prestataire.services.map((service, index) => (
+              <li key={index} className="flex items-center">
+                 <strong>Description du service:</strong>
+                <span className="ml-2">{service.description} </span>
+              </li>
+            ))
+          ) : (
+            <li className="text-lg">Aucune description ajouté pour le moment.</li>
+          )}
+        </div>
+      
       </div>
     </div>
   );
