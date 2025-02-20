@@ -277,7 +277,7 @@ export default function Comment({ serviceId }) {
         <textarea
           value={contenu}
           onChange={(e) => setContenu(e.target.value)}
-          placeholder="Écrivez votre commentaire..."
+          placeholder="Limite la taille du commentaire à 500 caractères"
           required
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
