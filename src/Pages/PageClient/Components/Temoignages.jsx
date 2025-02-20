@@ -33,18 +33,23 @@ const Temoignages = () => {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: temoignages.length > 1,  // Désactiver "infinite" si un seul témoignage
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: temoignages.length > 1,  // Désactiver autoplay si un seul témoignage
     autoplaySpeed: 5000,
     pauseOnHover: true,
     adaptiveHeight: false,
   }
+  
 
   if (loading) return <div className="text-center py-16 text-xl text-gray-600">Chargement des témoignages...</div>
   if (error) return <div className="text-center py-16 text-xl text-red-500">{error}</div>
+  if (temoignages.length === 0) {
+    return <div className="text-center py-16 text-xl text-gray-600">Aucun témoignage disponible pour le moment.</div>
+  }
+  
 
   return (
     <div className=" py-16 px-4 sm:px-6 lg:px-8">
@@ -55,13 +60,7 @@ const Temoignages = () => {
             <div key={temoignage._id} className="px-4">
               <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <div className="p-8 h-64 flex flex-col justify-between">
-                  <div>
-                    <Quote className="h-4 w-4 text-green-800 mb-4" />
-                    <p className="text-gray-600 text-lg leading-relaxed mb-4 line-clamp-3">
-                      {temoignage.commentaire || "Ce client a apprécié nos services."}
-                    </p>
-                  </div>
-                  <div>
+                <div>
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
                         <img
@@ -81,12 +80,20 @@ const Temoignages = () => {
                               className={`h-4 w-4 ${i < (temoignage.note || 5) ? "text-yellow-400" : "text-gray-300"}`}
                               fill="currentColor"
                             />
+                            
                           ))}
                         </div>
                       </div>
                     </div>
                     <p className="mt-2 text-sm text-gray-500">{new Date(temoignage.date).toLocaleDateString()}</p>
                   </div>
+                  <div>
+                    <Quote className="h-4 w-4 text-green-800 mb-4" />
+                    <p className="text-gray-600 text-lg leading-relaxed mb-4 line-clamp-3">
+                      {temoignage.commentaire || "Ce client a apprécié nos services."}
+                    </p>
+                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -98,4 +105,3 @@ const Temoignages = () => {
 }
 
 export default Temoignages
-

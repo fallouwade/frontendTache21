@@ -84,13 +84,14 @@ export default function Comment({ serviceId }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const ajouterCommentaire = async () => {
     if (!token) return toast.error("Connecter vous!");
-    if (!contenu.trim()) return toast.error("Le commentaire ne peut pas être vide.");
-  
+    if (!contenu.trim())
+      return toast.error("Le commentaire ne peut pas être vide.");
+
     // Vérification du type d'utilisateur (bloquer si prestataire)
     if (user && user.role === "prestataire" && user.id === serviceId) {
       return toast.error("Vous ne pouvez pas commenter votre propre service.");
     }
-  
+
     setLoading(true);
     try {
       const response = await axios.post(
@@ -103,7 +104,7 @@ export default function Comment({ serviceId }) {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
+
       await getCommentaires(); // Rafraîchir les commentaires
       setContenu("");
       setNote(0);
@@ -118,7 +119,6 @@ export default function Comment({ serviceId }) {
       setLoading(false);
     }
   };
-  
 
   const modifierCommentaire = async (id) => {
     if (!token || !editContenu.trim()) {
@@ -266,49 +266,52 @@ export default function Comment({ serviceId }) {
         )}
       </div>
 
-      {/* Formulaire de commentaire */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          ajouterCommentaire();
-        }}
-        className="flex flex-col space-y-4"
-      >
-        <textarea
-          value={contenu}
-          onChange={(e) => setContenu(e.target.value)}
-          placeholder="Écrivez votre commentaire..."
-          required
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      {/* Formulaire de commentaire (affiché uniquement si l'utilisateur est connecté) */}
+{token && (
+  <form
+    onSubmit={(e) => {
+      e.preventDefault();
+      ajouterCommentaire();
+    }}
+    className="flex flex-col space-y-4"
+  >
+    <textarea
+      value={contenu}
+      onChange={(e) => setContenu(e.target.value)}
+      placeholder="Limite la taille du commentaire à 500 caractères"
+      required
+      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+
+    <div className="flex items-center space-x-2">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          size={24}
+          className={`cursor-pointer ${
+            star <= note ? "text-yellow-500" : "text-gray-300"
+          }`}
+          onClick={() => setNote(star)}
         />
+      ))}
+    </div>
 
-        <div className="flex items-center space-x-2">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <Star
-              key={star}
-              size={24}
-              className={`cursor-pointer ${
-                star <= note ? "text-yellow-500" : "text-gray-300"
-              }`}
-              onClick={() => setNote(star)}
-            />
-          ))}
-        </div>
+    <button
+      type="submit"
+      disabled={!contenu.trim() || loading}
+      className="w-full flex items-center justify-center gap-2 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-md disabled:bg-gray-400"
+    >
+      {loading ? (
+        <Loader className="animate-spin" size={18} />
+      ) : (
+        <>
+          Envoyer <Send size={18} />
+        </>
+      )}
+    </button>
+  </form>
+)}
 
-        <button
-          type="submit"
-          disabled={!contenu.trim() || loading}
-          className="w-full flex items-center justify-center gap-2 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-md disabled:bg-gray-400"
-        >
-          {loading ? (
-            <Loader className="animate-spin" size={18} />
-          ) : (
-            <>
-              Envoyer <Send size={18} />
-            </>
-          )}
-        </button>
-      </form>
 
       {/* Liste des commentaires */}
       <div className="mt-6">
@@ -362,7 +365,7 @@ export default function Comment({ serviceId }) {
                     <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
                       {/* Commentaire */}
                       <p className="text-gray-800 text-sm font-medium leading-relaxed">
-                         {commentaire.commentaire}
+                        {commentaire.commentaire}
                       </p>
 
                       {/* Étoiles */}
@@ -399,25 +402,29 @@ export default function Comment({ serviceId }) {
                     </div>
 
                     <div className="mt-3 flex gap-3">
-                      <button
-                        onClick={() => {
-                          setEditMode(commentaire._id);
-                          setEditContenu(commentaire.commentaire);
-                          setEditNote(commentaire.note);
-                        }}
-                        className="flex items-center gap-1 px-3 py-1 bg-yellow-400 text-white rounded-md hover:bg-yellow-500 transition-all"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCommentaireASupprimer(commentaire._id);
-                          setShowModal(true);
-                        }}
-                        className="flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      {token && ( // Vérification si l'utilisateur est connecté avant d'afficher les boutons
+                        <>
+                          <button
+                            onClick={() => {
+                              setEditMode(commentaire._id);
+                              setEditContenu(commentaire.commentaire);
+                              setEditNote(commentaire.note);
+                            }}
+                            className="flex items-center gap-1 px-3 py-1 bg-yellow-400 text-white rounded-md hover:bg-yellow-500 transition-all"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setCommentaireASupprimer(commentaire._id);
+                              setShowModal(true);
+                            }}
+                            className="flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </>
                 )}
@@ -432,39 +439,38 @@ export default function Comment({ serviceId }) {
       </div>
 
       {/* Pagination */}
-<div className="flex justify-center items-center mt-6">
-  {/* Bouton "Précédent" */}
-  <button
-    onClick={() => handlePageChange(currentPage - 1)}
-    disabled={currentPage === 1 || commentaires.length === 0}
-    className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-      currentPage === 1 || commentaires.length === 0
-        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
-    }`}
-  >
-    <ChevronLeft size={20} className="mr-2" />
-  </button>
+      <div className="flex justify-center items-center mt-6">
+        {/* Bouton "Précédent" */}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1 || commentaires.length === 0}
+          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+            currentPage === 1 || commentaires.length === 0
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+          }`}
+        >
+          <ChevronLeft size={20} className="mr-2" />
+        </button>
 
-  {/* Affichage de la page */}
-  <span className="mx-4 text-lg font-medium text-gray-700">
-    Page {currentPage} sur {totalPages}
-  </span>
+        {/* Affichage de la page */}
+        <span className="mx-4 text-lg font-medium text-gray-700">
+          Page {currentPage} sur {totalPages}
+        </span>
 
-  {/* Bouton "Suivant" */}
-  <button
-    onClick={() => handlePageChange(currentPage + 1)}
-    disabled={currentPage === totalPages || commentaires.length === 0}
-    className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
-      currentPage === totalPages || commentaires.length === 0
-        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-        : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
-    }`}
-  >
-    <ChevronRight size={20} className="ml-2" />
-  </button>
-</div>
-
+        {/* Bouton "Suivant" */}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages || commentaires.length === 0}
+          className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+            currentPage === totalPages || commentaires.length === 0
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
+          }`}
+        >
+          <ChevronRight size={20} className="ml-2" />
+        </button>
+      </div>
 
       {/* Modal de confirmation */}
       {showModal && (

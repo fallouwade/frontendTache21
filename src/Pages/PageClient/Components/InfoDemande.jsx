@@ -321,14 +321,14 @@ const InfoDemande = () => {
                   </div>
                 </div>
                 <div className="bg-gray-50 px-6 py-4 flex justify-end">
-                  <button
+                  {/* <button
                     onClick={() => handleDelete(request._id)}
                     className="text-red-500 hover:text-red-600 transition duration-300 flex items-center"
                     title="Supprimer"
                   >
                     <FaTrash className="mr-2" />
                     Supprimer
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))}

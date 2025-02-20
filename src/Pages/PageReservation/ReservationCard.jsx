@@ -176,6 +176,7 @@ const ReservationCard = ({ selectedDate, id, service }) => {
               </div>
             </div>
           )}
+          
         </div>
 
         <button
@@ -183,7 +184,7 @@ const ReservationCard = ({ selectedDate, id, service }) => {
           className="w-full bg-rose-600 text-white py-3 rounded-lg font-semibold hover:bg-rose-700"
           disabled={!reservation.service || !reservation.phone || !reservation.adresse || !reservation.details}
         >
-          {isAuthenticated ? 'Demander une intervention' : 'Vous devez vous connecter pour réserver'}
+          {isAuthenticated ? 'Demander une intervention' : 'Réserver'}
         </button>
 
         <p className="text-center text-sm text-gray-500">

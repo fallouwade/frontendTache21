@@ -24,7 +24,7 @@ function ServiceGrid({ onSearch }) {
             onChange={(e) => setService(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-0 focus:border-gray-300 block w-full p-3 transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-none active:ring-none"
             placeholder="Quel service recherchez-vous ?"
-            required
+          
           />
         </div>
         <div className="flex-1">
@@ -38,7 +38,7 @@ function ServiceGrid({ onSearch }) {
             onChange={(e) => setLocation(e.target.value)}
             className="bg-gray-50 rounded border border-gray-300 text-gray-900 text-sm  focus:ring-0 focus:border-gray-300 block w-full p-3 transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-none active:ring-none"
             placeholder="Entrez votre ville"
-            required
+          
           />
         </div>
         <button

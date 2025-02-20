@@ -20,7 +20,7 @@ function MessageButton({ unreadMessages }) {
 
       {/* Tooltip */}
       <div className="absolute invisible group-hover:visible bg-gray-800 text-white text-sm py-1 px-2 rounded -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-        Messages
+        Mes demandes
       </div>
     </div>
   )
