@@ -1,5 +1,5 @@
 
-const CardAdmin = ({ totalUsers = 0, icone, titre, titrePourcent, pourcent, color }) => {
+const CardAdmin = ({ totalUsers = 0, icone, titre, color }) => {
   return (
     <div className="w-full">
       <div className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 sm:p-5 lg:p-6 ${color}`}>
