@@ -113,7 +113,14 @@ const ProfilPrestataire = () => {
             });
     };
 
-    if (loading) return <p className="text-center text-gray-500">Chargement...</p>;
+    if (loading) {
+        return (
+            <div className="w-full h-full flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+        );
+    }
+    
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (

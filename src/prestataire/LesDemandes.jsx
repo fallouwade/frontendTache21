@@ -11,11 +11,11 @@ export default function LesDemandes() {
   const [itemsPerPage] = useState(2);  // 2 services par page
   const token = localStorage.getItem('token');
 
-    // La fonction qui recupere les date 
-    function getFormattedDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
-    }
+  // La fonction qui recupere les date 
+  function getFormattedDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
 
   useEffect(() => {
     const reccupDemande = async () => {
@@ -32,7 +32,7 @@ export default function LesDemandes() {
     };
     reccupDemande();
   }, [token]);
- console.log(demandes);
+  
   useEffect(() => {
     const filteredDemandes = allDemandes.filter(demande =>
       (filtre === "Nouveaux messages" && demande.statut === "attente") ||
@@ -108,8 +108,8 @@ export default function LesDemandes() {
               <button
                 key={tab}
                 className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base ${filtre === tab
-                    ? "border-b-2 border-black font-semibold bg-gray-50"
-                    : "text-gray-500 hover:bg-gray-50"
+                  ? "border-b-2 border-black font-semibold bg-gray-50"
+                  : "text-gray-500 hover:bg-gray-50"
                   } rounded-t-lg transition-colors`}
                 onClick={() => setFiltre(tab)}
               >
@@ -129,40 +129,61 @@ export default function LesDemandes() {
               ).map((demande) => (
                 <div
                   key={demande._id}
-                  className="bg-slate-100 p-4 sm:p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
+                  className="bg-slate-100 p-3 sm:p-6 rounded-lg shadow-sm hover:shadow-lg transition-all"
                 >
-                  <h3 className="flex justify-between text-lg sm:text-xl font-semibold text-gray-800">
-                    <span> Demande de {demande.demandeur?.nom || 'Client'}</span>
-                    <span>{getFormattedDate(demande.date)}</span>
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-800 break-words mt-2">
-                    <span className="text-gray-600  font-medium">Description : </span>
-                    {demande.description}
-                  </p>
+                  {/* En-tête avec le nom et la date */}
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
+                    <h3 className="text-base sm:text-xl font-semibold text-gray-800 truncate">
+                      Demande de {demande.demandeur?.nom || 'Client'}
+                    </h3>
+                    <span className="text-sm sm:text-base text-gray-600">
+                      {getFormattedDate(demande.date)}
+                    </span>
+                  </div>
 
-                  <div className="mt-4 space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-                      <p className="text-gray-600 font-medium text-sm sm:text-base">Numéro de téléphone:</p>
-                      <p className="text-gray-800 text-sm sm:text-base">{demande.numeroTelephone}</p>
+                  {/* Description */}
+                  <div className="mt-3 sm:mt-4">
+                    <p className="text-sm sm:text-base text-gray-800 break-words">
+                      <span className="text-gray-600 font-medium">Description : </span>
+                      <span className=" line-clamp-4 break-words transition-all duration-200">
+                        {demande.description}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Informations de contact */}
+                  <div className="mt-4 space-y-2 sm:space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4">
+                      <p className="text-gray-600 font-medium text-sm sm:text-base">
+                        Numéro de téléphone:
+                      </p>
+                      <p className="text-gray-800 text-sm sm:text-base break-all">
+                        {demande.numeroTelephone}
+                      </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4">
                       <p className="text-gray-600 font-medium text-sm sm:text-base">Email :</p>
-                      <p className="text-gray-800 text-sm sm:text-base">{demande.demandeur?.email || 'Non disponible'}</p>
+                      <p className="text-gray-800 text-sm sm:text-base break-all">
+                        {demande.demandeur?.email || 'Non disponible'}
+                      </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4">
                       <p className="text-gray-600 font-medium text-sm sm:text-base">Adresse:</p>
-                      <p className="text-gray-800 text-sm sm:text-base">{demande.adresse}</p>
+                      <p className="text-gray-800 text-sm sm:text-base break-all">
+                        {demande.adresse}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:justify-end gap-2 sm:space-x-4">
+                  {/* Boutons d'action */}
+                  <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:justify-end gap-2">
                     {demande.statut === 'accepte' || demande.statut === 'refuse' ? (
                       <button
                         disabled
                         className={`
-                        ${demande.statut === 'accepte' ? 'bg-green-300' : 'bg-red-300'} 
-                        text-white py-2 px-4 rounded-lg cursor-not-allowed w-full sm:w-auto
-                      `}
+                            ${demande.statut === 'accepte' ? 'bg-green-300' : 'bg-red-300'} 
+                            text-white py-2 px-6 rounded-lg cursor-not-allowed w-full sm:w-auto text-sm sm:text-base
+                        `}
                       >
                         {demande.statut === 'accepte' ? 'Acceptée' : 'Refusée'}
                       </button>
@@ -170,13 +191,13 @@ export default function LesDemandes() {
                       <>
                         <button
                           onClick={() => handleActionDemande(demande._id, 'accepter')}
-                          className="w-full sm:w-auto bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+                          className="w-full sm:w-auto bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600 transition duration-200 text-sm sm:text-base"
                         >
                           Accepter
                         </button>
                         <button
                           onClick={() => handleActionDemande(demande._id, 'refuser')}
-                          className="w-full sm:w-auto bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+                          className="w-full sm:w-auto bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200 text-sm sm:text-base"
                         >
                           Refuser
                         </button>
@@ -194,8 +215,8 @@ export default function LesDemandes() {
               onClick={handlePrevPage}
               disabled={currentPage === 1}
               className={`px-4 py-2 rounded-lg transition-colors duration-200 w-full sm:w-auto ${currentPage === 1
-                  ? 'bg-gray-200 text-gray-700 cursor-not-allowed'
-                  : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
+                ? 'bg-gray-200 text-gray-700 cursor-not-allowed'
+                : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
                 }`}
             >
               Précédent
@@ -209,8 +230,8 @@ export default function LesDemandes() {
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
               className={`px-4 py-2 rounded-lg transition-colors duration-200 w-full sm:w-auto ${currentPage === totalPages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 text-gray-100 hover:bg-blue-600'
                 }`}
             >
               Suivant
