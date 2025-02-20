@@ -42,11 +42,11 @@ const Categorie = () => {
           ...prevCategories,
           { nom: categorie, archive: false },
         ]);
-        toast.success("Catégorie ajoutée avec succès !", { toastId: "success-add-category" }); // Notification en cas de succès
+        
       }
     } catch (error) {
       console.error("Erreur lors de l'ajout de la catégorie", error);
-      toast.error("Erreur lors de l'ajout de la catégorie.", { toastId: "error-add-category" }); // Notification en cas d'erreur
+      
     }
   };
 

@@ -41,7 +41,7 @@ const GalleryPrestataire = ({ prestataire }) => {
     <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8">
       {/* Back Button for Logged In Users */}
       {isLoggedIn && (
-        <div className="absolute top-6 left-6 z-40">
+        <div className="absolute left-6 z-40">
           <Link
             to="/client"
             className="bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition duration-300"
