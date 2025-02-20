@@ -43,7 +43,7 @@ function RentalCard({
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
-  const images = services[0]?.imageUrl || []
+  const images = services[0]?.imagesService || []
 
   const handleFavoriteClick = (e) => {
     e.preventDefault()
@@ -147,4 +147,3 @@ function RentalCard({
 }
 
 export default RentalCard
-

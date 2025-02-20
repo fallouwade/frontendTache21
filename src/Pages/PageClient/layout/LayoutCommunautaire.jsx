@@ -17,7 +17,7 @@ function LayoutCommunautaire(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [servicesPerPage] = useState(8);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);  // Chargement activé au départ
+  const [isLoading, setIsLoading] = useState(true);  // Chargement activé au départs
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState({ service: '', location: '' });
 
@@ -101,7 +101,7 @@ function LayoutCommunautaire(props) {
         buttonPrest={(
           <Link
             to="/inscriptionPrestataire"
-            className="hover:bg-gray-300 py-2 md:px-5 px-2 rounded-full transition text-sm font-medium cursor-pointer"
+            className="inline-flex items-center whitespace-nowrap text-nowrap md:bg-gray-200 text-base md:text-[15px] hover:text-grey md:hover:bg-gray-300 text-gray-700 font-medium md:font-normal py-1 sm:py-1.5 md:py-2 px-2 sm:px-3 md:px-4 ml-4 sm:ml-6 md:ml-6 rounded md:rounded-full transition-all"
           >
             Devenir Prestataire
           </Link>

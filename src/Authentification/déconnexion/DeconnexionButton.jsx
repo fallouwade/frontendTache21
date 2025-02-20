@@ -15,7 +15,7 @@ const DeconnexionButton = ({color}) => {
       toast.success('Déconnexion réussie');
       localStorage.removeItem('reservationData');
       // Redirection
-      navigate('/connexion');
+      navigate('/');
     } catch (error) {
       console.log(error);
       toast.error('Erreur lors de la déconnexion');

@@ -47,9 +47,9 @@ const Temoignages = () => {
   if (error) return <div className="text-center py-16 text-xl text-red-500">{error}</div>
 
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-indigo-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className=" py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Nos 5 derniers témoignages</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Nos témoignages</h2>
         <Slider {...settings}>
           {temoignages.map((temoignage) => (
             <div key={temoignage._id} className="px-4">
