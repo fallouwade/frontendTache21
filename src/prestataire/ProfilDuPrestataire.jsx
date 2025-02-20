@@ -61,6 +61,11 @@ const ProfilPrestataire = () => {
   }, [])
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
+
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         document.body.style.overflow = "hidden"
