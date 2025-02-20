@@ -83,7 +83,7 @@ export default function Comment({ serviceId }) {
   };
   const user = JSON.parse(localStorage.getItem("user"));
   const ajouterCommentaire = async () => {
-    if (!token) return toast.error("Token manquant.");
+    if (!token) return toast.error("Connecter vous!");
     if (!contenu.trim()) return toast.error("Le commentaire ne peut pas être vide.");
   
     // Vérification du type d'utilisateur (bloquer si prestataire)
