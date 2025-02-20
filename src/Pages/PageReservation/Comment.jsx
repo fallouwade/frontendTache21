@@ -154,7 +154,7 @@ export default function Comment({ serviceId }) {
   };
 
   const supprimerCommentaire = async () => {
-    if (!token) return toast.error("Token manquant.");
+    if (!token) return toast.error("Connecter vous");
 
     setLoading(true);
     try {
