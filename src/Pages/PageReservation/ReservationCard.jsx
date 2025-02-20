@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const ReservationCard = ({ selectedDate, id }) => {
   const [reservation, setReservation] = useState({
     service: '',
-    date: selectedDate || null,
+    date:  selectedDate || new Date(),
     details: '',
     phone: '',
     adresse: ''

@@ -81,14 +81,16 @@ export default function Comment({ serviceId }) {
       setLoading(false);
     }
   };
-
   const user = JSON.parse(localStorage.getItem("user"));
-
   const ajouterCommentaire = async () => {
     if (!token) return toast.error("Token manquant.");
-    if (!contenu.trim())
-      return toast.error("Le commentaire ne peut pas être vide.");
-
+    if (!contenu.trim()) return toast.error("Le commentaire ne peut pas être vide.");
+  
+    // Vérification du type d'utilisateur (bloquer si prestataire)
+    if (user && user.role === "prestataire" && user.id === serviceId) {
+      return toast.error("Vous ne pouvez pas commenter votre propre service.");
+    }
+  
     setLoading(true);
     try {
       const response = await axios.post(
@@ -98,10 +100,10 @@ export default function Comment({ serviceId }) {
           note,
           utilisateurType: "Client",
           commentaireUser: `${user.prenom} ${user.nom}`,
-        }, // Ici, 'Client' est un exemple
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+  
       await getCommentaires(); // Rafraîchir les commentaires
       setContenu("");
       setNote(0);
@@ -116,6 +118,7 @@ export default function Comment({ serviceId }) {
       setLoading(false);
     }
   };
+  
 
   const modifierCommentaire = async (id) => {
     if (!token || !editContenu.trim()) {
