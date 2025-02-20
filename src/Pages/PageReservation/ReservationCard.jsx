@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const ReservationCard = ({ selectedDate, id, service }) => {
   const [reservation, setReservation] = useState({
     service: null, // On stocke un objet au lieu d'un string
-    date: selectedDate || null,
+    date:  selectedDate || new Date(),
     details: '',
     phone: '',
     adresse: ''
@@ -29,7 +29,7 @@ const ReservationCard = ({ selectedDate, id, service }) => {
     const savedReservation = JSON.parse(localStorage.getItem('reservationData'));
     if (savedReservation) {
 
-      
+
       setReservation(savedReservation);
     }
   }, []);

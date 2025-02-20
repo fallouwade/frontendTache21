@@ -202,7 +202,7 @@ function LayoutClients(props) {
         isLoggedIn={isLoggedIn}
         userName={user?.nom}
         userEmail={user?.email}
-        buttonPrest={
+        buttonPrest= {
           isPrestataire ? (
             <Link
               to="/dashboard"

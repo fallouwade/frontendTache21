@@ -199,14 +199,9 @@ const AjouterServicesPrestataire = () => {
       let response;
       if (serviceId) {
         response = await axios.put(
-          `https://backendtache21.onrender.com/api/services/modifier/${serviceId}`,
-          serviceData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+          `http://localhost:5000/api/services/modifier/${serviceId}`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } }
         );
         toast.success("Service mis à jour avec succès !");
       } else {

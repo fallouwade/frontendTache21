@@ -7,7 +7,7 @@ import axios from "axios"
 import { FaCheckCircle, FaTimesCircle, FaUser, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa"
 import SidebarPrestataire from "./SidebarPrestataire"
 import { motion } from "framer-motion"
-import logo from "/public/images/logo.png"
+import logo from "/images/logo.png"
 
 const ProfilPrestataire = () => {
   const [profil, setProfil] = useState(null)

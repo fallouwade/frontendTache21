@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import SidebarClient from "./SidebarClient"
 import logo from "/images/logo.png"
 import FavoriteButton from "./FavoriteButton"
@@ -18,10 +18,19 @@ function ProfilClients({
   // États pour gérer le scroll et l'affichage des favoris
   const [isScrolled, setIsScrolled] = useState(false)
   const [showFavorites, setShowFavorites] = useState(false)
+  const [showfav, setShowFav]= useState (true)
   const navigate = useNavigate()
   
   // Récupération du token utilisateur
   const clientToken = sessionStorage.getItem("token") || localStorage.getItem("token")
+
+  const { id } = useParams()
+
+  useEffect(() => {
+    if (id) {
+      setShowFav(false)
+    }
+  }, [id])
 
   // Effet pour gérer le changement de style lors du scroll
   useEffect(() => {
@@ -42,7 +51,6 @@ function ProfilClients({
     e.preventDefault()
     if (clientToken) {
       navigate("/client") 
-      window.location.reload()
     } else {
       navigate("/")
     }
@@ -74,13 +82,27 @@ function ProfilClients({
               {isLoggedIn && (
                 <>
                   {/* Bouton Favoris - visible uniquement sur desktop */}
+
                   <div className="hidden md:flex items-center">
-                    <FavoriteButton
+
+                   {
+                    showfav && (
+                      <div>
+                        <FavoriteButton
                       favorites={favorites}
                       onToggleFavorite={handleFavoriteClick}
                       showFavorites={showFavorites}
                     />
+                      </div>
+                    )
+                   }
+
+                    
+
+
                   </div>
+
+
 
                   {/* Bouton Messages - visible uniquement sur desktop */}
                   <div className="hidden md:block">
