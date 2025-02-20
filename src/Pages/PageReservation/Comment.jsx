@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Comment({ serviceId }) {
-
   const [contenu, setContenu] = useState("");
   const [note, setNote] = useState(0);
   const [message, setMessage] = useState("");
@@ -32,7 +31,6 @@ export default function Comment({ serviceId }) {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
   }, []);
-  
 
   useEffect(() => {
     if (serviceId) {
@@ -40,9 +38,6 @@ export default function Comment({ serviceId }) {
       getStatistiquesNotes();
     }
   }, [serviceId, currentPage]); // Ajout de `currentPage` comme dépendance
-
-
-
 
   const getCommentaires = async () => {
     setLoading(true);
@@ -73,7 +68,6 @@ export default function Comment({ serviceId }) {
       let totalNotes = 0;
       let totalAvis = 0;
       stats.forEach((stat) => {
-
         totalNotes += stat.note * stat.count;
         totalAvis += stat.count;
       });
@@ -88,9 +82,7 @@ export default function Comment({ serviceId }) {
     }
   };
 
-
-  const user = JSON.parse(localStorage.getItem("user"))
-
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const ajouterCommentaire = async () => {
     if (!token) return toast.error("Token manquant.");
@@ -101,7 +93,12 @@ export default function Comment({ serviceId }) {
     try {
       const response = await axios.post(
         `https://backendtache21.onrender.com/api/commentaires/services/${serviceId}/commentaires`,
-        { commentaire: contenu, note, utilisateurType: "Client", commentaireUser: `${user.prenom} ${user.nom}` }, // Ici, 'Client' est un exemple
+        {
+          commentaire: contenu,
+          note,
+          utilisateurType: "Client",
+          commentaireUser: `${user.prenom} ${user.nom}`,
+        }, // Ici, 'Client' est un exemple
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -353,25 +350,51 @@ export default function Comment({ serviceId }) {
                   </div>
                 ) : (
                   <>
-                    <p className="text-gray-700">{commentaire.commentaire}</p>
-                    <div className="flex items-center space-x-1 mt-2">
-                      {[...Array(commentaire.note)].map((_, i) => (
-                        <Star key={i} size={18} className="text-yellow-500" />
-                      ))}
+                    {/* Affichage du nom de l'auteur du commentaire */}
+
+                    <p className="text-blue-600 font-semibold">
+                      {commentaire.commentaireUser}
+                    </p>
+
+                    <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+                      {/* Commentaire */}
+                      <p className="text-gray-800 text-sm font-medium leading-relaxed">
+                         {commentaire.commentaire}
+                      </p>
+
+                      {/* Étoiles */}
+                      <div className="flex items-center space-x-2 mt-2">
+                        {[...Array(commentaire.note)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={18}
+                            className="text-yellow-500 transition-transform transform hover:scale-110"
+                          />
+                        ))}
+                      </div>
+
+                      {/* Date et heure */}
+                      <small className="text-gray-500 text-xs block mt-2">
+                        📅{" "}
+                        {new Date(commentaire.date).toLocaleDateString(
+                          "fr-FR",
+                          {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          }
+                        )}{" "}
+                        -{" "}
+                        {new Date(commentaire.date).toLocaleTimeString(
+                          "fr-FR",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}
+                      </small>
                     </div>
-                    <small className="text-gray-500 block mt-2">
-                      📅{" "}
-                      {new Date(commentaire.date).toLocaleDateString("fr-FR", {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                      })}{" "}
-                      -{" "}
-                      {new Date(commentaire.date).toLocaleTimeString("fr-FR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </small>
+
                     <div className="mt-3 flex gap-3">
                       <button
                         onClick={() => {
@@ -418,7 +441,7 @@ export default function Comment({ serviceId }) {
           }`}
         >
           <ChevronLeft size={20} className="mr-2" />
-          Précédent
+          
         </button>
 
         {/* Affichage de la page */}
@@ -429,14 +452,14 @@ export default function Comment({ serviceId }) {
         {/* Bouton "Suivant" */}
         <button
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages  }
           className={`flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
             currentPage === totalPages
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:scale-105"
           }`}
         >
-          Suivant
+          
           <ChevronRight size={20} className="ml-2" />
         </button>
       </div>
