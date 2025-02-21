@@ -155,18 +155,28 @@ const Footer = () => {
                 <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Dakar, Sénégal</span>
               </li>
               <li className="flex items-center justify-center lg:justify-start">
-                <FaPhone className="text-yellow-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">+221 78 460 53 71</span>
-              </li>
+                  <FaPhone className="text-yellow-500 mr-2 flex-shrink-0" />
+                  <a 
+                    href="tel:+221764089312"
+                    className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    +221 76 408 93 12
+                  </a>
+                </li>
               <li className="flex items-center justify-center lg:justify-start">
-                <FaEnvelope className="text-yellow-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">contact@jokkale.sn</span>
-              </li>
+                  <FaEnvelope className="text-yellow-500 mr-2 flex-shrink-0" />
+                  <a 
+                    href="mailto:gningngone50@gmail.com"
+                    className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    gningngone50@gmail.com
+                  </a>
+                </li>
             </ul>
 
             {/* Boutons alignés */}
             <div className="mt-4 flex flex-col space-y-3 lg:items-start items-center">
-              <a href="https://wa.me/221784605371" target="_blank" rel="noopener noreferrer"
+              <a href="https://wa.me/221764089312" target="_blank" rel="noopener noreferrer"
                 className="flex items-center text-gray-300 transition-all cursor-pointer hover:text-gray-400">
                 <FaWhatsapp className="mr-2 text-yellow-500 text-lg" /> Contactez-nous sur WhatsApp
               </a>
