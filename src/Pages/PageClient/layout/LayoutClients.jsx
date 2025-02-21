@@ -35,7 +35,7 @@ function LayoutClients(props) {
 
   useEffect(() => {
     filterServices()
-  }, [services, selectedCategory, searchTerm, showOnlyFavorites]) // Remoed 'favorite' from dependencies
+  }, [services, selectedCategory, searchTerm, showOnlyFavorites]) // Remoed 'favorit' from dependencies
 
   const checkLoginStatus = () => {
     const token = localStorage.getItem("token")
